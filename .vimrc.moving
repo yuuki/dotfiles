@@ -1,0 +1,48 @@
+""""""""""""""""""""""""""""""""
+" キーマップ設定              "
+""""""""""""""""""""""""""""""""
+" ノーマルモードに切り替え "
+inoremap jj <Esc>
+vnoremap jj <Esc>
+cnoremap jj <Esc>
+
+" 表示行単位で行移動する "
+nmap j gj
+nmap k gk
+vmap j gj
+vmap k gk
+
+" 挿入モードでのカーソル移動 "
+inoremap <C-j> <Down>
+inoremap <C-k> <Up>
+inoremap <C-h> <Left>
+inoremap <C-l> <Right>
+
+" Forward Delete "
+inoremap <C-d> <Del>
+
+" 引用符, 括弧の設定 "
+inoremap { {}<Left>
+" inoremap [ []<Left>
+inoremap ( ()<Left>
+inoremap " ""<Left>
+inoremap ' ''<Left>
+inoremap <> <><Left>
+
+" Visualモード時にvで行末まで選択する
+vnoremap v $h"
+
+" 空行挿入
+nnoremap ; :<C_u>call append(expand('.'), '')<CR>j
+
+" 縦方向移動支援
+nnoremap J 3j
+nnoremap K 3k"
+
+" CTRL-hjklでウィンドウ移動
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+nnoremap <C-h> <C-w>h
+
+
