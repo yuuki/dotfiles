@@ -21,6 +21,8 @@ NeoBundle 'Shougo/vim-vcs.git'
 NeoBundle 'Shougo/vimfiler.git'
 NeoBundle 'Shougo/vimshell.git'
 NeoBundle 'Shougo/vinarise.git'
+NeoBundle 'Shougo/vimfiler'
+NeoBundle 'Shougo/vimproc'
 NeoBundle 'thinca/vim-quickrun'
 NeoBundle 'thinca/vim-guicolorscheme'
 NeoBundle 'ujihisa/vimshell-ssh.git'
@@ -171,6 +173,11 @@ endfunction"}}}
 
 let g:unite_source_file_mru_limit = 200
 imap <C-w> <Plug>(neocomplcache_start_unite_complete)
+
+" --------------------------------
+" vimfiler
+" --------------------------------
+noremap :e :VimFiler
 
 """"" gist-vim """""
 let g:github_user = 'y-uuki'
