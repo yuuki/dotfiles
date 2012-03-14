@@ -5,6 +5,9 @@
 inoremap jj <Esc>
 vnoremap jj <Esc>
 cnoremap jj <Esc>
+inoremap kk <Esc>
+vnoremap kk <Esc>
+cnoremap kk <Esc>
 
 " 表示行単位で行移動する "
 nmap j gj

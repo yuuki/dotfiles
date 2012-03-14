@@ -135,10 +135,10 @@ alias be='bundle exec'
 alias gcc='gcc -Wall -Wextra'
 alias gdb='/usr/bin/gdb'
 alias man='/usr/bin/man'
-export EDITOR=/Applications/MacVim.app/Contents/MacOS/Vim
 alias vi='env LANG=ja_JP.UTF-8 /Applications/MacVim.app/Contents/MacOS/Vim "$@"'
 alias vim='env LANG=ja_JP.UTF-8 /Applications/MacVim.app/Contents/MacOS/Vim "$@"'
 alias vrc='vim ~/.vimrc'
+alias git='/usr/local/bin/git'
 
 # global alias
 alias -g TELLME="&& say succeeded || say failed"

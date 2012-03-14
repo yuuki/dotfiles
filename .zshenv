@@ -7,7 +7,7 @@ if [ -s $EPREFIX/etc/profile ]; then
 fi
 
 # vim
-export EDITOR=$EPREFIX/usr/bin/vim
+export EDITOR=/Applications/MacVim.app/Contents/MacOS/Vim
 # vimがなくてもvimでviを起動する。
 if ! type vim > /dev/null 2>&1; then
     alias vim=vi
@@ -15,40 +15,40 @@ fi
 
 export PATH=/usr/local/bin:$PATH
 
-# MacPorts PATH setting
+# MacPorts PATH
 export PATH=/opt/local/bin:/opt/local/sbin/:$PATH
 
-# MANPATH setting
+# MANPATH
 export MANPATH=/usr/bin/man:$HOME/Gentoo/usr/bin/man:/opt/local/bin/man:$MANPATH
 
 # HOMEディレクトリ以下のbinのにパスを通す
 export PATH=$HOME/bin:$PATH
 
-# MySQL PATH setting
+# MySQL PATH
 export PATH=:/usr/local/mysql/bin:$PATH
 
-# Pythonbrew PATH setting
+# Gentoo Prefix PATH
+export EPREFIX="$HOME/Gentoo"
+export PATH=$EPREFIX/usr/bin:$EPREFIX/bin:$EPREFIX/tmp/usr/bin:$EPREFIX/tmp/bin:$PATH
+
+# LLVM PATH
+export PATH=/opt/llvm/bin:$PATH
+
+# NPM PATH
+export PATH=/usr/local/share/npm/bin:$PATH
+export NODE_PATH=/usr/local/lib/node
+
+# Pythonbrew PATH
 if [ -s $HOME/.pythonbrew/etc/bashrc ]; then
     source $HOME/.pythonbrew/etc/bashrc
 fi
 
-# Gentoo Prefix PATH setting
-export EPREFIX="$HOME/Gentoo"
-export PATH=$EPREFIX/usr/bin:$EPREFIX/bin:$EPREFIX/tmp/usr/bin:$EPREFIX/tmp/bin:$PATH
-
-# LLVM PATH setting
-export PATH=/opt/llvm/bin:$PATH
-
-# NPM PATH setting
-export PATH=/usr/local/share/npm/bin:$PATH
-export NODE_PATH=/usr/local/lib/node
-
-# RVM PATH Setting
+# RVM PATH
 if [ -s $HOME/.rvm/scripts/rvm ]; then
 	source $HOME/.rvm/scripts/rvm
 fi
 
-# Perlbrew PATH setting
+# Perlbrew PATH
 if [ -f $HOME/.perl5/perlbrew/etc/bashrc ]; then
 	source $HOME/.perl5/perlbrew/etc/bashrc
 fi
@@ -74,3 +74,12 @@ export CLASSPATH=$CLASSPATH:$HOME/build/twitter4j-2.2.5/lib/twitter4j-examples-2
 export CLASSPATH=$CLASSPATH:$HOME/build/twitter4j-2.2.5/lib/twitter4j-async-2.2.5.jar
 export CLASSPATH=$CLASSPATH:$HOME/build/twitter4j-2.2.5/lib/twitter4j-stream-2.2.5.jar
 export CLASSPATH=$CLASSPATH:$HOME/build/twitter4j-2.2.5/lib/twitter4j-media-support-2.2.5.jar
+
+# rbenv
+#eval "$(rbenv init -)"
+
+PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm" # Load RVM function
+
+# Finally, load zshrc
+source ~/.zshrc
