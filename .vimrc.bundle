@@ -30,22 +30,24 @@ NeoBundle 'vim-ruby/vim-ruby'
 NeoBundle 'motemen/git-vim'
 NeoBundle 'tpope/vim-rails'
 NeoBundle 'mattn/webapi-vim'
-NeoBundle 'macros/matchit.vim'
+" NeoBundle 'macros/matchit.vim'
 NeoBundle 'Lokaltog/vim-powerline'
+NeoBundle 'tpope/vim-haml.git'
+NeoBundle 'tomtom/tcomment_vim'
 
 " www.vim.orgにあるプラグイン
 NeoBundle 'L9'
-NeoBundle 'project.tar.gz'
+" NeoBundle 'project.tar.gz'
 NeoBundle 'ZenCoding.vim'
 NeoBundle 'guicolorscheme.vim'
 NeoBundle 'vimshell-ssh'
 NeoBundle 'java.vim'
-NeoBundle 'comments.vim'
-NeoBundle 'yanktmp.vim'
-NeoBundle 'smartchr'
+" NeoBundle 'comments.vim'
+" NeoBundle 'yanktmp.vim'
+" NeoBundle 'smartchr'
 NeoBundle 'open-browser.vim'
 NeoBundle 'Gist.vim'
-NeoBundle 'c.vim'
+" NeoBundle 'c.vim'
 NeoBundle 'The-NERD-tree'
 
 " それ以外にある gitリポジトリにあるプラグイン
@@ -64,16 +66,6 @@ nmap     <silent><Leader>qr :w<CR><Plug>(quickrun):copen<CR>
 nnoremap <Leader>qR :QuickRun<Space>
 " QuickFixバッファを閉じると同時にエラー表示も消す
 autocmd FileType qf nnoremap <buffer><silent> q :q<CR>:HierClear<CR>
-
-""""" project.vim """""
-" ファイルが選択されたらウィンドウを閉じる
-let g:proj_flags = "imstc"
-
-" <Leader>Pで, プロジェクトを開閉する
-nmap <silent> <Leader>P <Plug>ToggleProject
-
-" <Leader>pで, デフォルトのプロジェクトを開く
-nmap <silent> <Leader>p :Project<CR>
 
 """"" git.vim """""
 " git add
@@ -112,16 +104,16 @@ let g:neocomplcache_enable_at_startup = 1
 let g:neocomplcache_auto_completion_start_length = 3
 
 """"" yanktmp.vim """""
-map <silent> sy :call YanktmpYank()<CR>
-map <silent> sp :call YanktmpPaste_p()<CR>
-map <silent> sP :call YanktmpPaste_P()<CR>
-if has("win32")
-    let g:yanktmp_file = $TEMP. '/vimyanktmp'
-endif
+" map <silent> sy :call YanktmpYank()<CR>
+" map <silent> sp :call YanktmpPaste_p()<CR>
+" map <silent> sP :call YanktmpPaste_P()<CR>
+" if has("win32")
+"     let g:yanktmp_file = $TEMP. '/vimyanktmp'
+" endif
 
 """""" smartchr """""
-inoremap <expr> = smartchr#loop(' = ', '=', ' == ')
-inoremap <expr> , smartchr#one_of(', ', ',')
+" inoremap <expr> = smartchr#loop(' = ', '=', ' == ')
+" inoremap <expr> , smartchr#one_of(', ', ',')
 "cnoremap <expr> / smartchr#loop('/', '~/', '//', {'ctype': ':'})
 
 " --------------------------------

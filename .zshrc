@@ -195,4 +195,3 @@ unsetopt no_clobber         # リダイレクトで上書きを許可
 setopt chase_links          # シンボリックリンクはリンク先のパスに変換してから実行
 setopt print_exit_value     # 戻り値が 0 以外の場合終了コードを表示
 setopt single_line_zle      # デフォルトの複数行コマンドライン編集ではなく、１行編集モードになる
-

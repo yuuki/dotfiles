@@ -1,13 +1,11 @@
 """"""""""""""""""""""""""""""""
 " キーマップ設定              "
 """"""""""""""""""""""""""""""""
-" ノーマルモードに切り替え "
-inoremap jj <Esc>
-vnoremap jj <Esc>
-cnoremap jj <Esc>
-inoremap kk <Esc>
-vnoremap kk <Esc>
-cnoremap kk <Esc>
+" insertモードから抜ける
+inoremap jj <ESC>
+inoremap <C-j> j
+inoremap kk <ESC>
+inoremap <C-k> k
 
 " 表示行単位で行移動する "
 nmap j gj
