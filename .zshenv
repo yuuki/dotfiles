@@ -2,9 +2,9 @@
 export LANG=ja_JP.UTF-8
 
 # Gentoo bashrc load
-if [ -s $EPREFIX/etc/profile ]; then
-    source $EPREFIX/etc/profile
-fi
+# if [ -s $EPREFIX/etc/profile ]; then
+#     source $EPREFIX/etc/profile
+# fi
 
 # vim
 export EDITOR=/Applications/MacVim.app/Contents/MacOS/Vim
@@ -17,7 +17,7 @@ fi
 export PATH=/opt/local/bin:/opt/local/sbin/:$PATH
 
 # MANPATH
-export MANPATH=/usr/bin/man:$HOME/Gentoo/usr/bin/man:/opt/local/bin/man:$MANPATH
+export MANPATH=/usr/share/man:/usr/local/share/man:/opt/local/man:$MANPATH
 
 # HOMEディレクトリ以下のbinのにパスを通す
 export PATH=$HOME/bin:$PATH
@@ -77,8 +77,12 @@ export CLASSPATH=$CLASSPATH:$HOME/build/twitter4j-2.2.5/lib/twitter4j-stream-2.2
 export CLASSPATH=$CLASSPATH:$HOME/build/twitter4j-2.2.5/lib/twitter4j-media-support-2.2.5.jar
 
 # RVM PATH
-export PATH=$PATH:$HOME/.rvm/bin:$PATH
+export PATH=$HOME/.rvm/bin:$PATH
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm" # Load RVM function
 
-# Finally, load zshrc
-source ~/.zshrc
+# GCC PATH
+export PATH=/opt/gcc/:$PATH
+
+# for OpenCV Python Module
+export PYTHONPATH="/usr/local/lib/python2.7/site-packages:$PYTHONPATH"
+

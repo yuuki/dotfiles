@@ -11,7 +11,7 @@
     default = tracking
 [core]
     editor = vim
-	excludesfile = /Users/zac/.gitignore
+	  excludesfile = /Users/zac/.gitignore
     autocrlf = input
 [alias]
     st = status

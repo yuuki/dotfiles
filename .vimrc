@@ -187,11 +187,13 @@ if has("autocmd")
   filetype on
   filetype plugin indent on
 
-  """"" C & Objective-C""""""
+  """"" C/C++ & Objective-C""""""
   autocmd FileType c,cpp,objc inoremap : ;
   autocmd FileType c,cpp,objc inoremap ; :
+  let $BOOST_ROOT = "/usr/local/include/boost"
+  autocmd FileType c,cpp,objc set path+=$BOOST_ROOT
 
-  autocmd FileType c,cpp inoremap <buffer> <expr> . smartchr#loop('.',  '->', '...')
+  " autocmd FileType c,cpp inoremap <buffer> <expr> . smartchr#loop('.',  '->', '...')
 
   """"" Perl """"""
   autocmd FileType perl,cgi : compiler perl

@@ -76,8 +76,8 @@ fi
 
 # ヒストリー機能
 HISTFILE=~/.zsh_history      # ヒストリファイルを指定
-HISTSIZE=100000               # ヒストリに保存するコマンド数
-SAVEHIST=100000               # ヒストリファイルに保存するコマンド数
+HISTSIZE=500000               # ヒストリに保存するコマンド数
+SAVEHIST=500000               # ヒストリファイルに保存するコマンド数
 setopt hist_ignore_all_dups  # 重複するコマンド行は古い方を削除
 setopt hist_ignore_dups      # 直前と同じコマンドラインはヒストリに追加しない
 setopt share_history         # コマンド履歴ファイルを共有する
@@ -132,13 +132,11 @@ alias ll='ls -l'
 alias la='ls -a'
 # alias vim='/Users/zac/Gentoo/usr/bin/vim'
 alias be='bundle exec'
-alias gcc='gcc -Wall -Wextra'
-alias gdb='/usr/bin/gdb'
-alias man='/usr/bin/man'
-alias vi='env LANG=ja_JP.UTF-8 /Applications/MacVim.app/Contents/MacOS/Vim "$@"'
-alias vim='env LANG=ja_JP.UTF-8 /Applications/MacVim.app/Contents/MacOS/Vim "$@"'
+alias g='git "$@"'
 alias vrc='vim ~/.vimrc'
-alias git='/usr/local/bin/git'
+# alias vi='env LANG=ja_JP.UTF-8 /Applications/MacVim.app/Contents/MacOS/Vim "$@"'
+# alias vim='env LANG=ja_JP.UTF-8 /Applications/MacVim.app/Contents/MacOS/Vim "$@"'
+# alias git='/usr/local/bin/git'
 
 # global alias
 alias -g TELLME="&& say succeeded || say failed"
@@ -151,6 +149,7 @@ alias -g WL='| wc _l'
 alias -g T='| tail'
 alias -g ...='..//..'
 alias -g ....='..//..//..'
+alias -g .....='..//..//..//..'
 
 # git command
 alias gco="git checkout"

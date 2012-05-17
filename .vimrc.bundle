@@ -34,6 +34,7 @@ NeoBundle 'mattn/webapi-vim'
 NeoBundle 'Lokaltog/vim-powerline'
 NeoBundle 'tpope/vim-haml.git'
 NeoBundle 'tomtom/tcomment_vim'
+NeoBundle 'kchmck/vim-coffee-script'
 
 " www.vim.orgにあるプラグイン
 NeoBundle 'L9'
