@@ -21,8 +21,13 @@
     up = pull --rebase # pull rebase
     rbm = rebase master
     ad = add
+    co = checkout
+    # commit関連
+    cm = commit
+    ca = commit -a
     # branch関連
     br = branch
+    brr = branch -r
     ba = branch -a           # originも含めた全てのbranchを表示
     bm = branch --merged     # merge済みのbranchを表示
     bn = branch --no-merged  # mergeしてないbranchを表示

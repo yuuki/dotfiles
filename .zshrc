@@ -52,7 +52,6 @@ setopt print_eight_bit
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 
 # lsコマンドの補完候補にも色付き表示
-eval `dircolors`
 zstyle ':completion:*:default' list-colors ${LS_COLORS}
 # kill の候補にも色付き表示
 zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([%0-9]#)*=0=01;31'
@@ -87,6 +86,7 @@ setopt hist_no_store         # historyコマンドは履歴に登録しない
 setopt hist_reduce_blanks    # 余分な空白は詰めて記録
 setopt hist_ignore_space    # 先頭がスペースの場合、ヒストリに追加しない#
 
+eval `dircolors`
 # cd - と入力してTabキーで今までに移動したディレクトリを一覧表示
 setopt auto_pushd
 # カレントディレクトリ中に指定されたディレクトリが見つからなかった場合に
@@ -133,7 +133,9 @@ alias la='ls -a'
 # alias vim='/Users/zac/Gentoo/usr/bin/vim'
 alias be='bundle exec'
 alias g='git "$@"'
+alias v='vim "$@"'
 alias vrc='vim ~/.vimrc'
+alias topcoder='javaws ContestAppletProd.jnlp'
 # alias vi='env LANG=ja_JP.UTF-8 /Applications/MacVim.app/Contents/MacOS/Vim "$@"'
 # alias vim='env LANG=ja_JP.UTF-8 /Applications/MacVim.app/Contents/MacOS/Vim "$@"'
 # alias git='/usr/local/bin/git'
@@ -194,3 +196,25 @@ unsetopt no_clobber         # リダイレクトで上書きを許可
 setopt chase_links          # シンボリックリンクはリンク先のパスに変換してから実行
 setopt print_exit_value     # 戻り値が 0 以外の場合終了コードを表示
 setopt single_line_zle      # デフォルトの複数行コマンドライン編集ではなく、１行編集モードになる
+
+
+function pwd-clip() {
+    local copyToClipboard
+
+    if which pbcopy >/dev/null 2>&1 ; then
+        # Mac
+        copyToClipboard='pbcopy'
+    elif which xsel >/dev/null 2>&1 ; then
+        # Linux
+        copyToClipboard='xsel --input --clipboard'
+    elif which putclip >/dev/null 2>&1 ; then
+        # Cygwin
+        copyToClipboard='putclip'
+    else
+        copyToClipboard='cat'
+    fi
+
+    # ${=VAR} enables SH_WORD_SPLIT option
+    # so ${=VAR] is splited in words, for example "a" "b" "c"
+    echo -n $PWD | ${=copyToClipboard}
+}

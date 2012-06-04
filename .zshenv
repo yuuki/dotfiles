@@ -27,13 +27,10 @@ export PATH=:/usr/local/mysql/bin:$PATH
 
 # Gentoo Prefix PATH
 export EPREFIX="$HOME/Gentoo"
-export PATH=$EPREFIX/usr/bin:$EPREFIX/bin:$EPREFIX/tmp/usr/bin:$EPREFIX/tmp/bin$PATH
-
-# Homebrew Path
-export PATH=/usr/local/bin/:$PATH
+export PATH=$EPREFIX/usr/bin:$EPREFIX/bin:$EPREFIX/tmp/usr/bin:$EPREFIX/tmp/bin:$PATH
 
 # LLVM PATH
-export PATH=/opt/llvm/bin:$PATH
+# export PATH=/opt/llvm/bin:$PATH
 
 # NPM PATH
 export PATH=/usr/local/share/npm/bin:$PATH
@@ -81,8 +78,14 @@ export PATH=$HOME/.rvm/bin:$PATH
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm" # Load RVM function
 
 # GCC PATH
-export PATH=/opt/gcc/:$PATH
+export PATH=/opt/gcc:$PATH
+
+# Boost PATH
+export CPLUS_INCLUDE_PATH=$CPLUS_INCLUDE_PATH:/usr/local/include/boost
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib/boost
 
 # for OpenCV Python Module
 export PYTHONPATH="/usr/local/lib/python2.7/site-packages:$PYTHONPATH"
 
+# Homebrew Path
+export PATH=/usr/local/bin/:$PATH
