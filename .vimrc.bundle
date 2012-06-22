@@ -10,7 +10,9 @@ if has('vim_starting')
   call vundle#rc()
 endif
 
+"
 " github にあるプラグイン
+"
 NeoBundle 'gmarik/vundle.git'
 NeoBundle 'Shougo/clang_complete.git'
 NeoBundle 'Shougo/echodoc.git'
@@ -35,8 +37,11 @@ NeoBundle 'Lokaltog/vim-powerline'
 NeoBundle 'tpope/vim-haml.git'
 NeoBundle 'tomtom/tcomment_vim'
 NeoBundle 'kchmck/vim-coffee-script'
+NeoBundle 'vim-scripts/Source-Explorer-srcexpl.vim'
 
+"
 " www.vim.orgにあるプラグイン
+"
 NeoBundle 'L9'
 " NeoBundle 'project.tar.gz'
 NeoBundle 'ZenCoding.vim'
@@ -50,6 +55,8 @@ NeoBundle 'open-browser.vim'
 NeoBundle 'Gist.vim'
 " NeoBundle 'c.vim'
 NeoBundle 'The-NERD-tree'
+NeoBundle 'trinity.vim'
+NeoBundle 'taglist.vim'
 
 " それ以外にある gitリポジトリにあるプラグイン
 NeoBundle 'git://git.wincent.com/command-t.git'
@@ -186,3 +193,12 @@ nmap <Leader>n :NERDTreeToggle<CR>
 """"" gist-vim """""
 let g:github_user = 'y-uuki'
 let g:github_token = '751922e6e040fa98becd99131604b3d9'
+
+" --------------------------------
+" srcexpl
+" --------------------------------
+" Previewを自動表示する
+let g:SrcExpl_RefreshTime = 1
+
+" tagsを自動生成
+let g:SrcExpl_UpdateTags = 1

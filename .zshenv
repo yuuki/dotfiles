@@ -25,10 +25,6 @@ export PATH=$HOME/bin:$PATH
 # MySQL PATH
 export PATH=:/usr/local/mysql/bin:$PATH
 
-# Gentoo Prefix PATH
-export EPREFIX="$HOME/Gentoo"
-export PATH=$EPREFIX/usr/bin:$EPREFIX/bin:$EPREFIX/tmp/usr/bin:$EPREFIX/tmp/bin:$PATH
-
 # LLVM PATH
 # export PATH=/opt/llvm/bin:$PATH
 
@@ -36,15 +32,21 @@ export PATH=$EPREFIX/usr/bin:$EPREFIX/bin:$EPREFIX/tmp/usr/bin:$EPREFIX/tmp/bin:
 export PATH=/usr/local/share/npm/bin:$PATH
 export NODE_PATH=/usr/local/lib/node
 
+# Gentoo Prefix PATH
+export EPREFIX="$HOME/Gentoo"
+export PATH=$EPREFIX/usr/bin:$EPREFIX/bin:$EPREFIX/tmp/usr/bin:$EPREFIX/tmp/bin:$PATH
+
 # Pythonbrew PATH
 if [ -s $HOME/.pythonbrew/etc/bashrc ]; then
     source $HOME/.pythonbrew/etc/bashrc
 fi
 
 # Perlbrew PATH
-if [ -f $HOME/.perl5/perlbrew/etc/bashrc ]; then
+if [ -s $HOME/.perl5/perlbrew/etc/bashrc ]; then
 	source $HOME/.perl5/perlbrew/etc/bashrc
 fi
+
+
 
 # CUDA PATH
 export PATH=/usr/local/cuda/bin:$PATH
@@ -60,7 +62,7 @@ export DYLD_FALLBACK_LIBRARY_PATH=/usr/local/lib
 export BOOST_ROOT=/usr/local/include/boost:$BOOST_ROOT
 
 # Android SDK PATH
-export PATH=$PATH:/Applications/android-sdk-macosx/tools
+export PATH=$PATH:/Applications/android-sdk-macosx/tools:/Applications/android-sdk-macosx/platform-tools
 
 # TexCommand PATH
 export PATH=$PATH:/Applications/UpTeX.app/teTeX/bin
@@ -77,8 +79,6 @@ export CLASSPATH=$CLASSPATH:$HOME/build/twitter4j-2.2.5/lib/twitter4j-media-supp
 export PATH=$HOME/.rvm/bin:$PATH
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm" # Load RVM function
 
-# GCC PATH
-export PATH=/opt/gcc:$PATH
 
 # Boost PATH
 export CPLUS_INCLUDE_PATH=$CPLUS_INCLUDE_PATH:/usr/local/include/boost
@@ -88,4 +88,7 @@ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib/boost
 export PYTHONPATH="/usr/local/lib/python2.7/site-packages:$PYTHONPATH"
 
 # Homebrew Path
-export PATH=/usr/local/bin/:$PATH
+export PATH=/usr/local/bin:$PATH
+
+# GCC PATH
+export PATH=/opt/gcc:$PATH

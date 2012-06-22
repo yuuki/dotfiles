@@ -187,46 +187,4 @@ if has("autocmd")
   filetype on
   filetype plugin indent on
 
-  """"" C/C++ & Objective-C""""""
-  autocmd FileType c,cpp,objc inoremap : ;
-  autocmd FileType c,cpp,objc inoremap ; :
-  let $BOOST_ROOT = "/usr/local/include/boost"
-  autocmd FileType c,cpp,objc set path+=$BOOST_ROOT
-
-  " autocmd FileType c,cpp inoremap <buffer> <expr> . smartchr#loop('.',  '->', '...')
-
-  """"" Perl """"""
-  autocmd FileType perl,cgi : compiler perl
-  autocmd FileType perl,cgi map ,pt <ESC>:%! perltidy<CR> " ソースコード全体を整形
-  autocmd FileType perl,cgi map ,ptv <ESC>:%'<, '>! perltidy<CR> " 選択された部分のソースコードを整形
-  autocmd FileType perl,cgi :setl iskeyword+=:
-  autocmd FileType perl,cgi :setl isfname-=-I
-  " Perl 辞書補完 "
-  autocmd FileType perl,cgi :set dictionary+=~/.vim/dict/perl_functions.dict
-
-  """""" Python """"""
-  autocmd FileType python setl cinwords=if,elif,else,for,while,try,except,finally,def,class
-  " Python 辞書補完 "
-  autocmd FileType python let g:pydiction_location = '~/.vim/pydiction/complete-dict'
-
-  """"" Ruby """"""
-  autocmd FileType ruby compiler ruby
-  autocmd FileType ruby setl nocompatible
-
-  """"" Java """"""
-  autocmd FileType java compiler javac
-  autocmd FileType java let java_highlight_all=1
-  " VimJDEの設定 "
-  autocmd FileType java map <M-w> :VjdeNclass<CR>   " クラス作成
-  autocmd FileType java map <M-i> :VjdeNinte<CR>    " インタフェース作成
-  autocmd FileType jaba map <M-m> :VjdeNmaiin<CR>   " main作成
-  autocmd Filetype java map <M-a> :VjdeNprop<CR>    " アクセッサ作成
-  autocmd FileType java map <m-z> :VjdeWizard<CR>   " ウィザード作成
-
-  """"" Lisp """""
-  " clispで現在のファイルを読み込んでREPL
-  autocmd Filetype clisp setl map <Leader>r <Esc>:!clisp -i %<CR>
-
-  """"" JavaScript """""
-  autocmd FileType javascript setl omnifunc=javascriptcomplete#CompleteJS
 endif

@@ -17,7 +17,12 @@ if has("autocmd")
   " これらのftではインデントを無効に
   "autocmd FileType php filetype indent off
 
+  " ファイル種別のカスタム定義
   autocmd BufNewFile,BufRead *.hpp setf cpp
+  autocmd BufNewFile,BufRead *.cl setf cpp
+  autocmd BufNewFile,BufRead *.aj setf java
+  autocmd BufNewFile,BufRead *.jspx setf xhtml
+
   autocmd FileType apache     setlocal sw=4 sts=4 ts=4 et
   autocmd FileType aspvbs     setlocal sw=4 sts=4 ts=4 et
   autocmd FileType c          setlocal sw=4 sts=4 ts=4 et
@@ -46,5 +51,39 @@ if has("autocmd")
   autocmd FileType zsh        setlocal sw=4 sts=4 ts=4 et
   autocmd FileType scala      setlocal sw=2 sts=2 ts=2 et
 
+
+  autocmd FileType c,cpp,objc inoremap : ;
+  autocmd FileType c,cpp,objc inoremap ; :
+  let $BOOST_ROOT = "/usr/local/include/boost"
+  autocmd FileType c,cpp,objc set path+=$BOOST_ROOT
+
+  autocmd FileType perl,cgi   compiler perl
+  autocmd FileType perl,cgi   map ,pt <ESC>:%! perltidy<CR> " ソースコード全体を整形
+  autocmd FileType perl,cgi   map ,ptv <ESC>:%'<, '>! perltidy<CR> " 選択された部分のソースコードを整形
+  autocmd FileType perl,cgi   setlocal iskeyword+=:
+  autocmd FileType perl,cgi   setlocal isfname-=-I
+  autocmd FileType perl,cgi   set dictionary+=~/.vim/dict/perl_functions.dict
+
   autocmd FileType python     setlocal smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
+  autocmd FileType python     setlocal g:pydiction_location = '~/.vim/pydiction/complete-dict'
+
+  autocmd FileType ruby       compiler ruby
+  autocmd FileType ruby       setlocal nocompatible
+
+  autocmd FileType java       inoremap : ;
+  autocmd FileType java       inoremap ; :
+  autocmd FileType java       compiler javac
+  autocmd FileType java       let java_highlight_all=1
+  autocmd FileType java       map <M-w> :VjdeNclass<CR>   " クラス作成
+  autocmd FileType java       map <M-i> :VjdeNinte<CR>    " インタフェース作成
+  autocmd FileType jaba       map <M-m> :VjdeNmaiin<CR>   " main作成
+  autocmd Filetype java       map <M-a> :VjdeNprop<CR>    " アクセッサ作成
+  autocmd FileType java       map <m-z> :VjdeWizard<CR>   " ウィザード作成
+
+  autocmd FileType javascript inoremap : ;
+  autocmd FileType javascript inoremap ; :
+  autocmd FileType javascript setl omnifunc=javascriptcomplete#CompleteJS
+
+  autocmd FileType css        inoremap : ;
+  autocmd FileType css        inoremap ; :
 endif

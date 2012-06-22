@@ -2,7 +2,7 @@
 ###############################################
 # キーバインド設定                            #
 ###############################################
-bindkey -v  # viキーバインド
+# bindkey -v  # viキーバインド
 
 autoload history-search-end
 zle -N history-beginning-search-backward-end history-search-end
@@ -132,7 +132,7 @@ alias ll='ls -l'
 alias la='ls -a'
 # alias vim='/Users/zac/Gentoo/usr/bin/vim'
 alias be='bundle exec'
-alias g='git "$@"'
+alias g='git'
 alias v='vim "$@"'
 alias vrc='vim ~/.vimrc'
 alias topcoder='javaws ContestAppletProd.jnlp'
@@ -198,6 +198,9 @@ setopt print_exit_value     # 戻り値が 0 以外の場合終了コードを�
 setopt single_line_zle      # デフォルトの複数行コマンドライン編集ではなく、１行編集モードになる
 
 
+#
+# clip current directory path
+#
 function pwd-clip() {
     local copyToClipboard
 
@@ -218,3 +221,48 @@ function pwd-clip() {
     # so ${=VAR] is splited in words, for example "a" "b" "c"
     echo -n $PWD | ${=copyToClipboard}
 }
+
+
+# # git stash count
+# function git_prompt_stash_count {
+#     local COUNT=$(git stash list 2>/dev/null | wc -l | tr -d ' ')
+#     if [ "$COUNT" -gt 0 ]; then
+#         echo " ($COUNT)"
+#     fi
+# }
+# 
+# setopt prompt_subst
+# autoload -Uz VCS_INFO_get_data_git; VCS_INFO_get_data_git 2> /dev/null
+# 
+# function rprompt-git-current-branch {
+#     local name st color action
+# 
+#     if [[ "$PWD" =~ '/\.git(/.*)?$' ]]; then
+#         return
+#     fi
+# 
+#     name=$(basename "`git symbolic-ref HEAD 2> /dev/null`")
+#     if [[ -z $name ]]; then
+#         return
+#     fi
+# 
+#     st=`git status 2> /dev/null`
+#     if [[ -n `echo "$st" | grep "^nothing to"` ]]; then
+#         color=${fg[blue]}
+#     elif [[ -n `echo "$st" | grep "^nothing added"` ]]; then
+#         color=${fg[yellow]}
+#     elif [[ -n `echo "$st" | grep "^# Untracked"` ]]; then
+#         color=${fg_bold[red]}
+#     else
+#         color=${fg[red]}
+#     fi
+# 
+#     gitdir=`git rev-parse --git-dir 2> /dev/null`
+#     action=`VCS_INFO_git_getaction "$gitdir"` && action="($action)"
+# 
+#     # %{...%} surrounds escape string
+#     echo "%{$color%}$name$action`git_prompt_stash_count`$color%{$reset_color%}"
+# }
+# 
+# # how to use
+# PROMPT='${USER}@${HOST%%.*}:%/$% `rprompt-git-current-branch` '
