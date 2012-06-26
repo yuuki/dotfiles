@@ -178,13 +178,3 @@ source ~/dotfiles/.vimrc.indent
 " 移動関連
 source ~/dotfiles/.vimrc.moving
 
-
-
-""""""""""""""""""""""""""""""""""""""""
-" ファイル種別毎の設定                 "
-""""""""""""""""""""""""""""""""""""""""
-if has("autocmd")
-  filetype on
-  filetype plugin indent on
-
-endif
