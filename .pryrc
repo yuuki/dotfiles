@@ -1,5 +1,6 @@
 begin
   require 'hirb'
+  require 'hirb-unicode'
 rescue LoadError
   # Missing goodies, bummer
 end

@@ -157,6 +157,7 @@ alias gst="git status"
 alias gci="git commit -a"
 alias gdi="git diff"
 alias gbr="git branch"
+alias gg="git grep -H --heading --break"
 
 # Utility Commands
 alias findbig='find . -type f -exec ls -s {} \; | sort -n -r | head -5'

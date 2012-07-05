@@ -13,6 +13,8 @@
   editor = vim
   excludesfile = /Users/zac/.gitignore
   autocrlf = input
+[grep]
+  lineNumber = true
 [alias]
   st = status
   sh = show

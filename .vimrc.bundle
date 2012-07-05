@@ -108,6 +108,14 @@ let g:rubycomplete_buffer_loading = 1
 let g:rubycomplete_classes_in_global = 1
 let g:rubycomplete_rails = 1
 
+autocmd User Rails.controller* Rnavcommand api app/controllers/api -glob=**/* -suffix=_controller.rb
+autocmd User Rails.controller* Rnavcommand tmpl app/controllers/tmpl -glob=**/* -suffix=_controller.rb
+autocmd User Rails Rnavcommand config config   -glob=*.*  -suffix= -default=routes.rb
+autocmd User Rails nmap :<C-u>Rcontroller :<C-u>Rcont
+" :Rnavcommand concern  app/concerns -glob=**/*
+" :Rnavcommand exemplar test/exemplars spec/exemplars -glob=**/* -default=model() -suffix=_exemplar.rb
+
+
 """"" neocomplcache """""
 let g:neocomplcache_enable_at_startup = 1
 let g:neocomplcache_auto_completion_start_length = 3
