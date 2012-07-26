@@ -13,7 +13,6 @@ endif
 "
 " github にあるプラグイン
 "
-NeoBundle 'gmarik/vundle.git'
 NeoBundle 'Shougo/clang_complete.git'
 NeoBundle 'Shougo/echodoc.git'
 NeoBundle 'Shougo/neocomplcache.git'
@@ -29,6 +28,7 @@ NeoBundle 'thinca/vim-quickrun'
 NeoBundle 'thinca/vim-guicolorscheme'
 NeoBundle 'ujihisa/vimshell-ssh.git'
 NeoBundle 'vim-ruby/vim-ruby'
+NeoBundle 'danchoi/ri.vim.git'
 NeoBundle 'motemen/git-vim'
 NeoBundle 'tpope/vim-rails'
 NeoBundle 'tpope/vim-bundler.git'
@@ -111,9 +111,9 @@ let g:rubycomplete_rails = 1
 autocmd User Rails.controller* Rnavcommand api app/controllers/api -glob=**/* -suffix=_controller.rb
 autocmd User Rails.controller* Rnavcommand tmpl app/controllers/tmpl -glob=**/* -suffix=_controller.rb
 autocmd User Rails Rnavcommand config config   -glob=*.*  -suffix= -default=routes.rb
-autocmd User Rails nmap :<C-u>Rcontroller :<C-u>Rcont
-" :Rnavcommand concern  app/concerns -glob=**/*
-" :Rnavcommand exemplar test/exemplars spec/exemplars -glob=**/* -default=model() -suffix=_exemplar.rb
+autocmd User Rails nmap :<C-u>Rcontroller :<C-u>Rc
+autocmd User Rails nmap :<C-u>Rmodel :<C-u>Rm
+autocmd User Rails nmap :<C-u>Rview :<C-u>Rv
 
 
 """"" neocomplcache """""

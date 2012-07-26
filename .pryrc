@@ -1,3 +1,5 @@
+require 'rubygems' if RUBY_VERSION < '1.9'
+
 begin
   require 'hirb'
   require 'hirb-unicode'
@@ -24,3 +26,7 @@ if defined? Hirb
 
   Hirb.enable
 end
+
+# awesome_print
+require 'awesome_print'
+Pry.print = proc{|output,value| output.puts value.ai }

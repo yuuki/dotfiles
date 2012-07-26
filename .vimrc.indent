@@ -70,6 +70,8 @@ if has("autocmd")
 
   autocmd FileType ruby       compiler ruby
   autocmd FileType ruby       setlocal nocompatible
+  autocmd FileType ruby       inoremap : ;
+  autocmd FileType ruby       inoremap ; :
 
   autocmd FileType java       inoremap : ;
   autocmd FileType java       inoremap ; :

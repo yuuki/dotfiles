@@ -38,6 +38,7 @@
   lp = log -p
   la = log --pretty=\"format:%ad %h (%an): %s\" --date=short  # ざっくりログ出す
   lr = log origin          # originのlog
+  # diff関連
   dm = diff master         # masterとのdiff
   dc = diff --cached       # addされているものとのdiff
   ds = diff --staged       # 同上(1.6.1移行)
@@ -57,4 +58,8 @@
   ssp = stash pop
   # hub関連
   see = browse
-
+  # push/pull関連
+  ps = push
+  psom = push origin master
+  pshm = push heroku master
+  pl = pull

@@ -121,22 +121,24 @@ SPROMPT="%r is correct? [n,y,a,e]: "
 # MacOS Applications
 alias safari='open -a Safari'
 alias chrome='open -a GoogleChrome'
-alias prev='open -a Preview'
+alias prev='open -a Preview "$@"'
 alias texshop='open -a TexShop'
 
 # Unix Commands
-alias ls='ls -vFG --color=auto'
+alias ls='ls -FG'
 alias ll='ls -l'
 alias la='ls -a'
-# alias vim='/Users/zac/Gentoo/usr/bin/vim'
-alias be='bundle exec'
-alias g='git'
 alias v='vim "$@"'
 alias vrc='vim ~/.vimrc'
+alias g='git'
+alias r='rails'
+alias rk='rake'
+alias b='bundle'
+alias be='bundle exec'
+alias bi='bundle install'
+alias h='heroku'
+alias hr='heroku run'
 alias topcoder='javaws ContestAppletProd.jnlp'
-# alias vi='env LANG=ja_JP.UTF-8 /Applications/MacVim.app/Contents/MacOS/Vim "$@"'
-# alias vim='env LANG=ja_JP.UTF-8 /Applications/MacVim.app/Contents/MacOS/Vim "$@"'
-# alias git='/usr/local/bin/git'
 
 # global alias
 alias -g TELLME="&& say succeeded || say failed"

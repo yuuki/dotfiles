@@ -76,8 +76,8 @@ export CLASSPATH=$CLASSPATH:$HOME/build/twitter4j-2.2.5/lib/twitter4j-stream-2.2
 export CLASSPATH=$CLASSPATH:$HOME/build/twitter4j-2.2.5/lib/twitter4j-media-support-2.2.5.jar
 
 # RVM PATH
-export PATH=$HOME/.rvm/bin:$PATH
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm" # Load RVM function
+# export PATH=$HOME/.rvm/bin:$PATH
+# [[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm" # Load RVM function
 
 
 # Boost PATH
@@ -89,6 +89,8 @@ export PYTHONPATH="/usr/local/lib/python2.7/site-packages:$PYTHONPATH"
 
 # Homebrew Path
 export PATH=/usr/local/bin:$PATH
+
+eval "$(rbenv init -)"
 
 # GCC PATH
 export PATH=/opt/gcc:$PATH
