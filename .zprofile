@@ -1,11 +1,6 @@
 
 export LANG=ja_JP.UTF-8
 
-# Gentoo bashrc load
-# if [ -s $EPREFIX/etc/profile ]; then
-#     source $EPREFIX/etc/profile
-# fi
-
 # vim
 export EDITOR=/Applications/MacVim.app/Contents/MacOS/Vim
 # vimがなくてもvimでviを起動する。
@@ -93,4 +88,4 @@ export PATH=/usr/local/bin:$PATH
 eval "$(rbenv init -)"
 
 # GCC PATH
-export PATH=/opt/gcc:$PATH
+export PATH=/Applications/Xcode.app/Contents/Developer/usr/bin:$PATH

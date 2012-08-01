@@ -156,6 +156,11 @@ augroup templates
   autocmd BufNewFile *.py 0r $HOME/.vim/templates/template.py
 augroup END
 
+" +perl, +python, +ruby  for MacVim
+let $PERL_DLL = "/System/Library/Perl/5.12/darwin-thread-multi-2level/CORE/libperl.dylib"
+let $PYTHON_DLL = "/usr/lib/libpython.dylib"
+let $RUBY_DLL = "/Users/zac/.rvm/rubies/ruby-1.9.3-p194/lib/libruby.dylib"
+
 """"" syntaxチェック """""
 " Rubyのsyntaxチェック
 augroup rbsyntaxcheck

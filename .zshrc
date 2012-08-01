@@ -124,8 +124,14 @@ alias chrome='open -a GoogleChrome'
 alias prev='open -a Preview "$@"'
 alias texshop='open -a TexShop'
 
+# GNU coreutils
+if [ "$PS1" ] && [ -f '/usr/local/Cellar/coreutils/8.12/aliases' ]; then
+    . /usr/local/Cellar/coreutils/8.12/aliases
+fi
+
 # Unix Commands
-alias ls='ls -FG'
+export LSCOLORS=gxfxcxdxbxegedabagacad # lsのDir色を明るくする
+alias ls='ls -FG --color'
 alias ll='ls -l'
 alias la='ls -a'
 alias v='vim "$@"'
