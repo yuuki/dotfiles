@@ -1,7 +1,7 @@
 if has('gui_macvim')
   set showtabline=2
   set imdisable      " IMを無効化
-  set transparency=20 " 透明度を指定
+  set transparency=10 " 透明度を指定
   set antialias
   set guioptions-=T  " ツールバー非表示
   set guifont=Osaka-Mono:h18

@@ -5,9 +5,6 @@ filetype off
 if has('vim_starting')
   set rtp+=~/.vim/bundle/neobundle.vim/
   call neobundle#rc()
-
-  set rtp+=~/.vim/bundle/vundle/
-  call vundle#rc()
 endif
 
 "
