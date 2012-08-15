@@ -2,6 +2,12 @@
 
 syntax on
 
+" augroup がセットされていない autocmd 全般用の augroup
+" これをやっておかないと ReloadVimrc したときに困る．
+augroup MyAutocmd
+    autocmd!
+augroup END
+
 " Vi互換モードを使わない
 set nocompatible
 
@@ -80,7 +86,9 @@ set browsedir=buffer
 set clipboard+=unnamed
 
 " 文字にアンチエイリアスをかける "
-set antialias
+if has('mac') && has('gui_running')
+    set antialias
+endif
 
 " ビジュアルモードで選択したテキストが、クリップボードに入るようにする "
 set clipboard+=autoselect
@@ -130,7 +138,7 @@ highlight PmenuSbar ctermbg=0
 " 行末のスペースをハイライト
 highlight WhitespaceEOL ctermbg=red guibg=red
 match WhitespaceEOL /\s\+$/
-autocmd WinEnter * match WhitespaceEOL /\s\+$/
+autocmd MyAutocmd WinEnter * match WhitespaceEOL /\s\+$/
 
 " 全角スペースをハイライトする設定
 " scriptencoding utf-8
@@ -141,8 +149,8 @@ autocmd WinEnter * match WhitespaceEOL /\s\+$/
 "augroup END
 
 " 挿入モードとノーマルモードでステータスラインの色変更
-autocmd InsertEnter * hi StatusLine guifg=DarkBlue guibg=DarkYellow gui=none ctermfg=Blue ctermfg=Yellow cterm=none
-autocmd InsertLeave * hi StatusLine guifg=DarkBlue guibg=DarkGray   gui=none ctermfg=Blue ctermbg=DarkGray cterm=none
+autocmd MyAutocmd InsertEnter * hi StatusLine guifg=DarkBlue guibg=DarkYellow gui=none ctermfg=Blue ctermfg=Yellow cterm=none
+autocmd MyAutocmd InsertLeave * hi StatusLine guifg=DarkBlue guibg=DarkGray   gui=none ctermfg=Blue ctermbg=DarkGray cterm=none
 
 " vimrcのリロード "
 command! ReloadVimrc source $MYVIMRC
