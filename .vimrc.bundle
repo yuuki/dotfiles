@@ -1,5 +1,4 @@
 " NeoVundle関連の設定
-set nocompatible
 filetype off
 
 if has('vim_starting')
@@ -71,7 +70,7 @@ nnoremap <Leader>q  <Nop>
 nmap     <silent><Leader>qr :w<CR><Plug>(quickrun):copen<CR>
 nnoremap <Leader>qR :QuickRun<Space>
 " QuickFixバッファを閉じると同時にエラー表示も消す
-autocmd FileType qf nnoremap <buffer><silent> q :q<CR>:HierClear<CR>
+autocmd MyAutocmd FileType qf nnoremap <buffer><silent> q :q<CR>:HierClear<CR>
 
 """"" git.vim """""
 " git add
@@ -86,7 +85,7 @@ let g:proj_run_fold2="*!git checkout --%f"
 let g:proj_run3='!git status'
 
 " フォールディングを展開した状態で, プロジェクトを開く
-autocmd BufAdd .vimprojects silent! %foldopen!
+autocmd MyAutocmd BufAdd .vimprojects silent! %foldopen!
 
 " カレントディレクトリにプロジェクト管理ファイルがあったら読み込む
 if getcwd() != $HOME
@@ -108,9 +107,9 @@ let g:rubycomplete_rails = 1
 autocmd User Rails.controller* Rnavcommand api app/controllers/api -glob=**/* -suffix=_controller.rb
 autocmd User Rails.controller* Rnavcommand tmpl app/controllers/tmpl -glob=**/* -suffix=_controller.rb
 autocmd User Rails Rnavcommand config config   -glob=*.*  -suffix= -default=routes.rb
-autocmd User Rails nmap :<C-u>Rcontroller :<C-u>Rc
-autocmd User Rails nmap :<C-u>Rmodel :<C-u>Rm
-autocmd User Rails nmap :<C-u>Rview :<C-u>Rv
+autocmd User Rails nnoremap :<C-u>Rcontroller :<C-u>Rc
+autocmd User Rails nnoremap :<C-u>Rmodel :<C-u>Rm
+autocmd User Rails nnoremap :<C-u>Rview :<C-u>Rv
 
 
 """"" neocomplcache """""
@@ -153,8 +152,10 @@ nnoremap <silent> [unite]u  :<C-u>Unite -no-split buffer file_mru<CR>
 " 現在のバッファのカレントディレクトリからファイル一覧
 nnoremap <silent> [unite]d  :<C-u>UniteWithBufferDir -no-split file<CR>
 
+" Start insert.
+let g:unite_enable_start_insert = 1
 
-autocmd FileType unite call s:unite_my_settings()
+autocmd MyAutocmd FileType unite call s:unite_my_settings()
 
 function! s:unite_my_settings()"{{{
   " Overwrite settings.
@@ -165,8 +166,6 @@ function! s:unite_my_settings()"{{{
   imap <buffer> jj  <Plug>(unite_insert_leave)
   nnoremap <silent><buffer> <C-k> :<C-u>call unite#mappings#do_action('preview')<CR>
   imap <buffer> <C-w>     <Plug>(unite_delete_backward_path)
-  " Start insert.
-  let g:unite_enable_start_insert = 1
 
   " ウィンドウを分割して開く
   nnoremap <silent> <buffer> <expr> <C-l> unite#do_action('split')
@@ -183,7 +182,8 @@ imap <C-w> <Plug>(neocomplcache_start_unite_complete)
 " --------------------------------
 " vimfiler
 " --------------------------------
-noremap :e :VimFiler
+" VimFiler をデフォルトのファイルマネージャに設定
+g:vimfiler_as_default_explorer = 1
 
 " --------------------------------
 " vimshell
@@ -194,7 +194,7 @@ let g:vimshell_disable_escape_highlight = 1
 " --------------------------------
 " The NERD tree
 " --------------------------------
-nmap <Leader>n :NERDTreeToggle<CR>
+nnoremap <Leader>n :<C-u>NERDTreeToggle<CR>
 
 """"" gist-vim """""
 let g:github_user = 'y-uuki'

@@ -3,92 +3,60 @@
 "-------------------------------------------------------------------------------
 set autoindent   " 自動でインデント
 "set paste        " ペースト時にautoindentを無効に(onにするとautocomplpop.vimが動かない)
-set smartindent  " 新しい行を開始したときに、新しい行のインデントを現在行と同じ量にする。
-set cindent      " Cプログラムファイルの自動インデントを始める
+set cindent      " Cプログラムファイルの自動インデントを始める．これがあれば smartindent 要らない．
 
 " softtabstopはTabキー押し下げ時の挿入される空白の量，0の場合はtabstopと同じ，BSにも影響する
 set tabstop=2 shiftwidth=2 softtabstop=0
 
-if has("autocmd")
-  "ファイルタイプの検索を有効にする
-  filetype plugin on
-  "そのファイルタイプにあわせたインデントを利用する
-  filetype indent on
-  " これらのftではインデントを無効に
-  "autocmd FileType php filetype indent off
+"ファイルタイプの検索を有効にする
+filetype plugin on
+"そのファイルタイプにあわせたインデントを利用する
+filetype indent on
+" これらのftではインデントを無効に
+"autocmd FileType php filetype indent off
 
+augroup IndentGroup
+  autocmd!
   " ファイル種別のカスタム定義
-  autocmd BufNewFile,BufRead *.hpp setf cpp
-  autocmd BufNewFile,BufRead *.cl setf cpp
+  autocmd BufNewFile,BufRead *.hpp,*.cl setf cpp
   autocmd BufNewFile,BufRead *.aj setf java
   autocmd BufNewFile,BufRead *.jspx setf xhtml
   autocmd BufNewFile,BufRead *.tex,*.latex,*.sty,*.dtx,*.ltx,*.bbl setf tex
 
-  autocmd FileType apache     setlocal sw=4 sts=4 ts=4 et
-  autocmd FileType aspvbs     setlocal sw=4 sts=4 ts=4 et
-  autocmd FileType c          setlocal sw=4 sts=4 ts=4 et
-  autocmd FileType cpp        setlocal sw=4 sts=4 ts=4 et
-  autocmd FileType hpp        setlocal sw=4 sts=4 ts=4 et
-  autocmd FileType cs         setlocal sw=4 sts=4 ts=4 et
-  autocmd FileType css        setlocal sw=2 sts=2 ts=2 et
-  autocmd FileType diff       setlocal sw=4 sts=4 ts=4 et
-  autocmd FileType eruby      setlocal sw=2 sts=2 ts=2 et
-  autocmd FileType html       setlocal sw=2 sts=2 ts=2 et
   autocmd FileType java       setlocal sw=5 sts=4 ts=4 et
-  autocmd FileType javascript setlocal sw=2 sts=2 ts=2 et
-  autocmd FileType perl       setlocal sw=4 sts=4 ts=4 et
-  autocmd FileType php        setlocal sw=4 sts=4 ts=4 et
-  autocmd FileType python     setlocal sw=2 sts=2 ts=8 et
-  autocmd FileType ruby       setlocal sw=2 sts=2 ts=2 et
-  autocmd FileType haml       setlocal sw=2 sts=2 ts=2 et
-  autocmd FileType sh         setlocal sw=4 sts=4 ts=4 et
-  autocmd FileType sql        setlocal sw=4 sts=4 ts=4 et
-  autocmd FileType vb         setlocal sw=4 sts=4 ts=4 et
-  autocmd FileType vim        setlocal sw=2 sts=2 ts=2 et
-  autocmd FileType wsh        setlocal sw=4 sts=4 ts=4 et
-  autocmd FileType xhtml      setlocal sw=4 sts=4 ts=4 et
-  autocmd FileType xml        setlocal sw=4 sts=4 ts=4 et
-  autocmd FileType yaml       setlocal sw=2 sts=2 ts=2 et
-  autocmd FileType zsh        setlocal sw=4 sts=4 ts=4 et
-  autocmd FileType scala      setlocal sw=2 sts=2 ts=2 et
-  autocmd FileType groovy     setlocal sw=4 sts=4 ts=4 et
-  autocmd FileType tex      setlocal sw=2 sts=2 ts=2 et
+
+  autocmd FileType apache ,aspvbs ,c ,cpp ,hpp ,cs ,diff ,perl ,php ,sh ,sql ,vb ,wsh ,xhtml ,xml ,groovy
+        \ setlocal sw=4 sts=4 ts=4 et
+
+  autocmd FileType css ,eruby ,html ,javascript ,python ,ruby ,haml ,vim ,yaml ,zsh ,scala ,tex
+        \ setlocal sw=2 sts=2 ts=2 et
 
 
-  autocmd FileType c,cpp,objc inoremap : ;
+  autocmd FileType c,cpp,objc,ruby,java,javascript,css inoremap : ;
   autocmd FileType c,cpp,objc inoremap ; :
   let $BOOST_ROOT = "/usr/local/include/boost"
   autocmd FileType c,cpp,objc set path+=$BOOST_ROOT
 
   autocmd FileType perl,cgi   compiler perl
-  autocmd FileType perl,cgi   map ,pt <ESC>:%! perltidy<CR> " ソースコード全体を整形
-  autocmd FileType perl,cgi   map ,ptv <ESC>:%'<, '>! perltidy<CR> " 選択された部分のソースコードを整形
+  autocmd FileType perl,cgi   map <buffer>,pt <ESC>:%! perltidy<CR> " ソースコード全体を整形
+  autocmd FileType perl,cgi   map <buffer>,ptv <ESC>:%'<, '>! perltidy<CR> " 選択された部分のソースコードを整形
   autocmd FileType perl,cgi   setlocal iskeyword+=:
   autocmd FileType perl,cgi   setlocal isfname-=-I
-  autocmd FileType perl,cgi   set dictionary+=~/.vim/dict/perl_functions.dict
+  autocmd FileType perl,cgi   setlocal dictionary+=~/.vim/dict/perl_functions.dict
 
-  autocmd FileType python     setlocal smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
+  autocmd FileType python     setlocal cinwords=if,elif,else,for,while,try,except,finally,def,class
   autocmd FileType python     setlocal g:pydiction_location = '~/.vim/pydiction/complete-dict'
 
   autocmd FileType ruby       compiler ruby
   autocmd FileType ruby       setlocal nocompatible
-  autocmd FileType ruby       inoremap : ;
-  autocmd FileType ruby       inoremap ; :
 
-  autocmd FileType java       inoremap : ;
-  autocmd FileType java       inoremap ; :
   autocmd FileType java       compiler javac
-  autocmd FileType java       let java_highlight_all=1
-  autocmd FileType java       map <M-w> :VjdeNclass<CR>   " クラス作成
-  autocmd FileType java       map <M-i> :VjdeNinte<CR>    " インタフェース作成
-  autocmd FileType jaba       map <M-m> :VjdeNmaiin<CR>   " main作成
-  autocmd Filetype java       map <M-a> :VjdeNprop<CR>    " アクセッサ作成
-  autocmd FileType java       map <m-z> :VjdeWizard<CR>   " ウィザード作成
+  autocmd FileType java       let g:java_highlight_all=1
+  autocmd FileType java       map <buffer><M-w> :VjdeNclass<CR>   " クラス作成
+  autocmd FileType java       map <buffer><M-i> :VjdeNinte<CR>    " インタフェース作成
+  autocmd FileType jaba       map <buffer><M-m> :VjdeNmaiin<CR>   " main作成
+  autocmd Filetype java       map <buffer><M-a> :VjdeNprop<CR>    " アクセッサ作成
+  autocmd FileType java       map <buffer><m-z> :VjdeWizard<CR>   " ウィザード作成
 
-  autocmd FileType javascript inoremap : ;
-  autocmd FileType javascript inoremap ; :
   autocmd FileType javascript setl omnifunc=javascriptcomplete#CompleteJS
-
-  autocmd FileType css        inoremap : ;
-  autocmd FileType css        inoremap ; :
-endif
+augroup END
