@@ -70,6 +70,8 @@ export CLASSPATH=$CLASSPATH:$HOME/build/twitter4j-2.2.5/lib/twitter4j-async-2.2.
 export CLASSPATH=$CLASSPATH:$HOME/build/twitter4j-2.2.5/lib/twitter4j-stream-2.2.5.jar
 export CLASSPATH=$CLASSPATH:$HOME/build/twitter4j-2.2.5/lib/twitter4j-media-support-2.2.5.jar
 
+export ANDROID_HOME=/Applications/android-sdk-macosx
+
 # RVM PATH
 # export PATH=$HOME/.rvm/bin:$PATH
 # [[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm" # Load RVM function
@@ -82,10 +84,13 @@ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib/boost
 # for OpenCV Python Module
 export PYTHONPATH="/usr/local/lib/python2.7/site-packages:$PYTHONPATH"
 
-# Homebrew Path
+# Homebrew PATH
 export PATH=/usr/local/bin:$PATH
 
+# Perlbrew PATH
+. $HOME/perl5/perlbrew/etc/bashrc
+
+# Rbenv PATH
 eval "$(rbenv init -)"
 
-# GCC PATH
-export PATH=/Applications/Xcode.app/Contents/Developer/usr/bin:$PATH
+export PATH=/opt/gcc/bin:$PATH

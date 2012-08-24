@@ -20,4 +20,3 @@ if has('gui_macvim')
   highlight ZenkakuSpace cterm=underline ctermfg=lightblue guibg=#666666
   au BufNewFile,BufRead * match ZenkakuSpace /　/
 endif
-

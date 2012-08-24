@@ -37,6 +37,7 @@ NeoBundle 'tomtom/tcomment_vim'
 NeoBundle 'kchmck/vim-coffee-script'
 NeoBundle 'vim-scripts/Source-Explorer-srcexpl.vim'
 NeoBundle 'vim-jp/cpp-vim'
+NeoBundle 'benizi/perl-support.vim'
 
 "
 " www.vim.orgにあるプラグイン
@@ -183,7 +184,7 @@ imap <C-w> <Plug>(neocomplcache_start_unite_complete)
 " vimfiler
 " --------------------------------
 " VimFiler をデフォルトのファイルマネージャに設定
-g:vimfiler_as_default_explorer = 1
+let g:vimfiler_as_default_explorer = 1
 
 " --------------------------------
 " vimshell

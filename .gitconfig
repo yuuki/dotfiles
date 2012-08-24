@@ -38,6 +38,7 @@
   lp = log -p
   la = log --pretty=\"format:%ad %h (%an): %s\" --date=short  # ざっくりログ出す
   lr = log origin          # originのlog
+  lg = log --oneline --decorate --graph # branchとtagをgraph表示
   # diff関連
   dm = diff master         # masterとのdiff
   dc = diff --cached       # addされているものとのdiff
