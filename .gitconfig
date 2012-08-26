@@ -41,8 +41,8 @@
   lg = log --oneline --decorate --graph # branchとtagをgraph表示
   # diff関連
   dm = diff master         # masterとのdiff
-  dc = diff --cached       # addされているものとのdiff
-  ds = diff --staged       # 同上(1.6.1移行)
+  dc = diff --cached -M    # ファイル名変更時に無駄な差分を出力しない
+  ds = diff --staged -M    # 同上(1.6.1移行)
   d1 = diff HEAD~          # HEADから1つ前とdiff
   d2 = diff HEAD~~         # HEADから2つ前とdiff
   # mergeの際にconflictが起きたファイルを編集
@@ -57,10 +57,10 @@
   ssl = stash list
   sss = stash save
   ssp = stash pop
-  # hub関連
-  see = browse
   # push/pull関連
   ps = push
   psom = push origin master
   pshm = push heroku master
   pl = pull
+  # hub関連
+  see = browse

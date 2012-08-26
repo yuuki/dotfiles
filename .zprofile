@@ -31,17 +31,6 @@ export NODE_PATH=/usr/local/lib/node
 export EPREFIX="$HOME/Gentoo"
 export PATH=$EPREFIX/usr/bin:$EPREFIX/bin:$EPREFIX/tmp/usr/bin:$EPREFIX/tmp/bin:$PATH
 
-# Pythonbrew PATH
-if [ -s $HOME/.pythonbrew/etc/bashrc ]; then
-    source $HOME/.pythonbrew/etc/bashrc
-fi
-
-# Perlbrew PATH
-if [ -s $HOME/.perl5/perlbrew/etc/bashrc ]; then
-	source $HOME/.perl5/perlbrew/etc/bashrc
-fi
-
-
 
 # CUDA PATH
 export PATH=/usr/local/cuda/bin:$PATH
@@ -72,11 +61,6 @@ export CLASSPATH=$CLASSPATH:$HOME/build/twitter4j-2.2.5/lib/twitter4j-media-supp
 
 export ANDROID_HOME=/Applications/android-sdk-macosx
 
-# RVM PATH
-# export PATH=$HOME/.rvm/bin:$PATH
-# [[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm" # Load RVM function
-
-
 # Boost PATH
 export CPLUS_INCLUDE_PATH=$CPLUS_INCLUDE_PATH:/usr/local/include/boost
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib/boost
@@ -87,8 +71,20 @@ export PYTHONPATH="/usr/local/lib/python2.7/site-packages:$PYTHONPATH"
 # Homebrew PATH
 export PATH=/usr/local/bin:$PATH
 
+# Pythonbrew PATH
+if [ -s $HOME/.pythonbrew/etc/bashrc ]; then
+    source $HOME/.pythonbrew/etc/bashrc
+fi
+
 # Perlbrew PATH
-. $HOME/perl5/perlbrew/etc/bashrc
+if [ -s $HOME/.perl5/perlbrew/etc/bashrc ]; then
+	source $HOME/.perl5/perlbrew/etc/bashrc
+fi
+export PERL5LIB="$PERLBREW_ROOT/perls/$PERLBREW_PERL/lib/site_perl/5.16.1"
+
+# RVM PATH
+# export PATH=$HOME/.rvm/bin:$PATH
+# [[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm" # Load RVM function
 
 # Rbenv PATH
 eval "$(rbenv init -)"

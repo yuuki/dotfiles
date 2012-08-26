@@ -18,7 +18,7 @@ NeoBundle 'Shougo/vim-vcs.git'
 NeoBundle 'Shougo/vimfiler.git'
 NeoBundle 'Shougo/vimshell.git'
 NeoBundle 'Shougo/vinarise.git'
-" NeoBundle 'Shougo/vimfiler'
+NeoBundle 'Shougo/vimfiler'
 NeoBundle 'Shougo/vimproc'
 NeoBundle 'thinca/vim-quickrun'
 NeoBundle 'thinca/vim-guicolorscheme'
@@ -38,6 +38,7 @@ NeoBundle 'kchmck/vim-coffee-script'
 NeoBundle 'vim-scripts/Source-Explorer-srcexpl.vim'
 NeoBundle 'vim-jp/cpp-vim'
 NeoBundle 'benizi/perl-support.vim'
+NeoBundle 'hrsh7th/vim-unite-vcs'
 
 "
 " www.vim.orgにあるプラグイン
@@ -66,14 +67,18 @@ NeoBundle 'git://github.com/msanders/cocoa.vim.git'
 filetype plugin on
 filetype indent on
 
-" QuickRunのキーマップ
+" --------------------------------
+" vim-quickrun
+" --------------------------------
 nnoremap <Leader>q  <Nop>
 nmap     <silent><Leader>qr :w<CR><Plug>(quickrun):copen<CR>
 nnoremap <Leader>qR :QuickRun<Space>
 " QuickFixバッファを閉じると同時にエラー表示も消す
 autocmd MyAutocmd FileType qf nnoremap <buffer><silent> q :q<CR>:HierClear<CR>
 
-""""" git.vim """""
+" --------------------------------
+" git.vim
+" --------------------------------
 " git add
 let g:proj_run1='!git add %f'
 let g:proj_run_fold1='*!git add %f'
@@ -95,11 +100,15 @@ if getcwd() != $HOME
     endif
 endif
 
-""""" vim-ruby """""
+" --------------------------------
+" vim-ruby
+" --------------------------------
 " <C-Space>でomni補完
 imap <C-Space> <C-x><C-o>
 
-""""" rails.vim """""
+" --------------------------------
+" rails.vim
+" --------------------------------
 " Rubyのオムニ補完を設定(ft-ruby-omni)
 let g:rubycomplete_buffer_loading = 1
 let g:rubycomplete_classes_in_global = 1
@@ -113,7 +122,9 @@ autocmd User Rails nnoremap :<C-u>Rmodel :<C-u>Rm
 autocmd User Rails nnoremap :<C-u>Rview :<C-u>Rv
 
 
-""""" neocomplcache """""
+" --------------------------------
+" neocomplcache
+" --------------------------------
 let g:neocomplcache_enable_at_startup = 1
 let g:neocomplcache_auto_completion_start_length = 3
 
@@ -186,6 +197,30 @@ imap <C-w> <Plug>(neocomplcache_start_unite_complete)
 " VimFiler をデフォルトのファイルマネージャに設定
 let g:vimfiler_as_default_explorer = 1
 
+" VimFiler をExplorerとして使う
+" http://d.hatena.ne.jp/hrsh7th/20120229/1330525683
+nnoremap <F2> :VimFiler -buffer-name=explorer -split -winwidth=45 -toggle -no-quit<Cr>
+autocmd! FileType vimfiler call g:my_vimfiler_settings()
+function! g:my_vimfiler_settings()
+  nmap     <buffer><expr><Cr> vimfiler#smart_cursor_map("\<Plug>(vimfiler_expand_tree)", "\<Plug>(vimfiler_edit_file)")
+  nnoremap <buffer>s          :call vimfiler#mappings#do_action('my_split')<Cr>
+  nnoremap <buffer>v          :call vimfiler#mappings#do_action('my_vsplit')<Cr>
+endfunction
+
+let my_action = { 'is_selectable' : 1 }
+function! my_action.func(candidates)
+  wincmd p
+  exec 'split '. a:candidates[0].action__path
+endfunction
+call unite#custom_action('file', 'my_split', my_action)
+
+let my_action = { 'is_selectable' : 1 }
+function! my_action.func(candidates)
+  wincmd p
+  exec 'vsplit '. a:candidates[0].action__path
+endfunction
+call unite#custom_action('file', 'my_vsplit', my_action)
+
 " --------------------------------
 " vimshell
 " --------------------------------
@@ -197,10 +232,6 @@ let g:vimshell_disable_escape_highlight = 1
 " --------------------------------
 nnoremap <Leader>n :<C-u>NERDTreeToggle<CR>
 
-""""" gist-vim """""
-let g:github_user = 'y-uuki'
-let g:github_token = '751922e6e040fa98becd99131604b3d9'
-
 " --------------------------------
 " srcexpl
 " --------------------------------
@@ -209,3 +240,13 @@ let g:SrcExpl_RefreshTime = 1
 
 " tagsを自動生成
 let g:SrcExpl_UpdateTags = 1
+
+" --------------------------------
+" vim-unite-vcs
+" --------------------------------
+nnoremap  [vcs] <Nop>
+nmap      v     [vcs]
+
+nnoremap [vcs]l  :<C-u>Unite vcs/log<CR>
+nnoremap [vcs]s  :<C-u>Unite vcs/status<CR>
+nnoremap [vcs]r  :<C-u>Unite vcs/file_rec<CR>

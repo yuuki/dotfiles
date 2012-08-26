@@ -144,6 +144,9 @@ alias be='bundle exec'
 alias bi='bundle install'
 alias h='heroku'
 alias hr='heroku run'
+alias pd='perldoc'
+alias ce='carton exec'
+alias ci='carton install'
 alias topcoder='javaws ContestAppletProd.jnlp'
 
 # global alias
