@@ -19,4 +19,9 @@ if has('gui_macvim')
   "全角スペースを視覚化
   highlight ZenkakuSpace cterm=underline ctermfg=lightblue guibg=#666666
   au BufNewFile,BufRead * match ZenkakuSpace /　/
+
+  " +perl, +python, +ruby  for MacVim
+  let $PERL_DLL = "/System/Library/Perl/5.12/darwin-thread-multi-2level/CORE/libperl.dylib"
+  let $PYTHON_DLL = "/usr/lib/libpython.dylib"
+  let $RUBY_DLL = "/Users/zac/.rvm/rubies/ruby-1.9.3-p194/lib/libruby.dylib"
 endif

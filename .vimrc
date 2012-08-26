@@ -126,10 +126,39 @@ augroup greopen
   autocmd QuickfixCmdPost vimgrep cw
 augroup END
 
+" vimrcのリロード
+command! ReloadVimrc source $MYVIMRC
 
-""""""""""""""""""""""""""""""""
+" ファイル形式毎にテンプレートのを設定
+augroup templates
+  autocmd!
+  autocmd BufNewFile *.pl 0r $HOME/.vim/templates/template.pl
+  autocmd BufNewFile *.pm 0r $HOME/.vim/templates/template.pl
+  autocmd BufNewFile *.rb 0r $HOME/.vim/templates/template.rb
+  autocmd BufNewFile *.py 0r $HOME/.vim/templates/template.py
+augroup END
+
+
+" ################################
+" Syntax関連
+" ################################
+
+" Rubyのsyntaxチェック
+augroup rbsyntaxcheck
+  autocmd!
+  autocmd BufWrite *.rb w !ruby -c
+augroup END
+
+" Perlのsyntaxチェック
+augroup plsyntaxcheck
+  autocmd!
+  autocmd BufWrite *.pl w !perl -c
+augroup END
+
+" ################################
 " ハイライト設定               "
-""""""""""""""""""""""""""""""""
+" ################################
+
 " 補完色を変更
 highlight Pmenu ctermbg=8
 highlight PmenuSel ctermbg=1
@@ -152,42 +181,16 @@ autocmd MyAutocmd WinEnter * match WhitespaceEOL /\s\+$/
 autocmd MyAutocmd InsertEnter * hi StatusLine guifg=DarkBlue guibg=DarkYellow gui=none ctermfg=Blue ctermfg=Yellow cterm=none
 autocmd MyAutocmd InsertLeave * hi StatusLine guifg=DarkBlue guibg=DarkGray   gui=none ctermfg=Blue ctermbg=DarkGray cterm=none
 
-" vimrcのリロード "
-command! ReloadVimrc source $MYVIMRC
 
-" ファイル形式毎にテンプレートのを設定
-augroup templates
-  autocmd!
-  autocmd BufNewFile *.pl 0r $HOME/.vim/templates/template.pl
-  autocmd BufNewFile *.pm 0r $HOME/.vim/templates/template.pl
-  autocmd BufNewFile *.rb 0r $HOME/.vim/templates/template.rb
-  autocmd BufNewFile *.py 0r $HOME/.vim/templates/template.py
-augroup END
+" ################################
+" 外部設定ファイルの読み込み
+" ################################
 
-" +perl, +python, +ruby  for MacVim
-let $PERL_DLL = "/System/Library/Perl/5.12/darwin-thread-multi-2level/CORE/libperl.dylib"
-let $PYTHON_DLL = "/usr/lib/libpython.dylib"
-let $RUBY_DLL = "/Users/zac/.rvm/rubies/ruby-1.9.3-p194/lib/libruby.dylib"
-
-""""" syntaxチェック """""
-" Rubyのsyntaxチェック
-augroup rbsyntaxcheck
-  autocmd!
-  autocmd BufWrite *.rb w !ruby -c
-augroup END
-
-" Perlのsyntaxチェック
-augroup plsyntaxcheck
-  autocmd!
-  autocmd BufWrite *.pl w !perl -c
-augroup END
-
-" Vundle関連
+" プラグイン関連
 source ~/dotfiles/.vimrc.bundle
 
-" Indent関連
+" インデント関連
 source ~/dotfiles/.vimrc.indent
 
 " 移動関連
 source ~/dotfiles/.vimrc.moving
-

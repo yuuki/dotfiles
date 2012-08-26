@@ -1,4 +1,7 @@
+" ################################
 " NeoVundle関連の設定
+" ################################
+
 filetype off
 
 if has('vim_starting')
@@ -6,9 +9,9 @@ if has('vim_starting')
   call neobundle#rc()
 endif
 
-"
+" --------------------------------
 " github にあるプラグイン
-"
+" --------------------------------
 NeoBundle 'Shougo/clang_complete.git'
 NeoBundle 'Shougo/echodoc.git'
 NeoBundle 'Shougo/neocomplcache.git'
@@ -40,9 +43,9 @@ NeoBundle 'vim-jp/cpp-vim'
 NeoBundle 'benizi/perl-support.vim'
 NeoBundle 'hrsh7th/vim-unite-vcs'
 
-"
+" --------------------------------
 " www.vim.orgにあるプラグイン
-"
+" --------------------------------
 NeoBundle 'L9'
 NeoBundle 'ZenCoding.vim'
 NeoBundle 'guicolorscheme.vim'
@@ -57,7 +60,9 @@ NeoBundle 'trinity.vim'
 NeoBundle 'taglist.vim'
 NeoBundle 'dbext.vim'
 
+" --------------------------------
 " それ以外にある gitリポジトリにあるプラグイン
+" --------------------------------
 NeoBundle 'git://git.wincent.com/command-t.git'
 NeoBundle 'git://github.com/scrooloose/nerdtree.git'
 NeoBundle 'git://github.com/scrooloose/nerdcommenter'
@@ -66,6 +71,10 @@ NeoBundle 'git://github.com/msanders/cocoa.vim.git'
 
 filetype plugin on
 filetype indent on
+
+" ################################
+" 各プラグインに関する設定
+" ################################
 
 " --------------------------------
 " vim-quickrun
@@ -120,7 +129,6 @@ autocmd User Rails Rnavcommand config config   -glob=*.*  -suffix= -default=rout
 autocmd User Rails nnoremap :<C-u>Rcontroller :<C-u>Rc
 autocmd User Rails nnoremap :<C-u>Rmodel :<C-u>Rm
 autocmd User Rails nnoremap :<C-u>Rview :<C-u>Rv
-
 
 " --------------------------------
 " neocomplcache
@@ -245,7 +253,7 @@ let g:SrcExpl_UpdateTags = 1
 " vim-unite-vcs
 " --------------------------------
 nnoremap  [vcs] <Nop>
-nmap      v     [vcs]
+nmap      fv    [vcs]
 
 nnoremap [vcs]l  :<C-u>Unite vcs/log<CR>
 nnoremap [vcs]s  :<C-u>Unite vcs/status<CR>
