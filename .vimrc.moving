@@ -24,17 +24,17 @@ inoremap <C-k> <Up>
 inoremap <C-h> <Left>
 inoremap <C-l> <Right>
 
-" 挿入モードでカーソル前の文字削除
+" カーソル前の文字削除
 inoremap <silent> <C-h> <C-g>u<C-h>
-" 挿入モードでカーソル後の文字削除
+" カーソル後の文字削除
 inoremap <silent> <C-d> <Del>
-" 挿入モードでカーソルから行頭まで削除
+" カーソルから行頭まで削除
 inoremap <silent> <C-d>e <Esc>lc^
-" 挿入モードでカーソルから行末まで削除
+" カーソルから行末まで削除
 inoremap <silent> <C-d>0 <Esc>lc$
-" 挿入モードでカーソルから行頭までヤンク
+" カーソルから行頭までヤンク
 inoremap <silent> <C-y>e <Esc>ly0<Insert>
-" 挿入モードでカーソルから行末までヤンク
+" カーソルから行末までヤンク
 inoremap <silent> <C-y>0 <Esc>ly$<Insert>
 
 " 引用符, 括弧の設定
@@ -43,7 +43,7 @@ inoremap { {}<Left>
 inoremap ( ()<Left>
 inoremap " ""<Left>
 inoremap ' ''<Left>
-inoremap < <><Left>
+inoremap <> <><Left>
 
 " Visualモード時にvで行末まで選択する
 vnoremap v $h"
