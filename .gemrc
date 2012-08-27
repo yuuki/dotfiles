@@ -1,0 +1,9 @@
+install: --no-rdoc --no-ri
+update: --no-rdoc --no-ri
+search: --remote
+specification: --remote
+:verbose: true
+:sources:
+- http://gems.rubyforge.org/
+- http://gems.github.com
+:update_sources: true
