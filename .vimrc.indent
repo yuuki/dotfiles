@@ -2,7 +2,7 @@
 " インデント Indent
 "-------------------------------------------------------------------------------
 set autoindent   " 自動でインデント
-"set paste        " ペースト時にautoindentを無効に(onにするとautocomplpop.vimが動かない)
+" set paste        " ペースト時にautoindentを無効に(onにするとautocomplpop.vimが動かない)
 set cindent      " Cプログラムファイルの自動インデントを始める．これがあれば smartindent 要らない．
 
 " softtabstopはTabキー押し下げ時の挿入される空白の量，0の場合はtabstopと同じ，BSにも影響する
@@ -26,12 +26,13 @@ augroup IndentGroup
   autocmd BufNewFile,BufRead *.tt,*.tt2 call s:FTtt2()
   autocmd BufNewFile,BufRead *.html call s:FTtt2html()
 
+  " インデント幅4
   autocmd FileType apache,aspvbs,c,cpp,hpp,cs,diff,java,perl,php,sh,sql,vb,wsh,xhtml,xml,groovy
         \ setlocal sw=4 sts=4 ts=4 et
 
+  " インデント幅2
   autocmd FileType css,eruby,html,javascript,python,ruby,haml,vim,yaml,zsh,scala,tex,tt2,tt2html
         \ setlocal sw=2 sts=2 ts=2 et
-
 
   autocmd FileType c,cpp,objc,perl,ruby,java,javascript,css inoremap : ;
   autocmd FileType c,cpp,objc,perl,ruby,java,javascript,css inoremap ; :
@@ -51,16 +52,15 @@ augroup IndentGroup
   autocmd FileType ruby       compiler ruby
   autocmd FileType ruby       setlocal nocompatible
 
-  autocmd FileType java       compiler javac
-  autocmd FileType java       let g:java_highlight_all=1
-  autocmd FileType java       map <buffer><M-w> :VjdeNclass<CR>   " クラス作成
-  autocmd FileType java       map <buffer><M-i> :VjdeNinte<CR>    " インタフェース作成
-  autocmd FileType jaba       map <buffer><M-m> :VjdeNmaiin<CR>   " main作成
-  autocmd Filetype java       map <buffer><M-a> :VjdeNprop<CR>    " アクセッサ作成
-  autocmd FileType java       map <buffer><m-z> :VjdeWizard<CR>   " ウィザード作成
-
   autocmd FileType javascript setl omnifunc=javascriptcomplete#CompleteJS
 
+  " autocmd FileType java       compiler javac
+  " autocmd FileType java       let g:java_highlight_all=1
+  " autocmd FileType java       map <buffer><M-w> :VjdeNclass<CR>   " クラス作成
+  " autocmd FileType java       map <buffer><M-i> :VjdeNinte<CR>    " インタフェース作成
+  " autocmd FileType jaba       map <buffer><M-m> :VjdeNmaiin<CR>   " main作成
+  " autocmd Filetype java       map <buffer><M-a> :VjdeNprop<CR>    " アクセッサ作成
+  " autocmd FileType java       map <buffer><m-z> :VjdeWizard<CR>   " ウィザード作成
 augroup END
 
 " Functions for Template Toolkit 2 syntax
