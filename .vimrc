@@ -136,13 +136,23 @@ augroup END
 " vimrcのリロード
 command! ReloadVimrc source $MYVIMRC
 
-" ファイル形式毎にテンプレートのを設定
+" ファイル形式毎にテンプレートを設定
 augroup templates
   autocmd!
-  autocmd BufNewFile *.pl 0r $HOME/.vim/templates/template.pl
-  autocmd BufNewFile *.pm 0r $HOME/.vim/templates/template.pl
+  " autocmd BufNewFile *.pl 0r $HOME/.vim/templates/template.pl
+  " autocmd BufNewFile *.pm 0r $HOME/.vim/templates/template.pl
   autocmd BufNewFile *.rb 0r $HOME/.vim/templates/template.rb
   autocmd BufNewFile *.py 0r $HOME/.vim/templates/template.py
+augroup END
+
+" 保存時に行末のスペースを削除
+augroup rtrim
+  function! RTrim()
+    let s:cursor = getpos(".")
+    %s/\s\+$//e
+    call setpos(".", s:cursor)
+  endfunction
+  autocmd BufWritePre * call RTrim()
 augroup END
 
 

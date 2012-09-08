@@ -2,17 +2,20 @@
 export LANG=ja_JP.UTF-8
 
 # vim
-export EDITOR=/Applications/MacVim.app/Contents/MacOS/Vim
+export EDITOR="vim"
 # vimがなくてもvimでviを起動する。
 if ! type vim > /dev/null 2>&1; then
     alias vim=vi
 fi
 
 # MacPorts PATH
-export PATH=/opt/local/bin:/opt/local/sbin/:$PATH
+# export PATH=/opt/local/bin:/opt/local/sbin/:$PATH
 
 # MANPATH
 export MANPATH=/usr/share/man:/usr/local/share/man:/opt/local/man:$MANPATH
+
+# /usr/binをshellのデフォルトパスから削ったのでここに追加
+export PATH=/usr/bin:$PATH
 
 # HOMEディレクトリ以下のbinのにパスを通す
 export PATH=$HOME/bin:$PATH
@@ -77,8 +80,8 @@ if [ -s $HOME/.pythonbrew/etc/bashrc ]; then
 fi
 
 # Perlbrew PATH
-if [ -s $HOME/.perl5/perlbrew/etc/bashrc ]; then
-	source $HOME/.perl5/perlbrew/etc/bashrc
+if [ -s $HOME/perl5/perlbrew/etc/bashrc ]; then
+	source $HOME/perl5/perlbrew/etc/bashrc
 fi
 export PERL5LIB="$PERLBREW_ROOT/perls/$PERLBREW_PERL/lib/site_perl/5.16.1"
 

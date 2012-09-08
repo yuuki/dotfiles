@@ -19,6 +19,9 @@
   st = status
   sh = show
   so = remote show origin
+  sb = show-branch -a
+  st = !git status -s && git stash list | cat
+  cfm = !git sb && git br && git st
   ft = fetch
   up = pull --rebase # pull rebase
   rbm = rebase master
@@ -52,6 +55,7 @@
   # grep関連
   gr = grep
   gn = grep -n
+  sed = ! git grep -z --full-name -l '.' | xargs -0 sed -i -e
   # stash関連
   ss = stash
   ssl = stash list

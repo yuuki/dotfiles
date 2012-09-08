@@ -54,13 +54,17 @@ zstyle ':completion:*:default' list-colors ${LS_COLORS}
 # kill の候補にも色付き表示
 zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([%0-9]#)*=0=01;31'
 
-setopt cdable_vars
+# cdの引数がディレクトリでなく，且つスラッシュで始まるものでもなければ，先頭に'~'を付けて展開
+# setopt cdable_vars
 
 # 補完候補一覧でファイルの種別を識別マーク表示(ls -F の記号)
 setopt list_types
 
 # ディレクトリ名だけでcdする。
 setopt auto_cd
+
+# 対応する括弧などを自動で補完
+setopt auto_param_keys
 
 # Git補完スクリプトの読み込み
 if [ -f $HOME/.git-completion.sh ]; then
@@ -124,19 +128,23 @@ alias chrome='open -a GoogleChrome'
 alias prev='open -a Preview "$@"'
 alias texshop='open -a TexShop'
 
-# GNU coreutils
-if [ "$PS1" ] && [ -f '/usr/local/Cellar/coreutils/8.12/aliases' ]; then
-    . /usr/local/Cellar/coreutils/8.12/aliases
-fi
 
 # Unix Commands
 export LSCOLORS=gxfxcxdxbxegedabagacad # lsのDir色を明るくする
 alias ls='ls -FG --color'
 alias ll='ls -l'
 alias la='ls -a'
+export GREP_OPTIONS='--color=auto' # grep結果のハイライト
+alias pgrep='pgrep -fl'
 alias v='vim'
 alias vrc='vim ~/.vimrc'
-alias g='git'
+
+# GNU coreutils
+if [ "$PS1" ] && [ -f '/usr/local/Cellar/coreutils/8.12/aliases' ]; then
+    . /usr/local/Cellar/coreutils/8.12/aliases
+    alias ls='gls -FG --color'
+fi
+
 alias r='rails'
 alias rk='rake'
 alias b='bundle'
@@ -144,25 +152,30 @@ alias be='bundle exec'
 alias bi='bundle install'
 alias h='heroku'
 alias hr='heroku run'
+
 alias pd='perldoc'
 alias ce='carton exec'
 alias ci='carton install'
+alias plackup='plackup -L Shotgun'
+
 alias topcoder='javaws ContestAppletProd.jnlp'
+alias pdftotext='pdftotext -layout -'
 
 # global alias
-alias -g TELLME="&& say succeeded || say failed"
+alias -g TELLME='&& say succeeded || say failed'
 alias -g G="| grep"
-alias -g XG="| xargs grep"
+alias -g XG='| xargs grep'
 alias -g H='| head'
-alias -g L="| less -R"
+alias -g L='| less -R'
 alias -g W='| wc'
-alias -g WL='| wc _l'
+alias -g WL='| wc -l'
 alias -g T='| tail'
 alias -g ...='..//..'
 alias -g ....='..//..//..'
 alias -g .....='..//..//..//..'
 
 # git command
+alias g='git'
 alias gco="git checkout"
 alias gst="git status"
 alias gci="git commit -a"
@@ -210,6 +223,12 @@ unsetopt no_clobber         # リダイレクトで上書きを許可
 setopt chase_links          # シンボリックリンクはリンク先のパスに変換してから実行
 setopt print_exit_value     # 戻り値が 0 以外の場合終了コードを表示
 setopt single_line_zle      # デフォルトの複数行コマンドライン編集ではなく、１行編集モードになる
+
+# 移動元のディレクトリを自動的にディレクトリスタックに記憶
+setopt auto_pushd
+
+# 重複するディレクトリ名を削除
+setopt pushd_ignore_dups
 
 
 #

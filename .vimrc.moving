@@ -19,13 +19,15 @@ vnoremap 0 $
 nnoremap 1 0
 vnoremap 1 0
 
+" 押しやすく
+nnoremap ^ -
+nnoremap $ L
+
 " 表示行単位で行移動する
 nmap j gj
 nmap k gk
 vmap j gj
 vmap k gk
-nnoremap gj j
-nnoremap gk k
 
 " insertモードでのカーソル移動
 inoremap <C-j> <Down>
@@ -47,12 +49,15 @@ inoremap <silent> <C-y>e <Esc>ly0<Insert>
 inoremap <silent> <C-y>0 <Esc>ly$<Insert>
 
 " 引用符, 括弧の設定
-inoremap { {}<Left>
-" inoremap [ []<Left>
-inoremap ( ()<Left>
-inoremap " ""<Left>
-inoremap ' ''<Left>
+inoremap {} {}<Left>
+inoremap [] []<Left>
+inoremap () ()<Left>
+inoremap "" ""<Left>
+inoremap '' ''<Left>
 inoremap <> <><Left>
+inoremap []5 [%  %]<Left><Left><Left>
+inoremap {}5 {%  %}<Left><Left><Left>
+inoremap <>5 <%  %><Left><Left><Left>
 
 " Visualモード時にvで行末まで選択する
 vnoremap v $h
@@ -60,12 +65,12 @@ vnoremap v $h
 " 空行挿入
 nnoremap ; :<C-u>call append(expand('.'), '')<CR>
 
-"<BS>の挙動
-nnoremap <BS> bdw
+"<BS>の挙動 いきおいあまっていろいろ消してしまう
+" nnoremap <BS> bdw
 
 " 縦方向移動支援
-nnoremap J 3j
-nnoremap K 3k"
+" nnoremap J 3j
+" nnoremap K 3k"
 
 " CTRL-hjklでウィンドウ移動
 nnoremap <C-j> <C-w>j
@@ -82,6 +87,12 @@ nnoremap # *zvzz
 " タブの設定
 nnoremap ge :<C-u>tabedit<Space>
 nnoremap gn :<C-u>tabnew<CR>
+
+" ウィンドウ分割時にウィンドウサイズを調節
+nnoremap <silent> <S-Left>  :5wincmd <<CR>
+nnoremap <silent> <S-Right> :5wincmd ><CR>
+nnoremap <silent> <S-Up>    :5wincmd -<CR>
+nnoremap <silent> <S-Down>  :5wincmd +<CR>
 
 
 " 行頭 → 非空白行頭 → 行 をローテートする by Linda_pp
