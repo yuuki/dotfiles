@@ -1,7 +1,6 @@
 """"" vimrc copied by y_uuki """""
 
 syntax on
-
 " augroup がセットされていない autocmd 全般用の augroup
 " これをやっておかないと ReloadVimrc したときに困る．by Linda_pp
 augroup MyAutocmd
@@ -155,10 +154,14 @@ augroup rtrim
   autocmd BufWritePre * call RTrim()
 augroup END
 
-
-" ################################
-" Syntax関連
-" ################################
+" git のルートディレクトリを開く
+function! s:git_root_dir()
+  if (system('git rev-parse --is-inside-work-tree') == "true\n")
+    return system('git rev-parse --show-cdup')
+  else
+    echoerr 'current directory is outside git working tree'
+  endif
+endfunction
 
 " Rubyのsyntaxチェック
 augroup rbsyntaxcheck
@@ -167,14 +170,11 @@ augroup rbsyntaxcheck
 augroup END
 
 " Perlのsyntaxチェック
-augroup plsyntaxcheck
-  autocmd!
-  autocmd BufWrite *.pl w !perl -c
-augroup END
-
-" ################################
-" ハイライト設定
-" ################################
+" augroup plsyntaxcheck
+"   autocmd!
+"   autocmd BufWrite *.pl w !perl -c
+"   autocmd BufWrite *.pm w !perl -c
+" augroup END
 
 " 補完色を変更
 highlight Pmenu ctermbg=8
@@ -186,7 +186,7 @@ highlight WhitespaceEOL ctermbg=red guibg=red
 match WhitespaceEOL /\s\+$/
 autocmd MyAutocmd WinEnter * match WhitespaceEOL /\s\+$/
 
-" 全角スペースをハイライトする設定
+" 全角スペースをハイライト
 " scriptencoding utf-8
 "augroup highlightIdegraphicSpace
 "  autocmd!
@@ -211,10 +211,12 @@ endfunction
 command! -bar -bang -nargs=? -complete=file Scouter
       \        echo Scouter(empty(<q-args>) ? $MYVIMRC : expand(<q-args>), <bang>0)
 
+
 " ################################
 " Plugins {{{
 " ################################
 filetype off
+filetype plugin indent off
 
 if has('vim_starting')
   set rtp+=~/.vim/bundle/neobundle.vim/
@@ -228,35 +230,41 @@ NeoBundle 'Shougo/echodoc.git'
 NeoBundle 'Shougo/neocomplcache.git'
 NeoBundle 'Shougo/neobundle.vim.git'
 NeoBundle 'Shougo/unite.vim.git'
+NeoBundle 'h1mesuke/unite-outline'
+NeoBundle 'osyo-manga/unite-fold'
+NeoBundle 'osyo-manga/unite-quickfix'
 NeoBundle 'Shougo/vim-vcs.git'
+NeoBundle 'hrsh7th/vim-unite-vcs'
+NeoBundle 'basyura/unite-rails'
 NeoBundle 'Shougo/vimfiler.git'
 NeoBundle 'Shougo/vimshell.git'
 NeoBundle 'Shougo/vinarise.git'
-NeoBundle 'Shougo/vimfiler'
 NeoBundle 'Shougo/vimproc'
 NeoBundle 'thinca/vim-quickrun'
 NeoBundle 'thinca/vim-guicolorscheme'
+NeoBundle 'thinca/vim-ref'
 NeoBundle 'osyo-manga/neocomplcache-clang_complete'
 NeoBundle 'ujihisa/vimshell-ssh.git'
+NeoBundle 'motemen/git-vim'
 NeoBundle 'vim-ruby/vim-ruby'
 NeoBundle 'danchoi/ri.vim.git'
-NeoBundle 'motemen/git-vim'
 NeoBundle 'tpope/vim-rails'
 NeoBundle 'tpope/vim-bundler.git'
 NeoBundle 'tpope/vim-rake.git'
 NeoBundle 'tpope/vim-abolish.git'
-NeoBundle 'mattn/webapi-vim'
-NeoBundle 'Lokaltog/vim-powerline'
 NeoBundle 'tpope/vim-haml.git'
-NeoBundle 'tomtom/tcomment_vim'
 NeoBundle 'kchmck/vim-coffee-script'
-NeoBundle 'vim-scripts/Source-Explorer-srcexpl.vim'
-NeoBundle 'vim-scripts/sudo.vim'
 NeoBundle 'vim-jp/cpp-vim'
 NeoBundle 'benizi/perl-support.vim'
 NeoBundle 'petdance/vim-perl'
-NeoBundle 'hrsh7th/vim-unite-vcs'
 NeoBundle 'c9s/cpan.vim'
+NeoBundle 'hotchpotch/perldoc-vim'
+NeoBundle 'mattn/webapi-vim'
+NeoBundle 'Lokaltog/vim-powerline'
+NeoBundle 'tomtom/tcomment_vim'
+NeoBundle 'vim-scripts/Source-Explorer-srcexpl.vim'
+NeoBundle 'vim-scripts/sudo.vim'
+NeoBundle 'vim-scripts/errormarker.vim'
 
 " --------------------------------
 " www.vim.orgにあるプラグイン
@@ -265,39 +273,34 @@ NeoBundle 'L9'
 NeoBundle 'ZenCoding.vim'
 NeoBundle 'guicolorscheme.vim'
 NeoBundle 'vimshell-ssh'
-NeoBundle 'yanktmp.vim'
-NeoBundle 'trinity.vim'
 NeoBundle 'taglist.vim'
 NeoBundle 'dbext.vim'
-" NeoBundle 'smartchr'
 " NeoBundle 'open-browser.vim'
-" NeoBundle 'Gist.vim'
-" NeoBundle 'The-NERD-tree'
 
 " --------------------------------
 " それ以外にある gitリポジトリにあるプラグイン
 " --------------------------------
 NeoBundle 'git://git.wincent.com/command-t.git'
 NeoBundle 'git://github.com/msanders/cocoa.vim.git'
-" NeoBundle 'git://github.com/scrooloose/nerdcommenter'
-" NeoBundle 'git://github.com/scrooloose/nerdtree.git'
 
+" GUI colorscheme
+NeoBundleLazy 'ujihisa/unite-colorscheme'
+NeoBundleLazy 'tomasr/molokai'
+NeoBundleLazy 'altercation/vim-colors-solarized'
+NeoBundleLazy 'earendel'
+NeoBundleLazy 'rdark'
+NeoBundleLazy 'telamon/vim-color-github'
 
-filetype plugin on
-filetype indent on
+filetype plugin indent on
 
-" --------------------------------
-" vim-quickrun
-" --------------------------------
+""" vim-quickrun """
 nnoremap <Leader>q  <Nop>
 nmap     <silent><Leader>qr :w<CR><Plug>(quickrun):copen<CR>
 nnoremap <Leader>qR :QuickRun<Space>
 " QuickFixバッファを閉じると同時にエラー表示も消す
 autocmd MyAutocmd FileType qf nnoremap <buffer><silent> q :q<CR>:HierClear<CR>
 
-" --------------------------------
-" git.vim
-" --------------------------------
+""" git.vim """
 " git add
 let g:proj_run1='!git add %f'
 let g:proj_run_fold1='*!git add %f'
@@ -319,15 +322,11 @@ if getcwd() != $HOME
     endif
 endif
 
-" --------------------------------
-" vim-ruby
-" --------------------------------
+""" vim-ruby """
 " <C-Space>でomni補完
-imap <C-Space> <C-x><C-o>
+inoremap <C-Space> <C-x><C-o>
 
-" --------------------------------
-" rails.vim
-" --------------------------------
+""" rails.vim """
 " Rubyのオムニ補完を設定(ft-ruby-omni)
 let g:rubycomplete_buffer_loading = 1
 let g:rubycomplete_classes_in_global = 1
@@ -340,28 +339,60 @@ autocmd User Rails nnoremap :<C-u>Rcontroller :<C-u>Rc
 autocmd User Rails nnoremap :<C-u>Rmodel :<C-u>Rm
 autocmd User Rails nnoremap :<C-u>Rview :<C-u>Rv
 
-" --------------------------------
-" neocomplcache
-" --------------------------------
+""" neocomplcache """
+" AutoComplPopを無効にする
+let g:acp_enableAtStartup = 0
+" vim起動時に有効化
 let g:neocomplcache_enable_at_startup = 1
-let g:neocomplcache_auto_completion_start_length = 3
+" smart_caseを有効にする．大文字が入力されるまで大文字小文字の区別をなくす
+let g:neocomplcache_enable_smart_case = 1
+" _を区切りとした補完を有効にする
+let g:neocomplcache_enable_underbar_completion = 1
+" シンタックスをキャッシュするときの最小文字長を3に
+let g:neocomplcache_min_syntax_length = 3
+" 日本語を収集しないようにする
+if !exists('g:neocomplcache_keyword_patterns')
+    let g:neocomplcache_keyword_patterns = {}
+endif
+let g:neocomplcache_keyword_patterns['default'] = '\h\w*'
+" リスト表示
+let g:neocomplcache_max_list = 300
+let g:neocomplcache_max_keyword_width = 20
+" 辞書定義
+let g:neocomplcache_dictionary_filetype_lists = {
+            \ 'default' : '',
+            \ 'vimshell' : expand('~/.vimshell/command-history'),
+            \ }
+let g:neocomplcache_ctags_arguments_list = {
+  \ 'perl' : '-R -h ".pm"'
+  \ }
+if !has("gui_running")
+  " CUIのvimでの補完リストの色を調節する
+  highlight Pmenu ctermbg=8
+endif
 
-""""" yanktmp.vim """""
-" map <silent> sy :call YanktmpYank()<CR>
-" map <silent> sp :call YanktmpPaste_p()<CR>
-" map <silent> sP :call YanktmpPaste_P()<CR>
-" if has("win32")
-"     let g:yanktmp_file = $TEMP. '/vimyanktmp'
-" endif
+" Enable omni completion.
+augroup NeocomplcacheOmniFunc
+    autocmd!
+    autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+    autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+    autocmd FileType html setlocal omnifunc=htmlcomplete#CompleteTags
+    autocmd FileType css setlocal omnifunc=csscomplete#CompleteCss
+    autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+    autocmd FileType php setlocal omnifunc=phpcomplete#CompletePHP
+    autocmd FileType c setlocal omnifunc=ccomplete#Complete
+    " autocmd FileType ruby set omnifunc=rubycomplete#Complete
+augroup END
 
-"""""" smartchr """""
-" inoremap <expr> = smartchr#loop(' = ', '=', ' == ')
-" inoremap <expr> , smartchr#one_of(', ', ',')
-"cnoremap <expr> / smartchr#loop('/', '~/', '//', {'ctype': ':'})
+" neocomplcacheのキーマップ
+imap     <C-s>       <Plug>(neocomplcache_snippets_expand)
+smap     <C-s>       <Plug>(neocomplcache_snippets_expand)
+inoremap <expr><C-g> neocomplcache#undo_completion()
+inoremap <expr><C-y> neocomplcache#close_popup()
+inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 
-" --------------------------------
-" unite.vim
-" --------------------------------
+
+""" unite.vim """
 " insertモードをデフォルトに
 let g:unite_enable_start_insert = 1
 " 無指定にすることで高速化
@@ -376,123 +407,103 @@ let g:unite_source_grep_default_opts = "-Hn --color=never"
 nnoremap  [unite] <Nop>
 nmap      f       [unite]
 
-nnoremap [unite]u  :<C-u>Unite -no-split<Space>
 " 最近使用したファイル一覧
-nnoremap <silent> [unite]m  :<C-u>Unite -no-split file_mru<CR>
+nnoremap <silent> [unite]m :<C-u>Unite -no-split file_mru<CR>
 " ファイル一覧
-nnoremap <silent> [unite]f  :<C-u>Unite -no-split -buffer-name=files file<CR>
+nnoremap <silent> [unite]f :<C-u>Unite -no-split -buffer-name=files file<CR>
 " バッファ一覧
-nnoremap <silent> [unite]b  :<C-u>Unite -no-split buffer<CR>
+nnoremap <silent> [unite]b :<C-u>Unite -no-split buffer<CR>
 " 常用セット
-nnoremap <silent> [unite]u  :<C-u>Unite -no-split buffer file_mru<CR>
+nnoremap <silent> [unite]u :<C-u>Unite -no-split buffer file_mru<CR>
 " 現在のバッファのカレントディレクトリからファイル一覧
-nnoremap <silent> [unite]d  :<C-u>UniteWithBufferDir -no-split file<CR>
+nnoremap <silent> [unite]d :<C-u>UniteWithBufferDir -no-split file<CR>
 " grep検索
-nnoremap <silent>[unite]G :<C-u>Unite -no-start-insert grep<CR>
+nnoremap <silent> [unite]G :<C-u>Unite -no-start-insert grep<CR>
 " Uniteバッファの復元
-nnoremap <silent>[unite]r :<C-u>UniteResume<CR>
+nnoremap <silent> [unite]r :<C-u>UniteResume<CR>
 " バッファ全体
-nnoremap <silent>[unite]L :<C-u>Unite line<CR>
+nnoremap <silent> [unite]L :<C-u>Unite line<CR>
+" ブックマーク一覧
+nnoremap <silent> [unite]c :<C-u>Unite bookmark<CR>
+" ブックマークに追加
+nnoremap <silent> [unite]a :<C-u>UniteBookmarkAdd<CR>
 
 augroup UniteMapping
   autocmd!
-  "insertモード時はC-gでいつでもバッファを閉じられる（絞り込み欄が空の時はC-hでもOK）
+  " insertモード時はC-gでいつでもバッファを閉じられる（絞り込み欄が空の時はC-hでもOK）
   autocmd FileType unite imap <buffer><C-g> <Plug>(unite_exit)
   " <Space> だと待ち時間が発生してしまうので <Space><Space> を割り当て
   autocmd FileType unite nmap <buffer><Space><Space> <Plug>(unite_toggle_mark_current_candidate)
   " q だと待ち時間が発生してしまうので
   autocmd FileType unite nmap <buffer><C-g> <Plug>(unite_exit)
-  "直前のパス削除
+  " jjでインサートモードを抜ける
+  autocmd FileType unite imap <buffer> jj <Plug>(unite_insert_leave)
+  " 直前のパス削除
   autocmd FileType unite imap <buffer><C-w> <Plug>(unite_delete_backward_path)
   autocmd FileType unite nmap <buffer>h <Plug>(unite_delete_backward_path)
-  "ファイル上にカーソルがある時，pでプレビューを見る
+  " ファイル上にカーソルがある時，pでプレビューを見る
   autocmd FileType unite inoremap <buffer><expr>p unite#smart_map("p", unite#do_action('preview'))
-  "C-xでクイックマッチ
+  " C-xでクイックマッチ
   autocmd FileType unite imap <buffer><C-x> <Plug>(unite_quick_match_default_action)
-  "lでデフォルトアクションを実行
+  " lでデフォルトアクションを実行
   autocmd FileType unite nmap <buffer>l <Plug>(unite_do_default_action)
   autocmd FileType unite imap <buffer><expr>l unite#smart_map("l", unite#do_action(unite#get_current_unite().context.default_action))
-
-  " autocmd FileType unite imap <buffer><C-w> <Plug>(neocomplcache_start_unite_complete)
+  " tでtabedit
+  autocmd FileType unite nnoremap <buffer><expr> t unite#smart_map('t', unite#do_action('tabopen'))
+  autocmd FileType uniti inoremap <buffer><expr> t unite#smart_map('t', unite#do_action('tabopen'))
+  " sでsplit
+  autocmd FileType unite nnoremap <buffer><expr> s unite#smart_map('s', unite#do_action('split'))
+  autocmd FileType unite inoremap <buffer><expr> s unite#smart_map('s', unite#do_action('split'))
+  " vでsplit
+  autocmd FileType unite nnoremap <buffer><expr> v unite#smart_map('v', unite#do_action('vsplit'))
+  autocmd FileType unite inoremap <buffer><expr> v unite#smart_map('v', unite#do_action('vsplit'))
+  " fでvimfiler
+  autocmd FileType unite nnoremap <buffer><expr> f unite#smart_map('f', unite#do_action('vimfiler'))
+  autocmd FileType unite inoremap <buffer><expr> f unite#smart_map('f', unite#do_action('vimfiler'))
 augroup END
 
-autocmd MyAutocmd FileType unite call s:unite_my_settings()
 
-function! s:unite_my_settings()"
-  " Overwrite settings.
-
-  " ESCキーを2回押すと終了する
-  nmap <buffer> <ESC>      <Plug>(unite_exit)
-  nmap <buffer> <ESC><ESC> <Plug>(unite_exit)
-  imap <buffer> jj  <Plug>(unite_insert_leave)
-  nnoremap <silent><buffer> <C-k> :<C-u>call unite#mappings#do_action('preview')<CR>
-  imap <buffer> <C-w>     <Plug>(unite_delete_backward_path)
-
-  " ウィンドウを分割して開く
-  nnoremap <silent> <buffer> <expr> <C-l> unite#do_action('split')
-  inoremap <silent> <buffer> <expr> <C-l> unite#do_action('split')
-
-  " ウィンドウを縦に分割して開く
-  nnoremap <silent> <buffer> <expr> <C-v> unite#do_action('vsplit')
-  inoremap <silent> <buffer> <expr> <C-v> unite#do_action('vsplit')
-endfunction"
-
-
-" --------------------------------
-" vimfiler
-" --------------------------------
+""" vimfiler """
 let g:vimfiler_as_default_explorer = 1
 let g:vimfiler_safe_mode_by_default = 0
 let g:vimfiler_split_command = 'vertical rightbelow vsplit'
 let g:vimfiler_execute_file_list = { 'c' : 'vim', 'h' : 'vim', 'cpp' : 'vim', 'hpp' : 'vim', 'cc' : 'vim', 'rb' : 'vim', 'pl' : 'vim', 'pm' : 'vim', 'txt' : 'vim', 'pdf' : 'open', 'vim' : 'vim' }
-
-
-autocmd! FileType vimfiler call g:my_vimfiler_settings()
-function! g:my_vimfiler_settings()
-  nmap     <buffer><expr><Cr> vimfiler#smart_cursor_map("
-  nnoremap <buffer>s          :call vimfiler#mappings#do_action('my_split')<Cr>
-  nnoremap <buffer>v          :call vimfiler#mappings#do_action('my_vsplit')<Cr>
-endfunction
+let g:vimfiler_edit_action = 'tabopen'
 
 augroup VimFilerMapping
   autocmd!
   autocmd FileType vimfiler nmap <buffer><silent><expr> e vimfiler#smart_cursor_map(
         \   "\<Plug>(vimfiler_cd_file)",
-        \   "\<Plug>(vimfiler_edit_file)",
+        \   "\<Plug>(vimfiler_edit_file)")
+  autocmd FileType vimfiler nmap <buffer><silent><expr><CR> vimfiler#smart_cursor_map(
         \   "\<Plug>(vimfiler_expand_tree)",
         \   "\<Plug>(vimfiler_edit_file)")
   autocmd FileType vimfiler nmap <buffer><silent>x <Plug>(vimfiler_hide)
 augroup END
-nnoremap <Leader>f        <Nop>
-nnoremap <Leader>ff       :<C-u>VimFiler<CR>
-nnoremap <Leader>fnq      :<C-u>VimFiler -no-quit<CR>
-nnoremap <Leader>fh       :<C-u>VimFiler ~<CR>
-" Explorer仕様
-nnoremap <Leader>fe       :<C-u>VimFiler -buffer-name=explorer -split -ainsize=45 -toggle -no-quit<CR>
-nnoremap <Leader>fc       :<C-u>VimFilerCurrentDir<CR>
-nnoremap <Leader>fb       :<C-u>VimFilerBufferDir<CR>
-" nnoremap <silent><expr><Leader>fg ":\<C-u>VimFiler " . <SID>git_root_dir( . '\<CR>'
-" nnoremap <silent><expr><Leader>fe ":\<C-u>VimFilerExplorer " . <SID>git_root_dir( . '\<CR>')
+
+nnoremap <Leader>f    <Nop>
+nnoremap <Leader>ff   :<C-u>VimFiler<CR>
+nnoremap <Leader>fnq  :<C-u>VimFiler -no-quit<CR>
+nnoremap <Leader>fh   :<C-u>VimFiler ~<CR>
+nnoremap <Leader>fc   :<C-u>VimFilerCurrentDir<CR>
+nnoremap <Leader>fb   :<C-u>VimFilerBufferDir<CR>
+nnoremap <Leader>fB   :<C-u>VimFilerBufferDir<CR>
+nnoremap <silent><expr><Leader>fg ":\<C-u>VimFiler " . <SID>git_root_dir() . '\<CR>'
+nnoremap <silent><expr><Leader>fe ":\<C-u>VimFilerExplorer " . <SID>git_root_dir() . '\<CR>'
 
 
-" --------------------------------
-" vimshell
-" --------------------------------
+""" vimshell """
 let g:vimshell_user_prompt = 'getcwd()'
 let g:vimshell_disable_escape_highlight = 1
 
-" --------------------------------
-" srcexpl
-" --------------------------------
+""" srcexpl """
 " Previewを自動表示する
 let g:SrcExpl_RefreshTime = 1
 
 " tagsを自動生成
 let g:SrcExpl_UpdateTags = 1
 
-" --------------------------------
-" vim-unite-vcs
-" --------------------------------
+""" vim-unite-vcs """
 nnoremap  [vcs] <Nop>
 nmap      fv    [vcs]
 
@@ -500,13 +511,25 @@ nnoremap [vcs]l  :<C-u>Unite vcs/log<CR>
 nnoremap [vcs]s  :<C-u>Unite vcs/status<CR>
 nnoremap [vcs]r  :<C-u>Unite vcs/file_rec<CR>
 
+""" errormaker.vim """
+" setlocal makeprg=$HOME/.vim/vimparse.pl\ -c\ %\ $*
+" setlocal errorformat=%f:%l:%m
+"
+" augroup ErrorMaker
+"   autocmd!
+"   if !exists("g:perl_flyquickfixmake")
+"     let g:perl_flyquickfixmake = 1
+"     autocmd BufWritePost *.pm,*.pl,*.t silent make
+"   endif
+" augroup END
+
+" }}}
+
 "-------------------------------------------------------------------------------
-" インデント Indent
+" Indent
 "-------------------------------------------------------------------------------
 set autoindent   " 自動でインデント
-" set paste        " ペースト時にautoindentを無効に(onにするとautocomplpop.vimが動かない)
 set cindent      " Cプログラムファイルの自動インデントを始める．これがあれば smartindent 要らない．
-
 " softtabstopはTabキー押し下げ時の挿入される空白の量，0の場合はtabstopと同じ，BSにも影響する
 set tabstop=2 shiftwidth=2 softtabstop=0
 
@@ -514,9 +537,6 @@ set tabstop=2 shiftwidth=2 softtabstop=0
 filetype plugin on
 "そのファイルタイプにあわせたインデントを利用する
 filetype indent on
-" これらのftではインデントを無効に
-"autocmd FileType php filetype indent off
-
 
 augroup IndentGroup
   autocmd!
@@ -529,14 +549,33 @@ augroup IndentGroup
   autocmd BufNewFile,BufRead *.html call s:FTtt2html()
 
   " インデント幅4
-  autocmd FileType apache,aspvbs,c,cpp,hpp,cs,diff,java,javascript,perl,php,sh,sql,vb,wsh,xhtml,xml,groovy
         \ setlocal sw=4 sts=4 ts=4 et
-  autocmd FileType apache,aspvbs,c,cpp,hpp,cs,diff,java,javascript,perl,php,sh,sql,vb,wsh,xhtml,xml,groovy
-        \ setlocal sw=4 sts=4 ts=4 et
-
-  " インデント幅2
-  autocmd FileType css,eruby,html,python,ruby,haml,vim,yaml,zsh,scala,tex,tt2,tt2html
-        \ setlocal sw=2 sts=2 ts=2 et
+  autocmd FileType apache     setlocal sw=4 sts=4 ts=4 et
+  autocmd FileType c          setlocal sw=4 sts=4 ts=4 et
+  autocmd FileType cpp        setlocal sw=4 sts=4 ts=4 et
+  autocmd FileType cs         setlocal sw=4 sts=4 ts=4 et
+  autocmd FileType css        setlocal sw=2 sts=2 ts=2 et
+  autocmd FileType diff       setlocal sw=4 sts=4 ts=4 et
+  autocmd FileType eruby      setlocal sw=2 sts=2 ts=2 et
+  autocmd FileType groovy     setlocal sw=4 sts=4 ts=4 et
+  autocmd FileType haml       setlocal sw=2 sts=2 ts=2 et
+  autocmd FileType hpp        setlocal sw=4 sts=4 ts=4 et
+  autocmd FileType html       setlocal sw=2 sts=2 ts=2 et
+  autocmd FileType java       setlocal sw=4 sts=4 ts=4 et
+  autocmd FileType javascript setlocal sw=4 sts=4 ts=4 et
+  autocmd FileType perl       setlocal sw=4 sts=4 ts=4 et
+  autocmd FileType python     setlocal sw=4 sts=4 ts=4 et
+  autocmd FileType ruby       setlocal sw=2 sts=2 ts=2 et
+  autocmd FileType scala      setlocal sw=2 sts=2 ts=2 et
+  autocmd FileType sh         setlocal sw=4 sts=4 ts=4 et
+  autocmd FileType sql        setlocal sw=4 sts=4 ts=4 et
+  autocmd FileType tex        setlocal sw=2 sts=2 ts=2 et
+  autocmd FileType tt2        setlocal sw=2 sts=2 ts=2 et
+  autocmd FileType tt2html    setlocal sw=2 sts=2 ts=2 et
+  autocmd FileType vim        setlocal sw=2 sts=2 ts=2 et
+  autocmd FileType xhtml      setlocal sw=4 sts=4 ts=4 et
+  autocmd FileType yaml       setlocal sw=2 sts=2 ts=2 et
+  autocmd FileType zsh        setlocal sw=2 sts=2 ts=2 et
 
   autocmd FileType c,cpp,objc,perl,ruby,java,javascript,css inoremap : ;
   autocmd FileType c,cpp,objc,perl,ruby,java,javascript,css inoremap ; :
@@ -544,19 +583,15 @@ augroup IndentGroup
   autocmd FileType c,cpp,objc set path+=$BOOST_ROOT
 
   autocmd FileType perl,cgi   compiler perl
-  autocmd FileType perl,cgi   map <buffer>,pt <ESC>:%! perltidy<CR> " ソースコード全体を整形
-  autocmd FileType perl,cgi   map <buffer>,ptv <ESC>:%'<, '>! perltidy<CR> " 選択された部分のソースコードを整形
+  autocmd FileType perl,cgi   nmap <buffer>,pt <ESC>:%! perltidy<CR> " ソースコード全体を整形
+  autocmd FileType perl,cgi   nmap <buffer>,ptv <ESC>:%'<, '>! perltidy<CR> " 選択された部分のソースコードを整形
   autocmd FileType perl,cgi   setlocal iskeyword+=:
   autocmd FileType perl,cgi   setlocal isfname-=-I
   autocmd FileType perl,cgi   setlocal dictionary+=~/.vim/dict/perl_functions.dict
 
   autocmd FileType python     setlocal cinwords=if,elif,else,for,while,try,except,finally,def,class
-  autocmd FileType python     setlocal g:pydiction_location = '~/.vim/pydiction/complete-dict'
-
   autocmd FileType ruby       compiler ruby
   autocmd FileType ruby       setlocal nocompatible
-
-  autocmd FileType javascript setl omnifunc=javascriptcomplete#CompleteJS
 augroup END
 
 " Functions for Template Toolkit 2 syntax
@@ -580,9 +615,11 @@ function! s:FTtt2html()
   endif
   call setpos('.', save_cursor)
 endfunction
+" }}}
+
 
 " ################################
-" 移動・挿入・削除関連の設定
+" Key Mapping {{{
 " ################################
 
 " insertモードから抜ける
@@ -596,15 +633,18 @@ inoremap <C-q><C-q> <Esc>:wq<CR>
 " insertモードでもsave
 inoremap <C-w><C-w> <Esc>:w<Insert><CR>
 
-" 行頭・行末移動方向をキーの相対位置にあわせる
-nnoremap 0 $
-vnoremap 0 $
-nnoremap 1 0
-vnoremap 1 0
+"Esc->Escで検索結果とエラーハイライトをクリア
+nnoremap <silent><Esc><Esc> :<C-u>nohlsearch<CR>
 
-" 押しやすく
-nnoremap ^ -
-nnoremap $ L
+" 賢く行頭・非空白行頭・行末の移動
+nnoremap <silent>0 :<C-u>call <SID>smart_move('g^')<CR>
+vnoremap <silent>0 :<C-u>call <SID>smart_move('g^')<CR>
+nnoremap <silent>^ :<C-u>call <SID>smart_move('g0')<CR>
+vnoremap <silent>^ :<C-u>call <SID>smart_move('g0')<CR>
+nnoremap <silent>- :<C-u>call <SID>smart_move('g$')<CR>
+vnoremap <silent>- :<C-u>call <SID>smart_move('g$')<CR>
+" Visualモード時にvで行末まで選択する
+vnoremap v $h
 
 " 表示行単位で行移動する
 nmap j gj
@@ -612,25 +652,25 @@ nmap k gk
 vmap j gj
 vmap k gk
 
-" insertモードでのカーソル移動
-inoremap <C-j> <Down>
-inoremap <C-k> <Up>
-inoremap <C-h> <Left>
-inoremap <C-l> <Right>
-
+" insertモードでのカーソル移動 ポップアップウィンドウがでないように
+inoremap <C-e> <END>
+vnoremap <C-e> <END>
+cnoremap <C-e> <END>
+inoremap <C-a> <HOME>
+vnoremap <C-a> <HOME>
+cnoremap <C-a> <HOME>
+inoremap <silent><expr><C-j> pumvisible() ? "\<C-y>\<Down>" : "\<Down>"
+inoremap <silent><expr><C-k> pumvisible() ? "\<C-y>\<Up>" : "\<Up>"
+inoremap <silent><expr><C-h> pumvisible() ? "\<C-y>\<Left>" : "\<Left>"
+inoremap <silent><expr><C-l> pumvisible() ? "\<C-y>\<Right>" : "\<Right>"
+cnoremap <C-h> <Left>
+cnoremap <C-l> <Right>
 " カーソル前の文字削除
 inoremap <silent> <C-h> <C-g>u<C-h>
+cnoremap <silent> <C-h> <C-g>u<C-h>
 " カーソル後の文字削除
 inoremap <silent> <C-d> <Del>
-" カーソルから行頭まで削除
-inoremap <silent> <C-d>e <Esc>lc^<CR>
-" カーソルから行末まで削除
-inoremap <silent> <C-d>0 <Esc>lc$<CR>
-" カーソルから行頭までヤンク
-inoremap <silent> <C-y>e <Esc>ly0<Insert>
-" カーソルから行末までヤンク
-inoremap <silent> <C-y>0 <Esc>ly$<Insert>
-
+cnoremap <silent> <C-d> <Del>
 " 引用符, 括弧の設定
 inoremap {} {}<Left>
 inoremap [] []<Left>
@@ -642,11 +682,10 @@ inoremap []5 [%  %]<Left><Left><Left>
 inoremap {}5 {%  %}<Left><Left><Left>
 inoremap <>5 <%  %><Left><Left><Left>
 
-" Visualモード時にvで行末まで選択する
-vnoremap v $h
-
 " 空行挿入
 nnoremap ; :<C-u>call append(expand('.'), '')<CR>
+"ヘルプ表示
+nnoremap <Leader>h :<C-u>vert to help<Space>
 
 "<BS>の挙動 いきおいあまっていろいろ消してしまう
 " nnoremap <BS> bdw
@@ -661,22 +700,42 @@ nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 nnoremap <C-h> <C-w>h
 
-" 検索後画面の中心に移動
-nnoremap n nzvzz
-nnoremap N Nzvzz
-nnoremap * *zvzz
-nnoremap # *zvzz
-
-" タブの設定
-nnoremap ge :<C-u>tabedit<Space>
-nnoremap gn :<C-u>tabnew<CR>
-
 " ウィンドウ分割時にウィンドウサイズを調節
 nnoremap <silent> <S-Left>  :5wincmd <<CR>
 nnoremap <silent> <S-Right> :5wincmd ><CR>
 nnoremap <silent> <S-Up>    :5wincmd -<CR>
 nnoremap <silent> <S-Down>  :5wincmd +<CR>
 
+" 検索後画面の中心に移動
+nnoremap n nzvzz
+nnoremap N Nzvzz
+nnoremap * *zvzz
+nnoremap # *zvzz
+
+"バッファ切り替え
+nnoremap <silent><C-n>   :<C-u>bnext<CR>
+nnoremap <silent><C-p>   :<C-u>bprevious<CR>
+
+" タブの設定
+nnoremap ge :<C-u>tabedit<Space>
+nnoremap gn :<C-u>tabnew<CR>
+
+" そっこうのvimrc
+nnoremap <silent> <Space>ev  :<C-u>edit $MYVIMRC<CR>
+nnoremap <silent> <Space>eg  :<C-u>edit $MYGVIMRC<CR>
+
+" 初回のみ a:cmd の動きをして，それ以降は行内をローテートする
+let s:smart_line_pos = -1
+function! s:smart_move(cmd)
+  let line = line('.')
+  if s:smart_line_pos == line . a:cmd
+    call <SID>rotate_in_line()
+  else
+    execute "normal! " . a:cmd
+    " 最後に移動した行とマッピングを保持
+    let s:smart_line_pos = line . a:cmd
+  endif
+endfunction
 
 " 行頭 → 非空白行頭 → 行 をローテートする by Linda_pp
 " http://qiita.com/items/ee4bf64b1fe2c0a32cbd#comment-e2aafa1f4e60ae49a730
@@ -702,5 +761,6 @@ function! s:rotate_in_line()
 endfunction
 " , に割り当てる
 nnoremap <silent>, :<C-u>call <SID>rotate_in_line()<CR>
+" }}}
 
 """ FIN """
