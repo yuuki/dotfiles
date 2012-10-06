@@ -68,3 +68,5 @@
   pl = pull
   # hub関連
   see = browse
+  # blame関連
+  bl = blame

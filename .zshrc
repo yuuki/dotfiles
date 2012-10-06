@@ -77,8 +77,8 @@ fi
 
 # ヒストリー機能
 HISTFILE=~/.zsh_history      # ヒストリファイルを指定
-HISTSIZE=500000               # ヒストリに保存するコマンド数
-SAVEHIST=500000               # ヒストリファイルに保存するコマンド数
+HISTSIZE=1000000              # ヒストリに保存するコマンド数
+SAVEHIST=1000000              # ヒストリファイルに保存するコマンド数
 setopt hist_ignore_all_dups  # 重複するコマンド行は古い方を削除
 setopt hist_ignore_dups      # 直前と同じコマンドラインはヒストリに追加しない
 setopt share_history         # コマンド履歴ファイルを共有する
@@ -86,7 +86,7 @@ setopt append_history        # 履歴を追加 (毎回 .zsh_history を作るの
 setopt inc_append_history    # 履歴をインクリメンタルに追加
 setopt hist_no_store         # historyコマンドは履歴に登録しない
 setopt hist_reduce_blanks    # 余分な空白は詰めて記録
-setopt hist_ignore_space    # 先頭がスペースの場合、ヒストリに追加しない#
+setopt hist_ignore_space     # 先頭がスペースの場合、ヒストリに追加しない#
 
 eval `dircolors`
 # cd - と入力してTabキーで今までに移動したディレクトリを一覧表示
@@ -98,6 +98,8 @@ cdpath=(~)
 # ディレクトリスタックに重複する物は古い方を削除
 setopt pushd_ignore_dups
 
+# ディレクトリ移動時に自動でls
+function chpwd() { ls -a }
 
 ###############################################
 # プロンプト関係                              #
@@ -209,27 +211,25 @@ setopt numeric_glob_sort     # 辞書順ではなく数値順でソート
 setopt no_multios            # zshのリダイレクト機能を制限する
 
 unsetopt promptcr            # 改行コードで終らない出力もちゃんと出力する
-setopt ignore_eof           # Ctrl-dでログアウトしない
+setopt ignore_eof            # Ctrl-dでログアウトしない
 
 setopt no_hup                # ログアウト時にバックグラウンドジョブをkillしない
 setopt no_checkjobs          # ログアウト時にバックグラウンドジョブを確認しない
 setopt notify                # バックグラウンドジョブが終了したら(プロンプトの表示を待たずに)すぐに知らせる
 
-setopt rm_star_wait         # rm * を実行する前に確認
-#setopt rm_star_silent      # rm * を実行する前に確認しない
-#setopt no_clobber          # リダイレクトで上書きを禁止
-unsetopt no_clobber         # リダイレクトで上書きを許可
+setopt rm_star_wait          # rm * を実行する前に確認
+#setopt rm_star_silent       # rm * を実行する前に確認しない
+#setopt no_clobber           # リダイレクトで上書きを禁止
+unsetopt no_clobber          # リダイレクトで上書きを許可
 
-setopt chase_links          # シンボリックリンクはリンク先のパスに変換してから実行
-setopt print_exit_value     # 戻り値が 0 以外の場合終了コードを表示
-setopt single_line_zle      # デフォルトの複数行コマンドライン編集ではなく、１行編集モードになる
+setopt chase_links           # シンボリックリンクはリンク先のパスに変換してから実行
+setopt print_exit_value      # 戻り値が 0 以外の場合終了コードを表示
+setopt single_line_zle       # デフォルトの複数行コマンドライン編集ではなく、１行編集モードになる
 
-# 移動元のディレクトリを自動的にディレクトリスタックに記憶
-setopt auto_pushd
-
-# 重複するディレクトリ名を削除
-setopt pushd_ignore_dups
-
+setopt auto_pushd            # 移動元のディレクトリを自動的にディレクトリスタックに記憶
+setopt pushd_ignore_dups     # 重複するディレクトリ名を削除
+setopt auto_list             # lsのリスト表示
+setopt auto_menu             # lsのメニュー化
 
 #
 # clip current directory path

@@ -28,7 +28,8 @@ export PATH=:/usr/local/mysql/bin:$PATH
 
 # NPM PATH
 export PATH=/usr/local/share/npm/bin:$PATH
-export NODE_PATH=/usr/local/lib/node
+export NODE_PATH=/usr/local/share/npm/lib/node_modules
+
 
 # Gentoo Prefix PATH
 export EPREFIX="$HOME/Gentoo"

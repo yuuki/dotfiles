@@ -253,6 +253,7 @@ NeoBundle 'tpope/vim-bundler.git'
 NeoBundle 'tpope/vim-rake.git'
 NeoBundle 'tpope/vim-abolish.git'
 NeoBundle 'tpope/vim-haml.git'
+NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'kchmck/vim-coffee-script'
 NeoBundle 'vim-jp/cpp-vim'
 NeoBundle 'benizi/perl-support.vim'
@@ -407,6 +408,8 @@ let g:unite_source_grep_default_opts = "-Hn --color=never"
 nnoremap  [unite] <Nop>
 nmap      f       [unite]
 
+"バッファを開いた時のパスを起点としたファイル検索
+nnoremap <silent> [unite]ff :<C-u>UniteWithBufferDir -buffer-name=files file -vertical<CR>
 " 最近使用したファイル一覧
 nnoremap <silent> [unite]m :<C-u>Unite -no-split file_mru<CR>
 " ファイル一覧
@@ -510,6 +513,16 @@ nmap      fv    [vcs]
 nnoremap [vcs]l  :<C-u>Unite vcs/log<CR>
 nnoremap [vcs]s  :<C-u>Unite vcs/status<CR>
 nnoremap [vcs]r  :<C-u>Unite vcs/file_rec<CR>
+
+""" vim-fugutive """
+nnoremap [fugu] <Nop>
+nmap     gi    [fugu]
+
+nnoremap [fugu]st :<C-u>Gstatus<CR>
+nnoremap [fugu]bl :<C-u>Gblame<CR>
+nnoremap [fugu]gr :<C-u>Ggrep<SPACE>
+nnoremap [fugu]lo :<C-u>Glog<CR>
+nnoremap [fugu]re :<C-u>Gread<CR>
 
 """ errormaker.vim """
 " setlocal makeprg=$HOME/.vim/vimparse.pl\ -c\ %\ $*
