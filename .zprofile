@@ -52,8 +52,6 @@ export BOOST_ROOT=/usr/local/include/boost:$BOOST_ROOT
 # Android SDK PATH
 export PATH=$PATH:/Applications/android-sdk-macosx/tools:/Applications/android-sdk-macosx/platform-tools
 
-# TexCommand PATH
-export PATH=$PATH:/Applications/UpTeX.app/teTeX/bin
 
 # JAVA PATH
 export CLASSPATH=$CLASSPATH:$JAVA_HOME/lib:.
@@ -74,6 +72,15 @@ export PYTHONPATH="/usr/local/lib/python2.7/site-packages:$PYTHONPATH"
 
 # Homebrew PATH
 export PATH=/usr/local/bin:$PATH
+
+# Tmuxinator PATH
+[[ -s $HOME/.tmuxinator/scripts/tmuxinator ]] && source $HOME/.tmuxinator/scripts/tmuxinator
+
+# TexCommand PATH
+export PATH=$PATH:/Applications/UpTeX.app/teTeX/bin
+
+# vmrun of VMWare fusion
+export PATH="$PATH:/Applications/VMware Fusion.app/Contents/Library"
 
 # Pythonbrew PATH
 if [ -s $HOME/.pythonbrew/etc/bashrc ]; then

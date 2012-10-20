@@ -10,8 +10,6 @@
 .#*
 .DS_Store
 *.sw[po]
-tags
-TAGS
 Session.vim
 *.pyc
 *.dSYM
@@ -20,5 +18,6 @@ Session.vim
 *.dvi
 *.aux
 .zshrc.local
+*.err
 
 .vim/bundle/

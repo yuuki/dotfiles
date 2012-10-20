@@ -170,11 +170,11 @@ augroup rbsyntaxcheck
 augroup END
 
 " Perlのsyntaxチェック
-" augroup plsyntaxcheck
-"   autocmd!
-"   autocmd BufWrite *.pl w !perl -c
-"   autocmd BufWrite *.pm w !perl -c
-" augroup END
+augroup plsyntaxcheck
+  autocmd!
+  autocmd BufWrite *.pl w !perl -c -MVi::QuickFix -MProject::Libs
+  autocmd BufWrite *.pm w !perl -c -MVi::QuickFix -MProject::Libs
+augroup END
 
 " 補完色を変更
 highlight Pmenu ctermbg=8
@@ -185,14 +185,6 @@ highlight PmenuSbar ctermbg=0
 highlight WhitespaceEOL ctermbg=red guibg=red
 match WhitespaceEOL /\s\+$/
 autocmd MyAutocmd WinEnter * match WhitespaceEOL /\s\+$/
-
-" 全角スペースをハイライト
-" scriptencoding utf-8
-"augroup highlightIdegraphicSpace
-"  autocmd!
-"  autocmd ColorScheme * highlight IdeographicSpace term=underline ctermbg=DarkGreen guibg=DarkGreen
-"  autocmd VimEnter,WinEnter * match IdeographicSpace /　/
-"augroup END
 
 " 挿入モードとノーマルモードでステータスラインの色変更
 autocmd MyAutocmd InsertEnter * hi StatusLine guifg=DarkBlue guibg=DarkYellow gui=none ctermfg=Blue ctermfg=Yellow cterm=none
@@ -228,6 +220,7 @@ endif
 " --------------------------------
 NeoBundle 'Shougo/echodoc.git'
 NeoBundle 'Shougo/neocomplcache.git'
+NeoBundle 'Shougo/neocomplcache-snippets-complete'
 NeoBundle 'Shougo/neobundle.vim.git'
 NeoBundle 'Shougo/unite.vim.git'
 NeoBundle 'h1mesuke/unite-outline'
@@ -255,6 +248,7 @@ NeoBundle 'tpope/vim-abolish.git'
 NeoBundle 'tpope/vim-haml.git'
 NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'kchmck/vim-coffee-script'
+NeoBundle 'plasticboy/vim-markdown'
 NeoBundle 'vim-jp/cpp-vim'
 NeoBundle 'benizi/perl-support.vim'
 NeoBundle 'petdance/vim-perl'
@@ -266,6 +260,7 @@ NeoBundle 'tomtom/tcomment_vim'
 NeoBundle 'vim-scripts/Source-Explorer-srcexpl.vim'
 NeoBundle 'vim-scripts/sudo.vim'
 NeoBundle 'vim-scripts/errormarker.vim'
+NeoBundle 'mattn/qiita-vim.git'
 
 " --------------------------------
 " www.vim.orgにあるプラグイン
@@ -276,7 +271,6 @@ NeoBundle 'guicolorscheme.vim'
 NeoBundle 'vimshell-ssh'
 NeoBundle 'taglist.vim'
 NeoBundle 'dbext.vim'
-" NeoBundle 'open-browser.vim'
 
 " --------------------------------
 " それ以外にある gitリポジトリにあるプラグイン
@@ -386,11 +380,21 @@ augroup NeocomplcacheOmniFunc
 augroup END
 
 " neocomplcacheのキーマップ
-imap     <C-s>       <Plug>(neocomplcache_snippets_expand)
-smap     <C-s>       <Plug>(neocomplcache_snippets_expand)
+"スニペット展開候補があれば展開を，そうでなければbash風補完を．
+" imap     <expr><C-l> neocomplcache#sources#snippets_complete#expandable() ? "\<Plug>(neocomplcache_snippets_expand)" : neocomplcache#complete_common_string()
+imap     <expr><TAB> neocomplcache#sources#snippets_complete#expandable() ? "\<Plug>(neocomplcache_snippets_expand)" : pumvisible() ? "\<C-n>" : "\<TAB>"
+imap <C-k>     <Plug>(neocomplcache_snippets_expand)
+smap <C-k>     <Plug>(neocomplcache_snippets_expand)
+" <CR>: close popup and save indent.
+imap     <expr><CR>  pumvisible() ? neocomplcache#smart_close_popup()."\<CR>" : "\<CR>"
+inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 inoremap <expr><C-g> neocomplcache#undo_completion()
 inoremap <expr><C-y> neocomplcache#close_popup()
-inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
+
+
+" 自作スニペット {{{
+let g:neocomplcache_snippets_dir=$HOME.'/.vim/snippets'
+"}}}
 
 
 """ unite.vim """
@@ -430,6 +434,8 @@ nnoremap <silent> [unite]L :<C-u>Unite line<CR>
 nnoremap <silent> [unite]c :<C-u>Unite bookmark<CR>
 " ブックマークに追加
 nnoremap <silent> [unite]a :<C-u>UniteBookmarkAdd<CR>
+" スニペット候補表示
+nnoremap <silent> [unite]s <Plug>(neocomplcache_start_unite_snippet)
 
 augroup UniteMapping
   autocmd!
@@ -560,6 +566,8 @@ augroup IndentGroup
   autocmd BufNewFile,BufRead *.tex,*.latex,*.sty,*.dtx,*.ltx,*.bbl setf tex
   autocmd BufNewFile,BufRead *.tt,*.tt2 call s:FTtt2()
   autocmd BufNewFile,BufRead *.html call s:FTtt2html()
+  autocmd BufRead,BufNewFile *.mkd setfiletype mkd
+  autocmd BufRead,BufNewFile *.md  setfiletype mkd
 
   " インデント幅4
         \ setlocal sw=4 sts=4 ts=4 et
@@ -658,6 +666,8 @@ nnoremap <silent>- :<C-u>call <SID>smart_move('g$')<CR>
 vnoremap <silent>- :<C-u>call <SID>smart_move('g$')<CR>
 " Visualモード時にvで行末まで選択する
 vnoremap v $h
+" 選択範囲置換補助
+vnoremap <C-r> ::s/\%V
 
 " 表示行単位で行移動する
 nmap j gj
