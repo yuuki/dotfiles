@@ -136,7 +136,7 @@ export LSCOLORS=gxfxcxdxbxegedabagacad # lsのDir色を明るくする
 alias ls='ls -FG --color'
 alias ll='ls -l'
 alias la='ls -a'
-export GREP_OPTIONS='--color=auto' # grep結果のハイライト
+export GREP_OPTIONS='--color=auto --line-number' # grep結果のハイライト
 alias pgrep='pgrep -fl'
 alias v='vim'
 alias vrc='vim ~/.vimrc'
