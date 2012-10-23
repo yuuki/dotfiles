@@ -8,9 +8,6 @@ if ! type vim > /dev/null 2>&1; then
     alias vim=vi
 fi
 
-# MacPorts PATH
-# export PATH=/opt/local/bin:/opt/local/sbin/:$PATH
-
 # MANPATH
 export MANPATH=/usr/share/man:/usr/local/share/man:/opt/local/man:$MANPATH
 
@@ -52,15 +49,8 @@ export BOOST_ROOT=/usr/local/include/boost:$BOOST_ROOT
 # Android SDK PATH
 export PATH=$PATH:/Applications/android-sdk-macosx/tools:/Applications/android-sdk-macosx/platform-tools
 
-
 # JAVA PATH
 export CLASSPATH=$CLASSPATH:$JAVA_HOME/lib:.
-export CLASSPATH=$CLASSPATH:$HOME/build/twitter4j-2.2.5/lib/twitter4j-core-2.2.5.jar
-export CLASSPATH=$CLASSPATH:$HOME/build/twitter4j-2.2.5/lib/twitter4j-examples-2.2.5.jar
-export CLASSPATH=$CLASSPATH:$HOME/build/twitter4j-2.2.5/lib/twitter4j-async-2.2.5.jar
-export CLASSPATH=$CLASSPATH:$HOME/build/twitter4j-2.2.5/lib/twitter4j-stream-2.2.5.jar
-export CLASSPATH=$CLASSPATH:$HOME/build/twitter4j-2.2.5/lib/twitter4j-media-support-2.2.5.jar
-
 export ANDROID_HOME=/Applications/android-sdk-macosx
 
 # Boost PATH

@@ -9,5 +9,7 @@ do
     ln -fs $HOME/dotfiles/$file $HOME/$file
 done
 
+echo "Install vim plugins by neobundle.vim ..."
+vim -c "NeobundleInstall"
 
-echo "done!"
+echo "done setup"

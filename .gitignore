@@ -20,4 +20,4 @@ Session.vim
 .zshrc.local
 *.err
 
-.vim/bundle/
+.vim/bundle/*
