@@ -70,3 +70,8 @@
   see = browse
   # blame関連
   bl = blame
+  # submodule関連
+  sm = submodule
+  sma = submodule add
+  smu = submodule update
+  smg = submodule foreach 'git grep'
