@@ -32,6 +32,10 @@ export NODE_PATH=/usr/local/share/npm/lib/node_modules
 export EPREFIX="$HOME/Gentoo"
 export PATH=$EPREFIX/usr/bin:$EPREFIX/bin:$EPREFIX/tmp/usr/bin:$EPREFIX/tmp/bin:$PATH
 
+export LESS='-R'
+if [ -x /usr/local/bin/src-hilite-lesspipe.sh ]; then
+  export LESSOPEN='| /usr/local/bin/src-hilite-lesspipe.sh %s'
+fi
 
 # CUDA PATH
 export PATH=/usr/local/cuda/bin:$PATH
