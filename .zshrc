@@ -142,7 +142,11 @@ alias texshop='open -a TexShop'
 
 # Unix Commands
 export LSCOLORS=gxfxcxdxbxegedabagacad # lsのDir色を明るくする
+<<<<<<< HEAD
 alias ls='ls -FG' # --color
+=======
+alias ls='ls -FG'
+>>>>>>> fix iroiro
 alias ll='ls -l'
 alias la='ls -a'
 export GREP_OPTIONS='--color=auto --line-number' # grep結果のハイライト
@@ -155,8 +159,8 @@ if [ -f '/Applications/MacVim.app/Contents/MacOS/Vim' ]; then
 fi
 
 # GNU coreutils
-if [ "$PS1" ] && [ -f '/usr/local/Cellar/coreutils/8.12/aliases' ]; then
-    . /usr/local/Cellar/coreutils/8.12/aliases
+if [ "$PS1" ] && [ -f '/usr/local/Cellar/coreutils/8.19/aliases' ]; then
+    . /usr/local/Cellar/coreutils/8.19/aliases
     alias ls='gls -FG --color'
 fi
 
@@ -209,8 +213,10 @@ alias cpurank='ps -eo user,pcpu,pid,cmd | sort -r -k2 | head -6'
 alias diskrank='du -ah | sort -r -k1 | head -5'
 
 # hub関連
-function git(){hub "$@"}
-eval "$(hub alias -s)"
+if [[ -x "$(/usr/bin/which -s hub)" ]]; then
+  function git() { hub "$@" }
+  eval "$(hub alias -s)"
+fi
 
 
 ###############################################

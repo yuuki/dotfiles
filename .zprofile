@@ -11,10 +11,6 @@ fi
 # MANPATH
 export MANPATH=/usr/share/man:/usr/local/share/man:/opt/local/man:$MANPATH
 
-# /usr/binをshellのデフォルトパスから削ったのでここに追加
-export PATH=/usr/bin:$PATH
-
-# HOMEディレクトリ以下のbinのにパスを通す
 export PATH=$HOME/bin:$PATH
 
 # MySQL PATH
@@ -27,6 +23,10 @@ export PATH=:/usr/local/mysql/bin:$PATH
 export PATH=/usr/local/share/npm/bin:$PATH
 export NODE_PATH=/usr/local/share/npm/lib/node_modules
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> fix iroiro
 export LESS='-R'
 if [ -x /usr/local/bin/src-hilite-lesspipe.sh ]; then
   export LESSOPEN='| /usr/local/bin/src-hilite-lesspipe.sh %s'
@@ -56,9 +56,6 @@ export ANDROID_HOME=/Applications/android-sdk-macosx
 export CPLUS_INCLUDE_PATH=$CPLUS_INCLUDE_PATH:/usr/local/include/boost
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib/boost
 
-# for OpenCV Python Module
-export PYTHONPATH="/usr/local/lib/python2.7/site-packages:$PYTHONPATH"
-
 # Homebrew PATH
 export PATH=/usr/local/bin:$PATH
 export HOMEBREW_TEMP="/Volumes/Macintosh\ HD/tmp"
@@ -70,13 +67,22 @@ export HOMEBREW_PREFIX="/usr/local"
 # TexCommand PATH
 export PATH=$PATH:/Applications/UpTeX.app/teTeX/bin
 
+<<<<<<< HEAD
 # Pythonbrew PATH
 if [ -s $HOME/.pythonbrew/etc/bashrc ]; then
     source $HOME/.pythonbrew/etc/bashrc
 fi
+=======
+# vmrun of VMWare fusion
+export PATH="$PATH:/Applications/VMware Fusion.app/Contents/Library"
+
+# Pythonz PATH
+[[ -s $HOME/.pythonz/etc/bashrc ]] && source $HOME/.pythonz/etc/bashrc
+export PATH=$HOME/.pythonz/pythons/CPython-2.7.3/bin:$PATH
+>>>>>>> fix iroiro
 
 # Perlbrew PATH
-if [ -s $HOME/perl5/perlbrew/etc/bashrc ]; then
+if [[ -s $HOME/perl5/perlbrew/etc/bashrc ]]; then
 	source $HOME/perl5/perlbrew/etc/bashrc
 fi
 export PERL5LIB="$PERLBREW_ROOT/perls/$PERLBREW_PERL/lib/site_perl/5.14.2"
@@ -90,4 +96,3 @@ export PATH=$HOME/.rvm/bin:$PATH
 # export PATH="$HOME/.rbenv/bin:$PATH"
 # eval "$(rbenv init -)"
 
-export PATH=/opt/gcc/bin:$PATH
