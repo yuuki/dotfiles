@@ -142,11 +142,7 @@ alias texshop='open -a TexShop'
 
 # Unix Commands
 export LSCOLORS=gxfxcxdxbxegedabagacad # lsのDir色を明るくする
-<<<<<<< HEAD
 alias ls='ls -FG' # --color
-=======
-alias ls='ls -FG'
->>>>>>> fix iroiro
 alias ll='ls -l'
 alias la='ls -a'
 export GREP_OPTIONS='--color=auto --line-number' # grep結果のハイライト

@@ -23,10 +23,6 @@ export PATH=:/usr/local/mysql/bin:$PATH
 export PATH=/usr/local/share/npm/bin:$PATH
 export NODE_PATH=/usr/local/share/npm/lib/node_modules
 
-<<<<<<< HEAD
-=======
-
->>>>>>> fix iroiro
 export LESS='-R'
 if [ -x /usr/local/bin/src-hilite-lesspipe.sh ]; then
   export LESSOPEN='| /usr/local/bin/src-hilite-lesspipe.sh %s'
@@ -67,19 +63,12 @@ export HOMEBREW_PREFIX="/usr/local"
 # TexCommand PATH
 export PATH=$PATH:/Applications/UpTeX.app/teTeX/bin
 
-<<<<<<< HEAD
-# Pythonbrew PATH
-if [ -s $HOME/.pythonbrew/etc/bashrc ]; then
-    source $HOME/.pythonbrew/etc/bashrc
-fi
-=======
 # vmrun of VMWare fusion
 export PATH="$PATH:/Applications/VMware Fusion.app/Contents/Library"
 
 # Pythonz PATH
 [[ -s $HOME/.pythonz/etc/bashrc ]] && source $HOME/.pythonz/etc/bashrc
 export PATH=$HOME/.pythonz/pythons/CPython-2.7.3/bin:$PATH
->>>>>>> fix iroiro
 
 # Perlbrew PATH
 if [[ -s $HOME/perl5/perlbrew/etc/bashrc ]]; then
@@ -93,6 +82,6 @@ export PATH=$HOME/.rvm/bin:$PATH
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm" # Load RVM function
 
 # Rbenv PATH
-# export PATH="$HOME/.rbenv/bin:$PATH"
-# eval "$(rbenv init -)"
+export PATH="$HOME/.rbenv/bin:$PATH"
+eval "$(rbenv init -)"
 
