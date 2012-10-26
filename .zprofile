@@ -27,11 +27,6 @@ export PATH=:/usr/local/mysql/bin:$PATH
 export PATH=/usr/local/share/npm/bin:$PATH
 export NODE_PATH=/usr/local/share/npm/lib/node_modules
 
-
-# Gentoo Prefix PATH
-export EPREFIX="$HOME/Gentoo"
-export PATH=$EPREFIX/usr/bin:$EPREFIX/bin:$EPREFIX/tmp/usr/bin:$EPREFIX/tmp/bin:$PATH
-
 export LESS='-R'
 if [ -x /usr/local/bin/src-hilite-lesspipe.sh ]; then
   export LESSOPEN='| /usr/local/bin/src-hilite-lesspipe.sh %s'
@@ -66,15 +61,14 @@ export PYTHONPATH="/usr/local/lib/python2.7/site-packages:$PYTHONPATH"
 
 # Homebrew PATH
 export PATH=/usr/local/bin:$PATH
+export HOMEBREW_TEMP="/Volumes/Macintosh\ HD/tmp"
+export HOMEBREW_PREFIX="/usr/local"
 
 # Tmuxinator PATH
 [[ -s $HOME/.tmuxinator/scripts/tmuxinator ]] && source $HOME/.tmuxinator/scripts/tmuxinator
 
 # TexCommand PATH
 export PATH=$PATH:/Applications/UpTeX.app/teTeX/bin
-
-# vmrun of VMWare fusion
-export PATH="$PATH:/Applications/VMware Fusion.app/Contents/Library"
 
 # Pythonbrew PATH
 if [ -s $HOME/.pythonbrew/etc/bashrc ]; then
@@ -85,13 +79,15 @@ fi
 if [ -s $HOME/perl5/perlbrew/etc/bashrc ]; then
 	source $HOME/perl5/perlbrew/etc/bashrc
 fi
-export PERL5LIB="$PERLBREW_ROOT/perls/$PERLBREW_PERL/lib/site_perl/5.16.1"
+export PERL5LIB="$PERLBREW_ROOT/perls/$PERLBREW_PERL/lib/site_perl/5.14.2"
+export XDG_DATA_HOME=/usr/local/share
 
 # RVM PATH
-# export PATH=$HOME/.rvm/bin:$PATH
-# [[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm" # Load RVM function
+export PATH=$HOME/.rvm/bin:$PATH
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm" # Load RVM function
 
 # Rbenv PATH
-eval "$(rbenv init -)"
+# export PATH="$HOME/.rbenv/bin:$PATH"
+# eval "$(rbenv init -)"
 
 export PATH=/opt/gcc/bin:$PATH

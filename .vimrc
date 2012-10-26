@@ -257,6 +257,7 @@ NeoBundle 'hotchpotch/perldoc-vim'
 NeoBundle 'mattn/webapi-vim'
 NeoBundle 'Lokaltog/vim-powerline'
 NeoBundle 'tomtom/tcomment_vim'
+NeoBundle 'groenewege/vim-less'
 NeoBundle 'vim-scripts/Source-Explorer-srcexpl.vim'
 NeoBundle 'vim-scripts/sudo.vim'
 NeoBundle 'vim-scripts/errormarker.vim'
@@ -559,7 +560,7 @@ filetype indent on
 
 augroup IndentGroup
   autocmd!
-  autocmd BufNewFile,BufRead *.psgi,*.perldb,cpanfile setf perl
+  autocmd BufNewFile,BufRead *.PL,*.t,*.psgi,*.perldb,cpanfile setf perl
   autocmd BufNewFile,BufRead *.hpp,*.cl setf cpp
   autocmd BufNewFile,BufRead *.aj setf java
   autocmd BufNewFile,BufRead *.jspx setf xhtml

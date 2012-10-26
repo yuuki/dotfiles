@@ -67,9 +67,19 @@ setopt auto_cd
 setopt auto_param_keys
 
 # Git補完スクリプトの読み込み
-if [ -f $HOME/.git-completion.sh ]; then
-    source $HOME/.git-completion.sh
-fi
+[[ -f $HOME/.bash_completion/git-completion.bash ]] && . $HOME/.bash_completion/git-completion.bash
+
+# Git Prompt
+[[ -f $HOME/.bash_completion/git-prompt.sh ]] && . $HOME/.bash_completion/git-prompt.sh
+
+# Git Flow補完
+[[ -f $HOME/.bash_completion/git-flow-completion.bash ]] && . $HOME/.bash_completion/git-flow-completion.bash
+
+# hub
+[[ -f $HOME/.bash_completion/hub.bash_completion.sh ]] && . $HOME/.bash_completion/hub.bash_completion.sh
+
+# tig
+[[ -f $HOME/.bash_completion/tig-completion.bash ]] && . $HOME/.bash_completion/tig-completion.bash
 
 ###############################################
 # 履歴設定                                    #
@@ -130,22 +140,30 @@ alias chrome='open -a GoogleChrome'
 alias prev='open -a Preview "$@"'
 alias texshop='open -a TexShop'
 
-
 # Unix Commands
 export LSCOLORS=gxfxcxdxbxegedabagacad # lsのDir色を明るくする
-alias ls='ls -FG --color'
+alias ls='ls -FG' # --color
 alias ll='ls -l'
 alias la='ls -a'
 export GREP_OPTIONS='--color=auto --line-number' # grep結果のハイライト
 alias pgrep='pgrep -fl'
 alias v='vim'
 alias vrc='vim ~/.vimrc'
+if [ -f '/Applications/MacVim.app/Contents/MacOS/Vim' ]; then
+  alias vim='/Applications/MacVim.app/Contents/MacOS/Vim -u $HOME/.vimrc'
+  alias mvim='/Applications/MacVim.app/Contents/MacOS/MacVim -u $HOME/.vimrc'
+fi
 
 # GNU coreutils
 if [ "$PS1" ] && [ -f '/usr/local/Cellar/coreutils/8.12/aliases' ]; then
     . /usr/local/Cellar/coreutils/8.12/aliases
     alias ls='gls -FG --color'
 fi
+
+alias br='brew'
+alias bri='brew install'
+alias brs='brew search'
+alias bru='brew update'
 
 alias r='rails'
 alias rk='rake'
