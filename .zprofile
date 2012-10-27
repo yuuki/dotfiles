@@ -16,9 +16,6 @@ export PATH=$HOME/bin:$PATH
 # MySQL PATH
 export PATH=:/usr/local/mysql/bin:$PATH
 
-# LLVM PATH
-# export PATH=/opt/llvm/bin:$PATH
-
 # NPM PATH
 export PATH=/usr/local/share/npm/bin:$PATH
 export NODE_PATH=/usr/local/share/npm/lib/node_modules
@@ -27,14 +24,6 @@ export LESS='-R'
 if [ -x /usr/local/bin/src-hilite-lesspipe.sh ]; then
   export LESSOPEN='| /usr/local/bin/src-hilite-lesspipe.sh %s'
 fi
-
-# CUDA PATH
-export PATH=/usr/local/cuda/bin:$PATH
-export DYLD_LIBRARY_PATH=/usr/local/cuda/lib
-export LD_LIBRARY_PATH=/usr/local/cuda/lib:$LD_LIBRARY_PATH
-export CPLUS_INCLUDE_PATH=”/Developer/GPU\ Computing/C/common/inc”:$CPLUS_INCLUDE_PATH
-export C_INCLUDE_PATH=”/Developer/GPU\ Computing/C/common/inc”:$C_INCLUDE_PATH
-export LIBRARY_PATH=”/Developer/GPU\ Computing/C/common/lib”:”/Developer/GPU\ Computing/C/lib”:/usr/local/cuda/lib:$LIBRARY_PATH
 
 # C++ PATH
 export CPLUS_INCLUDE_PATH=/usr/local/include:$CPLUS_INCLUDE_PATH
@@ -57,6 +46,8 @@ export PATH=/usr/local/bin:$PATH
 export HOMEBREW_TEMP="/Volumes/Macintosh\ HD/tmp"
 export HOMEBREW_PREFIX="/usr/local"
 
+[[ -f `brew --prefix`/etc/autojump ]] && source `brew --prefix`/etc/autojump
+
 # Tmuxinator PATH
 [[ -s $HOME/.tmuxinator/scripts/tmuxinator ]] && source $HOME/.tmuxinator/scripts/tmuxinator
 
@@ -68,13 +59,11 @@ export PATH="$PATH:/Applications/VMware Fusion.app/Contents/Library"
 
 # Pythonz PATH
 [[ -s $HOME/.pythonz/etc/bashrc ]] && source $HOME/.pythonz/etc/bashrc
-export PATH=$HOME/.pythonz/pythons/CPython-2.7.3/bin:$PATH
+export PATH="$HOME/.pythonz/pythons/CPython-2.7.3/bin:$PATH"
 
 # Perlbrew PATH
-if [[ -s $HOME/perl5/perlbrew/etc/bashrc ]]; then
-	source $HOME/perl5/perlbrew/etc/bashrc
-fi
-export PERL5LIB="$PERLBREW_ROOT/perls/$PERLBREW_PERL/lib/site_perl/5.14.2"
+export PATH=$HOME/.perlbrew/bin:$PATH
+[[ -s $HOME/.perlbrew/etc/bashrc ]] && source $HOME/.perlbrew/etc/bashrc
 export XDG_DATA_HOME=/usr/local/share
 
 # RVM PATH

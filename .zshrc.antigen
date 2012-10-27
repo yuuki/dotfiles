@@ -1,0 +1,36 @@
+# # vim:set ft=zsh foldmethod=marker:
+
+source $HOME/.zsh/antigen/antigen.zsh
+
+# Load the oh-my-zsh's library.
+antigen-lib
+
+# Bundles from the default app.
+antigen-bundle autojump
+antigen-bundle brew
+antigen-bundle bundler
+antigen-bundle cap
+antigen-bundle cpanm
+antigen-bundle dircycle
+antigen-bundle gem
+antigen-bundle git
+antigen-bundle git-flow
+antigen-bundle github
+antigen-bundle heroku
+antigen-bundle npm
+antigen-bundle osx
+antigen-bundle perl
+antigen-bundle pip
+antigen-bundle rails3
+antigen-bundle rbenv
+antigen-bundle ruby
+antigen-bundle rvm
+
+# Syntax highlighting bundle.
+antigen-bundle zsh-users/zsh-syntax-highlighting
+
+# Load the Theme
+antigen-theme robbyrussell
+
+# Tell antigen that you're done.
+antigen-apply

@@ -66,19 +66,9 @@ setopt auto_cd
 # 対応する括弧などを自動で補完
 setopt auto_param_keys
 
-# Git補完スクリプトの読み込み
-[[ -f $HOME/.bash_completion/git-completion.bash ]] && . $HOME/.bash_completion/git-completion.bash
-
-# Git Prompt
-[[ -f $HOME/.bash_completion/git-prompt.sh ]] && . $HOME/.bash_completion/git-prompt.sh
-
-# Git Flow補完
-[[ -f $HOME/.bash_completion/git-flow-completion.bash ]] && . $HOME/.bash_completion/git-flow-completion.bash
-
-# hub
+# hub補完
 [[ -f $HOME/.bash_completion/hub.bash_completion.sh ]] && . $HOME/.bash_completion/hub.bash_completion.sh
-
-# tig
+# tig補完
 [[ -f $HOME/.bash_completion/tig-completion.bash ]] && . $HOME/.bash_completion/tig-completion.bash
 
 ###############################################
@@ -98,7 +88,6 @@ setopt hist_no_store         # historyコマンドは履歴に登録しない
 setopt hist_reduce_blanks    # 余分な空白は詰めて記録
 setopt hist_ignore_space     # 先頭がスペースの場合、ヒストリに追加しない#
 
-eval `dircolors`
 # cd - と入力してTabキーで今までに移動したディレクトリを一覧表示
 setopt auto_pushd
 # カレントディレクトリ中に指定されたディレクトリが見つからなかった場合に
@@ -115,20 +104,20 @@ function chpwd() { ls -a }
 # プロンプト関係                              #
 ###############################################
 # プロンプトに escape sequence (環境変数) を通す
-setopt prompt_subst
+# setopt prompt_subst
 
 # ターミナルのタイトル
-case "${TERM}"
-in kterm*|xterm)
-    precmd() {
-        echo -ne "\033]0;${USER}@${HOST%%.*}:${PWD}\007"
-    }
-    ;;
-esac
-
-PROMPT="${USER}@${HOST%%.*}:%/$%  "
-PROMPT2="%_%% "
-SPROMPT="%r is correct? [n,y,a,e]: "
+# case "${TERM}"
+# in kterm*|xterm)
+#     precmd() {
+#         echo -ne "\033]0;${USER}@${HOST%%.*}:${PWD}\007"
+#     }
+#     ;;
+# esac
+#
+# PROMPT="${USER}@${HOST%%.*}:%/$%  "
+# PROMPT2="%_%% "
+# SPROMPT="%r is correct? [n,y,a,e]: "
 
 ###############################################
 # エイリアス設定                              #
@@ -145,13 +134,15 @@ export LSCOLORS=gxfxcxdxbxegedabagacad # lsのDir色を明るくする
 alias ls='ls -FG' # --color
 alias ll='ls -l'
 alias la='ls -a'
-export GREP_OPTIONS='--color=auto --line-number' # grep結果のハイライト
+# export GREP_OPTIONS='--color=auto --line-number' # grep結果のハイライト
+alias grep='grep --color=auto --line-number'
 alias pgrep='pgrep -fl'
+alias lookup='find . -name "$@"'
 alias v='vim'
 alias vrc='vim ~/.vimrc'
 if [ -f '/Applications/MacVim.app/Contents/MacOS/Vim' ]; then
-  alias vim='/Applications/MacVim.app/Contents/MacOS/Vim -u $HOME/.vimrc'
-  alias mvim='/Applications/MacVim.app/Contents/MacOS/MacVim -u $HOME/.vimrc'
+    alias vim='/Applications/MacVim.app/Contents/MacOS/Vim -u $HOME/.vimrc'
+    alias mvim='/Applications/MacVim.app/Contents/MacOS/MacVim -u $HOME/.vimrc'
 fi
 
 # GNU coreutils
@@ -166,19 +157,11 @@ alias brs='brew search'
 alias bru='brew update'
 
 alias r='rails'
-alias rk='rake'
-alias b='bundle'
-alias be='bundle exec'
-alias bi='bundle install'
-alias h='heroku'
-alias hr='heroku run'
-
 alias pd='perldoc'
 alias ce='carton exec'
 alias ci='carton install'
 alias plackup='plackup -L Shotgun'
 
-alias topcoder='javaws ContestAppletProd.jnlp'
 alias pdftotext='pdftotext -layout -'
 
 # global alias
@@ -193,15 +176,6 @@ alias -g T='| tail'
 alias -g ...='..//..'
 alias -g ....='..//..//..'
 alias -g .....='..//..//..//..'
-
-# git command
-alias g='git'
-alias gco="git checkout"
-alias gst="git status"
-alias gci="git commit -a"
-alias gdi="git diff"
-alias gbr="git branch"
-alias gg="git grep -H --heading --break"
 
 # Utility Commands
 alias findbig='find . -type f -exec ls -s {} \; | sort -n -r | head -5'
@@ -274,4 +248,6 @@ function pwd-clip() {
     # so ${=VAR] is splited in words, for example "a" "b" "c"
     echo -n $PWD | ${=copyToClipboard}
 }
+
+[[ -s $HOME/.zsh/antigen/antigen.zsh ]] && source $HOME/.zshrc.antigen
 

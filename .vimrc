@@ -163,6 +163,18 @@ function! s:git_root_dir()
   endif
 endfunction
 
+if has('gui_macvim') && has('kaoriya')
+  let s:ruby_libdir = system("ruby -rrbconfig -e 'print Config::CONFIG[\"libdir\"]'")
+  let s:ruby_libruby = s:ruby_libdir . '/libruby.dylib'
+  if filereadable(s:ruby_libruby)
+    let $RUBY_DLL = s:ruby_libruby
+  endif
+endif
+" +perl, +python, +ruby  for MacVim
+let $PERL_DLL = "/System/Library/Perl/5.12/darwin-thread-multi-2level/CORE/libperl.dylib"
+let $PYTHON_DLL = "/usr/lib/libpython.dylib"
+
+
 " Rubyのsyntaxチェック
 augroup rbsyntaxcheck
   autocmd!
@@ -252,7 +264,6 @@ NeoBundle 'plasticboy/vim-markdown'
 NeoBundle 'vim-jp/cpp-vim'
 NeoBundle 'benizi/perl-support.vim'
 NeoBundle 'petdance/vim-perl'
-NeoBundle 'c9s/cpan.vim'
 NeoBundle 'hotchpotch/perldoc-vim'
 NeoBundle 'mattn/webapi-vim'
 NeoBundle 'Lokaltog/vim-powerline'
@@ -262,6 +273,7 @@ NeoBundle 'vim-scripts/Source-Explorer-srcexpl.vim'
 NeoBundle 'vim-scripts/sudo.vim'
 NeoBundle 'vim-scripts/errormarker.vim'
 NeoBundle 'mattn/qiita-vim.git'
+" NeoBundle 'c9s/cpan.vim'
 
 " --------------------------------
 " www.vim.orgにあるプラグイン
