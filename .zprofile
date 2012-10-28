@@ -9,7 +9,7 @@ if ! type vim > /dev/null 2>&1; then
 fi
 
 # MANPATH
-export MANPATH=/usr/share/man:/usr/local/share/man:/opt/local/man:$MANPATH
+export MANPATH=/usr/local/share/man:/usr/share/man:$MANPATH
 
 export PATH=$HOME/bin:$PATH
 
