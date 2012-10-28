@@ -14,4 +14,7 @@ done
 /bin/rm -f $HOME/dotfiles/.vim/perl-support
 /bin/ln -s $HOME/dotfiles/.vim/bundle/perl-support.vim/perl-support $HOME/dotfiles/.vim/perl-support
 
+zsh
+/bin/ln -s ${DOTFILES_DIR}/.zsh/yuuki.zsh-theme $HOME/.antigen/repos/https-COLON--SLASH--SLASH-github.com-SLASH-robbyrussell-SLASH-oh-my-zsh.git/themes/
+
 echo "done setup"

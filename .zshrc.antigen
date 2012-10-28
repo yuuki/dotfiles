@@ -32,7 +32,7 @@ if [[ -f $HOME/.zsh/antigen/antigen.zsh ]]; then
 EOBUNDLES
 
   # Load the Theme
-  antigen-theme robbyrussell
+  antigen-theme yuuki
 
   # Tell antigen that you're done.
   antigen-apply
