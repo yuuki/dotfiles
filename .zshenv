@@ -20,6 +20,14 @@ path=(
   $path
 )
 
+# coreutils
+if type brew >> /dev/null 2>&1; then
+  path=(
+    $(brew --prefix coreutils)/libexec/gnubin(N-/)
+    $path
+  )
+fi
+
 # Application path
 path=(
   /Applications/UpTeX.app/teTeX/bin(N-/)                # Tex
@@ -45,6 +53,22 @@ path=(
   $path
 )
 
+# SUDO_PATH
+typeset -xT SUDO_PATH sudo_path
+typeset -U sudo_path
+sudo_path=(
+  /usr/local/sbin(N-/)
+  /usr/sbin(N-/)
+  /sbin(N-/)
+)
+
+# MANPATH
+typeset -u manpath
+manpath=(
+  ${HOME}/local/share/man(N-/)
+  /usr/local/share/man(N-/)
+  /usr/share/man(N-/)
+)
 
 # PAGER
 if type lv > /dev/null 2>&1; then
@@ -56,9 +80,6 @@ fi
 export LANG=ja_JP.UTF-8
 
 export EDITOR="vim"
-
-# Man
-export MANPATH=/usr/local/share/man:/usr/share/man:$MANPATH
 
 # Homebrew
 export HOMEBREW_TEMP="/Volumes/Macintosh\ HD/tmp"

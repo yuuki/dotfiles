@@ -1,7 +1,11 @@
 # vim:set ft=zsh foldmethod=marker:
 
-# Load oh-my-zsh plugins and thema
-[[ -s $HOME/.zsh/antigen/antigen.zsh ]] && source $HOME/.zshrc.antigen
+umask 022
+limit coredumpsize 0
+
+### Load oh-my-zsh plugins and thema {{{
+[[ -s $HOME/.zshrc.antigen ]] && source $HOME/.zshrc.antigen
+### }}}
 
 ### Load modules {{{
 autoload -Uz compinit; compinit -u
@@ -71,6 +75,10 @@ unsetopt no_clobber          # リダイレクトで上書きを許可
 ### Keybind {{{
 bindkey -e  # Emacs like keybind
 
+bindkey "^[u" undo
+bindkey "^[r" redo
+bindkey '^J'  self-insert-unmeta
+
 zle -N history-beginning-search-backward-end history-search-end
 zle -N history-beginning-search-forward-end history-search-end
 bindkey '^P' history-beginning-search-backward-end
@@ -79,6 +87,13 @@ bindkey '^R' history-incremental-search-backward
 bindkey "^S" history-incremental-pattern-search-forward
 bindkey -a 'O' push-line
 bindkey -a 'H' run-help
+
+## Ctrl + ] で前回のコマンドの最後の単語を挿入
+zle -N insert-last-word smart-insert-last-word
+zstyle :insert-last-word match \
+    '*([^[:space:]][[:alpha:]/\\]|[[:alpha:]/\\][^[:space:]])*'
+bindkey '^]' insert-last-word
+
 ### }}}
 
 ### Completion {{{
@@ -122,8 +137,6 @@ HISTSIZE=10000000
 SAVEHIST=$HISTSIZE
 ### }}}
 
-function chpwd() { ls -a }  # ディレクトリ移動時に自動でls
-
 ### Aliases {{{
 alias q='exit'
 
@@ -148,12 +161,6 @@ if [[ -x /usr/local/bin/src-hilite-lesspipe.sh ]]; then
   export LESSOPEN='| /usr/local/bin/src-hilite-lesspipe.sh %s'
 fi
 
-# GNU coreutils
-if [ "$PS1" ] && [ -f '/usr/local/Cellar/coreutils/8.19/aliases' ]; then
-    . /usr/local/Cellar/coreutils/8.19/aliases
-    alias ls='gls -FG --color'
-fi
-
 ## vim
 alias v='vim'
 alias vrc='vim ~/.vimrc'
@@ -171,6 +178,12 @@ fi
 alias -s tex=platex
 alias -s dvi=dvipdfmx
 alias -s bib=bibtex
+
+# Homebrew
+alias br=brew
+alias bri='brew install'
+alias bru='brew update'
+alias brug='brew upgrade'
 
 ## Others
 alias ce='carton exec'
@@ -193,61 +206,61 @@ alias -g TELLME='&& say succeeded || say failed'
 alias -g G="| grep"
 alias -g XG='| xargs grep'
 alias -g H='| head'
+alias -g T='| tail'
 alias -g L='| less -R'
 alias -g V='| view -R -'
 alias -g W='| wc'
 alias -g WL='| wc -l'
-alias -g T='| tail'
+alias -g P=' --help | less'
 alias -g ...='..//..'
 alias -g ....='..//..//..'
 alias -g .....='..//..//..//..'
 ### }}}
 
-## Ctrl + ] で前回のコマンドの最後の単語を挿入
-zle -N insert-last-word smart-insert-last-word
-zstyle :insert-last-word match \
-    '*([^[:space:]][[:alpha:]/\\]|[[:alpha:]/\\][^[:space:]])*'
-bindkey '^]' insert-last-word
 
 # Vim側でC-s C-q
 stty -ixon -ixoff
 
 ### External script {{{
 # Rbenv
-if type rbenv > /dev/null; then
+if type rbenv > /dev/null 2>&1; then
   eval "$(rbenv init -)"
 fi
 
 # RVM
-if type rvm > /dev/null; then
+if type rvm > /dev/null 2>&1; then
   [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
 fi
 
 # Perlbrew
-if type perlbrew > /dev/null; then
+if type perlbrew > /dev/null 2>&1; then
   [[ -s $HOME/.perlbrew/etc/bashrc ]] && source $HOME/.perlbrew/etc/bashrc
 fi
 
 # Pythonz
-if type pythonz > /dev/null; then
+if type pythonz > /dev/null 2>&1; then
   [[ -s $HOME/.pythonz/etc/bashrc ]] && source $HOME/.pythonz/etc/bashrc
 fi
 
 # Tmuxinator
-if type tmuxinator > /dev/null; then
+if type tmuxinator > /dev/null 2>&1; then
   [[ -s $HOME/.tmuxinator/scripts/tmuxinator ]] && source $HOME/.tmuxinator/scripts/tmuxinator
 fi
 
 # autojump
-if type autojump > /dev/null; then
+if type autojump > /dev/null 2>&1; then
   [[ -f `brew --prefix`/etc/autojump ]] && source `brew --prefix`/etc/autojump
 fi
 
 # hub
-if type hub > /dev/null; then
+if type hub > /dev/null 2>&1; then
   eval "$(hub alias -s)"
 fi
 ### }}}
+
+### functions {{{
+## ディレクトリ移動時に自動でls
+function chpwd() { ls -a }
 
 ## clip current directory path
 function pwd-clip() {
@@ -270,4 +283,4 @@ function pwd-clip() {
     # so ${=VAR] is splited in words, for example "a" "b" "c"
     echo -n $PWD | ${=copyToClipboard}
 }
-
+### }}}
