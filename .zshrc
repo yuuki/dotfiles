@@ -132,7 +132,7 @@ alias ll='ls -lh'
 alias la='ls -a'
 alias lla='ls -alh'
 alias cp='cp -p'
-alias grep='grep --color=auto --line-number'
+alias grep='grep --color=auto'
 alias gr=grep
 alias pgrep='pgrep -fl'
 alias pg=pgrep
@@ -141,7 +141,12 @@ alias df='df-h'
 alias du='du-h'
 alias less='less -R'
 alias zmv='noglob zmv'
-export LESS='--tabs=4 --no-init --LONG-PROMPT --ignore-case'
+alias pdftotext='pdftotext -layout -'
+
+export LESS='--tabs=4 --no-init --LONG-PROMPT --ignore-case -R'
+if [[ -x /usr/local/bin/src-hilite-lesspipe.sh ]]; then
+  export LESSOPEN='| /usr/local/bin/src-hilite-lesspipe.sh %s'
+fi
 
 # GNU coreutils
 if [ "$PS1" ] && [ -f '/usr/local/Cellar/coreutils/8.19/aliases' ]; then
@@ -149,7 +154,7 @@ if [ "$PS1" ] && [ -f '/usr/local/Cellar/coreutils/8.19/aliases' ]; then
     alias ls='gls -FG --color'
 fi
 
-# vim
+## vim
 alias v='vim'
 alias vrc='vim ~/.vimrc'
 if [ -f '/Applications/MacVim.app/Contents/MacOS/Vim' ]; then
@@ -157,34 +162,31 @@ if [ -f '/Applications/MacVim.app/Contents/MacOS/Vim' ]; then
     # alias mvim='/Applications/MacVim.app/Contents/MacOS/MacVim -u $HOME/.vimrc'
     alias mvim='open -a MacVIm.app "$@"'
 fi
+# vimがなくてもvimでviを起動する。
+if ! type vim > /dev/null 2>&1; then
+    alias vim=vi
+fi
 
 # Tex
 alias -s tex=platex
 alias -s dvi=dvipdfmx
 alias -s bib=bibtex
 
-# Others
+## Others
 alias ce='carton exec'
 alias ci='carton install'
 alias plackup='plackup -L Shotgun'
 
-alias pdftotext='pdftotext -layout -'
-
-# Utility Commands
+## pipe
 alias findbig='find . -type f -exec ls -s {} \; | sort -n -r | head -5'
 alias cpurank='ps -eo user,pcpu,pid,cmd | sort -r -k2 | head -6'
 alias diskrank='du -ah | sort -r -k1 | head -5'
 
+## OSX GUI
 alias safari='open -a Safari'
 alias chrome='open -a GoogleChrome'
 alias prev='open -a Preview "$@"'
 alias texshop='open -a TexShop'
-
-# hub
-if [[ ! -x "$(/usr/bin/which -s hub)" ]]; then
-  function git() { hub "$@" }
-  eval "$(hub alias -s)"
-fi
 
 # global alias
 alias -g TELLME='&& say succeeded || say failed'
@@ -206,6 +208,46 @@ zle -N insert-last-word smart-insert-last-word
 zstyle :insert-last-word match \
     '*([^[:space:]][[:alpha:]/\\]|[[:alpha:]/\\][^[:space:]])*'
 bindkey '^]' insert-last-word
+
+# Vim側でC-s C-q
+stty -ixon -ixoff
+
+### External script {{{
+# Rbenv
+if type rbenv > /dev/null; then
+  eval "$(rbenv init -)"
+fi
+
+# RVM
+if type rvm > /dev/null; then
+  [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
+fi
+
+# Perlbrew
+if type perlbrew > /dev/null; then
+  [[ -s $HOME/.perlbrew/etc/bashrc ]] && source $HOME/.perlbrew/etc/bashrc
+fi
+
+# Pythonz
+if type pythonz > /dev/null; then
+  [[ -s $HOME/.pythonz/etc/bashrc ]] && source $HOME/.pythonz/etc/bashrc
+fi
+
+# Tmuxinator
+if type tmuxinator > /dev/null; then
+  [[ -s $HOME/.tmuxinator/scripts/tmuxinator ]] && source $HOME/.tmuxinator/scripts/tmuxinator
+fi
+
+# autojump
+if type autojump > /dev/null; then
+  [[ -f `brew --prefix`/etc/autojump ]] && source `brew --prefix`/etc/autojump
+fi
+
+# hub
+if type hub > /dev/null; then
+  eval "$(hub alias -s)"
+fi
+### }}}
 
 ## clip current directory path
 function pwd-clip() {

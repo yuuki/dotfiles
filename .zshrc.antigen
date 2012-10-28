@@ -7,29 +7,29 @@ if [[ -f $HOME/.zsh/antigen/antigen.zsh ]]; then
   antigen-lib
 
   # Bundles from the default app.
-  antigen-bundle autojump
-  antigen-bundle brew
-  antigen-bundle bundler
-  antigen-bundle cap
-  antigen-bundle cpanm
-  antigen-bundle dircycle
-  antigen-bundle gem
-  antigen-bundle git
-  antigen-bundle git-flow
-  antigen-bundle github
-  antigen-bundle heroku
-  antigen-bundle npm
-  antigen-bundle osx
-  antigen-bundle perl
-  antigen-bundle pip
-  antigen-bundle python
-  antigen-bundle rails3
-  antigen-bundle rbenv
-  antigen-bundle ruby
-  antigen-bundle rvm
-
-  # Syntax highlighting bundle.
-  antigen-bundle zsh-users/zsh-syntax-highlighting
+  antigen-bundles <<EOBUNDLES
+  autojump
+  brew
+  bundler
+  cap
+  cpanm
+  dircycle
+  gem
+  git
+  git-flow
+  github
+  heroku
+  npm
+  osx
+  perl
+  pip
+  python
+  rails3
+  rbenv
+  ruby
+  rvm
+  zsh-users/zsh-syntax-highlighting
+EOBUNDLES
 
   # Load the Theme
   antigen-theme robbyrussell
