@@ -1,4 +1,3 @@
-""""" vimrc copied by y_uuki """""
 
 syntax on
 " augroup がセットされていない autocmd 全般用の augroup
@@ -7,36 +6,28 @@ augroup MyAutocmd
     autocmd!
 augroup END
 
+""" Options {{{
 " Vi互換モードを使わない
 set nocompatible
-
 " バックスペースでいろいろ消せる
 set backspace=indent,eol,start
-
 " バックアップファイルなし
 set nobackup
-
 " .viminfoファイル制限
 set viminfo=!,'50,<1000,s100,\"50
-
 " 履歴を500件まで保存する
-set history=500
-
+set history=1000
 " カーソル位置を表示する
 set ruler
-
 " スクロール時の余白確保
 set scrolloff=5
-
 " ファイルエンコーディングをutf-8優先
 set encoding=utf-8
 set fileencodings=utf-8,iso-2022-jp,sjis,euc-jp
 set fileformats=unix,mac,dos
-
 " 行番号表示
 set number
-
-""""" タブ幅 """""
+"" タブ幅 {{{
 set showtabline=2
 set expandtab       " タブをスペースに展開する
 set tabstop=4       " 画面上のタブ幅
@@ -44,76 +35,59 @@ set shiftwidth=4    " インデント時に自動的に挿入されるタブ幅
 set softtabstop=4   " キーボードで<Tab>キーを押したときに挿入される空白の量
 set shiftround
 set smarttab        " 行頭の余白内で<Tab>キーを押すとshiftwidthの数だけインデント．行頭以外ではtabstopの数だけ空白が挿入される．
-
+"" }}}
 " 改行時にコメントしない
 set formatoptions-=ro
-
 " 改行コードの自動認識
 set fileformats=unix,mac,dos
-
 " 検索文字列が小文字の場合は大文字小文字を区別なく検索する
 set ignorecase
 set smartcase
-
 " 検索時に最後まで行ったら最初に戻る
 set wrapscan
-
 " 検索文字列入力時に順次対象文字列にヒットさせる
 set incsearch
-
 " コマンドライン補完するときに強化されたものを使う(参照 :help wildmenu)
 set wildmenu
-
 " ビープ音をOFFにする
 set vb t_vb =
-
 " ステータスラインを常に表示
 set laststatus=2
-
 " 括弧入力時の対応する括弧を表示
 set showmatch
-
 " IMを使う
 set noimdisable
-
 " コマンドラインでのIM無効化
 set noimcmdline
-
 " 入力中のコマンドをステータスに表示する
 set showcmd
-
 " 対応する括弧の行き来する時間の設定
 set matchtime=3
-
 " vimを開いた位置ではなくファイルのディレクトリ位置を起点にする
 set browsedir=buffer
-
 " コピペにクリップボードを使用する
 set clipboard+=unnamed
-
 " ビジュアルモードで選択したテキストが、クリップボードに入るようにす
 set clipboard+=autoselect
-
 " 文字にアンチエイリアスをかける
 if has('mac') && has('gui_running')
   set antialias
 endif
-
 " 外部のエディタで編集中のファイルが変更されたら自動で読み直す
 set autoread
-
 " 辞書ファイルからの単語補間
 set complete+=k
-
 " 高速ターミナル接続を行う
 set ttyfast
-
+" {{{}}}で折りたたみ
+set foldmethod=marker
 " タブ文字を CTRL-I で表示し, 行末に $ で表示する.
 " set list
-
 " Listモードに使われる文字を設定する "
 "set listchars=tab:\ \ ,trail:-,eol:\
+""" }}}
 
+""" Util {{{
 " imsertモードから抜けるときにIMをOFFにする（GUI(MacVim)は自動的にやってくれる
 " iminsert = 2にすると，insertモードに戻ったときに自動的にIMの状態が復元される
 if !has("gui-running")
@@ -135,15 +109,6 @@ augroup END
 " vimrcのリロード
 command! ReloadVimrc source $MYVIMRC
 
-" ファイル形式毎にテンプレートを設定
-augroup templates
-  autocmd!
-  " autocmd BufNewFile *.pl 0r $HOME/.vim/templates/template.pl
-  " autocmd BufNewFile *.pm 0r $HOME/.vim/templates/template.pl
-  autocmd BufNewFile *.rb 0r $HOME/.vim/templates/template.rb
-  autocmd BufNewFile *.py 0r $HOME/.vim/templates/template.py
-augroup END
-
 " 保存時に行末のスペースを削除
 augroup rtrim
   function! RTrim()
@@ -162,31 +127,6 @@ function! s:git_root_dir()
     echoerr 'current directory is outside git working tree'
   endif
 endfunction
-
-if has('gui_macvim') && has('kaoriya')
-  let s:ruby_libdir = system("ruby -rrbconfig -e 'print Config::CONFIG[\"libdir\"]'")
-  let s:ruby_libruby = s:ruby_libdir . '/libruby.dylib'
-  if filereadable(s:ruby_libruby)
-    let $RUBY_DLL = s:ruby_libruby
-  endif
-endif
-" +perl, +python, +ruby  for MacVim
-let $PERL_DLL = "/System/Library/Perl/5.12/darwin-thread-multi-2level/CORE/libperl.dylib"
-let $PYTHON_DLL = "/usr/lib/libpython.dylib"
-
-
-" Rubyのsyntaxチェック
-augroup rbsyntaxcheck
-  autocmd!
-  autocmd BufWrite *.rb w !ruby -c
-augroup END
-
-" Perlのsyntaxチェック
-augroup plsyntaxcheck
-  autocmd!
-  autocmd BufWrite *.pl w !perl -c -MVi::QuickFix -MProject::Libs
-  autocmd BufWrite *.pm w !perl -c -MVi::QuickFix -MProject::Libs
-augroup END
 
 " 補完色を変更
 highlight Pmenu ctermbg=8
@@ -214,11 +154,9 @@ function! Scouter(file, ...)
 endfunction
 command! -bar -bang -nargs=? -complete=file Scouter
       \        echo Scouter(empty(<q-args>) ? $MYVIMRC : expand(<q-args>), <bang>0)
+""" }}}
 
-
-" ################################
-" Plugins {{{
-" ################################
+""" Plugins {{{
 filetype off
 filetype plugin indent off
 
@@ -227,9 +165,7 @@ if has('vim_starting')
   call neobundle#rc()
 endif
 
-" --------------------------------
-" github にあるプラグイン
-" --------------------------------
+"" github にあるプラグイン {{{
 NeoBundle 'Shougo/echodoc.git'
 NeoBundle 'Shougo/neocomplcache.git'
 NeoBundle 'Shougo/neosnippet.git'
@@ -251,7 +187,6 @@ NeoBundle 'thinca/vim-guicolorscheme'
 NeoBundle 'thinca/vim-ref'
 NeoBundle 'osyo-manga/neocomplcache-clang_complete'
 NeoBundle 'ujihisa/vimshell-ssh.git'
-NeoBundle 'motemen/git-vim'
 NeoBundle 'vim-ruby/vim-ruby'
 NeoBundle 'danchoi/ri.vim.git'
 NeoBundle 'tpope/vim-rails'
@@ -270,85 +205,41 @@ NeoBundle 'mattn/webapi-vim'
 NeoBundle 'Lokaltog/vim-powerline'
 NeoBundle 'tomtom/tcomment_vim'
 NeoBundle 'groenewege/vim-less'
+NeoBundle 'zaiste/tmux.vim'
 NeoBundle 'vim-scripts/Source-Explorer-srcexpl.vim'
 NeoBundle 'vim-scripts/sudo.vim'
 NeoBundle 'vim-scripts/errormarker.vim'
 NeoBundle 'mattn/qiita-vim.git'
 " NeoBundle 'c9s/cpan.vim'
+"" }}}
 
-" --------------------------------
-" www.vim.orgにあるプラグイン
-" --------------------------------
+"" www.vim.orgにあるプラグイン {{{
 NeoBundle 'L9'
 NeoBundle 'ZenCoding.vim'
 NeoBundle 'guicolorscheme.vim'
 NeoBundle 'vimshell-ssh'
 NeoBundle 'taglist.vim'
 NeoBundle 'dbext.vim'
+"" }}}
 
-" --------------------------------
-" それ以外にある gitリポジトリにあるプラグイン
-" --------------------------------
+"" それ以外にある gitリポジトリにあるプラグイン {{{
 NeoBundle 'git://git.wincent.com/command-t.git'
 NeoBundle 'git://github.com/msanders/cocoa.vim.git'
+"" }}}
 
-" GUI colorscheme
+"" GUI colorscheme {{{
 NeoBundleLazy 'ujihisa/unite-colorscheme'
 NeoBundleLazy 'tomasr/molokai'
 NeoBundleLazy 'altercation/vim-colors-solarized'
 NeoBundleLazy 'earendel'
 NeoBundleLazy 'rdark'
 NeoBundleLazy 'telamon/vim-color-github'
+"" }}}
 
 filetype plugin indent on
 
-""" vim-quickrun """
-nnoremap <Leader>q  <Nop>
-nmap     <silent><Leader>qr :w<CR><Plug>(quickrun):copen<CR>
-nnoremap <Leader>qR :QuickRun<Space>
-" QuickFixバッファを閉じると同時にエラー表示も消す
-autocmd MyAutocmd FileType qf nnoremap <buffer><silent> q :q<CR>:HierClear<CR>
 
-""" git.vim """
-" git add
-let g:proj_run1='!git add %f'
-let g:proj_run_fold1='*!git add %f'
-
-" git checkout --
-let g:proj_run2='!git checkout -- %f'
-let g:proj_run_fold2="*!git checkout --%f"
-
-" git status
-let g:proj_run3='!git status'
-
-" フォールディングを展開した状態で, プロジェクトを開く
-autocmd MyAutocmd BufAdd .vimprojects silent! %foldopen!
-
-" カレントディレクトリにプロジェクト管理ファイルがあったら読み込む
-if getcwd() != $HOME
-    if filereadable(getcwd(). '/.vimprojects')
-        Project .vimprojects
-    endif
-endif
-
-""" vim-ruby """
-" <C-Space>でomni補完
-inoremap <C-Space> <C-x><C-o>
-
-""" rails.vim """
-" Rubyのオムニ補完を設定(ft-ruby-omni)
-let g:rubycomplete_buffer_loading = 1
-let g:rubycomplete_classes_in_global = 1
-let g:rubycomplete_rails = 1
-
-autocmd User Rails.controller* Rnavcommand api app/controllers/api -glob=**/* -suffix=_controller.rb
-autocmd User Rails.controller* Rnavcommand tmpl app/controllers/tmpl -glob=**/* -suffix=_controller.rb
-autocmd User Rails Rnavcommand config config   -glob=*.*  -suffix= -default=routes.rb
-autocmd User Rails nnoremap :<C-u>Rcontroller :<C-u>Rc
-autocmd User Rails nnoremap :<C-u>Rmodel :<C-u>Rm
-autocmd User Rails nnoremap :<C-u>Rview :<C-u>Rv
-
-""" neocomplcache """
+"" neocomplcache {{{
 " AutoComplPopを無効にする
 let g:acp_enableAtStartup = 0
 " vim起動時に有効化
@@ -408,10 +299,10 @@ inoremap <expr><C-y> neocomplcache#close_popup()
 
 " 自作スニペット {{{
 let g:neocomplcache_snippets_dir=$HOME.'/.vim/snippets'
-"}}}
+" }}}
+"" }}}
 
-
-""" unite.vim """
+"" unite.vim {{{
 " insertモードをデフォルトに
 let g:unite_enable_start_insert = 1
 " 無指定にすることで高速化
@@ -484,9 +375,9 @@ augroup UniteMapping
   autocmd FileType unite nnoremap <buffer><expr> f unite#smart_map('f', unite#do_action('vimfiler'))
   autocmd FileType unite inoremap <buffer><expr> f unite#smart_map('f', unite#do_action('vimfiler'))
 augroup END
+"" }}}
 
-
-""" vimfiler """
+"" VimFiler {{{
 let g:vimfiler_as_default_explorer = 1
 let g:vimfiler_safe_mode_by_default = 0
 let g:vimfiler_split_command = 'vertical rightbelow vsplit'
@@ -513,28 +404,23 @@ nnoremap <Leader>fb   :<C-u>VimFilerBufferDir<CR>
 nnoremap <Leader>fB   :<C-u>VimFilerBufferDir<CR>
 nnoremap <silent><expr><Leader>fg ":\<C-u>VimFiler " . <SID>git_root_dir() . '\<CR>'
 nnoremap <silent><expr><Leader>fe ":\<C-u>VimFilerExplorer " . <SID>git_root_dir() . '\<CR>'
+"" }}}
 
-
-""" vimshell """
+"" vimshell {{{
 let g:vimshell_user_prompt = 'getcwd()'
 let g:vimshell_disable_escape_highlight = 1
+"" }}}
 
-""" srcexpl """
-" Previewを自動表示する
-let g:SrcExpl_RefreshTime = 1
-
-" tagsを自動生成
-let g:SrcExpl_UpdateTags = 1
-
-""" vim-unite-vcs """
+"" vim-unite-vcs {{{
 nnoremap  [vcs] <Nop>
 nmap      fv    [vcs]
 
 nnoremap [vcs]l  :<C-u>Unite vcs/log<CR>
 nnoremap [vcs]s  :<C-u>Unite vcs/status<CR>
 nnoremap [vcs]r  :<C-u>Unite vcs/file_rec<CR>
+"" }}}
 
-""" vim-fugutive """
+"" vim-fugutive {{{
 nnoremap [fugu] <Nop>
 nmap     gi    [fugu]
 
@@ -543,8 +429,36 @@ nnoremap [fugu]bl :<C-u>Gblame<CR>
 nnoremap [fugu]gr :<C-u>Ggrep<SPACE>
 nnoremap [fugu]lo :<C-u>Glog<CR>
 nnoremap [fugu]re :<C-u>Gread<CR>
+"" }}}
 
-""" errormaker.vim """
+"" vim-quickrun {{{
+nnoremap <Leader>q  <Nop>
+nmap     <silent><Leader>qr :w<CR><Plug>(quickrun):copen<CR>
+nnoremap <Leader>qR :QuickRun<Space>
+" QuickFixバッファを閉じると同時にエラー表示も消す
+autocmd MyAutocmd FileType qf nnoremap <buffer><silent> q :q<CR>:HierClear<CR>
+"" }}}
+
+"" vim-ruby {{{
+" <C-Space>でomni補完
+inoremap <C-Space> <C-x><C-o>
+"" }}}
+
+"" rails.vim {{{
+" Rubyのオムニ補完を設定(ft-ruby-omni)
+let g:rubycomplete_buffer_loading = 1
+let g:rubycomplete_classes_in_global = 1
+let g:rubycomplete_rails = 1
+
+autocmd User Rails.controller* Rnavcommand api app/controllers/api -glob=**/* -suffix=_controller.rb
+autocmd User Rails.controller* Rnavcommand tmpl app/controllers/tmpl -glob=**/* -suffix=_controller.rb
+autocmd User Rails Rnavcommand config config   -glob=*.*  -suffix= -default=routes.rb
+autocmd User Rails nnoremap :<C-u>Rcontroller :<C-u>Rc
+autocmd User Rails nnoremap :<C-u>Rmodel :<C-u>Rm
+autocmd User Rails nnoremap :<C-u>Rview :<C-u>Rv
+"" }}}
+
+"" errormaker.vim {{{
 " setlocal makeprg=$HOME/.vim/vimparse.pl\ -c\ %\ $*
 " setlocal errorformat=%f:%l:%m
 "
@@ -555,12 +469,11 @@ nnoremap [fugu]re :<C-u>Gread<CR>
 "     autocmd BufWritePost *.pm,*.pl,*.t silent make
 "   endif
 " augroup END
+"" }}}
 
-" }}}
+""" }}}
 
-"-------------------------------------------------------------------------------
-" Indent
-"-------------------------------------------------------------------------------
+""" FileType {{{
 set autoindent   " 自動でインデント
 set cindent      " Cプログラムファイルの自動インデントを始める．これがあれば smartindent 要らない．
 " softtabstopはTabキー押し下げ時の挿入される空白の量，0の場合はtabstopと同じ，BSにも影響する
@@ -629,7 +542,44 @@ augroup IndentGroup
   autocmd FileType ruby       setlocal nocompatible
 augroup END
 
-" Functions for Template Toolkit 2 syntax
+"" ファイル形式毎にテンプレートを設定 {{{
+augroup templates
+  autocmd!
+  " autocmd BufNewFile *.pl 0r $HOME/.vim/templates/template.pl
+  " autocmd BufNewFile *.pm 0r $HOME/.vim/templates/template.pl
+  autocmd BufNewFile *.rb 0r $HOME/.vim/templates/template.rb
+  autocmd BufNewFile *.py 0r $HOME/.vim/templates/template.py
+augroup END
+"" }}}
+
+"" +perl, +python, +ruby  for MacVim {{{
+if has('gui_macvim') && has('kaoriya')
+  let s:ruby_libdir = system("ruby -rrbconfig -e 'print Config::CONFIG[\"libdir\"]'")
+  let s:ruby_libruby = s:ruby_libdir . '/libruby.dylib'
+  if filereadable(s:ruby_libruby)
+    let $RUBY_DLL = s:ruby_libruby
+  endif
+endif
+let $PERL_DLL = "/System/Library/Perl/5.12/darwin-thread-multi-2level/CORE/libperl.dylib"
+let $PYTHON_DLL = "$HOME/.pythonz/CPython-2.7.3/lib/libpython2.7.dylib"
+"" }}}
+
+"" Syntax chack {{{
+" Rubyのsyntaxチェック
+augroup rbsyntaxcheck
+  autocmd!
+  autocmd BufWrite *.rb w !ruby -c
+augroup END
+
+" Perlのsyntaxチェック
+augroup plsyntaxcheck
+  autocmd!
+  autocmd BufWrite *.pl w !perl -c -MVi::QuickFix -MProject::Libs
+  autocmd BufWrite *.pm w !perl -c -MVi::QuickFix -MProject::Libs
+augroup END
+"" }}}
+
+"" Functions for Template Toolkit 2 syntax {{{
 " http://d.hatena.ne.jp/dayflower/20090626/1245983732
 function! s:FTtt2()
   let save_cursor = getpos('.')
@@ -650,13 +600,11 @@ function! s:FTtt2html()
   endif
   call setpos('.', save_cursor)
 endfunction
-" }}}
+"" }}}
 
+""" }}}
 
-" ################################
-" Key Mapping {{{
-" ################################
-
+""" Keymap {{{
 " insertモードから抜ける
 inoremap <silent> jj <ESC>
 inoremap <silent> <C-j> j
@@ -798,10 +746,8 @@ function! s:rotate_in_line()
       normal! 0
     endif
   endif
-
 endfunction
 " , に割り当てる
 nnoremap <silent>, :<C-u>call <SID>rotate_in_line()<CR>
-" }}}
 
-""" FIN """
+""" }}}
