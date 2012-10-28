@@ -4,3 +4,6 @@
 [submodule ".zsh/antigen"]
 	path = .zsh/antigen
 	url = https://github.com/zsh-users/antigen.git
+[submodule ".zsh/plugins/cdd"]
+	path = .zsh/plugins/cdd
+	url = https://github.com/m4i/cdd.git

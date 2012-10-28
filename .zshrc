@@ -258,6 +258,14 @@ if type hub > /dev/null 2>&1; then
 fi
 ### }}}
 
+### plugins {{{
+# cdd
+if [[ -f "${ZSH_HOME}/plugins/cdd/cdd" ]]; then
+  source "${ZSH_HOME}/plugins/cdd/cdd"
+  add-zsh-hook chpwd _cdd_chpwd
+fi
+### }}}
+
 ### functions {{{
 ## ディレクトリ移動時に自動でls
 function chpwd() { ls -a }

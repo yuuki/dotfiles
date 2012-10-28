@@ -668,6 +668,10 @@ inoremap <C-q><C-q> <Esc>:wq<CR>
 " insertモードでもsave
 inoremap <C-w><C-w> <Esc>:w<Insert><CR>
 
+" insertモードでC-s -> Save, C-q -> Quit
+inoremap <C-s> <Esc>:w<CR>
+inoremap <C-q> <Esc>:q<CR>
+
 "Esc->Escで検索結果とエラーハイライトをクリア
 nnoremap <silent><Esc><Esc> :<C-u>nohlsearch<CR>
 

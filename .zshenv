@@ -63,12 +63,16 @@ sudo_path=(
 )
 
 # MANPATH
-typeset -u manpath
+typeset -U manpath
 manpath=(
   ${HOME}/local/share/man(N-/)
   /usr/local/share/man(N-/)
   /usr/share/man(N-/)
 )
+
+export LANG=ja_JP.UTF-8
+
+export EDITOR="vim"
 
 # PAGER
 if type lv > /dev/null 2>&1; then
@@ -77,20 +81,26 @@ else
   export PAGER="less"
 fi
 
-export LANG=ja_JP.UTF-8
-
-export EDITOR="vim"
-
 # Homebrew
 export HOMEBREW_TEMP="/Volumes/Macintosh\ HD/tmp"
 export HOMEBREW_PREFIX="/usr/local"
 
+fpath=(
+  $HOMEBREW_PREFIX/share/zsh/site-functions(N-/)
+  $HOMEBREW_PREFIX/share/zsh/functions(N-/)
+  ${fpath}
+)
+
 # C++
-export CPLUS_INCLUDE_PATH=/usr/local/include:$CPLUS_INCLUDE_PATH
-export DYLD_FALLBACK_LIBRARY_PATH=/usr/local/lib
-export BOOST_ROOT=/usr/local/include/boost:$BOOST_ROOT
-export CPLUS_INCLUDE_PATH=$CPLUS_INCLUDE_PATH:/usr/local/include/boost
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib/boost
+typeset -xT CPLUS_INCLUDE_PATH cplus_include_path
+typeset -U cplus_include_path
+cplus_include_path=(
+  $HOMEBREW_PREFIX/include
+  $HOMEBREW_PREFIX/include/boost
+  $cplus_include_path
+)
+export LD_LIBRARY_PATH=$HOMEBREW_PREFIX/lib/boost:$LD_LIBRARY_PATH
+export DYLD_FALLBACK_LIBRARY_PATH=$HOMEBREW_PREFIX/lib:$DYLD_FALLBACK_LIBRARY_PATH
 
 # JAVA
 export CLASSPATH=$CLASSPATH:$JAVA_HOME/lib:.
