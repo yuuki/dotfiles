@@ -29,6 +29,7 @@
   co = checkout
   # commit関連
   cm = commit
+  cmm = commit -m
   ca = commit -a
   cma = commit --amend
   # branch関連
