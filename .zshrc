@@ -264,6 +264,12 @@ if [[ -f "${ZSH_HOME}/plugins/cdd/cdd" ]]; then
   source "${ZSH_HOME}/plugins/cdd/cdd"
   add-zsh-hook chpwd _cdd_chpwd
 fi
+if [[ -f "${ZSH_HOME}/plugins/auto-fu.zsh/auto-fu.zsh" ]]; then
+  # source "${ZSH_HOME}/plugins/auto-fu.zsh/auto-fu.zsh"
+  # zle-line-init () {auto-fu-init;}; zle -N zle-line-init
+  # zstyle ':completion:*' completer _oldlist _complete
+  # zle -N zle-keymap-select auto-fu-zle-keymap-select
+fi
 ### }}}
 
 ### functions {{{
