@@ -11,7 +11,7 @@
   default = tracking
 [core]
   editor = vim
-	excludesfile = "$HOME/.gitignore"
+	excludesfile = ~/.gitignore
   autocrlf = input
 [grep]
   lineNumber = true

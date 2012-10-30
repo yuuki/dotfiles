@@ -1,8 +1,7 @@
 # vim:set ft=zsh foldmethod=marker:
 
 # ZSH_HOME
-  export ZSH_HOME=${HOME}/.zsh
-#
+export ZSH_HOME=${HOME}/.zsh
 
 # fpath
 typeset -U fpath
@@ -24,6 +23,14 @@ path=(
 if type brew >> /dev/null 2>&1; then
   path=(
     $(brew --prefix coreutils)/libexec/gnubin(N-/)
+    $path
+  )
+fi
+
+# heroku
+if type heroku >> /dev/null 2>&1; then
+  path=(
+    /usr/local/heroku/bin(N-/)
     $path
   )
 fi
