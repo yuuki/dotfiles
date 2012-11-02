@@ -1,5 +1,4 @@
 
-syntax on
 " augroup がセットされていない autocmd 全般用の augroup
 " これをやっておかないと ReloadVimrc したときに困る．by Linda_pp
 augroup MyAutocmd
@@ -9,6 +8,8 @@ augroup END
 """ Options {{{
 " Vi互換モードを使わない
 set nocompatible
+" シンタックスハイライト
+syntax enable
 " バックスペースでいろいろ消せる
 set backspace=indent,eol,start
 " バックアップファイルなし
@@ -81,6 +82,18 @@ set complete+=k
 set ttyfast
 " {{{}}}で折りたたみ
 set foldmethod=marker
+" カーソル下の単語を help で調べる
+set keywordprg=:help
+" OSのクリップボードを使う
+set clipboard=unnamed
+" コマンド表示いらない
+set noshowcmd
+" コマンド実行中は再描画しない
+set lazyredraw
+" 読み込んでいるファイルが変更された時自動で読み直す
+set autoread
+" マルチバイト文字があってもカーソルがずれないようにする
+set ambiwidth=double
 " タブ文字を CTRL-I で表示し, 行末に $ で表示する.
 " set list
 " Listモードに使われる文字を設定する "
@@ -88,6 +101,16 @@ set foldmethod=marker
 """ }}}
 
 """ Util {{{
+
+" 一定時間カーソルを移動しないとカーソルラインを表示（ただし，ウィンドウ移動時
+" はなぜか切り替わらない
+" http://d.hatena.ne.jp/thinca/20090530/1243615055
+augroup AutoCursorLine
+  autocmd!
+  autocmd CursorMoved,CursorMovedI,WinLeave * setlocal nocursorline
+  autocmd CursorHold,CursorHoldI,WinEnter * setlocal cursorline
+augroup END
+
 " imsertモードから抜けるときにIMをOFFにする（GUI(MacVim)は自動的にやってくれる
 " iminsert = 2にすると，insertモードに戻ったときに自動的にIMの状態が復元される
 if !has("gui-running")
@@ -156,6 +179,288 @@ command! -bar -bang -nargs=? -complete=file Scouter
       \        echo Scouter(empty(<q-args>) ? $MYVIMRC : expand(<q-args>), <bang>0)
 """ }}}
 
+""" Keymap {{{
+" insertモードから抜ける
+inoremap <silent> jj <ESC>
+inoremap <silent> <C-j> j
+inoremap <silent> kk <ESC>
+inoremap <silent> <C-k> k
+
+" insertモードでもquit
+inoremap <C-q><C-q> <Esc>:wq<CR>
+" insertモードでもsave
+inoremap <C-w><C-w> <Esc>:w<Insert><CR>
+
+" insertモードでC-s -> Save, C-q -> Quit
+inoremap <C-s> <Esc>:w<CR>
+inoremap <C-q> <Esc>:q<CR>
+
+"Esc->Escで検索結果とエラーハイライトをクリア
+nnoremap <silent><Esc><Esc> :<C-u>nohlsearch<CR>
+
+" 賢く行頭・非空白行頭・行末の移動
+nnoremap <silent>0 :<C-u>call <SID>smart_move('g^')<CR>
+vnoremap <silent>0 :<C-u>call <SID>smart_move('g^')<CR>
+nnoremap <silent>^ :<C-u>call <SID>smart_move('g0')<CR>
+vnoremap <silent>^ :<C-u>call <SID>smart_move('g0')<CR>
+nnoremap <silent>- :<C-u>call <SID>smart_move('g$')<CR>
+vnoremap <silent>- :<C-u>call <SID>smart_move('g$')<CR>
+" Visualモード時にvで行末まで選択する
+vnoremap v $h
+" 選択範囲置換補助
+vnoremap <C-r> ::s/\%V
+
+" 表示行単位で行移動する
+nmap j gj
+nmap k gk
+vmap j gj
+vmap k gk
+
+" insertモードでのカーソル移動 ポップアップウィンドウがでないように
+inoremap <C-e> <END>
+vnoremap <C-e> <END>
+cnoremap <C-e> <END>
+inoremap <C-a> <HOME>
+vnoremap <C-a> <HOME>
+cnoremap <C-a> <HOME>
+inoremap <silent><expr><C-j> pumvisible() ? "\<C-y>\<Down>" : "\<Down>"
+inoremap <silent><expr><C-k> pumvisible() ? "\<C-y>\<Up>" : "\<Up>"
+inoremap <silent><expr><C-h> pumvisible() ? "\<C-y>\<Left>" : "\<Left>"
+inoremap <silent><expr><C-l> pumvisible() ? "\<C-y>\<Right>" : "\<Right>"
+cnoremap <C-h> <Left>
+cnoremap <C-l> <Right>
+" カーソル前の文字削除
+inoremap <silent> <C-h> <C-g>u<C-h>
+cnoremap <silent> <C-h> <C-g>u<C-h>
+" カーソル後の文字削除
+inoremap <silent> <C-d> <Del>
+cnoremap <silent> <C-d> <Del>
+" 引用符, 括弧の設定
+inoremap {} {}<Left>
+inoremap [] []<Left>
+inoremap () ()<Left>
+inoremap "" ""<Left>
+inoremap '' ''<Left>
+inoremap <> <><Left>
+inoremap []5 [%  %]<Left><Left><Left>
+inoremap {}5 {%  %}<Left><Left><Left>
+inoremap <>5 <%  %><Left><Left><Left>
+
+" 空行挿入
+nnoremap ; :<C-u>call append(expand('.'), '')<CR>
+"ヘルプ表示
+nnoremap <Leader>h :<C-u>vert to help<Space>
+
+"<BS>の挙動 いきおいあまっていろいろ消してしまう
+" nnoremap <BS> bdw
+
+" 縦方向移動支援
+" nnoremap J 3j
+" nnoremap K 3k"
+
+" CTRL-hjklでウィンドウ移動
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+nnoremap <C-h> <C-w>h
+
+" ウィンドウ分割時にウィンドウサイズを調節
+nnoremap <silent> <S-Left>  :5wincmd <<CR>
+nnoremap <silent> <S-Right> :5wincmd ><CR>
+nnoremap <silent> <S-Up>    :5wincmd -<CR>
+nnoremap <silent> <S-Down>  :5wincmd +<CR>
+
+" 検索後画面の中心に移動
+nnoremap n nzvzz
+nnoremap N Nzvzz
+nnoremap * *zvzz
+nnoremap # *zvzz
+
+"バッファ切り替え
+nnoremap <silent><C-n>   :<C-u>bnext<CR>
+nnoremap <silent><C-p>   :<C-u>bprevious<CR>
+
+" タブの設定
+nnoremap ge :<C-u>tabedit<Space>
+nnoremap gn :<C-u>tabnew<CR>
+
+" そっこうのvimrc
+nnoremap <silent> <Space>ev  :<C-u>edit $MYVIMRC<CR>
+nnoremap <silent> <Space>eg  :<C-u>edit $MYGVIMRC<CR>
+
+" 初回のみ a:cmd の動きをして，それ以降は行内をローテートする
+let s:smart_line_pos = -1
+function! s:smart_move(cmd)
+  let line = line('.')
+  if s:smart_line_pos == line . a:cmd
+    call <SID>rotate_in_line()
+  else
+    execute "normal! " . a:cmd
+    " 最後に移動した行とマッピングを保持
+    let s:smart_line_pos = line . a:cmd
+  endif
+endfunction
+
+" 行頭 → 非空白行頭 → 行 をローテートする by Linda_pp
+" http://qiita.com/items/ee4bf64b1fe2c0a32cbd#comment-e2aafa1f4e60ae49a730
+function! s:rotate_in_line()
+  let c = col('.')
+
+  if c == 1
+    let cmd = '^'
+  else
+    let cmd = '$'
+  endif
+
+  execute "normal! ".cmd
+
+  if c == col('.')
+    if cmd == '^'
+      normal! $
+    else
+      normal! 0
+    endif
+  endif
+endfunction
+" , に割り当てる
+nnoremap <silent>, :<C-u>call <SID>rotate_in_line()<CR>
+
+""" }}}
+
+""" FileType {{{
+set autoindent   " 自動でインデント
+set cindent      " Cプログラムファイルの自動インデントを始める．これがあれば smartindent 要らない．
+" softtabstopはTabキー押し下げ時の挿入される空白の量，0の場合はtabstopと同じ，BSにも影響する
+set tabstop=2 shiftwidth=2 softtabstop=0
+
+"ファイルタイプの検索を有効にする
+filetype plugin on
+"そのファイルタイプにあわせたインデントを利用する
+filetype indent on
+
+augroup FileTypeDetect
+  autocmd!
+  autocmd BufNewFile,BufRead *.PL,*.t,*.psgi,*.perldb,cpanfile setf perl
+  autocmd BufNewFile,BufRead *.hpp,*.cl setf cpp
+  autocmd BufNewFile,BufRead *.aj setf java
+  autocmd BufNewFile,BufRead *.jspx setf xhtml
+  autocmd BufNewFile,BufRead *.tex,*.latex,*.sty,*.dtx,*.ltx,*.bbl setf tex
+  autocmd BufNewFile,BufRead *.tt,*.tt2 call s:FTtt2()
+  autocmd BufNewFile,BufRead *.html call s:FTtt2html()
+  autocmd BufRead,BufNewFile *.mkd setfiletype mkd
+  autocmd BufRead,BufNewFile *.md  setfiletype mkd
+augroup END
+
+augroup IndentGroup
+  autocmd!
+  " インデント幅4
+        \ setlocal sw=4 sts=4 ts=4 et
+  autocmd FileType apache     setlocal sw=4 sts=4 ts=4 et
+  autocmd FileType c          setlocal sw=4 sts=4 ts=4 et
+  autocmd FileType cpp        setlocal sw=4 sts=4 ts=4 et
+  autocmd FileType cs         setlocal sw=4 sts=4 ts=4 et
+  autocmd FileType css        setlocal sw=2 sts=2 ts=2 et
+  autocmd FileType diff       setlocal sw=4 sts=4 ts=4 et
+  autocmd FileType eruby      setlocal sw=2 sts=2 ts=2 et
+  autocmd FileType groovy     setlocal sw=4 sts=4 ts=4 et
+  autocmd FileType haml       setlocal sw=2 sts=2 ts=2 et
+  autocmd FileType hpp        setlocal sw=4 sts=4 ts=4 et
+  autocmd FileType html       setlocal sw=2 sts=2 ts=2 et
+  autocmd FileType java       setlocal sw=4 sts=4 ts=4 et
+  autocmd FileType javascript setlocal sw=4 sts=4 ts=4 et
+  autocmd FileType perl       setlocal sw=4 sts=4 ts=4 et
+  autocmd FileType python     setlocal sw=4 sts=4 ts=4 et
+  autocmd FileType ruby       setlocal sw=2 sts=2 ts=2 et
+  autocmd FileType scala      setlocal sw=2 sts=2 ts=2 et
+  autocmd FileType sh         setlocal sw=4 sts=4 ts=4 et
+  autocmd FileType sql        setlocal sw=4 sts=4 ts=4 et
+  autocmd FileType tex        setlocal sw=2 sts=2 ts=2 et
+  autocmd FileType tt2        setlocal sw=2 sts=2 ts=2 et
+  autocmd FileType tt2html    setlocal sw=2 sts=2 ts=2 et
+  autocmd FileType vim        setlocal sw=2 sts=2 ts=2 et
+  autocmd FileType xhtml      setlocal sw=4 sts=4 ts=4 et
+  autocmd FileType yaml       setlocal sw=2 sts=2 ts=2 et
+  autocmd FileType zsh        setlocal sw=2 sts=2 ts=2 et
+
+  autocmd FileType c,cpp,objc,perl,ruby,java,javascript,css inoremap : ;
+  autocmd FileType c,cpp,objc,perl,ruby,java,javascript,css inoremap ; :
+  let $BOOST_ROOT = "/usr/local/include/boost"
+  autocmd FileType c,cpp,objc set path+=$BOOST_ROOT
+
+  autocmd FileType perl,cgi   compiler perl
+  autocmd FileType perl,cgi   nmap <buffer>,pt <ESC>:%! perltidy<CR> " ソースコード全体を整形
+  autocmd FileType perl,cgi   nmap <buffer>,ptv <ESC>:%'<, '>! perltidy<CR> " 選択された部分のソースコードを整形
+  autocmd FileType perl,cgi   setlocal iskeyword+=:
+  autocmd FileType perl,cgi   setlocal isfname-=-I
+  autocmd FileType perl,cgi   setlocal dictionary+=~/.vim/dict/perl_functions.dict
+
+  autocmd FileType python     setlocal cinwords=if,elif,else,for,while,try,except,finally,def,class
+  autocmd FileType ruby       compiler ruby
+  autocmd FileType ruby       setlocal nocompatible
+augroup END
+
+"" ファイル形式毎にテンプレートを設定 {{{
+augroup templates
+  autocmd!
+  " autocmd BufNewFile *.pl 0r $HOME/.vim/templates/template.pl
+  " autocmd BufNewFile *.pm 0r $HOME/.vim/templates/template.pl
+  autocmd BufNewFile *.rb 0r $HOME/.vim/templates/template.rb
+  autocmd BufNewFile *.py 0r $HOME/.vim/templates/template.py
+augroup END
+"" }}}
+
+"" +perl, +python, +ruby  for MacVim {{{
+if has('gui_macvim') && has('kaoriya')
+  let s:ruby_libdir = system("ruby -rrbconfig -e 'print Config::CONFIG[\"libdir\"]'")
+  let s:ruby_libruby = s:ruby_libdir . '/libruby.dylib'
+  if filereadable(s:ruby_libruby)
+    let $RUBY_DLL = s:ruby_libruby
+  endif
+endif
+let $PERL_DLL = "/System/Library/Perl/5.12/darwin-thread-multi-2level/CORE/libperl.dylib"
+let $PYTHON_DLL = "$HOME/.pythonz/CPython-2.7.3/lib/libpython2.7.dylib"
+"" }}}
+
+"" Syntax chack {{{
+" Rubyのsyntaxチェック
+augroup rbsyntaxcheck
+  autocmd!
+  autocmd BufWrite *.rb w !ruby -c
+augroup END
+
+" Perlのsyntaxチェック
+augroup plsyntaxcheck
+  autocmd!
+  autocmd BufWrite *.pl w !perl -c -MVi::QuickFix -MProject::Libs
+  autocmd BufWrite *.pm w !perl -c -MVi::QuickFix -MProject::Libs
+augroup END
+"" }}}
+
+"" Functions for Template Toolkit 2 syntax {{{
+" http://d.hatena.ne.jp/dayflower/20090626/1245983732
+function! s:FTtt2()
+  let save_cursor = getpos('.')
+  call cursor(1, 1)
+  if search('\<\c\%(html\|head\|body\|div\)', 'cn') > 0
+    setf tt2html
+  else
+    setf tt2
+  endif
+  call setpos('.', save_cursor)
+endfunction
+
+function! s:FTtt2html()
+  let save_cursor = getpos('.')
+  call cursor(1, 1)
+  if search('\[%', 'cn') > 0
+    setlocal filetype=tt2html
+  endif
+  call setpos('.', save_cursor)
+endfunction
+"" }}}
+
+""" }}}
+
 """ Plugins {{{
 filetype off
 filetype plugin indent off
@@ -165,7 +470,7 @@ if has('vim_starting')
   call neobundle#rc()
 endif
 
-"" github にあるプラグイン {{{
+"" on GitHub {{{
 NeoBundle 'Shougo/vimproc', {
             \ 'build' : {
             \       'mac'     : 'make -f make_mac.mak',
@@ -193,10 +498,7 @@ NeoBundle 'thinca/vim-ref'
 NeoBundle 'ujihisa/vimshell-ssh.git'
 NeoBundle 'Lokaltog/vim-powerline'
 NeoBundle 'tomtom/tcomment_vim'
-NeoBundle 'vim-scripts/sudo.vim'
 NeoBundle 'vim-scripts/errormarker.vim'
-NeoBundle 'osyo-manga/neocomplcache-clang_complete'
-NeoBundle 'vim-ruby/vim-ruby'
 NeoBundle 'danchoi/ri.vim.git'
 NeoBundle 'tpope/vim-rails'
 NeoBundle 'tpope/vim-bundler.git'
@@ -204,29 +506,21 @@ NeoBundle 'tpope/vim-rake.git'
 NeoBundle 'tpope/vim-abolish.git'
 NeoBundle 'tpope/vim-haml.git'
 NeoBundle 'tpope/vim-fugitive'
-NeoBundle 'kchmck/vim-coffee-script'
-NeoBundle 'plasticboy/vim-markdown'
-NeoBundle 'vim-jp/cpp-vim'
-NeoBundle 'benizi/perl-support.vim'
-NeoBundle 'petdance/vim-perl'
 NeoBundle 'hotchpotch/perldoc-vim'
-NeoBundle 'groenewege/vim-less'
-NeoBundle 'zaiste/tmux.vim'
-NeoBundle 'micheljansen/vim-latex'
 NeoBundle 'mattn/qiita-vim.git'
 " NeoBundle 'mattn/webapi-vim'
 " NeoBundle 'c9s/cpan.vim'
 "" }}}
 
-"" www.vim.orgにあるプラグイン {{{
-NeoBundle 'L9'
+"" on www.vim.org {{{
 NeoBundle 'guicolorscheme.vim'
-NeoBundle 'taglist.vim'
 NeoBundle 'dbext.vim'
+" NeoBundle 'L9'
+" NeoBundle 'taglist.vim'
 "" }}}
 
-"" それ以外にある gitリポジトリにあるプラグイン {{{
-NeoBundle 'git://git.wincent.com/command-t.git'
+"" on others Git repositories {{{
+" NeoBundle 'git://git.wincent.com/command-t.git'
 " NeoBundle 'git://github.com/msanders/cocoa.vim.git'
 "" }}}
 
@@ -237,6 +531,36 @@ NeoBundleLazy 'altercation/vim-colors-solarized'
 NeoBundleLazy 'earendel'
 NeoBundleLazy 'rdark'
 NeoBundleLazy 'telamon/vim-color-github'
+"" }}}
+
+"" 特定環境用 {{{
+NeoBundleLazy 'sudo.vim'
+NeoBundleLazy 'vim-ruby/vim-ruby'
+NeoBundleLazy 'vim-jp/cpp-vim'
+NeoBundleLazy 'osyo-manga/neocomplcache-clang_complete'
+NeoBundleLazy 'kchmck/vim-coffee-script'
+NeoBundleLazy 'plasticboy/vim-markdown'
+NeoBundleLazy 'benizi/perl-support.vim'
+NeoBundleLazy 'petdance/vim-perl'
+NeoBundleLazy 'groenewege/vim-less'
+NeoBundleLazy 'zaiste/tmux.vim'
+NeoBundleLazy 'micheljansen/vim-latex'
+"" }}}
+
+"" 遅延ロード {{{
+augroup NeoBundleLazyLoad
+    autocmd!
+    autocmd FileType cpp NeoBundleSource
+                \ cpp-vim
+                \ neocomplcache-clang_complete
+    autocmd FileType ruby NeoBundleSource vim-ruby
+    autocmd FileType perl NeoBundleSource
+                \ perl-support.vim
+                \ vim-perl
+    autocmd FileType less NeoBundleSource vim-less
+    autocmd FileType tmux NeoBundleSource tmux.vim
+    autocmd FileType tex  NeoBundleSource vim-latex
+augroup END
 "" }}}
 
 filetype plugin indent on
@@ -277,32 +601,43 @@ endif
 " Enable omni completion.
 augroup NeocomplcacheOmniFunc
     autocmd!
-    autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+    autocmd FileType python     setlocal omnifunc=pythoncomplete#Complete
     autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-    autocmd FileType html setlocal omnifunc=htmlcomplete#CompleteTags
-    autocmd FileType css setlocal omnifunc=csscomplete#CompleteCss
-    autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-    autocmd FileType php setlocal omnifunc=phpcomplete#CompletePHP
-    autocmd FileType c setlocal omnifunc=ccomplete#Complete
+    autocmd FileType html       setlocal omnifunc=htmlcomplete#CompleteTags
+    autocmd FileType css        setlocal omnifunc=csscomplete#CompleteCss
+    autocmd FileType xml        setlocal omnifunc=xmlcomplete#CompleteTags
+    autocmd FileType php        setlocal omnifunc=phpcomplete#CompletePHP
+    autocmd FileType c          setlocal omnifunc=ccomplete#Complete
     " autocmd FileType ruby set omnifunc=rubycomplete#Complete
 augroup END
 
-" neocomplcacheのキーマップ
-"スニペット展開候補があれば展開を，そうでなければbash風補完を．
-" imap     <expr><C-l> neocomplcache#sources#snippets_complete#expandable() ? "\<Plug>(neocomplcache_snippets_expand)" : neocomplcache#complete_common_string()
-imap     <expr><TAB> neocomplcache#sources#snippets_complete#expandable() ? "\<Plug>(neocomplcache_snippets_expand)" : pumvisible() ? "\<C-n>" : "\<TAB>"
-imap <C-k>     <Plug>(neocomplcache_snippets_expand)
-smap <C-k>     <Plug>(neocomplcache_snippets_expand)
+" neocomplcacheのキーマップ {{{
 " <CR>: close popup and save indent.
 imap     <expr><CR>  pumvisible() ? neocomplcache#smart_close_popup()."\<CR>" : "\<CR>"
 inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 inoremap <expr><C-g> neocomplcache#undo_completion()
 inoremap <expr><C-y> neocomplcache#close_popup()
-
-
-" 自作スニペット {{{
-let g:neocomplcache_snippets_dir=$HOME.'/.vim/snippets'
 " }}}
+"" }}}
+
+"" neosnippet {{{
+" スニペット展開候補があれば展開を，そうでなければbash風補完を．
+" プレースホルダ優先で展開
+imap <expr><C-l> neosnippet#expandable() ?
+            \ "\<Plug>(neosnippet_jump_or_expand)" :
+            \ neocomplcache#complete_common_string()
+smap <expr><C-l> neosnippet#expandable() ?
+            \ "\<Plug>(neosnippet_jump_or_expand)" :
+            \ neocomplcache#complete_common_string()
+" ネスト優先で展開
+imap <expr><C-S-l> neosnippet#expandable() ?
+            \ "\<Plug>(neosnippet_expand_or_jump)" :
+            \ neocomplcache#complete_common_string()
+smap <expr><C-S-l> neosnippet#expandable() ?
+            \ "\<Plug>(neosnippet_expand_or_jump)" :
+            \ neocomplcache#complete_common_string()
+" 自作スニペット {{{
+let g:neosnippet#snippets_directory=$HOME.'/.vim/snippets'
 "" }}}
 
 "" unite.vim {{{
@@ -485,284 +820,5 @@ endif
 "   endif
 " augroup END
 "" }}}
-
-""" }}}
-
-""" FileType {{{
-set autoindent   " 自動でインデント
-set cindent      " Cプログラムファイルの自動インデントを始める．これがあれば smartindent 要らない．
-" softtabstopはTabキー押し下げ時の挿入される空白の量，0の場合はtabstopと同じ，BSにも影響する
-set tabstop=2 shiftwidth=2 softtabstop=0
-
-"ファイルタイプの検索を有効にする
-filetype plugin on
-"そのファイルタイプにあわせたインデントを利用する
-filetype indent on
-
-augroup IndentGroup
-  autocmd!
-  autocmd BufNewFile,BufRead *.PL,*.t,*.psgi,*.perldb,cpanfile setf perl
-  autocmd BufNewFile,BufRead *.hpp,*.cl setf cpp
-  autocmd BufNewFile,BufRead *.aj setf java
-  autocmd BufNewFile,BufRead *.jspx setf xhtml
-  autocmd BufNewFile,BufRead *.tex,*.latex,*.sty,*.dtx,*.ltx,*.bbl setf tex
-  autocmd BufNewFile,BufRead *.tt,*.tt2 call s:FTtt2()
-  autocmd BufNewFile,BufRead *.html call s:FTtt2html()
-  autocmd BufRead,BufNewFile *.mkd setfiletype mkd
-  autocmd BufRead,BufNewFile *.md  setfiletype mkd
-
-  " インデント幅4
-        \ setlocal sw=4 sts=4 ts=4 et
-  autocmd FileType apache     setlocal sw=4 sts=4 ts=4 et
-  autocmd FileType c          setlocal sw=4 sts=4 ts=4 et
-  autocmd FileType cpp        setlocal sw=4 sts=4 ts=4 et
-  autocmd FileType cs         setlocal sw=4 sts=4 ts=4 et
-  autocmd FileType css        setlocal sw=2 sts=2 ts=2 et
-  autocmd FileType diff       setlocal sw=4 sts=4 ts=4 et
-  autocmd FileType eruby      setlocal sw=2 sts=2 ts=2 et
-  autocmd FileType groovy     setlocal sw=4 sts=4 ts=4 et
-  autocmd FileType haml       setlocal sw=2 sts=2 ts=2 et
-  autocmd FileType hpp        setlocal sw=4 sts=4 ts=4 et
-  autocmd FileType html       setlocal sw=2 sts=2 ts=2 et
-  autocmd FileType java       setlocal sw=4 sts=4 ts=4 et
-  autocmd FileType javascript setlocal sw=4 sts=4 ts=4 et
-  autocmd FileType perl       setlocal sw=4 sts=4 ts=4 et
-  autocmd FileType python     setlocal sw=4 sts=4 ts=4 et
-  autocmd FileType ruby       setlocal sw=2 sts=2 ts=2 et
-  autocmd FileType scala      setlocal sw=2 sts=2 ts=2 et
-  autocmd FileType sh         setlocal sw=4 sts=4 ts=4 et
-  autocmd FileType sql        setlocal sw=4 sts=4 ts=4 et
-  autocmd FileType tex        setlocal sw=2 sts=2 ts=2 et
-  autocmd FileType tt2        setlocal sw=2 sts=2 ts=2 et
-  autocmd FileType tt2html    setlocal sw=2 sts=2 ts=2 et
-  autocmd FileType vim        setlocal sw=2 sts=2 ts=2 et
-  autocmd FileType xhtml      setlocal sw=4 sts=4 ts=4 et
-  autocmd FileType yaml       setlocal sw=2 sts=2 ts=2 et
-  autocmd FileType zsh        setlocal sw=2 sts=2 ts=2 et
-
-  autocmd FileType c,cpp,objc,perl,ruby,java,javascript,css inoremap : ;
-  autocmd FileType c,cpp,objc,perl,ruby,java,javascript,css inoremap ; :
-  let $BOOST_ROOT = "/usr/local/include/boost"
-  autocmd FileType c,cpp,objc set path+=$BOOST_ROOT
-
-  autocmd FileType perl,cgi   compiler perl
-  autocmd FileType perl,cgi   nmap <buffer>,pt <ESC>:%! perltidy<CR> " ソースコード全体を整形
-  autocmd FileType perl,cgi   nmap <buffer>,ptv <ESC>:%'<, '>! perltidy<CR> " 選択された部分のソースコードを整形
-  autocmd FileType perl,cgi   setlocal iskeyword+=:
-  autocmd FileType perl,cgi   setlocal isfname-=-I
-  autocmd FileType perl,cgi   setlocal dictionary+=~/.vim/dict/perl_functions.dict
-
-  autocmd FileType python     setlocal cinwords=if,elif,else,for,while,try,except,finally,def,class
-  autocmd FileType ruby       compiler ruby
-  autocmd FileType ruby       setlocal nocompatible
-augroup END
-
-"" ファイル形式毎にテンプレートを設定 {{{
-augroup templates
-  autocmd!
-  " autocmd BufNewFile *.pl 0r $HOME/.vim/templates/template.pl
-  " autocmd BufNewFile *.pm 0r $HOME/.vim/templates/template.pl
-  autocmd BufNewFile *.rb 0r $HOME/.vim/templates/template.rb
-  autocmd BufNewFile *.py 0r $HOME/.vim/templates/template.py
-augroup END
-"" }}}
-
-"" +perl, +python, +ruby  for MacVim {{{
-if has('gui_macvim') && has('kaoriya')
-  let s:ruby_libdir = system("ruby -rrbconfig -e 'print Config::CONFIG[\"libdir\"]'")
-  let s:ruby_libruby = s:ruby_libdir . '/libruby.dylib'
-  if filereadable(s:ruby_libruby)
-    let $RUBY_DLL = s:ruby_libruby
-  endif
-endif
-let $PERL_DLL = "/System/Library/Perl/5.12/darwin-thread-multi-2level/CORE/libperl.dylib"
-let $PYTHON_DLL = "$HOME/.pythonz/CPython-2.7.3/lib/libpython2.7.dylib"
-"" }}}
-
-"" Syntax chack {{{
-" Rubyのsyntaxチェック
-augroup rbsyntaxcheck
-  autocmd!
-  autocmd BufWrite *.rb w !ruby -c
-augroup END
-
-" Perlのsyntaxチェック
-augroup plsyntaxcheck
-  autocmd!
-  autocmd BufWrite *.pl w !perl -c -MVi::QuickFix -MProject::Libs
-  autocmd BufWrite *.pm w !perl -c -MVi::QuickFix -MProject::Libs
-augroup END
-"" }}}
-
-"" Functions for Template Toolkit 2 syntax {{{
-" http://d.hatena.ne.jp/dayflower/20090626/1245983732
-function! s:FTtt2()
-  let save_cursor = getpos('.')
-  call cursor(1, 1)
-  if search('\<\c\%(html\|head\|body\|div\)', 'cn') > 0
-    setf tt2html
-  else
-    setf tt2
-  endif
-  call setpos('.', save_cursor)
-endfunction
-
-function! s:FTtt2html()
-  let save_cursor = getpos('.')
-  call cursor(1, 1)
-  if search('\[%', 'cn') > 0
-    setlocal filetype=tt2html
-  endif
-  call setpos('.', save_cursor)
-endfunction
-"" }}}
-
-""" }}}
-
-""" Keymap {{{
-" insertモードから抜ける
-inoremap <silent> jj <ESC>
-inoremap <silent> <C-j> j
-inoremap <silent> kk <ESC>
-inoremap <silent> <C-k> k
-
-" insertモードでもquit
-inoremap <C-q><C-q> <Esc>:wq<CR>
-" insertモードでもsave
-inoremap <C-w><C-w> <Esc>:w<Insert><CR>
-
-" insertモードでC-s -> Save, C-q -> Quit
-inoremap <C-s> <Esc>:w<CR>
-inoremap <C-q> <Esc>:q<CR>
-
-"Esc->Escで検索結果とエラーハイライトをクリア
-nnoremap <silent><Esc><Esc> :<C-u>nohlsearch<CR>
-
-" 賢く行頭・非空白行頭・行末の移動
-nnoremap <silent>0 :<C-u>call <SID>smart_move('g^')<CR>
-vnoremap <silent>0 :<C-u>call <SID>smart_move('g^')<CR>
-nnoremap <silent>^ :<C-u>call <SID>smart_move('g0')<CR>
-vnoremap <silent>^ :<C-u>call <SID>smart_move('g0')<CR>
-nnoremap <silent>- :<C-u>call <SID>smart_move('g$')<CR>
-vnoremap <silent>- :<C-u>call <SID>smart_move('g$')<CR>
-" Visualモード時にvで行末まで選択する
-vnoremap v $h
-" 選択範囲置換補助
-vnoremap <C-r> ::s/\%V
-
-" 表示行単位で行移動する
-nmap j gj
-nmap k gk
-vmap j gj
-vmap k gk
-
-" insertモードでのカーソル移動 ポップアップウィンドウがでないように
-inoremap <C-e> <END>
-vnoremap <C-e> <END>
-cnoremap <C-e> <END>
-inoremap <C-a> <HOME>
-vnoremap <C-a> <HOME>
-cnoremap <C-a> <HOME>
-inoremap <silent><expr><C-j> pumvisible() ? "\<C-y>\<Down>" : "\<Down>"
-inoremap <silent><expr><C-k> pumvisible() ? "\<C-y>\<Up>" : "\<Up>"
-inoremap <silent><expr><C-h> pumvisible() ? "\<C-y>\<Left>" : "\<Left>"
-inoremap <silent><expr><C-l> pumvisible() ? "\<C-y>\<Right>" : "\<Right>"
-cnoremap <C-h> <Left>
-cnoremap <C-l> <Right>
-" カーソル前の文字削除
-inoremap <silent> <C-h> <C-g>u<C-h>
-cnoremap <silent> <C-h> <C-g>u<C-h>
-" カーソル後の文字削除
-inoremap <silent> <C-d> <Del>
-cnoremap <silent> <C-d> <Del>
-" 引用符, 括弧の設定
-inoremap {} {}<Left>
-inoremap [] []<Left>
-inoremap () ()<Left>
-inoremap "" ""<Left>
-inoremap '' ''<Left>
-inoremap <> <><Left>
-inoremap []5 [%  %]<Left><Left><Left>
-inoremap {}5 {%  %}<Left><Left><Left>
-inoremap <>5 <%  %><Left><Left><Left>
-
-" 空行挿入
-nnoremap ; :<C-u>call append(expand('.'), '')<CR>
-"ヘルプ表示
-nnoremap <Leader>h :<C-u>vert to help<Space>
-
-"<BS>の挙動 いきおいあまっていろいろ消してしまう
-" nnoremap <BS> bdw
-
-" 縦方向移動支援
-" nnoremap J 3j
-" nnoremap K 3k"
-
-" CTRL-hjklでウィンドウ移動
-nnoremap <C-j> <C-w>j
-nnoremap <C-k> <C-w>k
-nnoremap <C-l> <C-w>l
-nnoremap <C-h> <C-w>h
-
-" ウィンドウ分割時にウィンドウサイズを調節
-nnoremap <silent> <S-Left>  :5wincmd <<CR>
-nnoremap <silent> <S-Right> :5wincmd ><CR>
-nnoremap <silent> <S-Up>    :5wincmd -<CR>
-nnoremap <silent> <S-Down>  :5wincmd +<CR>
-
-" 検索後画面の中心に移動
-nnoremap n nzvzz
-nnoremap N Nzvzz
-nnoremap * *zvzz
-nnoremap # *zvzz
-
-"バッファ切り替え
-nnoremap <silent><C-n>   :<C-u>bnext<CR>
-nnoremap <silent><C-p>   :<C-u>bprevious<CR>
-
-" タブの設定
-nnoremap ge :<C-u>tabedit<Space>
-nnoremap gn :<C-u>tabnew<CR>
-
-" そっこうのvimrc
-nnoremap <silent> <Space>ev  :<C-u>edit $MYVIMRC<CR>
-nnoremap <silent> <Space>eg  :<C-u>edit $MYGVIMRC<CR>
-
-" 初回のみ a:cmd の動きをして，それ以降は行内をローテートする
-let s:smart_line_pos = -1
-function! s:smart_move(cmd)
-  let line = line('.')
-  if s:smart_line_pos == line . a:cmd
-    call <SID>rotate_in_line()
-  else
-    execute "normal! " . a:cmd
-    " 最後に移動した行とマッピングを保持
-    let s:smart_line_pos = line . a:cmd
-  endif
-endfunction
-
-" 行頭 → 非空白行頭 → 行 をローテートする by Linda_pp
-" http://qiita.com/items/ee4bf64b1fe2c0a32cbd#comment-e2aafa1f4e60ae49a730
-function! s:rotate_in_line()
-  let c = col('.')
-
-  if c == 1
-    let cmd = '^'
-  else
-    let cmd = '$'
-  endif
-
-  execute "normal! ".cmd
-
-  if c == col('.')
-    if cmd == '^'
-      normal! $
-    else
-      normal! 0
-    endif
-  endif
-endfunction
-" , に割り当てる
-nnoremap <silent>, :<C-u>call <SID>rotate_in_line()<CR>
 
 """ }}}
