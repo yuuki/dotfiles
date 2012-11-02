@@ -166,6 +166,15 @@ if has('vim_starting')
 endif
 
 "" github にあるプラグイン {{{
+NeoBundle 'Shougo/vimproc', {
+            \ 'build' : {
+            \       'mac'     : 'make -f make_mac.mak',
+            \       'unix'    : 'make -f make_unix.mak',
+            \   }
+            \ }
+NeoBundle 'Shougo/vimfiler.git'
+NeoBundle 'Shougo/vimshell.git'
+NeoBundle 'Shougo/vinarise.git'
 NeoBundle 'Shougo/echodoc.git'
 NeoBundle 'Shougo/neocomplcache.git'
 NeoBundle 'Shougo/neosnippet.git'
@@ -178,15 +187,15 @@ NeoBundle 'osyo-manga/unite-quickfix'
 NeoBundle 'Shougo/vim-vcs.git'
 NeoBundle 'hrsh7th/vim-unite-vcs'
 NeoBundle 'basyura/unite-rails'
-NeoBundle 'Shougo/vimfiler.git'
-NeoBundle 'Shougo/vimshell.git'
-NeoBundle 'Shougo/vinarise.git'
-NeoBundle 'Shougo/vimproc'
 NeoBundle 'thinca/vim-quickrun'
 NeoBundle 'thinca/vim-guicolorscheme'
 NeoBundle 'thinca/vim-ref'
-NeoBundle 'osyo-manga/neocomplcache-clang_complete'
 NeoBundle 'ujihisa/vimshell-ssh.git'
+NeoBundle 'Lokaltog/vim-powerline'
+NeoBundle 'tomtom/tcomment_vim'
+NeoBundle 'vim-scripts/sudo.vim'
+NeoBundle 'vim-scripts/errormarker.vim'
+NeoBundle 'osyo-manga/neocomplcache-clang_complete'
 NeoBundle 'vim-ruby/vim-ruby'
 NeoBundle 'danchoi/ri.vim.git'
 NeoBundle 'tpope/vim-rails'
@@ -201,30 +210,24 @@ NeoBundle 'vim-jp/cpp-vim'
 NeoBundle 'benizi/perl-support.vim'
 NeoBundle 'petdance/vim-perl'
 NeoBundle 'hotchpotch/perldoc-vim'
-NeoBundle 'mattn/webapi-vim'
-NeoBundle 'Lokaltog/vim-powerline'
-NeoBundle 'tomtom/tcomment_vim'
 NeoBundle 'groenewege/vim-less'
 NeoBundle 'zaiste/tmux.vim'
-NeoBundle 'vim-scripts/Source-Explorer-srcexpl.vim'
-NeoBundle 'vim-scripts/sudo.vim'
-NeoBundle 'vim-scripts/errormarker.vim'
+NeoBundle 'micheljansen/vim-latex'
 NeoBundle 'mattn/qiita-vim.git'
+" NeoBundle 'mattn/webapi-vim'
 " NeoBundle 'c9s/cpan.vim'
 "" }}}
 
 "" www.vim.orgにあるプラグイン {{{
 NeoBundle 'L9'
-NeoBundle 'ZenCoding.vim'
 NeoBundle 'guicolorscheme.vim'
-NeoBundle 'vimshell-ssh'
 NeoBundle 'taglist.vim'
 NeoBundle 'dbext.vim'
 "" }}}
 
 "" それ以外にある gitリポジトリにあるプラグイン {{{
 NeoBundle 'git://git.wincent.com/command-t.git'
-NeoBundle 'git://github.com/msanders/cocoa.vim.git'
+" NeoBundle 'git://github.com/msanders/cocoa.vim.git'
 "" }}}
 
 "" GUI colorscheme {{{
@@ -456,6 +459,18 @@ autocmd User Rails Rnavcommand config config   -glob=*.*  -suffix= -default=rout
 autocmd User Rails nnoremap :<C-u>Rcontroller :<C-u>Rc
 autocmd User Rails nnoremap :<C-u>Rmodel :<C-u>Rm
 autocmd User Rails nnoremap :<C-u>Rview :<C-u>Rv
+"" }}}
+
+"" vim-latex {{{
+let g:tex_flavor = 'latex'
+let g:Tex_DefaultTargetFormat = 'pdf'
+let g:Tex_FormatDependency_pdf = 'dvi,pdf'
+if has('mac')
+  let g:Tex_CompileRule_dvi = '/Applications/UpTeX.app/teTeX/bin/latex -synctex=1 -interaction=nonstopmode $*'
+  let g:Tex_CompileRule_pdf = '/Applications/UpTeX.app/teTeX/bin/dvipdfmx $*.dvi'
+  let g:Tex_BibtexFlavor    = '/Applications/UpTeX.app/teTeX/bin/pbibtex'
+  let g:Tex_ViewRule_pdf    = '/usr/bin/open -a Preview.app'
+endif
 "" }}}
 
 "" errormaker.vim {{{
