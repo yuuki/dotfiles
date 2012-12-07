@@ -235,6 +235,7 @@ fi
 # Perlbrew
 if type perlbrew > /dev/null 2>&1; then
   [[ -s $HOME/.perlbrew/etc/bashrc ]] && source $HOME/.perlbrew/etc/bashrc
+  [[ -s $HOME/perl5/perlbrew/etc/bashrc ]] && source $HOME/perl5/perlbrew/etc/bashrc
 fi
 
 # Pythonz
@@ -296,6 +297,12 @@ function pwd-clip() {
     # ${=VAR} enables SH_WORD_SPLIT option
     # so ${=VAR] is splited in words, for example "a" "b" "c"
     echo -n $PWD | ${=copyToClipboard}
+}
+
+function perldoc() {
+    command perldoc $1 2>/dev/null;
+    [ $? != 0 ] && open "https://metacpan.org/search?q=$1"
+    return 0
 }
 ### }}}
 

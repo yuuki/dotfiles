@@ -10,7 +10,7 @@
 [push]
   default = tracking
 [core]
-  editor = vim
+  editor = /usr/bin/vim
 	excludesfile = ~/.gitignore
   autocrlf = input
 [grep]
@@ -85,3 +85,4 @@
   ls = ls-files
   lst = ls-tree
   cch= "!f() { git cherry -v "$@" | awk '{ if($1 == \"+\"){ color = \"green\" } if($1 == \"-\"){ color = \"red\" } cmd = \"git show --date=short --no-notes --pretty=format:\\047%C\" color $1 \" %h %Cgreen%cd %Cblue%cn%x09%Creset%s\\047 --summary \" $2; cmd | getline t; close(cmd); print t }' ;}; f"
+[hub]

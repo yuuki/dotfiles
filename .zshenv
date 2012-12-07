@@ -48,7 +48,7 @@ path=(
 path=(
   ${HOME}/.rbenv/bin(N-/)                           # Rbenv
   ${HOME}/.rvm/bin(N-/)                             # RVM
-  ${HOME}/.perlbrew/bin(N-/)                        # Perlbrew
+  ${HOME}/perl5/perlbrew/bin(N-/)                   # Perlbrew
   ${HOME}/.pythonz/pythons/CPython-2.7.3/bin(N-/)   # Python
   $path
 )

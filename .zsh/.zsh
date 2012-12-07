@@ -1,0 +1,1 @@
+/Users/yuukit/dotfiles/.zsh
