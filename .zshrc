@@ -98,7 +98,7 @@ bindkey '^]' insert-last-word
 
 ### Completion {{{
 # 補完に使うソース
-zstyle ':completion:*' completer _complete _expand _list _match _prefix
+zstyle ':completion:*' completer _complete _expand _list _match _prefix _approximate _history
 
 # Enable cache
 zstyle ':completion::complete:*' use_cache 1
@@ -116,7 +116,7 @@ zstyle ':completion:*:cd:*' tag-order local-directories path-directories
 zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([%0-9]#)*=0=01;31'
 
 # Select like Emacs
-zstyle ':completion:*:default' menu select=2
+zstyle ':completion:*:default' menu select=1
 
 # sudo を含めても保管できるようにする
 zstyle ':completion:*:sudo:*' command-path $sudo_path $path
@@ -344,7 +344,7 @@ function gems () {
 }
 
 # search in github
-function github () {
+function ghub () {
   web_search "https://github.com/search?type=Code&q=" "+" "" $*
 }
 ### }}}

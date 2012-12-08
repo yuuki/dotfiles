@@ -2,9 +2,9 @@
 NeoBundleSource unite-colorscheme
 NeoBundleSource molokai
 NeoBundleSource vim-colors-solarized
+NeoBundleSource vim-color-github
 NeoBundleSource earendel
 NeoBundleSource rdark
-NeoBundleSource vim-color-github
 
 " ツールバーなし
 set guioptions-=T
@@ -27,8 +27,9 @@ if has('gui_macvim')
   set antialias
   set guifont=Osaka-Mono:h18
 
-  " カラー設定
-  colorscheme molokai
+  " カラースキーム
+  set background=dark
+  colorscheme solarized
 
   " ウインドウの幅
   set columns=200

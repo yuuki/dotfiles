@@ -508,6 +508,7 @@ NeoBundle 'tpope/vim-haml.git'
 NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'hotchpotch/perldoc-vim'
 NeoBundle 'mattn/qiita-vim.git'
+NeoBundle 'rhysd/wombat256.vim'
 " NeoBundle 'mattn/webapi-vim'
 " NeoBundle 'c9s/cpan.vim'
 "" }}}
@@ -528,9 +529,9 @@ NeoBundle 'dbext.vim'
 NeoBundleLazy 'ujihisa/unite-colorscheme'
 NeoBundleLazy 'tomasr/molokai'
 NeoBundleLazy 'altercation/vim-colors-solarized'
+NeoBundleLazy 'telamon/vim-color-github'
 NeoBundleLazy 'earendel'
 NeoBundleLazy 'rdark'
-NeoBundleLazy 'telamon/vim-color-github'
 "" }}}
 
 "" 特定環境用 {{{
@@ -565,6 +566,11 @@ augroup END
 
 filetype plugin indent on
 
+"" wombat {{{
+if !has('gui_running')
+    colorscheme wombat256mod
+endif
+"" }}}
 
 "" neocomplcache {{{
 " AutoComplPopを無効にする
@@ -636,6 +642,7 @@ imap <expr><C-S-l> neosnippet#expandable() ?
 smap <expr><C-S-l> neosnippet#expandable() ?
             \ "\<Plug>(neosnippet_expand_or_jump)" :
             \ neocomplcache#complete_common_string()
+"" }}}
 " 自作スニペット {{{
 let g:neosnippet#snippets_directory=$HOME.'/.vim/snippets'
 "" }}}

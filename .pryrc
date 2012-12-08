@@ -1,3 +1,4 @@
+# vim:set ft=ruby
 require 'rubygems' if RUBY_VERSION < '1.9'
 
 begin
@@ -30,3 +31,5 @@ end
 # awesome_print
 require 'awesome_print'
 Pry.print = proc{|output,value| output.puts value.ai }
+
+Pry.config.color = true
