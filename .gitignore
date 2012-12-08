@@ -19,5 +19,6 @@ Session.vim
 *.aux
 .zshrc.local
 *.err
+*.zwc
 
 .vim/bundle/*
