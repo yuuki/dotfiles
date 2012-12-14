@@ -94,6 +94,8 @@ set lazyredraw
 set autoread
 " マルチバイト文字があってもカーソルがずれないようにする
 set ambiwidth=double
+" 256色
+set t_Co=256
 " タブ文字を CTRL-I で表示し, 行末に $ で表示する.
 " set list
 " Listモードに使われる文字を設定する "
@@ -349,6 +351,7 @@ augroup FileTypeDetect
   autocmd BufNewFile,BufRead *.html call s:FTtt2html()
   autocmd BufRead,BufNewFile *.mkd setfiletype mkd
   autocmd BufRead,BufNewFile *.md  setfiletype mkd
+  autocmd BufRead,BufNewFile *.less setfiletype less
 augroup END
 
 augroup IndentGroup
@@ -489,6 +492,7 @@ NeoBundle 'Shougo/unite-ssh.git'
 NeoBundle 'h1mesuke/unite-outline'
 NeoBundle 'osyo-manga/unite-fold'
 NeoBundle 'osyo-manga/unite-quickfix'
+NeoBundle 'taka84u9/unite-git'
 NeoBundle 'Shougo/vim-vcs.git'
 NeoBundle 'hrsh7th/vim-unite-vcs'
 NeoBundle 'basyura/unite-rails'
@@ -686,6 +690,15 @@ nnoremap <silent> [unite]c :<C-u>Unite bookmark<CR>
 nnoremap <silent> [unite]a :<C-u>UniteBookmarkAdd<CR>
 " スニペット候補表示
 nnoremap <silent> [unite]s <Plug>(neocomplcache_start_unite_snippet)
+
+" git常用
+nnoremap <silent> [unite]g :<C-u>Unite -no-split git_cached git_untracked<CR>
+" git ls-files一覧
+nnoremap <silent> [unite]gc :<C-u>Unite -no-split git_cached<CR>
+" git modefied一覧
+nnoremap <silent> [unite]gm :<C-u>Unite -no-split git_modified<CR>
+" git untracked一覧
+nnoremap <silent> [unite]gu :<C-u>Unite -no-split git_untracked<CR>
 
 augroup UniteMapping
   autocmd!
