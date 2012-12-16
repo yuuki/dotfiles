@@ -434,8 +434,12 @@ augroup END
 " Perlのsyntaxチェック
 augroup plsyntaxcheck
   autocmd!
-  autocmd BufWrite *.pl w !perl -c -MVi::QuickFix -MProject::Libs
-  autocmd BufWrite *.pm w !perl -c -MVi::QuickFix -MProject::Libs
+  function! _CheckPerlCode()
+    let s:perl_path = split(vimproc#system('which perl'), "\n")[-1]
+    exe ":!" . s:perl_path . " -wc -M'Project::Libs lib_dirs => [qw(local/lib/perl5)]' %"
+  endfunction
+  command! CheckCode call _CheckPerlCode()
+  autocmd BufWritePost *.pl,*.pm,*.t :CheckCode
 augroup END
 "" }}}
 
@@ -503,6 +507,7 @@ NeoBundle 'ujihisa/vimshell-ssh.git'
 NeoBundle 'Lokaltog/vim-powerline'
 NeoBundle 'tomtom/tcomment_vim'
 NeoBundle 'vim-scripts/errormarker.vim'
+" NeoBundle 'ywatase/flymake-perl.vim'
 NeoBundle 'danchoi/ri.vim.git'
 NeoBundle 'tpope/vim-rails'
 NeoBundle 'tpope/vim-bundler.git'
@@ -513,6 +518,7 @@ NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'hotchpotch/perldoc-vim'
 NeoBundle 'mattn/qiita-vim.git'
 NeoBundle 'rhysd/wombat256.vim'
+NeoBundle 'rhysd/unite-ruby-require.vim'
 " NeoBundle 'mattn/webapi-vim'
 " NeoBundle 'c9s/cpan.vim'
 "" }}}
@@ -769,6 +775,7 @@ let g:vimshell_user_prompt = 'getcwd()'
 let g:vimshell_disable_escape_highlight = 1
 "" }}}
 
+
 "" vim-unite-vcs {{{
 nnoremap  [vcs] <Nop>
 nmap      fv    [vcs]
@@ -816,6 +823,10 @@ autocmd User Rails nnoremap :<C-u>Rmodel :<C-u>Rm
 autocmd User Rails nnoremap :<C-u>Rview :<C-u>Rv
 "" }}}
 
+" unite-ruby-require {{{
+let g:unite_source_ruby_require_ruby_command = '/usr/local/opt/rbenv/shims/ruby'
+" }}}
+
 "" vim-latex {{{
 let g:tex_flavor = 'latex'
 let g:Tex_DefaultTargetFormat = 'pdf'
@@ -826,19 +837,6 @@ if has('mac')
   let g:Tex_BibtexFlavor    = '/Applications/UpTeX.app/teTeX/bin/pbibtex'
   let g:Tex_ViewRule_pdf    = '/usr/bin/open -a Preview.app'
 endif
-"" }}}
-
-"" errormaker.vim {{{
-" setlocal makeprg=$HOME/.vim/vimparse.pl\ -c\ %\ $*
-" setlocal errorformat=%f:%l:%m
-"
-" augroup ErrorMaker
-"   autocmd!
-"   if !exists("g:perl_flyquickfixmake")
-"     let g:perl_flyquickfixmake = 1
-"     autocmd BufWritePost *.pm,*.pl,*.t silent make
-"   endif
-" augroup END
 "" }}}
 
 """ }}}
