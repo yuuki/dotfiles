@@ -352,6 +352,7 @@ augroup FileTypeDetect
   autocmd BufRead,BufNewFile *.mkd setfiletype mkd
   autocmd BufRead,BufNewFile *.md  setfiletype mkd
   autocmd BufRead,BufNewFile *.less setfiletype less
+  autocmd BufRead,BufNewFile *.coffee setfiletype coffee
 augroup END
 
 augroup IndentGroup
@@ -568,9 +569,10 @@ augroup NeoBundleLazyLoad
     autocmd FileType perl NeoBundleSource
                 \ perl-support.vim
                 \ vim-perl
-    autocmd FileType less NeoBundleSource vim-less
-    autocmd FileType tmux NeoBundleSource tmux.vim
-    autocmd FileType tex  NeoBundleSource vim-latex
+    autocmd FileType less   NeoBundleSource vim-less
+    autocmd FileType coffee NeoBundleSource vim-coffee-script
+    autocmd FileType tmux   NeoBundleSource tmux.vim
+    autocmd FileType tex    NeoBundleSource vim-latex
 augroup END
 "" }}}
 
