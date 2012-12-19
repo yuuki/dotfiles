@@ -427,21 +427,21 @@ let $PYTHON_DLL = "$HOME/.pythonz/CPython-2.7.3/lib/libpython2.7.dylib"
 
 "" Syntax chack {{{
 " Rubyのsyntaxチェック
-augroup rbsyntaxcheck
-  autocmd!
-  autocmd BufWrite *.rb w !ruby -c
-augroup END
+" augroup rbsyntaxcheck
+"   autocmd!
+"   autocmd BufWrite *.rb w !ruby -c
+" augroup END
 
 " Perlのsyntaxチェック
-augroup plsyntaxcheck
-  autocmd!
-  function! _CheckPerlCode()
-    let s:perl_path = split(vimproc#system('which perl'), "\n")[-1]
-    exe ":!" . s:perl_path . " -wc -M'Project::Libs lib_dirs => [qw(local/lib/perl5)]' %"
-  endfunction
-  command! CheckCode call _CheckPerlCode()
-  autocmd BufWritePost *.pl,*.pm,*.t :CheckCode
-augroup END
+" augroup plsyntaxcheck
+"   autocmd!
+"   function! _CheckPerlCode()
+"     let s:perl_path = split(vimproc#system('which perl'), "\n")[-1]
+"     exe ":!" . s:perl_path . " -wc -M'Project::Libs lib_dirs => [qw(local/lib/perl5)]' %"
+"   endfunction
+"   command! CheckCode call _CheckPerlCode()
+"   autocmd BufWritePost *.pl,*.pm,*.t :CheckCode
+" augroup END
 "" }}}
 
 "" Functions for Template Toolkit 2 syntax {{{
@@ -491,13 +491,12 @@ NeoBundle 'Shougo/vinarise.git'
 NeoBundle 'Shougo/echodoc.git'
 NeoBundle 'Shougo/neocomplcache.git'
 NeoBundle 'Shougo/neosnippet.git'
-NeoBundle 'Shougo/neobundle.vim.git'
 NeoBundle 'Shougo/unite.vim.git'
 NeoBundle 'Shougo/unite-ssh.git'
-NeoBundle 'h1mesuke/unite-outline'
 NeoBundle 'osyo-manga/unite-fold'
 NeoBundle 'osyo-manga/unite-quickfix'
 NeoBundle 'taka84u9/unite-git'
+NeoBundle 'h1mesuke/unite-outline'
 NeoBundle 'Shougo/vim-vcs.git'
 NeoBundle 'hrsh7th/vim-unite-vcs'
 NeoBundle 'basyura/unite-rails'
@@ -507,25 +506,23 @@ NeoBundle 'thinca/vim-ref'
 NeoBundle 'ujihisa/vimshell-ssh.git'
 NeoBundle 'Lokaltog/vim-powerline'
 NeoBundle 'tomtom/tcomment_vim'
-NeoBundle 'vim-scripts/errormarker.vim'
-" NeoBundle 'ywatase/flymake-perl.vim'
 NeoBundle 'danchoi/ri.vim.git'
 NeoBundle 'tpope/vim-rails'
 NeoBundle 'tpope/vim-bundler.git'
 NeoBundle 'tpope/vim-rake.git'
 NeoBundle 'tpope/vim-abolish.git'
-NeoBundle 'tpope/vim-haml.git'
 NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'hotchpotch/perldoc-vim'
-NeoBundle 'mattn/qiita-vim.git'
 NeoBundle 'rhysd/wombat256.vim'
 NeoBundle 'rhysd/unite-ruby-require.vim'
-" NeoBundle 'mattn/webapi-vim'
+NeoBundle 'y-uuki/unite-perl-module.vim'
+NeoBundle 'scrooloose/syntastic'
+" NeoBundle 'vim-scripts/errormarker.vim'
+" NeoBundle 'ywatase/flymake-perl.vim'
 " NeoBundle 'c9s/cpan.vim'
 "" }}}
 
 "" on www.vim.org {{{
-NeoBundle 'guicolorscheme.vim'
 NeoBundle 'dbext.vim'
 " NeoBundle 'L9'
 " NeoBundle 'taglist.vim'
@@ -543,18 +540,21 @@ NeoBundleLazy 'altercation/vim-colors-solarized'
 NeoBundleLazy 'telamon/vim-color-github'
 NeoBundleLazy 'earendel'
 NeoBundleLazy 'rdark'
+NeoBundleLazy 'guicolorscheme.vim'
 "" }}}
 
 "" 特定環境用 {{{
 NeoBundleLazy 'sudo.vim'
 NeoBundleLazy 'vim-ruby/vim-ruby'
+NeoBundleLazy 'benizi/perl-support.vim'
+NeoBundleLazy 'petdance/vim-perl'
+NeoBundleLazy 'motemen/xslate-vim'
 NeoBundleLazy 'vim-jp/cpp-vim'
 NeoBundleLazy 'osyo-manga/neocomplcache-clang_complete'
 NeoBundleLazy 'kchmck/vim-coffee-script'
 NeoBundleLazy 'plasticboy/vim-markdown'
-NeoBundleLazy 'benizi/perl-support.vim'
-NeoBundleLazy 'petdance/vim-perl'
 NeoBundleLazy 'groenewege/vim-less'
+NeoBundleLazy 'tpope/vim-haml.git'
 NeoBundleLazy 'zaiste/tmux.vim'
 NeoBundleLazy 'micheljansen/vim-latex'
 "" }}}
@@ -573,6 +573,8 @@ augroup NeoBundleLazyLoad
     autocmd FileType coffee NeoBundleSource vim-coffee-script
     autocmd FileType tmux   NeoBundleSource tmux.vim
     autocmd FileType tex    NeoBundleSource vim-latex
+    autocmd FileType haml   NeoBundleSource vim-haml
+    autocmd FileType xslate NeoBundleSource xslate-vim
 augroup END
 "" }}}
 
@@ -708,6 +710,11 @@ nnoremap <silent> [unite]gm :<C-u>Unite -no-split git_modified<CR>
 " git untracked一覧
 nnoremap <silent> [unite]gu :<C-u>Unite -no-split git_untracked<CR>
 
+"" unite-perl-module
+"
+nnoremap <silent> [unite]pl :<C-u>Unite perl/local<CR>
+nnoremap <silent> [unite]pg :<C-u>Unite perl/global<CR>
+
 augroup UniteMapping
   autocmd!
   " insertモード時はC-gでいつでもバッファを閉じられる（絞り込み欄が空の時はC-hでもOK）
@@ -777,7 +784,6 @@ let g:vimshell_user_prompt = 'getcwd()'
 let g:vimshell_disable_escape_highlight = 1
 "" }}}
 
-
 "" vim-unite-vcs {{{
 nnoremap  [vcs] <Nop>
 nmap      fv    [vcs]
@@ -804,6 +810,9 @@ nmap     <silent><Leader>qr :w<CR><Plug>(quickrun):copen<CR>
 nnoremap <Leader>qR :QuickRun<Space>
 " QuickFixバッファを閉じると同時にエラー表示も消す
 autocmd MyAutocmd FileType qf nnoremap <buffer><silent> q :q<CR>:HierClear<CR>
+
+let g:quickrun_config = {}
+let g:quickrun_config.perl = {'command' : 'perl', 'cmdopt': '-MProject::Libs lib_dirs => [qw(local/lib/perl5)]' }
 "" }}}
 
 "" vim-ruby {{{
@@ -825,9 +834,18 @@ autocmd User Rails nnoremap :<C-u>Rmodel :<C-u>Rm
 autocmd User Rails nnoremap :<C-u>Rview :<C-u>Rv
 "" }}}
 
-" unite-ruby-require {{{
+"" unite-ruby-require {{{
 let g:unite_source_ruby_require_ruby_command = '/usr/local/opt/rbenv/shims/ruby'
-" }}}
+"" }}}
+
+"" syntastic-local-lib-path {{{
+" let g:syntastic_perl_lib_path = 'local/lib/perl5'
+augroup SyntasticLocalLibPathGroup
+  autocmd!
+  autocmd FileType perl SyntasticLocalLibPath
+augroup END
+
+"" }}}
 
 "" vim-latex {{{
 let g:tex_flavor = 'latex'
