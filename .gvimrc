@@ -19,17 +19,21 @@ set guioptions-=b
 set guioptions-=m
 " 無効メニュー項目の灰色表示無し
 set guioptions-=g
+" メニューにアクセスしない
+set winaltkeys=no
+
+nnoremap <Space>C :<C-u>Unite -auto-preview colorscheme<CR>
 
 if has('gui_macvim')
   set showtabline=2
   set imdisable       " IMを無効化
-  set transparency=10 " 透明度を指定
+  set transparency=0 " 透明度を指定
   set antialias
   set guifont=Osaka-Mono:h18
 
   " カラースキーム
-  set background=dark
-  colorscheme solarized
+  " set background=dark
+  colorscheme wombat256mod
 
   " ウインドウの幅
   set columns=200
@@ -43,4 +47,15 @@ if has('gui_macvim')
   highlight ZenkakuSpace cterm=underline ctermfg=lightblue guibg=#666666
   au BufNewFile,BufRead * match ZenkakuSpace /　/
 
+  " 常にフルスクリーン
+  augroup GuiMac
+    autocmd!
+    autocmd GUIEnter * set fullscreen
+  augroup END
+
+  "MacVim Kaoriyaに標準で入っている辞書を無効化
+  if has('kaoriya')
+    let g:plugin_dicwin_disable = 1
+  endif
 endif
+" vim: set ft=vim fdm=marker ff=unix fileencoding=utf-8 :
