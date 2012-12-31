@@ -344,23 +344,25 @@ augroup FileTypeDetect
   autocmd!
   autocmd BufNewFile,BufRead *.PL,*.t,*.psgi,*.perldb,cpanfile setf perl
   autocmd BufNewFile,BufRead *.hpp,*.cl setf cpp
+  autocmd BufNewFile,BufRead *.cu,*.hcu setf cuda
   autocmd BufNewFile,BufRead *.aj setf java
   autocmd BufNewFile,BufRead *.jspx setf xhtml
   autocmd BufNewFile,BufRead *.tex,*.latex,*.sty,*.dtx,*.ltx,*.bbl setf tex
   autocmd BufNewFile,BufRead *.tt,*.tt2 call s:FTtt2()
   autocmd BufNewFile,BufRead *.html call s:FTtt2html()
-  autocmd BufRead,BufNewFile *.mkd setfiletype mkd
-  autocmd BufRead,BufNewFile *.md  setfiletype mkd
-  autocmd BufRead,BufNewFile *.less setfiletype less
-  autocmd BufRead,BufNewFile *.coffee setfiletype coffee
+  autocmd BufNewFile,BufRead *.mkd setf mkd
+  autocmd BufNewFile,BufRead *.md  setf mkd
+  autocmd BufNewFile,BufRead *.less setf less
+  autocmd BufNewFile,BufRead *.coffee setf coffee
 augroup END
 
 augroup IndentGroup
   autocmd!
   " インデント幅4
-        \ setlocal sw=4 sts=4 ts=4 et
+  " setlocal sw=4 sts=4 ts=4 et
   autocmd FileType apache     setlocal sw=4 sts=4 ts=4 et
   autocmd FileType c          setlocal sw=4 sts=4 ts=4 et
+  autocmd FileType cuda       setlocal sw=4 sts=4 ts=4 et
   autocmd FileType cpp        setlocal sw=4 sts=4 ts=4 et
   autocmd FileType cs         setlocal sw=4 sts=4 ts=4 et
   autocmd FileType css        setlocal sw=2 sts=2 ts=2 et
@@ -386,10 +388,10 @@ augroup IndentGroup
   autocmd FileType yaml       setlocal sw=2 sts=2 ts=2 et
   autocmd FileType zsh        setlocal sw=2 sts=2 ts=2 et
 
-  autocmd FileType c,cpp,objc,perl,ruby,java,javascript,css inoremap : ;
-  autocmd FileType c,cpp,objc,perl,ruby,java,javascript,css inoremap ; :
-  let $BOOST_ROOT = "/usr/local/include/boost"
-  autocmd FileType c,cpp,objc set path+=$BOOST_ROOT
+  inoremap : ;
+  inoremap ; :
+  let $BOOST_ROOT = "/usr/local/opt/boost/include/boost"
+  autocmd FileType cpp set path+=$BOOST_ROOT
 
   autocmd FileType perl,cgi   compiler perl
   autocmd FileType perl,cgi   nmap <buffer>,pt <ESC>:%! perltidy<CR> " ソースコード全体を整形
@@ -479,6 +481,7 @@ if has('vim_starting')
 endif
 
 "" on GitHub {{{
+NeoBundle 'thinca/vim-quickrun'
 NeoBundle 'Shougo/vimproc', {
             \ 'build' : {
             \       'mac'     : 'make -f make_mac.mak',
@@ -491,7 +494,6 @@ NeoBundle 'Shougo/vinarise.git'
 NeoBundle 'Shougo/echodoc.git'
 NeoBundle 'Shougo/neocomplcache.git'
 NeoBundle 'Shougo/neosnippet.git'
-NeoBundle 'Shougo/unite.vim.git'
 NeoBundle 'Shougo/unite-ssh.git'
 NeoBundle 'osyo-manga/unite-fold'
 NeoBundle 'osyo-manga/unite-quickfix'
@@ -500,12 +502,12 @@ NeoBundle 'h1mesuke/unite-outline'
 NeoBundle 'Shougo/vim-vcs.git'
 NeoBundle 'hrsh7th/vim-unite-vcs'
 NeoBundle 'basyura/unite-rails'
-NeoBundle 'thinca/vim-quickrun'
+NeoBundle 'jceb/vim-hier'
 NeoBundle 'thinca/vim-guicolorscheme'
 NeoBundle 'thinca/vim-ref'
-NeoBundle 'ujihisa/vimshell-ssh.git'
 NeoBundle 'Lokaltog/vim-powerline'
 NeoBundle 'tomtom/tcomment_vim'
+NeoBundle 'vim-scripts/gtags.vim'
 NeoBundle 'danchoi/ri.vim.git'
 NeoBundle 'tpope/vim-rails'
 NeoBundle 'tpope/vim-bundler.git'
@@ -513,11 +515,16 @@ NeoBundle 'tpope/vim-rake.git'
 NeoBundle 'tpope/vim-abolish.git'
 NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'hotchpotch/perldoc-vim'
-NeoBundle 'rhysd/wombat256.vim'
+NeoBundle 'rhysd/quickrun-unite-quickfix-outputter'
+NeoBundle 'osyo-manga/shabadou.vim'
+NeoBundle 'osyo-manga/vim-watchdogs'
 NeoBundle 'rhysd/unite-ruby-require.vim'
 NeoBundle 'y-uuki/unite-perl-module.vim'
-NeoBundle 'y-uuki/syntastic_local_lib_path.vim'
-NeoBundle 'scrooloose/syntastic'
+NeoBundle 'y-uuki/perl-local-lib-path.vim'
+NeoBundle 'rhysd/wombat256.vim'
+" NeoBundle 'ujihisa/vimshell-ssh.git'
+" NeoBundle 'scrooloose/syntastic'
+" NeoBundle 'y-uuki/syntastic_local_lib_path.vim'
 " NeoBundle 'vim-scripts/errormarker.vim'
 " NeoBundle 'ywatase/flymake-perl.vim'
 " NeoBundle 'c9s/cpan.vim'
@@ -685,6 +692,8 @@ nnoremap <silent> [unite]m :<C-u>Unite -no-split file_mru<CR>
 nnoremap <silent> [unite]f :<C-u>Unite -no-split -buffer-name=files file<CR>
 " バッファ一覧
 nnoremap <silent> [unite]b :<C-u>Unite -no-split buffer<CR>
+" Unite ソース一覧
+nnoremap <silent> [unite]s :<C-u>Unite source -vertical<CR>
 " 常用セット
 nnoremap <silent> [unite]u :<C-u>Unite -no-split buffer file_mru<CR>
 " 現在のバッファのカレントディレクトリからファイル一覧
@@ -712,9 +721,13 @@ nnoremap <silent> [unite]gm :<C-u>Unite -no-split git_modified<CR>
 nnoremap <silent> [unite]gu :<C-u>Unite -no-split git_untracked<CR>
 
 "" unite-perl-module
-"
-nnoremap <silent> [unite]pl :<C-u>Unite perl/local<CR>
-nnoremap <silent> [unite]pg :<C-u>Unite perl/global<CR>
+" Perl local lib modules
+autocmd MyAutocmd FileType perl nnoremap <buffer>[unite]pl :<C-u>Unite perl/local<CR>
+" Perl global lib modules
+autocmd MyAutocmd FileType perl nnoremap <buffer>[unite]pg :<C-u>Unite perl/global<CR>
+
+" C++ インクルードファイル
+autocmd MyAutocmd FileType cpp nnoremap <buffer>[unite]i :<C-u>Unite file_include -vertical<CR>
 
 augroup UniteMapping
   autocmd!
@@ -805,15 +818,70 @@ nnoremap [fugu]lo :<C-u>Glog<CR>
 nnoremap [fugu]re :<C-u>Gread<CR>
 "" }}}
 
-"" vim-quickrun {{{
-nnoremap <Leader>q  <Nop>
-nmap     <silent><Leader>qr :w<CR><Plug>(quickrun):copen<CR>
-nnoremap <Leader>qR :QuickRun<Space>
-" QuickFixバッファを閉じると同時にエラー表示も消す
-autocmd MyAutocmd FileType qf nnoremap <buffer><silent> q :q<CR>:HierClear<CR>
+"" vim-quickrun & vim-watchdogs {{{
+" 書き込み後にシンタックスチェックを行う
+" let g:watchdogs_check_BufWritePost_enable = 1
 
-let g:quickrun_config = {}
-let g:quickrun_config.perl = {'command' : 'perl', 'cmdopt': '-MProject::Libs lib_dirs => [qw(local/lib/perl5)]' }
+" <Leader>r を使わない
+let g:quickrun_no_default_key_mappings = 1
+"" quickrun_configの初期化
+if !has("g:quickrun_config")
+  let g:quickrun_config = {}
+endif
+let g:quickrun_config = {
+  \ 'perl' : { 'command' : 'perl', 'cmdopt' : "-M'Project::Libs lib_dirs => [qw(local/lib/perl5)]'" },
+  \ 'cpp'  : { 'command' : "g++",  'cmdopt' : '-Wall -Wextra -O2' },
+  \
+  \ 'syntax/perl' : {
+  \   'runner' : 'vimproc',
+  \   'command' : 'perl',
+  \   'cmdopt' : "-M'Project::Libs lib_dirs => [qw(local/lib/perl5)]'",
+  \   'exec' : '%c %o -c %s:p',
+  \ },
+  \ 'syntax/ruby' : {
+  \   'runner' : 'vimproc',
+  \   'command' : 'ruby',
+  \   'exec' : '%c -c %s:p %o',
+  \ },
+  \ 'syntax/cpp' : {
+  \   'runner' : 'vimproc',
+  \   'command' : 'g++',
+  \   'cmdopt' : '-Wall -Wextra -O2',
+  \   'exec' : '%c %o -fsyntax-only %s:p',
+  \ },
+\ }
+  " \ 'watchdogs_checker/perl-projectlibs' : {
+  " \   'command' : 'perl',
+  " \   'cmdopt'  : '-MProject::Libs lib_dirs => [qw(local/lib/perl5)]',
+  " \ },
+  " \ 'perl/watchdogs_checker' : {
+  " \   'type' : 'watchdogs_checker/perl-projectlibs',
+  " \ },
+" QuickRun 結果の開き方
+let g:quickrun_config._ = { 'outputter' : 'unite_quickfix', 'split' : 'rightbelow 10sp', 'hook/hier_update/enable' : 1 }
+" outputter
+let g:quickrun_unite_quickfix_outputter_unite_context = { 'no_empty' : 1 }
+
+autocmd MyAutocmd BufWritePost *.pl,*.pm,*.t         QuickRun -outputter quickfix -type syntax/perl
+autocmd MyAutocmd BufWritePost *.rb                  QuickRun -outputter quickfix -type syntax/ruby
+" autocmd MyAutocmd BufWritePost *.cpp,*.cc,*.hpp,*.hh QuickRun -outputter quickfix -type syntax/cpp
+
+nnoremap <Leader>q  <Nop>
+nnoremap <silent><Leader>qr :<C-u>QuickRun<CR>
+nnoremap <silent><Leader>qf :<C-u>QuickRun >quickfix -runner vimproc<CR>
+vnoremap <silent><Leader>qr :QuickRun<CR>
+vnoremap <silent><Leader>qf :QuickRun >quickfix -runner vimproc<CR>
+nnoremap <silent><Leader>qR :<C-u>QuickRun<Space>
+
+" clang で実行する
+let g:quickrun_config['cpp/clang'] = { 'command' : 'clang++', 'cmdopt' : '-stdlib=libc++ -std=c++11 -Wall -Wextra -O2' }
+autocmd MyAutocmd FileType cpp nnoremap <silent><buffer><Leader>qc :<C-u>QuickRun -type cpp/clang<CR>
+
+" call watchdogs#setup(g:quickrun_config)
+"" }}}
+
+"" vim-hier {{{
+nnoremap <silent><Esc><Esc> :<C-u>nohlsearch<CR>:HierClear<CR>
 "" }}}
 
 "" vim-ruby {{{
@@ -839,25 +907,26 @@ autocmd User Rails nnoremap :<C-u>Rview :<C-u>Rv
 let g:unite_source_ruby_require_ruby_command = '/usr/local/opt/rbenv/shims/ruby'
 "" }}}
 
+"" perl-local-lib-path {{{
+augroup PerlLocalLibPathGroup
+  autocmd!
+  autocmd FileType perl PerlLocalLibPath
+augroup END
+" }}}
+
 "" syntastic-local-lib-path {{{
 " let g:syntastic_perl_lib_path = 'local/lib/perl5'
-augroup SyntasticLocalLibPathGroup
-  autocmd!
-  autocmd FileType perl SyntasticLocalLibPath
-augroup END
-
+" augroup SyntasticLocalLibPathGroup
+"   autocmd!
+"   autocmd FileType perl SyntasticLocalLibPath
+" augroup END
 "" }}}
 
-"" vim-latex {{{
-let g:tex_flavor = 'latex'
-let g:Tex_DefaultTargetFormat = 'pdf'
-let g:Tex_FormatDependency_pdf = 'dvi,pdf'
-if has('mac')
-  let g:Tex_CompileRule_dvi = '/Applications/UpTeX.app/teTeX/bin/latex -synctex=1 -interaction=nonstopmode $*'
-  let g:Tex_CompileRule_pdf = '/Applications/UpTeX.app/teTeX/bin/dvipdfmx $*.dvi'
-  let g:Tex_BibtexFlavor    = '/Applications/UpTeX.app/teTeX/bin/pbibtex'
-  let g:Tex_ViewRule_pdf    = '/usr/bin/open -a Preview.app'
-endif
-"" }}}
+"" gtags.vim
+nnoremap ta :<C-u>Gtags<Space>
+nnoremap tr :<C-u>Gtags -r<Space>
+nnoremap tf :<C-u>Gtags -f<Space>
+nnoremap tg :<C-u>Gtags -g<Space>
+""
 
 """ }}}

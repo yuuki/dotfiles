@@ -47,12 +47,6 @@ if has('gui_macvim')
   highlight ZenkakuSpace cterm=underline ctermfg=lightblue guibg=#666666
   au BufNewFile,BufRead * match ZenkakuSpace /　/
 
-  " 常にフルスクリーン
-  augroup GuiMac
-    autocmd!
-    autocmd GUIEnter * set fullscreen
-  augroup END
-
   "MacVim Kaoriyaに標準で入っている辞書を無効化
   if has('kaoriya')
     let g:plugin_dicwin_disable = 1

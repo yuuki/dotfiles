@@ -103,10 +103,11 @@ typeset -xT CPLUS_INCLUDE_PATH cplus_include_path
 typeset -U cplus_include_path
 cplus_include_path=(
   $HOMEBREW_PREFIX/include
+  $HOMEBREW_PREFIX/opt/boost/include
   $HOMEBREW_PREFIX/include/boost
   $cplus_include_path
 )
-export LD_LIBRARY_PATH=$HOMEBREW_PREFIX/lib/boost:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=$HOMEBREW_PREFIX/opt/boost/lib:$LD_LIBRARY_PATH
 export DYLD_FALLBACK_LIBRARY_PATH=$HOMEBREW_PREFIX/lib:$DYLD_FALLBACK_LIBRARY_PATH
 
 # JAVA
