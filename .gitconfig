@@ -8,7 +8,7 @@
   interactive = auto
   grep = auto
 [push]
-  default = tracking
+  default = simple
 [core]
   editor = /usr/bin/vim
 	excludesfile = ~/.gitignore
