@@ -663,7 +663,7 @@ if has('conceal')
 endif
 "" }}}
 " 自作スニペット {{{
-let g:neosnippet#snippets_directory=$HOME.'/.vim/snippets'
+let g:neosnippet#snippets_directory=$HOME.'/.vim/snippets/snippets'
 "" }}}
 
 "" unite.vim {{{
