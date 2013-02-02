@@ -10,3 +10,6 @@
 [submodule ".zsh/plugins/auto-fu.zsh"]
 	path = .zsh/plugins/auto-fu.zsh
 	url = https://github.com/hchbaw/auto-fu.zsh.git
+[submodule ".vim/snippets"]
+	path = .vim/snippets
+	url = git@github.com:y-uuki/snipmate-snippets.git

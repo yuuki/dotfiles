@@ -240,6 +240,21 @@ fi
 ## ディレクトリ移動時に自動でls
 function chpwd() { ls -a }
 
+function history-all { history -E 1 }
+
+function mkcd() {
+    if (( ARGC != 1 )); then
+        printf 'usage: mkcd <new-directory>\n'
+        return 1;
+    fi
+    if [[ ! -d "$1" ]]; then
+        command mkdir -p "$1"
+    else
+        printf '"%s" already exists: cd-ing.\n' "$1"
+    fi
+    builtin cd "$1"
+}
+
 ## clip current directory path
 function pwd-clip() {
     local copyToClipboard

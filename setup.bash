@@ -2,13 +2,14 @@
 
 DOTFILES_DIR=$HOME/dotfiles
 
-echo "get"
-
 # submodule
+echo "git submodule sync"
 git submodule sync
+
+echo "git submodule update --init"
 git submodule update --init
 
-DOT_FILES=( .zshrc .zshenv .zsh .zshrc.antigen .ctags .emacs.el .gdbinit .gemrc .gitconfig .gitignore .inputrc .irbrc .pryrc .perldb .proverc .screenrc .vim .vimrc .gvimrc .tmux.conf .dir_colors .rdebugrc .bash_completion )
+DOT_FILES=( .zshrc .zshenv .zprofile .zsh .zshrc.antigen .ctags .emacs.el .gdbinit .gemrc .gitconfig .gitignore .inputrc .irbrc .pryrc .perldb .proverc .screenrc .vim .vimrc .gvimrc .tmux.conf .dir_colors .rdebugrc .bash_completion )
 
 for file in ${DOT_FILES[@]}
 do

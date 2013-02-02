@@ -185,8 +185,8 @@ command! -bar -bang -nargs=? -complete=file Scouter
 " insertモードから抜ける
 inoremap <silent> jj <ESC>
 inoremap <silent> <C-j> j
-inoremap <silent> kk <ESC>
-inoremap <silent> <C-k> k
+" inoremap <silent> kk <ESC>
+" inoremap <silent> <C-k> k
 
 " insertモードでもquit
 inoremap <C-q><C-q> <Esc>:wq<CR>
@@ -649,21 +649,18 @@ inoremap <expr><C-y> neocomplcache#close_popup()
 "" }}}
 
 "" neosnippet {{{
-" スニペット展開候補があれば展開を，そうでなければbash風補完を．
-" プレースホルダ優先で展開
-imap <expr><C-l> neosnippet#expandable() ?
-            \ "\<Plug>(neosnippet_jump_or_expand)" :
-            \ neocomplcache#complete_common_string()
-smap <expr><C-l> neosnippet#expandable() ?
-            \ "\<Plug>(neosnippet_jump_or_expand)" :
-            \ neocomplcache#complete_common_string()
-" ネスト優先で展開
-imap <expr><C-S-l> neosnippet#expandable() ?
-            \ "\<Plug>(neosnippet_expand_or_jump)" :
-            \ neocomplcache#complete_common_string()
-smap <expr><C-S-l> neosnippet#expandable() ?
-            \ "\<Plug>(neosnippet_expand_or_jump)" :
-            \ neocomplcache#complete_common_string()
+" http://kazuph.hateblo.jp/entry/2012/11/28/105633
+imap <C-b> <Plug>(neosnippet_expand_or_jump)
+smap <C-b> <Plug>(neosnippet_expand_or_jump)
+
+" SuperTab like snippets behavior.
+imap <expr><TAB> neosnippet#expandable() <Bar><bar> neosnippet#jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : pumvisible() ? "\<C-n>" : "\<TAB>"
+smap <expr><TAB> neosnippet#expandable() <Bar><bar> neosnippet#jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+
+" For snippet_complete marker.
+if has('conceal')
+  set conceallevel=2 concealcursor=i
+endif
 "" }}}
 " 自作スニペット {{{
 let g:neosnippet#snippets_directory=$HOME.'/.vim/snippets'

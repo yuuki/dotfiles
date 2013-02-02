@@ -1,9 +1,9 @@
 
 ### External script {{{
 # Rbenv
-if type rbenv > /dev/null 2>&1; then
-  eval "$(rbenv init -)"
-fi
+# if type rbenv > /dev/null 2>&1; then
+#   eval "$(rbenv init -)"
+# fi
 
 # RVM
 if type rvm > /dev/null 2>&1; then
