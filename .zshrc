@@ -185,10 +185,9 @@ alias bri='brew install'
 alias bru='brew update'
 alias brug='brew upgrade'
 
-## Others
-alias ce='carton exec'
-alias ci='carton install'
-alias plackup='plackup -L Shotgun'
+## Perl
+alias cpanm-local='cpanm --installdeps -L local/ .'
+alias perl-local='perl -Mlib::core::only -Mlib=local/lib/perl5/'
 
 ## pipe
 alias findbig='find . -type f -exec ls -s {} \; | sort -n -r | head -5'

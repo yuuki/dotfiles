@@ -522,6 +522,7 @@ NeoBundle 'rhysd/unite-ruby-require.vim'
 NeoBundle 'y-uuki/unite-perl-module.vim'
 NeoBundle 'y-uuki/perl-local-lib-path.vim'
 NeoBundle 'rhysd/wombat256.vim'
+" NeoBundle 'airblade/vim-rooter'
 " NeoBundle 'ujihisa/vimshell-ssh.git'
 " NeoBundle 'scrooloose/syntastic'
 " NeoBundle 'y-uuki/syntastic_local_lib_path.vim'
@@ -918,6 +919,13 @@ augroup END
 "   autocmd FileType perl SyntasticLocalLibPath
 " augroup END
 "" }}}
+
+" "" vim-rooter
+" nnoremap [rooter] <Nop>
+" nmap     c        [rooter]
+" map <silent> <unique> [rooter]r <Plug>RooterChangeToRootDirectory
+" let g:rooter_patterns = ['Makefile.PL', '.git/']
+""
 
 "" gtags.vim
 nnoremap ta :<C-u>Gtags<Space>
