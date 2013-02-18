@@ -710,9 +710,9 @@ nnoremap <silent> [unite]a :<C-u>UniteBookmarkAdd<CR>
 nnoremap <silent> [unite]s <Plug>(neocomplcache_start_unite_snippet)
 
 " git常用
-nnoremap <silent> [unite]g :<C-u>Unite -no-split git_cached git_untracked<CR>
+nnoremap <silent> [unite]ga :<C-u>Unite -no-split git_cached git_untracked<CR>
 " git ls-files一覧
-nnoremap <silent> [unite]gc :<C-u>Unite -no-split git_cached<CR>
+nnoremap <silent> [unite]g :<C-u>Unite -no-split git_cached<CR>
 " git modefied一覧
 nnoremap <silent> [unite]gm :<C-u>Unite -no-split git_modified<CR>
 " git untracked一覧
@@ -855,6 +855,8 @@ let g:quickrun_config = {
   " \ 'perl/watchdogs_checker' : {
   " \   'type' : 'watchdogs_checker/perl-projectlibs',
   " \ },
+" systemの代わりにvimproc#systemを使う http://vim-users.jp/2010/08/hack168/
+let g:quickrun_config['*'] = {'runmode': "async:remote:vimproc", 'split': 'below'}
 " QuickRun 結果の開き方
 let g:quickrun_config._ = { 'outputter' : 'unite_quickfix', 'split' : 'rightbelow 10sp', 'hook/hier_update/enable' : 1 }
 " outputter
