@@ -480,7 +480,7 @@ if has('vim_starting')
   call neobundle#rc()
 endif
 
-"" on GitHub {{{
+"" GitHub {{{
 NeoBundle 'thinca/vim-quickrun'
 NeoBundle 'Shougo/vimproc', {
             \ 'build' : {
@@ -508,6 +508,7 @@ NeoBundle 'thinca/vim-ref'
 NeoBundle 'Lokaltog/vim-powerline'
 NeoBundle 'tomtom/tcomment_vim'
 NeoBundle 'vim-scripts/gtags.vim'
+NeoBundle 'hewes/unite-gtags'
 NeoBundle 'danchoi/ri.vim.git'
 NeoBundle 'tpope/vim-rails'
 NeoBundle 'tpope/vim-bundler.git'
@@ -531,15 +532,14 @@ NeoBundle 'rhysd/wombat256.vim'
 " NeoBundle 'c9s/cpan.vim'
 "" }}}
 
-"" on www.vim.org {{{
+"" www.vim.org {{{
 NeoBundle 'dbext.vim'
 " NeoBundle 'L9'
 " NeoBundle 'taglist.vim'
 "" }}}
 
-"" on others Git repositories {{{
+"" others Git repositories {{{
 " NeoBundle 'git://git.wincent.com/command-t.git'
-" NeoBundle 'git://github.com/msanders/cocoa.vim.git'
 "" }}}
 
 "" GUI colorscheme {{{
@@ -723,6 +723,13 @@ nnoremap <silent> [unite]gu :<C-u>Unite -no-split git_untracked<CR>
 autocmd MyAutocmd FileType perl nnoremap <buffer>[unite]pl :<C-u>Unite perl/local<CR>
 " Perl global lib modules
 autocmd MyAutocmd FileType perl nnoremap <buffer>[unite]pg :<C-u>Unite perl/global<CR>
+
+"" unite-gtags
+nnoremap <silent> [unite]gc :<C-u>Unite gtags/context<CR>
+nnoremap <silent> [unite]gr :<C-u>Unite gtags/ref<CR>
+nnoremap <silent> [unite]gd :<C-u>Unite gtags/def<CR>
+nnoremap <silent> [unite]gg :<C-u>Unite gtags/gtags<SPACE>
+nnoremap <silent> [unite]gcc :<C-u>Unite gtags/completion<CR>
 
 " C++ インクルードファイル
 autocmd MyAutocmd FileType cpp nnoremap <buffer>[unite]i :<C-u>Unite file_include -vertical<CR>
@@ -930,10 +937,13 @@ augroup END
 ""
 
 "" gtags.vim
-nnoremap ta :<C-u>Gtags<Space>
-nnoremap tr :<C-u>Gtags -r<Space>
-nnoremap tf :<C-u>Gtags -f<Space>
-nnoremap tg :<C-u>Gtags -g<Space>
+nmap <C-g>  :<C-u>Gtags<Space>
+nmap <C-h>  :<C-u>Gtags -f %<CR>
+nmap <C-j>  :<C-u>GtagsCursor<CR>
+nmap <C-n>  :cn<CR>
+nmap <C-p>  :cp<CR>
+nmap <C-g>r :<C-u>Gtags -r<Space>
+nmap <C-g>g :<C-u>Gtags -g<Space>
 ""
 
 """ }}}
