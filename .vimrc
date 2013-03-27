@@ -591,7 +591,7 @@ filetype plugin indent on
 
 "" wombat {{{
 if !has('gui_running')
-    colorscheme wombat256mod
+    colorscheme wombat256rhysd
 endif
 "" }}}
 
