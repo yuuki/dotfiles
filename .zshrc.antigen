@@ -10,26 +10,7 @@ if [[ -f $HOME/.zsh/antigen/antigen.zsh ]]; then
   antigen-bundles <<EOBUNDLES
   autojump
   brew
-  bundler
-  cap
-  cpanm
-  dircycle
-  encode64
-  gem
   git
-  git-flow
-  github
-  heroku
-  npm
-  osx
-  perl
-  pip
-  python
-  rails3
-  rbenv
-  ruby
-  rvm
-  urltools
   zsh-users/zsh-syntax-highlighting
 EOBUNDLES
 

@@ -354,6 +354,7 @@ augroup FileTypeDetect
   autocmd BufNewFile,BufRead *.md  setf mkd
   autocmd BufNewFile,BufRead *.less setf less
   autocmd BufNewFile,BufRead *.coffee setf coffee
+  autocmd BufNewFile,BufRead *.erb set filetype=eruby.html
 augroup END
 
 augroup IndentGroup
@@ -834,13 +835,13 @@ if !has("g:quickrun_config")
   let g:quickrun_config = {}
 endif
 let g:quickrun_config = {
-  \ 'perl' : { 'command' : 'perl', 'cmdopt' : "-M'Project::Libs lib_dirs => [qw(local/lib/perl5)]'" },
+  \ 'perl' : { 'command' : 'perl', 'cmdopt' : "-M'Project::Libs lib_dirs => [qw(. local/lib/perl5 t/lib)]'" },
   \ 'cpp'  : { 'command' : "g++",  'cmdopt' : '-Wall -Wextra -O2' },
   \
   \ 'syntax/perl' : {
   \   'runner' : 'vimproc',
   \   'command' : 'perl',
-  \   'cmdopt' : "-M'Project::Libs lib_dirs => [qw(local/lib/perl5)]'",
+  \   'cmdopt' : "-M'Project::Libs lib_dirs => [qw(. local/lib/perl5 t/lib)]'",
   \   'exec' : '%c %o -c %s:p',
   \ },
   \ 'syntax/ruby' : {

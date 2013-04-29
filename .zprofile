@@ -1,9 +1,9 @@
 
 ### External script {{{
 # Rbenv
-# if type rbenv > /dev/null 2>&1; then
-#   eval "$(rbenv init -)"
-# fi
+if type rbenv > /dev/null 2>&1; then
+  eval "$(rbenv init -)"
+fi
 
 # RVM
 if type rvm > /dev/null 2>&1; then
@@ -14,6 +14,11 @@ fi
 if type perlbrew > /dev/null 2>&1; then
   [[ -s $HOME/.perlbrew/etc/bashrc ]] && source $HOME/.perlbrew/etc/bashrc
   [[ -s $HOME/perl5/perlbrew/etc/bashrc ]] && source $HOME/perl5/perlbrew/etc/bashrc
+fi
+
+# plenv
+if type plenv > /dev/null 2>&1; then
+  eval "$(plenv init -)"
 fi
 
 # Pythonz
@@ -32,7 +37,7 @@ if type autojump > /dev/null 2>&1; then
 fi
 
 # hub
-if type hub > /dev/null 2>&1; then
-  eval "$(hub alias -s)"
-fi
+# if type hub > /dev/null 2>&1; then
+#   eval "$(hub alias -s)"
+# fi
 ### }}}

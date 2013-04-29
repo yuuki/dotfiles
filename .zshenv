@@ -1,5 +1,3 @@
-# vim:set ft=zsh foldmethod=marker:
-
 # ZSH_HOME
 export ZSH_HOME=${HOME}/.zsh
 
@@ -46,10 +44,12 @@ path=(
 
 # LL Path
 path=(
-  ${HOME}/.rbenv/bin(N-/)                           # Rbenv
-  ${HOME}/.rvm/bin(N-/)                             # RVM
-  ${HOME}/perl5/perlbrew/bin(N-/)                   # Perlbrew
-  ${HOME}/.pythonz/pythons/CPython-2.7.3/bin(N-/)   # Python
+  ${HOME}/perl5/perlbrew/bin(N-/)                 # Perlbrew
+  ${HOME}/.rbenv/shims(N-/)                       # Rbenv
+  ${HOME}/.plenv/bin(N-/)                         # Planv
+  ${HOME}/.rvm/bin(N-/)                           # RVM
+  ${HOME}/.pythonz/pythons/CPython-2.7.3/bin(N-/) # Python
+  /usr/local/share/npm/bin(N-/) # NPM
   $path
 )
 

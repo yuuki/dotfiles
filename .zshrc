@@ -156,6 +156,10 @@ alias less='less -R'
 alias zmv='noglob zmv'
 alias pdftotext='pdftotext -layout -'
 
+if [[ -x /usr/local/bin/colordiff ]]; then
+  alias diff='colordiff'
+fi
+
 export LESS='--tabs=4 --no-init --LONG-PROMPT --ignore-case -R'
 if [[ -x /usr/local/bin/src-hilite-lesspipe.sh ]]; then
   export LESSOPEN='| /usr/local/bin/src-hilite-lesspipe.sh %s'
@@ -236,6 +240,7 @@ fi
 ### }}}
 
 ### functions {{{
+
 ## ディレクトリ移動時に自動でls
 function chpwd() { ls -a }
 
@@ -325,4 +330,3 @@ function ghub () {
   web_search "https://github.com/search?type=Code&q=" "+" "" $*
 }
 ### }}}
-
