@@ -9,6 +9,8 @@
   grep = auto
 [push]
   default = simple
+[include]
+  path = .gitconfig.local
 [core]
   editor = /usr/bin/vim
 	excludesfile = ~/.gitignore
@@ -85,4 +87,4 @@
   ls = ls-files
   lst = ls-tree
   cch= "!f() { git cherry -v "$@" | awk '{ if($1 == \"+\"){ color = \"green\" } if($1 == \"-\"){ color = \"red\" } cmd = \"git show --date=short --no-notes --pretty=format:\\047%C\" color $1 \" %h %Cgreen%cd %Cblue%cn%x09%Creset%s\\047 --summary \" $2; cmd | getline t; close(cmd); print t }' ;}; f"
-[hub]
+  rm-cached-all="!f() {for i in `git status | grep deleted | awk '{print $3}'`; do git rm $i; done}"

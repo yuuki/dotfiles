@@ -156,6 +156,7 @@ alias less='less -R'
 alias zmv='noglob zmv'
 alias pdftotext='pdftotext -layout -'
 
+<<<<<<< HEAD
 if [[ -x /usr/local/bin/colordiff ]]; then
   alias diff='colordiff'
 fi
@@ -176,6 +177,32 @@ fi
 # vimがなくてもvimでviを起動する。
 if ! type vim > /dev/null 2>&1; then
     alias vim=vi
+=======
+# GitFlow & HubFlow
+alias gf='git flow'
+alias ghf='git hf'
+
+export LESS='--tabs=4 --no-init --LONG-PROMPT --ignore-case -R'
+if [[ -x /usr/local/bin/src-hilite-lesspipe.sh ]]; then
+  export LESSOPEN='| /usr/local/bin/src-hilite-lesspipe.sh %s'
+fi
+
+## vim
+alias v='vim'
+alias vrc='vim ~/.vimrc'
+if [ -f '/Applications/MacVim.app/Contents/MacOS/Vim' ]; then
+    alias vim='/Applications/MacVim.app/Contents/MacOS/Vim -u $HOME/.vimrc'
+    # alias mvim='/Applications/MacVim.app/Contents/MacOS/MacVim -u $HOME/.vimrc'
+    alias mvim='open -a MacVIm.app "$@"'
+fi
+# vimがなくてもvimでviを起動する。
+if ! type vim > /dev/null 2>&1; then
+    alias vim=vi
+fi
+
+if [[ -x /usr/local/bin/colordiff ]]; then
+  alias diff='colordiff'
+>>>>>>> 2c070de24c3164893887102cba7f3bf2f37143f2
 fi
 
 # Tex
@@ -189,6 +216,13 @@ alias bri='brew install'
 alias bru='brew update'
 alias brug='brew upgrade'
 
+<<<<<<< HEAD
+=======
+## Others
+alias ce='carton exec'
+alias ci='carton install'
+alias plackup='plackup -L Shotgun'
+>>>>>>> 2c070de24c3164893887102cba7f3bf2f37143f2
 ## Perl
 alias cpanm-local='cpanm --installdeps -L local/ .'
 alias perl-local='perl -Mlib::core::only -Mlib=local/lib/perl5/'
@@ -220,11 +254,19 @@ alias -g ....='..//..//..'
 alias -g .....='..//..//..//..'
 ### }}}
 
+<<<<<<< HEAD
 
 # Vim側でC-s C-q
 stty -ixon -ixoff
 
 
+=======
+
+# Vim側でC-s C-q
+stty -ixon -ixoff
+
+
+>>>>>>> 2c070de24c3164893887102cba7f3bf2f37143f2
 ### plugins {{{
 # cdd
 if [[ -f "${ZSH_HOME}/plugins/cdd/cdd" ]]; then

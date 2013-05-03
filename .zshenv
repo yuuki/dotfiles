@@ -1,3 +1,5 @@
+# vim:set ft=zsh foldmethod=marker:
+
 # ZSH_HOME
 export ZSH_HOME=${HOME}/.zsh
 

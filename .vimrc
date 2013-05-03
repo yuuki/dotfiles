@@ -103,7 +103,6 @@ set t_Co=256
 """ }}}
 
 """ Util {{{
-
 " 一定時間カーソルを移動しないとカーソルラインを表示（ただし，ウィンドウ移動時
 " はなぜか切り替わらない
 " http://d.hatena.ne.jp/thinca/20090530/1243615055
@@ -489,18 +488,19 @@ NeoBundle 'Shougo/vimproc', {
             \       'unix'    : 'make -f make_unix.mak',
             \   }
             \ }
-NeoBundle 'Shougo/vimfiler.git'
-NeoBundle 'Shougo/vimshell.git'
-NeoBundle 'Shougo/vinarise.git'
-NeoBundle 'Shougo/echodoc.git'
-NeoBundle 'Shougo/neocomplcache.git'
-NeoBundle 'Shougo/neosnippet.git'
-NeoBundle 'Shougo/unite-ssh.git'
+NeoBundle 'Shougo/vimfiler'
+NeoBundle 'Shougo/vimshell'
+NeoBundle 'Shougo/vinarise'
+NeoBundle 'Shougo/echodoc'
+NeoBundle 'Shougo/neocomplcache'
+NeoBundle 'Shougo/neosnippet'
+NeoBundle 'Shougo/unite.vim'
+NeoBundle 'Shougo/unite-ssh'
 NeoBundle 'osyo-manga/unite-fold'
 NeoBundle 'osyo-manga/unite-quickfix'
 NeoBundle 'taka84u9/unite-git'
 NeoBundle 'h1mesuke/unite-outline'
-NeoBundle 'Shougo/vim-vcs.git'
+NeoBundle 'Shougo/vim-vcs'
 NeoBundle 'hrsh7th/vim-unite-vcs'
 NeoBundle 'basyura/unite-rails'
 NeoBundle 'jceb/vim-hier'
@@ -510,11 +510,11 @@ NeoBundle 'Lokaltog/vim-powerline'
 NeoBundle 'tomtom/tcomment_vim'
 NeoBundle 'vim-scripts/gtags.vim'
 NeoBundle 'hewes/unite-gtags'
-NeoBundle 'danchoi/ri.vim.git'
+NeoBundle 'danchoi/ri.vim'
 NeoBundle 'tpope/vim-rails'
-NeoBundle 'tpope/vim-bundler.git'
-NeoBundle 'tpope/vim-rake.git'
-NeoBundle 'tpope/vim-abolish.git'
+NeoBundle 'tpope/vim-bundler'
+NeoBundle 'tpope/vim-rake'
+NeoBundle 'tpope/vim-abolish'
 NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'hotchpotch/perldoc-vim'
 NeoBundle 'rhysd/quickrun-unite-quickfix-outputter'
@@ -669,6 +669,7 @@ let g:neosnippet#snippets_directory=$HOME.'/.vim/snippets/snippets'
 "" }}}
 
 "" unite.vim {{{
+let g:unite_prompt = '> '
 " insertモードをデフォルトに
 let g:unite_enable_start_insert = 1
 " 無指定にすることで高速化
