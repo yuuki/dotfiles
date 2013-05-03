@@ -341,6 +341,8 @@ filetype indent on
 
 augroup FileTypeDetect
   autocmd!
+  autocmd BufNewFile,BufRead cpanfile set filetype=cpanfile
+  autocmd BufNewFile,BufRead cpanfile set syntax=perl.cpanfile
   autocmd BufNewFile,BufRead *.PL,*.t,*.psgi,*.perldb,cpanfile setf perl
   autocmd BufNewFile,BufRead *.hpp,*.cl setf cpp
   autocmd BufNewFile,BufRead *.cu,*.hcu setf cuda
@@ -396,9 +398,6 @@ augroup IndentGroup
   autocmd FileType perl,cgi   compiler perl
   autocmd FileType perl,cgi   nmap <buffer>,pt <ESC>:%! perltidy<CR> " ソースコード全体を整形
   autocmd FileType perl,cgi   nmap <buffer>,ptv <ESC>:%'<, '>! perltidy<CR> " 選択された部分のソースコードを整形
-  autocmd FileType perl,cgi   setlocal iskeyword+=:
-  autocmd FileType perl,cgi   setlocal isfname-=-I
-  autocmd FileType perl,cgi   setlocal dictionary+=~/.vim/dict/perl_functions.dict
 
   autocmd FileType python     setlocal cinwords=if,elif,else,for,while,try,except,finally,def,class
   autocmd FileType ruby       compiler ruby
@@ -520,16 +519,9 @@ NeoBundle 'hotchpotch/perldoc-vim'
 NeoBundle 'rhysd/quickrun-unite-quickfix-outputter'
 NeoBundle 'osyo-manga/shabadou.vim'
 NeoBundle 'osyo-manga/vim-watchdogs'
-NeoBundle 'rhysd/unite-ruby-require.vim'
-NeoBundle 'y-uuki/unite-perl-module.vim'
-NeoBundle 'y-uuki/perl-local-lib-path.vim'
 NeoBundle 'rhysd/wombat256.vim'
 " NeoBundle 'airblade/vim-rooter'
 " NeoBundle 'ujihisa/vimshell-ssh.git'
-" NeoBundle 'scrooloose/syntastic'
-" NeoBundle 'y-uuki/syntastic_local_lib_path.vim'
-" NeoBundle 'vim-scripts/errormarker.vim'
-" NeoBundle 'ywatase/flymake-perl.vim'
 " NeoBundle 'c9s/cpan.vim'
 "" }}}
 
@@ -555,9 +547,13 @@ NeoBundleLazy 'guicolorscheme.vim'
 
 "" 特定環境用 {{{
 NeoBundleLazy 'sudo.vim'
-NeoBundleLazy 'vim-ruby/vim-ruby'
+NeoBundleLazy 'y-uuki/unite-perl-module.vim'
+NeoBundleLazy 'y-uuki/perl-local-lib-path.vim'
 NeoBundleLazy 'benizi/perl-support.vim'
 NeoBundleLazy 'petdance/vim-perl'
+NeoBundleLazy 'moznion/vim-cpanfile'
+NeoBundleLazy 'vim-ruby/vim-ruby'
+NeoBundleLazy 'rhysd/unite-ruby-require.vim'
 NeoBundleLazy 'motemen/xslate-vim'
 NeoBundleLazy 'vim-jp/cpp-vim'
 NeoBundleLazy 'osyo-manga/neocomplcache-clang_complete'
@@ -572,13 +568,17 @@ NeoBundleLazy 'micheljansen/vim-latex'
 "" 遅延ロード {{{
 augroup NeoBundleLazyLoad
     autocmd!
+    autocmd FileType perl NeoBundleSource
+                \ unite-perl-module
+                \ perl-local-lib-path
+                \ perl-support.vim
+                \ vim-perl
+    autocmd FileType cpanfile NeoBundleSource
+                \ vim-cpanfile
+    autocmd FileType ruby NeoBundleSource vim-ruby
     autocmd FileType cpp NeoBundleSource
                 \ cpp-vim
                 \ neocomplcache-clang_complete
-    autocmd FileType ruby NeoBundleSource vim-ruby
-    autocmd FileType perl NeoBundleSource
-                \ perl-support.vim
-                \ vim-perl
     autocmd FileType less   NeoBundleSource vim-less
     autocmd FileType coffee NeoBundleSource vim-coffee-script
     autocmd FileType tmux   NeoBundleSource tmux.vim
@@ -619,6 +619,8 @@ let g:neocomplcache_max_keyword_width = 20
 let g:neocomplcache_dictionary_filetype_lists = {
             \ 'default' : '',
             \ 'vimshell' : expand('~/.vimshell/command-history'),
+            \ 'vim' : '~/.vim/dict/perl_functions.dict',
+            \ 'cpanfile' : '~/.vim/bundle/vim-cpanfile/dict/cpanfile.dict'
             \ }
 let g:neocomplcache_ctags_arguments_list = {
   \ 'perl' : '-R -h ".pm"'
