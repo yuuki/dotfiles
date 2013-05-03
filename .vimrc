@@ -344,6 +344,8 @@ augroup FileTypeDetect
   autocmd BufNewFile,BufRead cpanfile set filetype=cpanfile
   autocmd BufNewFile,BufRead cpanfile set syntax=perl.cpanfile
   autocmd BufNewFile,BufRead *.PL,*.t,*.psgi,*.perldb,cpanfile setf perl
+  autocmd BufNewFile,BufRead *.tx setfiletype xslate " from vim-xslate
+  autocmd BufNewFile,BufRead *.html if search('^; ') > 0 | set filetype=xslate | endif
   autocmd BufNewFile,BufRead *.hpp,*.cl setf cpp
   autocmd BufNewFile,BufRead *.cu,*.hcu setf cuda
   autocmd BufNewFile,BufRead *.aj setf java
@@ -480,7 +482,7 @@ if has('vim_starting')
 endif
 
 "" GitHub {{{
-NeoBundle 'thinca/vim-quickrun'
+NeoBundle 'Shougo/unite.vim'
 NeoBundle 'Shougo/vimproc', {
             \ 'build' : {
             \       'mac'     : 'make -f make_mac.mak',
@@ -488,13 +490,12 @@ NeoBundle 'Shougo/vimproc', {
             \   }
             \ }
 NeoBundle 'Shougo/vimfiler'
-NeoBundle 'Shougo/vimshell'
 NeoBundle 'Shougo/vinarise'
 NeoBundle 'Shougo/echodoc'
 NeoBundle 'Shougo/neocomplcache'
 NeoBundle 'Shougo/neosnippet'
-NeoBundle 'Shougo/unite.vim'
 NeoBundle 'Shougo/unite-ssh'
+NeoBundle 'thinca/vim-quickrun'
 NeoBundle 'osyo-manga/unite-fold'
 NeoBundle 'osyo-manga/unite-quickfix'
 NeoBundle 'taka84u9/unite-git'
@@ -545,47 +546,70 @@ NeoBundleLazy 'rdark'
 NeoBundleLazy 'guicolorscheme.vim'
 "" }}}
 
-"" 特定環境用 {{{
-NeoBundleLazy 'sudo.vim'
-NeoBundleLazy 'y-uuki/unite-perl-module.vim'
-NeoBundleLazy 'y-uuki/perl-local-lib-path.vim'
-NeoBundleLazy 'benizi/perl-support.vim'
-NeoBundleLazy 'petdance/vim-perl'
-NeoBundleLazy 'moznion/vim-cpanfile'
-NeoBundleLazy 'vim-ruby/vim-ruby'
-NeoBundleLazy 'rhysd/unite-ruby-require.vim'
-NeoBundleLazy 'motemen/xslate-vim'
-NeoBundleLazy 'vim-jp/cpp-vim'
-NeoBundleLazy 'osyo-manga/neocomplcache-clang_complete'
-NeoBundleLazy 'kchmck/vim-coffee-script'
-NeoBundleLazy 'plasticboy/vim-markdown'
-NeoBundleLazy 'groenewege/vim-less'
-NeoBundleLazy 'tpope/vim-haml.git'
-NeoBundleLazy 'zaiste/tmux.vim'
-NeoBundleLazy 'micheljansen/vim-latex'
+"" 遅延ロード {{{
+NeoBundleLazy 'Shougo/vimshell', {
+            \ 'autoload' : {
+            \     'commands' : ['VimShell', 'VimShellSendString', 'VimShellCurrentDir'],
+            \     }
+            \ }
+NeoBundleLazy 'y-uuki/unite-perl-module.vim', {
+            \ 'depends' : [ 'Shougo/unite.vim' ],
+            \ 'autoload' : {'filetypes' : 'perl'}
+            \ }
+NeoBundleLazy 'y-uuki/perl-local-lib-path.vim', {
+            \ 'depends' : [ 'Shougo/unite.vim' ],
+            \ 'autoload' : {'filetypes' : 'perl'}
+            \ }
+NeoBundleLazy 'benizi/perl-support.vim', {
+            \ 'autoload' : {'filetypes' : 'perl'}
+            \ }
+NeoBundleLazy 'petdance/vim-perl', {
+            \ 'autoload' : {'filetypes' : 'perl'}
+            \ }
+NeoBundleLazy 'moznion/vim-cpanfile', {
+            \ 'autoload' : {'filetypes' : 'perl'}
+            \ }
+NeoBundleLazy 'vim-ruby/vim-ruby', {
+            \ 'autoload' : {'filetypes' : 'ruby'}
+            \ }
+NeoBundleLazy 'rhysd/unite-ruby-require.vim', {
+            \ 'depends' : [ 'Shougo/unite.vim' ],
+            \ 'autoload' : {'filetypes' : 'ruby'}
+            \ }
+NeoBundleLazy 'motemen/xslate-vim', {
+            \ 'autoload' : {'filetypes' : 'xslate'}
+            \ }
+NeoBundleLazy 'vim-jp/cpp-vim', {
+            \ 'autoload' : {'filetypes' : 'cpp'}
+            \ }
+NeoBundleLazy 'osyo-manga/neocomplcache-clang_complete', {
+            \ 'autoload' : {'filetypes' : 'cpp'}
+            \ }
+NeoBundleLazy 'kchmck/vim-coffee-script', {
+            \ 'autoload' : {'filetypes' : 'coffee'}
+            \ }
+NeoBundleLazy 'plasticboy/vim-markdown', {
+            \ 'autoload' : {'filetypes' : 'markdown'}
+            \ }
+NeoBundleLazy 'groenewege/vim-less', {
+            \ 'autoload' : {'filetypes' : 'less'}
+            \ }
+NeoBundleLazy 'tpope/vim-haml.git', {
+            \ 'autoload' : {'filetypes' : 'haml'}
+            \ }
+NeoBundleLazy 'zaiste/tmux.vim', {
+            \ 'autoload' : {'filetypes' : 'tmux'}
+            \ }
+NeoBundleLazy 'micheljansen/vim-latex', {
+            \ 'autoload' : {'filetypes' : 'latex'}
+            \ }
 "" }}}
 
-"" 遅延ロード {{{
-augroup NeoBundleLazyLoad
-    autocmd!
-    autocmd FileType perl NeoBundleSource
-                \ unite-perl-module
-                \ perl-local-lib-path
-                \ perl-support.vim
-                \ vim-perl
-    autocmd FileType cpanfile NeoBundleSource
-                \ vim-cpanfile
-    autocmd FileType ruby NeoBundleSource vim-ruby
-    autocmd FileType cpp NeoBundleSource
-                \ cpp-vim
-                \ neocomplcache-clang_complete
-    autocmd FileType less   NeoBundleSource vim-less
-    autocmd FileType coffee NeoBundleSource vim-coffee-script
-    autocmd FileType tmux   NeoBundleSource tmux.vim
-    autocmd FileType tex    NeoBundleSource vim-latex
-    autocmd FileType haml   NeoBundleSource vim-haml
-    autocmd FileType xslate NeoBundleSource xslate-vim
-augroup END
+" 書き込み権限の無いファイルを編集しようとした時
+NeoBundleLazy 'sudo.vim'
+" ReadOnly のファイルを編集しようとしたときに sudo.vim を遅延読み込み
+autocmd MyAutocmd FileChangedRO * NeoBundleSource sudo.vim
+autocmd MyAutocmd FileChangedRO * execute "command! W SudoWrite" expand('%')
 "" }}}
 
 filetype plugin indent on
@@ -925,15 +949,7 @@ augroup PerlLocalLibPathGroup
 augroup END
 " }}}
 
-"" syntastic-local-lib-path {{{
-" let g:syntastic_perl_lib_path = 'local/lib/perl5'
-" augroup SyntasticLocalLibPathGroup
-"   autocmd!
-"   autocmd FileType perl SyntasticLocalLibPath
-" augroup END
-"" }}}
-
-" "" vim-rooter
+"" vim-rooter
 " nnoremap [rooter] <Nop>
 " nmap     c        [rooter]
 " map <silent> <unique> [rooter]r <Plug>RooterChangeToRootDirectory
