@@ -143,10 +143,36 @@ augroup rtrim
   autocmd BufWritePre * call RTrim()
 augroup END
 
+" カーソル位置の復元
+autocmd MyAutocmd BufReadPost *
+  \ if line("'\"") > 1 && line("'\"") <= line("$") |
+  \   exe "normal! g`\"" |
+  \ endif
+" Hack #202: 自動的にディレクトリを作成する
+" http://vim-users.jp/2011/02/hack202/
+autocmd MyAutocmd BufWritePre * call s:auto_mkdir(expand('<afile>:p:h'), v:cmdbang)
+function! s:auto_mkdir(dir, force)
+  if !isdirectory(a:dir) && (a:force ||
+           \    input(printf('"%s" does not exist. Create? [y/N]', a:dir)) =~? '^y\%[es]$')
+     " call mkdir(iconv(a:dir, &encoding, &termencoding), 'p')
+     call mkdir(a:dir, 'p')
+  endif
+endfunction
+
+" ファイルタイプを書き込み時に自動判別
+autocmd MyAutocmd BufWritePost
+\ * if &l:filetype ==# '' || exists('b:ftdetect')
+\ |   unlet! b:ftdetect
+\ |   filetype detect
+\ | endif
+" git commit message のときは折りたたまない(diff で中途半端な折りたたみになりがち)
+autocmd MyAutocmd FileType gitcommit setlocal nofoldenable
+
 " git のルートディレクトリを開く
 function! s:git_root_dir()
   if (system('git rev-parse --is-inside-work-tree') == "true\n")
-    return system('git rev-parse --show-cdup')
+    let s:path = system('git rev-parse --show-cdup')
+    return strpart(s:path, 0, strlen(s:path)-1) " 末尾改行削除
   else
     echoerr 'current directory is outside git working tree'
   endif
@@ -186,6 +212,10 @@ inoremap <silent> jj <ESC>
 inoremap <silent> <C-j> j
 " inoremap <silent> kk <ESC>
 " inoremap <silent> <C-k> k
+
+" ; と : をスワップ
+inoremap : ;
+inoremap ; :
 
 " insertモードでもquit
 inoremap <C-q><C-q> <Esc>:wq<CR>
@@ -392,8 +422,6 @@ augroup IndentGroup
   autocmd FileType yaml       setlocal sw=2 sts=2 ts=2 et
   autocmd FileType zsh        setlocal sw=2 sts=2 ts=2 et
 
-  inoremap : ;
-  inoremap ; :
   let $BOOST_ROOT = "/usr/local/opt/boost/include/boost"
   autocmd FileType cpp set path+=$BOOST_ROOT
 
@@ -496,10 +524,12 @@ NeoBundle 'Shougo/neocomplcache'
 NeoBundle 'Shougo/neosnippet'
 NeoBundle 'Shougo/unite-ssh'
 NeoBundle 'thinca/vim-quickrun'
+NeoBundle 'thinca/vim-singleton'
 NeoBundle 'osyo-manga/unite-fold'
 NeoBundle 'osyo-manga/unite-quickfix'
 NeoBundle 'taka84u9/unite-git'
 NeoBundle 'h1mesuke/unite-outline'
+NeoBundle 'tsukkee/unite-tag'
 NeoBundle 'Shougo/vim-vcs'
 NeoBundle 'hrsh7th/vim-unite-vcs'
 NeoBundle 'basyura/unite-rails'
@@ -521,6 +551,7 @@ NeoBundle 'rhysd/quickrun-unite-quickfix-outputter'
 NeoBundle 'osyo-manga/shabadou.vim'
 NeoBundle 'osyo-manga/vim-watchdogs'
 NeoBundle 'rhysd/wombat256.vim'
+NeoBundle 'rhysd/unite-zsh-cdr.vim'
 " NeoBundle 'airblade/vim-rooter'
 " NeoBundle 'ujihisa/vimshell-ssh.git'
 " NeoBundle 'c9s/cpan.vim'
@@ -704,8 +735,72 @@ let g:unite_source_file_mru_filename_format = ''
 let g:unite_source_file_mru_limit = 100
 " Unite起動時のウィンドウ分割
 let g:unite_split_rule = 'rightbelow'
+" 使わないデフォルト Unite ソースをロードしない
+let g:loaded_unite_source_bookmark = 1
+let g:loaded_unite_source_window = 1
 " unite-grep で使うコマンド
 let g:unite_source_grep_default_opts = "-Hn --color=never"
+" the silver searcher を unite-grep のバックエンドにする
+if executable('ag')
+    let g:unite_source_grep_command = 'ag'
+    let g:unite_source_grep_default_opts = '--nocolor --nogroup --column'
+    let g:unite_source_grep_recursive_opt = ''
+endif
+
+" unite.vim カスタムアクション
+function! s:define_unite_actions()
+    " Git リポジトリのすべてのファイルを開くアクション {{{
+    let git_repo = { 'description' : 'all file in git repository' }
+    function! git_repo.func(candidate)
+        if(unite#util#system('git rev-parse --is-inside-work-tree') ==# "true\n" )
+            execute 'args'
+                    \ join( filter(split(system('git ls-files `git rev-parse --show-cdup`'), '\n')
+                            \ , 'empty(v:val) || isdirectory(v:val) || filereadable(v:val)') )
+        else
+            echoerr 'Not a git repository!'
+        endif
+    endfunction
+
+    call unite#custom_action('file', 'git_repo_files', git_repo)
+    " }}}
+
+    " ファイルなら開き，ディレクトリなら VimFiler に渡す {{{
+    let open_or_vimfiler = {
+                \ 'description' : 'open a file or open a directory with vimfiler',
+                \ 'is_selectable' : 1,
+                \ }
+    function! open_or_vimfiler.func(candidates)
+        for candidate in a:candidates
+            if candidate.kind ==# 'directory'
+                execute 'VimFiler' candidate.action__path
+                return
+            endif
+        endfor
+        execute 'args' join(map(a:candidates, 'v:val.action__path'), ' ')
+    endfunction
+    call unite#custom_action('file', 'open_or_vimfiler', open_or_vimfiler)
+    "}}}
+
+    " Finder for Mac
+    if has('mac')
+        let finder = { 'description' : 'open with Finder.app' }
+        function! finder.func(candidate)
+            if a:candidate.kind ==# 'directory'
+                call system('open -a Finder '.a:candidate.action__path)
+            endif
+        endfunction
+        call unite#custom_action('directory', 'finder', finder)
+    endif
+
+    " load once
+    autocmd! UniteCustomActions
+endfunction
+
+" カスタムアクションを遅延定義
+augroup UniteCustomActions
+    autocmd!
+    autocmd FileType unite,vimfiler call <SID>define_unite_actions()
+augroup END
 
 nnoremap  [unite] <Nop>
 nmap      f       [unite]
@@ -724,6 +819,8 @@ nnoremap <silent> [unite]s :<C-u>Unite source -vertical<CR>
 nnoremap <silent> [unite]u :<C-u>Unite -no-split buffer file_mru<CR>
 " 現在のバッファのカレントディレクトリからファイル一覧
 nnoremap <silent> [unite]d :<C-u>UniteWithBufferDir -no-split file<CR>
+"バッファを開いた時のパスを起点としたファイル検索
+nnoremap <silent>[unite]<Space> :<C-u>UniteWithBufferDir -buffer-name=files file -vertical<CR>
 " grep検索
 nnoremap <silent> [unite]G :<C-u>Unite -no-start-insert grep<CR>
 " Uniteバッファの復元
@@ -736,6 +833,16 @@ nnoremap <silent> [unite]c :<C-u>Unite bookmark<CR>
 nnoremap <silent> [unite]a :<C-u>UniteBookmarkAdd<CR>
 " スニペット候補表示
 nnoremap <silent> [unite]s <Plug>(neocomplcache_start_unite_snippet)
+" Git のルートディレクトリを開く
+nnoremap <silent><expr>[unite]fg  ":\<C-u>Unite file -input=".fnamemodify(<SID>git_root_dir(),":p")
+" プロジェクトのファイル一覧
+nnoremap <silent>[unite]p         :<C-u>Unite file_rec:! file/new<CR>
+" 検索に unite-lines を使う
+nnoremap <silent><expr> [unite]/ line('$') > 5000 ?
+            \ ":\<C-u>Unite -buffer-name=search -no-split -start-insert line/fast\<CR>" :
+            \ ":\<C-u>Unite -buffer-name=search -start-insert line\<CR>"
+" zsh の cdr コマンド
+nnoremap <silent>[unite]z :<C-u>Unite zsh-cdr<CR>
 
 " git常用
 nnoremap <silent> [unite]ga :<C-u>Unite -no-split git_cached git_untracked<CR>
@@ -840,15 +947,51 @@ nnoremap [vcs]s  :<C-u>Unite vcs/status<CR>
 nnoremap [vcs]r  :<C-u>Unite vcs/file_rec<CR>
 "" }}}
 
-"" vim-fugutive {{{
-nnoremap [fugu] <Nop>
-nmap     gi    [fugu]
+"" unite-tag {{{
+" http://d.hatena.ne.jp/osyo-manga/20120205/1328368314
+" neocomplcache が作成した tag ファイルのパスを tags に追加する
+function! s:TagsUpdate()
+    " include している tag ファイルが毎回同じとは限らないので毎回初期化
+    setlocal tags=
+    for filename in neocomplcache#sources#include_complete#get_include_files(bufnr('%'))
+        execute "setlocal tags+=".neocomplcache#cache#encode_name('tags_output', filename)
+    endfor
+    execute "setlocal tags+=".<SID>git_root_dir()."tags"
+endfunction
 
-nnoremap [fugu]st :<C-u>Gstatus<CR>
-nnoremap [fugu]bl :<C-u>Gblame<CR>
-nnoremap [fugu]gr :<C-u>Ggrep<SPACE>
-nnoremap [fugu]lo :<C-u>Glog<CR>
-nnoremap [fugu]re :<C-u>Gread<CR>
+command!
+    \ -nargs=? PopupTags
+    \ call <SID>TagsUpdate()
+    \ |Unite tag:<args>
+
+function! s:get_func_name(word)
+    let end = match(a:word, '<\|[\|(')
+    return end == -1 ? a:word : a:word[ : end-1 ]
+endfunction
+
+" カーソル下のワード(word)で絞り込み
+noremap <silent> g<C-]> :<C-u>execute "PopupTags ".expand('<cword>')<CR>
+
+" カーソル下のワード(WORD)で ( か < か [ までが現れるまでで絞り込み
+" 例)
+" boost::array<std::stirng... → boost::array で絞り込み
+noremap <silent> G<C-]> :<C-u>execute "PopupTags "
+    \.substitute(<SID>get_func_name(expand('<cWORD>')), '\:', '\\\:', "g")<CR>
+""" }}}
+
+"" singleton.vim {{{
+call singleton#enable()
+"" }}}
+
+"" vim-fugitive {{{
+nnoremap [fugi] <Nop>
+nmap     gi    [fugi]
+
+nnoremap [fugi]st :<C-u>Gstatus<CR>
+nnoremap [fugi]bl :<C-u>Gblame<CR>
+nnoremap [fugi]gr :<C-u>Ggrep<SPACE>
+nnoremap [fugi]lo :<C-u>Glog<CR>
+nnoremap [fugi]re :<C-u>Gread<CR>
 "" }}}
 
 "" vim-quickrun & vim-watchdogs {{{

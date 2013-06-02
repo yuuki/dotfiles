@@ -50,7 +50,7 @@ path=(
   ${HOME}/.rbenv/shims(N-/)                       # Rbenv
   ${HOME}/.plenv/bin(N-/)                         # Planv
   ${HOME}/.rvm/bin(N-/)                           # RVM
-  ${HOME}/.pythonz/pythons/CPython-2.7.3/bin(N-/) # Python
+  # ${HOME}/.pyenv/bin(N-/) # Python
   /usr/local/share/npm/bin(N-/) # NPM
   $path
 )
@@ -117,3 +117,5 @@ export CLASSPATH=$CLASSPATH:$JAVA_HOME/lib:.
 export ANDROID_HOME=/Applications/android-sdk-macosx
 
 export XDG_DATA_HOME=/usr/local/share
+
+export PYTHONPATH=/usr/local/lib/python2.7/site-packages:$PYTHONPATH

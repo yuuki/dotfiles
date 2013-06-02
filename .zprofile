@@ -21,9 +21,9 @@ if type plenv > /dev/null 2>&1; then
   eval "$(plenv init -)"
 fi
 
-# Pythonz
-if type pythonz > /dev/null 2>&1; then
-  [[ -s $HOME/.pythonz/etc/bashrc ]] && source $HOME/.pythonz/etc/bashrc
+# pyenv
+if type pyenv > /dev/null 2>&1; then
+  eval "$(pyenv init -)"
 fi
 
 # Tmuxinator

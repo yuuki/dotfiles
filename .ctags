@@ -1,0 +1,4 @@
+--append=yes
+--recurse=yes
+--langmap=perl:.psgi|.t
+--perl-kinds=cfd

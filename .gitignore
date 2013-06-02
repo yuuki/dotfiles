@@ -20,6 +20,10 @@ Session.vim
 .zshrc.local
 *.err
 *.zwc
+tags
+GPATH
+GRTAGS
+GTAGS
 
 .vim/bundle/*
 .gitconfig.local
