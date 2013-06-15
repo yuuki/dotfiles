@@ -46,12 +46,12 @@ path=(
 
 # LL Path
 path=(
-  ${HOME}/perl5/perlbrew/bin(N-/)                 # Perlbrew
-  ${HOME}/.rbenv/shims(N-/)                       # Rbenv
-  ${HOME}/.plenv/bin(N-/)                         # Planv
-  ${HOME}/.rvm/bin(N-/)                           # RVM
-  # ${HOME}/.pyenv/bin(N-/) # Python
-  /usr/local/share/npm/bin(N-/) # NPM
+  ${HOME}/perl5/perlbrew/bin(N-/)  # Perlbrew
+  ${HOME}/.rbenv/shims(N-/)        # Rbenv
+  ${HOME}/.plenv/bin(N-/)          # Plenv
+  ${HOME}/.rvm/bin(N-/)            # RVM
+  ${HOME}/.pyenv/bin(N-/)          # Pyenv
+  /usr/local/share/npm/bin(N-/)    # NPM
   $path
 )
 
