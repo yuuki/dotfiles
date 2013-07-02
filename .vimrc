@@ -546,12 +546,15 @@ NeoBundle 'tpope/vim-bundler'
 NeoBundle 'tpope/vim-rake'
 NeoBundle 'tpope/vim-abolish'
 NeoBundle 'tpope/vim-fugitive'
+NeoBundle 'kana/vim-operator-user'
+NeoBundle 'kana/vim-operator-replace'
 NeoBundle 'hotchpotch/perldoc-vim'
 NeoBundle 'rhysd/quickrun-unite-quickfix-outputter'
 NeoBundle 'osyo-manga/shabadou.vim'
 NeoBundle 'osyo-manga/vim-watchdogs'
 NeoBundle 'rhysd/wombat256.vim'
 NeoBundle 'rhysd/unite-zsh-cdr.vim'
+NeoBundle 'trotter/autojump.vim'
 " NeoBundle 'airblade/vim-rooter'
 " NeoBundle 'ujihisa/vimshell-ssh.git'
 " NeoBundle 'c9s/cpan.vim'
@@ -633,6 +636,11 @@ NeoBundleLazy 'zaiste/tmux.vim', {
             \ }
 NeoBundleLazy 'micheljansen/vim-latex', {
             \ 'autoload' : {'filetypes' : 'latex'}
+            \ }
+NeoBundleLazy 'kana/vim-operator-replace', {
+            \ 'autoload' : {
+            \     'mappings' : '<Plug>(operator-replace)'
+            \     }
             \ }
 "" }}}
 
@@ -1107,6 +1115,12 @@ nmap <C-n>  :cn<CR>
 nmap <C-p>  :cp<CR>
 nmap <C-g>r :<C-u>Gtags -r<Space>
 nmap <C-g>g :<C-u>Gtags -g<Space>
+""
+
+"" operator-replace
+map <Leader>r <Plug>(operator-replace)
+" v_p を置き換える
+vmap p <Plug>(operator-replace)
 ""
 
 """ }}}
