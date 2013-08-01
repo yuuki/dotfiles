@@ -119,3 +119,15 @@ export ANDROID_HOME=/Applications/android-sdk-macosx
 export XDG_DATA_HOME=/usr/local/share
 
 export PYTHONPATH=/usr/local/lib/python2.7/site-packages:$PYTHONPATH
+
+function setup_GOROOT() {
+  local GOPATH=`which go`
+  local GODIR=`dirname $GOPATH`
+  local GOPATH_BREW_RELATIVE=`readlink $GOPATH`
+  local GOPATH_BREW=`dirname $GOPATH_BREW_RELATIVE`
+  export GOROOT=`cd $GODIR; cd $GOPATH_BREW/..; pwd`
+}
+setup_GOROOT
+
+export GOPATH=$HOME/.go
+export PATH=$PATH:$GOROOT/bin:$GOPATH/bin

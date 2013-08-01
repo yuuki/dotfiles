@@ -27,3 +27,4 @@ GTAGS
 
 .vim/bundle/*
 .gitconfig.local
+.perl-version

@@ -402,6 +402,7 @@ augroup IndentGroup
   autocmd FileType css        setlocal sw=2 sts=2 ts=2 et
   autocmd FileType diff       setlocal sw=4 sts=4 ts=4 et
   autocmd FileType eruby      setlocal sw=2 sts=2 ts=2 et
+  autocmd FileType go         setlocal sw=4 sts=4 ts=4 et
   autocmd FileType groovy     setlocal sw=4 sts=4 ts=4 et
   autocmd FileType haml       setlocal sw=2 sts=2 ts=2 et
   autocmd FileType hpp        setlocal sw=4 sts=4 ts=4 et
@@ -474,6 +475,12 @@ let $PYTHON_DLL = "$HOME/.pythonz/CPython-2.7.3/lib/libpython2.7.dylib"
 "   autocmd BufWritePost *.pl,*.pm,*.t :CheckCode
 " augroup END
 "" }}}
+
+" Go {{{
+if $GOROOT != ''
+  set rtp+=$GOROOT/misc/vim
+endif
+" }}}
 
 "" Functions for Template Toolkit 2 syntax {{{
 " http://d.hatena.ne.jp/dayflower/20090626/1245983732
@@ -1094,6 +1101,7 @@ let g:unite_source_ruby_require_ruby_command = '/usr/local/opt/rbenv/shims/ruby'
 "" }}}
 
 "" perl-local-lib-path {{{
+g:perl_local_lib_path = "t/lib"
 augroup PerlLocalLibPathGroup
   autocmd!
   autocmd FileType perl PerlLocalLibPath

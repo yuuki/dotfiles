@@ -330,7 +330,7 @@ function google () {
 }
 
 # search in metacpan
-function perldoc() {
+function perld() {
   command perldoc $1 2>/dev/null
   [ $? -ne 0 ] && web_search "https://metacpan.org/search?q=" "+" "" $*
   return 0

@@ -36,6 +36,11 @@ if type autojump > /dev/null 2>&1; then
   [[ -f `brew --prefix`/etc/autojump ]] && source `brew --prefix`/etc/autojump
 fi
 
+# # mysqlenv
+# if ! type mysqlenv > /dev/null 2>&1; then
+#   [[ -s $HOME/.mysqlenv/etc/bashrc ]] && source $HOME/.mysqlenv/etc/bashrc
+# fi
+
 # hub
 # if type hub > /dev/null 2>&1; then
 #   eval "$(hub alias -s)"
