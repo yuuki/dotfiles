@@ -541,7 +541,6 @@ NeoBundle 'h1mesuke/unite-outline'
 NeoBundle 'tsukkee/unite-tag'
 NeoBundle 'Shougo/vim-vcs'
 NeoBundle 'hrsh7th/vim-unite-vcs'
-NeoBundle 'basyura/unite-rails'
 NeoBundle 'jceb/vim-hier'
 NeoBundle 'thinca/vim-guicolorscheme'
 NeoBundle 'thinca/vim-ref'
@@ -550,7 +549,6 @@ NeoBundle 'tomtom/tcomment_vim'
 NeoBundle 'vim-scripts/gtags.vim'
 NeoBundle 'hewes/unite-gtags'
 NeoBundle 'danchoi/ri.vim'
-NeoBundle 'tpope/vim-rails'
 NeoBundle 'tpope/vim-bundler'
 NeoBundle 'tpope/vim-rake'
 NeoBundle 'tpope/vim-abolish'
@@ -1082,20 +1080,6 @@ nnoremap <silent><Esc><Esc> :<C-u>nohlsearch<CR>:HierClear<CR>
 "" vim-ruby {{{
 " <C-Space>でomni補完
 inoremap <C-Space> <C-x><C-o>
-"" }}}
-
-"" rails.vim {{{
-" Rubyのオムニ補完を設定(ft-ruby-omni)
-let g:rubycomplete_buffer_loading = 1
-let g:rubycomplete_classes_in_global = 1
-let g:rubycomplete_rails = 1
-
-autocmd User Rails.controller* Rnavcommand api app/controllers/api -glob=**/* -suffix=_controller.rb
-autocmd User Rails.controller* Rnavcommand tmpl app/controllers/tmpl -glob=**/* -suffix=_controller.rb
-autocmd User Rails Rnavcommand config config   -glob=*.*  -suffix= -default=routes.rb
-autocmd User Rails nnoremap :<C-u>Rcontroller :<C-u>Rc
-autocmd User Rails nnoremap :<C-u>Rmodel :<C-u>Rm
-autocmd User Rails nnoremap :<C-u>Rview :<C-u>Rv
 "" }}}
 
 "" unite-ruby-require {{{
