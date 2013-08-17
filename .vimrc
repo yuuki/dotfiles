@@ -402,7 +402,7 @@ augroup IndentGroup
   autocmd FileType css        setlocal sw=2 sts=2 ts=2 et
   autocmd FileType diff       setlocal sw=4 sts=4 ts=4 et
   autocmd FileType eruby      setlocal sw=2 sts=2 ts=2 et
-  autocmd FileType go         setlocal sw=4 sts=4 ts=4 et
+  autocmd FileType go         setlocal sw=8 sts=8 ts=8 et
   autocmd FileType groovy     setlocal sw=4 sts=4 ts=4 et
   autocmd FileType haml       setlocal sw=2 sts=2 ts=2 et
   autocmd FileType hpp        setlocal sw=4 sts=4 ts=4 et
@@ -433,6 +433,8 @@ augroup IndentGroup
   autocmd FileType python     setlocal cinwords=if,elif,else,for,while,try,except,finally,def,class
   autocmd FileType ruby       compiler ruby
   autocmd FileType ruby       setlocal nocompatible
+
+  autocmd FileType go         setlocal noexpandtab
 augroup END
 
 "" ファイル形式毎にテンプレートを設定 {{{
@@ -556,12 +558,14 @@ NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'kana/vim-operator-user'
 NeoBundle 'kana/vim-operator-replace'
 NeoBundle 'hotchpotch/perldoc-vim'
+NeoBundle 'roalddevries/yaml.vim'
 NeoBundle 'rhysd/quickrun-unite-quickfix-outputter'
 NeoBundle 'osyo-manga/shabadou.vim'
 NeoBundle 'osyo-manga/vim-watchdogs'
 NeoBundle 'rhysd/wombat256.vim'
 NeoBundle 'rhysd/unite-zsh-cdr.vim'
 NeoBundle 'trotter/autojump.vim'
+NeoBundle 'y-uuki/perl-local-lib-path.vim'
 " NeoBundle 'airblade/vim-rooter'
 " NeoBundle 'ujihisa/vimshell-ssh.git'
 " NeoBundle 'c9s/cpan.vim'
@@ -594,10 +598,6 @@ NeoBundleLazy 'Shougo/vimshell', {
             \     }
             \ }
 NeoBundleLazy 'y-uuki/unite-perl-module.vim', {
-            \ 'depends' : [ 'Shougo/unite.vim' ],
-            \ 'autoload' : {'filetypes' : 'perl'}
-            \ }
-NeoBundleLazy 'y-uuki/perl-local-lib-path.vim', {
             \ 'depends' : [ 'Shougo/unite.vim' ],
             \ 'autoload' : {'filetypes' : 'perl'}
             \ }
@@ -924,7 +924,9 @@ let g:vimfiler_as_default_explorer = 1
 let g:vimfiler_safe_mode_by_default = 0
 let g:vimfiler_split_command = 'vertical rightbelow vsplit'
 let g:vimfiler_execute_file_list = { 'c' : 'vim', 'h' : 'vim', 'cpp' : 'vim', 'hpp' : 'vim', 'cc' : 'vim', 'rb' : 'vim', 'pl' : 'vim', 'pm' : 'vim', 'txt' : 'vim', 'pdf' : 'open', 'vim' : 'vim' }
-let g:vimfiler_edit_action = 'tabopen'
+let g:vimfiler_edit_action = 'vsplit'
+let g:vimfiler_directory_display_top = 1
+let g:vimfiler_enable_auto_cd = 1
 
 augroup VimFilerMapping
   autocmd!
@@ -1101,11 +1103,11 @@ let g:unite_source_ruby_require_ruby_command = '/usr/local/opt/rbenv/shims/ruby'
 "" }}}
 
 "" perl-local-lib-path {{{
-g:perl_local_lib_path = "t/lib"
-augroup PerlLocalLibPathGroup
-  autocmd!
-  autocmd FileType perl PerlLocalLibPath
-augroup END
+" augroup PerlLocalLibPathGroup
+"   autocmd!
+"   g:perl_local_lib_path = ["t/lib"]
+"   autocmd FileType perl PerlLocalLibPath
+" augroup END
 " }}}
 
 "" vim-rooter

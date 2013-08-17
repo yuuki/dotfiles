@@ -109,7 +109,6 @@ cplus_include_path=(
   $HOMEBREW_PREFIX/include/boost
   $cplus_include_path
 )
-export LD_LIBRARY_PATH=$HOMEBREW_PREFIX/opt/boost/lib:$LD_LIBRARY_PATH
 export DYLD_FALLBACK_LIBRARY_PATH=$HOMEBREW_PREFIX/lib:$DYLD_FALLBACK_LIBRARY_PATH
 
 # JAVA
@@ -131,3 +130,7 @@ setup_GOROOT
 
 export GOPATH=$HOME/.go
 export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
+
+unset LD_LIBRARY_PATH
+unset DYLD_LIBRARY_PATH
+unset DYLD_FALLBACK_LIBRARY_PATH
