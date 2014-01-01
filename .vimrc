@@ -514,30 +514,30 @@ NeoBundle 'Shougo/neocomplcache'
 NeoBundle 'Shougo/neosnippet'
 NeoBundle 'Shougo/unite-ssh'
 NeoBundle 'thinca/vim-quickrun'
-NeoBundle 'thinca/vim-singleton'
+" NeoBundle 'thinca/vim-singleton'
 NeoBundle 'osyo-manga/unite-fold'
 NeoBundle 'osyo-manga/unite-quickfix'
 NeoBundle 'taka84u9/unite-git'
 NeoBundle 'h1mesuke/unite-outline'
 NeoBundle 'tsukkee/unite-tag'
-NeoBundle 'Shougo/vim-vcs'
-NeoBundle 'hrsh7th/vim-unite-vcs'
+" NeoBundle 'Shougo/vim-vcs'
+" NeoBundle 'hrsh7th/vim-unite-vcs'
 NeoBundle 'jceb/vim-hier'
 NeoBundle 'thinca/vim-guicolorscheme'
-NeoBundle 'thinca/vim-ref'
+" NeoBundle 'thinca/vim-ref'
 NeoBundle 'Lokaltog/vim-powerline'
 NeoBundle 'tomtom/tcomment_vim'
 NeoBundle 'tpope/vim-surround'
 NeoBundle 'vim-scripts/gtags.vim'
 NeoBundle 'hewes/unite-gtags'
-NeoBundle 'danchoi/ri.vim'
-NeoBundle 'tpope/vim-bundler'
-NeoBundle 'tpope/vim-rake'
-NeoBundle 'tpope/vim-abolish'
+" NeoBundle 'danchoi/ri.vim'
+" NeoBundle 'tpope/vim-bundler'
+" NeoBundle 'tpope/vim-rake'
+" NeoBundle 'tpope/vim-abolish'
 NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'kana/vim-operator-user'
 NeoBundle 'kana/vim-operator-replace'
-NeoBundle 'hotchpotch/perldoc-vim'
+" NeoBundle 'hotchpotch/perldoc-vim'
 NeoBundle 'roalddevries/yaml.vim'
 NeoBundle 'rhysd/quickrun-unite-quickfix-outputter'
 NeoBundle 'osyo-manga/shabadou.vim'
@@ -550,6 +550,8 @@ NeoBundle 'derekwyatt/vim-scala'
 " NeoBundle 'airblade/vim-rooter'
 " NeoBundle 'ujihisa/vimshell-ssh.git'
 " NeoBundle 'c9s/cpan.vim'
+NeoBundle 'fuenor/qfixhowm'
+NeoBundle 'osyo-manga/unite-qfixhowm'
 "" }}}
 
 "" www.vim.org {{{
@@ -624,6 +626,9 @@ NeoBundleLazy 'zaiste/tmux.vim', {
             \ }
 NeoBundleLazy 'micheljansen/vim-latex', {
             \ 'autoload' : {'filetypes' : 'latex'}
+            \ }
+NeoBundleLazy 'derekwyatt/vim-scala', {
+            \ 'autoload' : {'filetypes' : 'scala'}
             \ }
 NeoBundleLazy 'kana/vim-operator-replace', {
             \ 'autoload' : {
@@ -862,6 +867,9 @@ nnoremap <silent> [unite]gd :<C-u>Unite gtags/def<CR>
 nnoremap <silent> [unite]gg :<C-u>Unite gtags/gtags<SPACE>
 nnoremap <silent> [unite]gcc :<C-u>Unite gtags/completion<CR>
 
+"" unite-qfixhowm
+nnoremap <silent> [unite]mm :<C-u>Unite qfixhowm/new qfixhowm -hide-source-names<CR>
+
 " C++ インクルードファイル
 autocmd MyAutocmd FileType cpp nnoremap <buffer>[unite]i :<C-u>Unite file_include -vertical<CR>
 
@@ -978,7 +986,7 @@ noremap <silent> G<C-]> :<C-u>execute "PopupTags "
 """ }}}
 
 "" singleton.vim {{{
-call singleton#enable()
+" call singleton#enable()
 "" }}}
 
 "" vim-fugitive {{{
