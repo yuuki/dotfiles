@@ -555,6 +555,10 @@ NeoBundle 'tpope/vim-repeat' " for vim-operator-surround
 NeoBundle 'rhysd/vim-operator-surround'
 NeoBundle "kana/vim-textobj-user"
 NeoBundle 'osyo-manga/vim-textobj-multiblock'
+NeoBundle 'osyo-manga/vim-operator-search'
+NeoBundle 'kana/vim-textobj-function' " for vim-operator-search
+NeoBundle 'thinca/vim-textobj-function-perl' " なぜかlazyloadできない
+NeoBundle 't9md/vim-textobj-function-ruby'
 "" }}}
 
 "" www.vim.org {{{
@@ -1176,6 +1180,11 @@ map <silent>sr <Plug>(operator-surround-replace)
 "" vim-textobj-multiblock {{{
 omap ab <Plug>(textobj-multiblock-a)
 omap ib <Plug>(textobj-multiblock-i)
-vmap ab <Plug>(textobj-multiblock-a)
-vmap ib <Plug>(textobj-multiblock-i)
+xmap ab <Plug>(textobj-multiblock-a)
+xmap ib <Plug>(textobj-multiblock-i)
 "" }}}
+
+"" vim-operator-search
+nmap <Space>s <Plug>(operator-search)
+nmap <Space>/ <Plug>(operator-search)if
+""
