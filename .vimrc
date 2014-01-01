@@ -1169,6 +1169,7 @@ vmap p <Plug>(operator-replace)
 
 "" tmpwin {{{
 nnoremap <silent>_ :<C-u>call tmpwin#toggle('VimFiler')<CR>
+nnoremap <silent>_g :<C-u>call tmpwin#toggle('Unite file_rec/async:!')<CR>
 "" }}}
 
 "" vim-operator-surround {{{
@@ -1188,7 +1189,7 @@ xmap ab <Plug>(textobj-multiblock-a)
 xmap ib <Plug>(textobj-multiblock-i)
 "" }}}
 
-"" vim-operator-search
+"" vim-operator-search {{{
 nmap <Space>s <Plug>(operator-search)
 nmap <Space>/ <Plug>(operator-search)if
-""
+"" }}}
