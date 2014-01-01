@@ -552,6 +552,7 @@ NeoBundle 'derekwyatt/vim-scala'
 " NeoBundle 'c9s/cpan.vim'
 NeoBundle 'fuenor/qfixhowm'
 NeoBundle 'osyo-manga/unite-qfixhowm'
+NeoBundle 'rhysd/tmpwin.vim'
 "" }}}
 
 "" www.vim.org {{{
@@ -958,7 +959,7 @@ let g:vimfiler_as_default_explorer = 1
 let g:vimfiler_safe_mode_by_default = 0
 let g:vimfiler_split_command = 'vertical rightbelow vsplit'
 let g:vimfiler_execute_file_list = { 'c' : 'vim', 'h' : 'vim', 'cpp' : 'vim', 'hpp' : 'vim', 'cc' : 'vim', 'rb' : 'vim', 'pl' : 'vim', 'pm' : 'vim', 'txt' : 'vim', 'pdf' : 'open', 'vim' : 'vim' }
-let g:vimfiler_edit_action = 'vsplit'
+" let g:vimfiler_edit_action = 'vsplit'
 let g:vimfiler_directory_display_top = 1
 let g:vimfiler_enable_auto_cd = 1
 
@@ -990,12 +991,12 @@ let g:vimshell_disable_escape_highlight = 1
 "" }}}
 
 "" vim-unite-vcs {{{
-nnoremap  [vcs] <Nop>
-nmap      fv    [vcs]
-
-nnoremap [vcs]l  :<C-u>Unite vcs/log<CR>
-nnoremap [vcs]s  :<C-u>Unite vcs/status<CR>
-nnoremap [vcs]r  :<C-u>Unite vcs/file_rec<CR>
+" nnoremap  [vcs] <Nop>
+" nmap      fv    [vcs]
+"
+" nnoremap [vcs]l  :<C-u>Unite vcs/log<CR>
+" nnoremap [vcs]s  :<C-u>Unite vcs/status<CR>
+" nnoremap [vcs]r  :<C-u>Unite vcs/file_rec<CR>
 "" }}}
 
 "" unite-tag {{{
@@ -1152,5 +1153,8 @@ map <Leader>r <Plug>(operator-replace)
 " v_p を置き換える
 vmap p <Plug>(operator-replace)
 ""
+
+"" tmpwin
+nnoremap <silent>_ :<C-u>call tmpwin#toggle('VimFiler')<CR>
 
 """ }}}
