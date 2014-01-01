@@ -517,7 +517,7 @@ NeoBundle 'thinca/vim-quickrun'
 " NeoBundle 'thinca/vim-singleton'
 NeoBundle 'osyo-manga/unite-fold'
 NeoBundle 'osyo-manga/unite-quickfix'
-NeoBundle 'taka84u9/unite-git'
+" NeoBundle 'taka84u9/unite-git'
 NeoBundle 'h1mesuke/unite-outline'
 NeoBundle 'tsukkee/unite-tag'
 " NeoBundle 'Shougo/vim-vcs'
@@ -559,6 +559,7 @@ NeoBundle 'osyo-manga/vim-operator-search'
 NeoBundle 'kana/vim-textobj-function' " for vim-operator-search
 NeoBundle 'thinca/vim-textobj-function-perl' " なぜかlazyloadできない
 NeoBundle 't9md/vim-textobj-function-ruby'
+NeoBundle 'osyo-manga/vim-over'
 "" }}}
 
 "" www.vim.org {{{
@@ -901,13 +902,16 @@ nnoremap <silent><expr> [unite]/ line('$') > 5000 ?
 nnoremap <silent>[unite]z :<C-u>Unite zsh-cdr<CR>
 
 " git常用
-nnoremap <silent> [unite]ga :<C-u>Unite -no-split git_cached git_untracked<CR>
-" git ls-files一覧
-nnoremap <silent> [unite]g :<C-u>Unite -no-split git_cached<CR>
-" git modefied一覧
-nnoremap <silent> [unite]gm :<C-u>Unite -no-split git_modified<CR>
-" git untracked一覧
-nnoremap <silent> [unite]gu :<C-u>Unite -no-split git_untracked<CR>
+" nnoremap <silent> [unite]ga :<C-u>Unite -no-split git_cached git_untracked<CR>
+" " git ls-files一覧
+" nnoremap <silent> [unite]g :<C-u>Unite -no-split git_cached<CR>
+" " git modefied一覧
+" nnoremap <silent> [unite]gm :<C-u>Unite -no-split git_modified<CR>
+" " git untracked一覧
+" nnoremap <silent> [unite]gu :<C-u>Unite -no-split git_untracked<CR>
+
+" project検索
+nnoremap <silent> [unite]g  :<C-u>Unite file_rec/async:!<CR>
 
 "" unite-perl-module
 " Perl local lib modules
