@@ -510,9 +510,9 @@ NeoBundle 'Shougo/vimproc', {
 NeoBundle 'Shougo/vimfiler'
 NeoBundle 'Shougo/vinarise'
 NeoBundle 'Shougo/echodoc'
-NeoBundle 'Shougo/neocomplcache'
 NeoBundle 'Shougo/neosnippet'
 NeoBundle 'Shougo/unite-ssh'
+NeoBundle has('lua') ? 'Shougo/neocomplete' : 'Shougo/neocomplcache'
 NeoBundle 'thinca/vim-quickrun'
 " NeoBundle 'thinca/vim-singleton'
 NeoBundle 'osyo-manga/unite-fold'
@@ -653,34 +653,79 @@ endif
 "" }}}
 
 "" neocomplcache {{{
+
+if neobundle#is_installed('neocomplete')
+    " neocomplete用設定
+    let g:neocomplete#enable_at_startup = 1
+    let g:neocomplete#enable_ignore_case = 1
+    let g:neocomplete#enable_smart_case = 1
+    " 日本語を収集しないようにする
+    if !exists('g:neocomplete#keyword_patterns')
+        let g:neocomplete#keyword_patterns = {}
+    endif
+    let g:neocomplete#keyword_patterns._ = '\h\w*'
+    let g:neocomplete#enable_camel_case_completion = 1
+    let g:neocomplete#enable_underbar_completion = 1
+
+    " vim起動時に有効化
+    let g:neocomplete#enable_at_startup = 1
+    " smart_caseを有効にする．大文字が入力されるまで大文字小文字の区別をなくす
+    let g:neocomplete#enable_smart_case = 1
+    " _を区切りとした補完を有効にする
+    let g:neocomplete#enable_underbar_completion = 1
+    " シンタックスをキャッシュするときの最小文字長を3に
+    let g:neocomplete#min_syntax_length = 3
+    " リスト表示
+    let g:neocomplete#max_list = 300
+    let g:neocomplete#max_keyword_width = 20
+    " 辞書定義
+    let g:neocomplete#dictionary_filetype_lists = {
+                \ 'default' : '',
+                \ 'vimshell' : expand('~/.vimshell/command-history'),
+                \ 'vim' : '~/.vim/dict/perl_functions.dict',
+                \ 'cpanfile' : '~/.vim/bundle/vim-cpanfile/dict/cpanfile.dict'
+                \ }
+    let g:neocomplete#ctags_arguments_list = {
+      \ 'perl' : '-R -h ".pm"'
+      \ }
+elseif neobundle#is_installed('neocomplcache')
+    " neocomplcache用設定
+    let g:neocomplcache_enable_at_startup = 1
+    let g:neocomplcache_enable_ignore_case = 1
+    let g:neocomplcache_enable_smart_case = 1
+    if !exists('g:neocomplcache_keyword_patterns')
+        let g:neocomplcache_keyword_patterns = {}
+    endif
+    let g:neocomplcache_keyword_patterns._ = '\h\w*'
+    let g:neocomplcache_enable_camel_case_completion = 1
+    let g:neocomplcache_enable_underbar_completion = 1
+
+    " vim起動時に有効化
+    let g:neocomplcache_enable_at_startup = 1
+    " smart_caseを有効にする．大文字が入力されるまで大文字小文字の区別をなくす
+    let g:neocomplcache_enable_smart_case = 1
+    " _を区切りとした補完を有効にする
+    let g:neocomplcache_enable_underbar_completion = 1
+    " シンタックスをキャッシュするときの最小文字長を3に
+    let g:neocomplcache_min_syntax_length = 3
+    " リスト表示
+    let g:neocomplcache_max_list = 300
+    let g:neocomplcache_max_keyword_width = 20
+    " 辞書定義
+    let g:neocomplcache_dictionary_filetype_lists = {
+                \ 'default' : '',
+                \ 'vimshell' : expand('~/.vimshell/command-history'),
+                \ 'vim' : '~/.vim/dict/perl_functions.dict',
+                \ 'cpanfile' : '~/.vim/bundle/vim-cpanfile/dict/cpanfile.dict'
+                \ }
+    let g:neocomplcache_ctags_arguments_list = {
+      \ 'perl' : '-R -h ".pm"'
+      \ }
+endif
+
 " AutoComplPopを無効にする
 let g:acp_enableAtStartup = 0
-" vim起動時に有効化
-let g:neocomplcache_enable_at_startup = 1
-" smart_caseを有効にする．大文字が入力されるまで大文字小文字の区別をなくす
-let g:neocomplcache_enable_smart_case = 1
-" _を区切りとした補完を有効にする
-let g:neocomplcache_enable_underbar_completion = 1
-" シンタックスをキャッシュするときの最小文字長を3に
-let g:neocomplcache_min_syntax_length = 3
-" 日本語を収集しないようにする
-if !exists('g:neocomplcache_keyword_patterns')
-    let g:neocomplcache_keyword_patterns = {}
-endif
-let g:neocomplcache_keyword_patterns['default'] = '\h\w*'
-" リスト表示
-let g:neocomplcache_max_list = 300
-let g:neocomplcache_max_keyword_width = 20
-" 辞書定義
-let g:neocomplcache_dictionary_filetype_lists = {
-            \ 'default' : '',
-            \ 'vimshell' : expand('~/.vimshell/command-history'),
-            \ 'vim' : '~/.vim/dict/perl_functions.dict',
-            \ 'cpanfile' : '~/.vim/bundle/vim-cpanfile/dict/cpanfile.dict'
-            \ }
-let g:neocomplcache_ctags_arguments_list = {
-  \ 'perl' : '-R -h ".pm"'
-  \ }
+
 if !has("gui_running")
   " CUIのvimでの補完リストの色を調節する
   highlight Pmenu ctermbg=8
