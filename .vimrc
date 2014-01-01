@@ -527,7 +527,6 @@ NeoBundle 'thinca/vim-guicolorscheme'
 " NeoBundle 'thinca/vim-ref'
 NeoBundle 'Lokaltog/vim-powerline'
 NeoBundle 'tomtom/tcomment_vim'
-NeoBundle 'tpope/vim-surround'
 NeoBundle 'vim-scripts/gtags.vim'
 NeoBundle 'hewes/unite-gtags'
 " NeoBundle 'danchoi/ri.vim'
@@ -538,11 +537,10 @@ NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'kana/vim-operator-user'
 NeoBundle 'kana/vim-operator-replace'
 " NeoBundle 'hotchpotch/perldoc-vim'
-NeoBundle 'roalddevries/yaml.vim'
 NeoBundle 'rhysd/quickrun-unite-quickfix-outputter'
 NeoBundle 'osyo-manga/shabadou.vim'
 NeoBundle 'osyo-manga/vim-watchdogs'
-NeoBundle 'rhysd/wombat256.vim'
+NeoBundle 'rhysd/wallaby.vim'
 NeoBundle 'rhysd/unite-zsh-cdr.vim'
 NeoBundle 'trotter/autojump.vim'
 NeoBundle 'y-uuki/perl-local-lib-path.vim'
@@ -553,6 +551,10 @@ NeoBundle 'derekwyatt/vim-scala'
 NeoBundle 'fuenor/qfixhowm'
 NeoBundle 'osyo-manga/unite-qfixhowm'
 NeoBundle 'rhysd/tmpwin.vim'
+NeoBundle 'tpope/vim-repeat' " for vim-operator-surround
+NeoBundle 'rhysd/vim-operator-surround'
+NeoBundle "kana/vim-textobj-user"
+NeoBundle 'osyo-manga/vim-textobj-multiblock'
 "" }}}
 
 "" www.vim.org {{{
@@ -636,6 +638,9 @@ NeoBundleLazy 'kana/vim-operator-replace', {
             \     'mappings' : '<Plug>(operator-replace)'
             \     }
             \ }
+NeoBundleLazy 'roalddevries/yaml.vim', {
+            \ 'autoload' : {'filetypes' : 'yaml'}
+            \ }
 "" }}}
 
 " 書き込み権限の無いファイルを編集しようとした時
@@ -647,9 +652,9 @@ autocmd MyAutocmd FileChangedRO * execute "command! W SudoWrite" expand('%')
 
 filetype plugin indent on
 
-"" wombat {{{
+"" wallaby {{{
 if !has('gui_running')
-    colorscheme wombat256rhysd
+    colorscheme wallaby
 endif
 "" }}}
 
@@ -1154,7 +1159,23 @@ map <Leader>r <Plug>(operator-replace)
 vmap p <Plug>(operator-replace)
 ""
 
-"" tmpwin
+"" tmpwin {{{
 nnoremap <silent>_ :<C-u>call tmpwin#toggle('VimFiler')<CR>
+"" }}}
 
-""" }}}
+"" vim-operator-surround {{{
+map <silent>sa <Plug>(operator-surround-append)
+map <silent>sd <Plug>(operator-surround-delete)
+map <silent>sr <Plug>(operator-surround-replace)
+" nmap <silent>gdd <Plug>(operator-surround-delete)<Plug>(textobj-anyblock-a)
+" nmap <silent>gcc <Plug>(operator-surround-replace)<Plug>(textobj-anyblock-a)
+" nmap <silent>gdb <Plug>(operator-surround-delete)<Plug>(textobj-between-a)
+" nmap <silent>gcb <Plug>(operator-surround-replace)<Plug>(textobj-between-a)
+"" }}}
+
+"" vim-textobj-multiblock {{{
+omap ab <Plug>(textobj-multiblock-a)
+omap ib <Plug>(textobj-multiblock-i)
+vmap ab <Plug>(textobj-multiblock-a)
+vmap ib <Plug>(textobj-multiblock-i)
+"" }}}
