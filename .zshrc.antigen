@@ -11,7 +11,6 @@ if [[ -f $HOME/.zsh/antigen/antigen.zsh ]]; then
   autojump
   brew
   git
-  zsh-users/zsh-syntax-highlighting
 EOBUNDLES
 
   # Load the Theme

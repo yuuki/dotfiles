@@ -383,8 +383,8 @@ augroup FileTypeDetect
   autocmd BufNewFile,BufRead *.tex,*.latex,*.sty,*.dtx,*.ltx,*.bbl setf tex
   autocmd BufNewFile,BufRead *.tt,*.tt2 call s:FTtt2()
   autocmd BufNewFile,BufRead *.html call s:FTtt2html()
-  autocmd BufNewFile,BufRead *.mkd setf mkd
-  autocmd BufNewFile,BufRead *.md  setf mkd
+  autocmd BufNewFile,BufRead *.mkd setf markdown
+  autocmd BufNewFile,BufRead *.md  setf markdown
   autocmd BufNewFile,BufRead *.less setf less
   autocmd BufNewFile,BufRead *.coffee setf coffee
   autocmd BufNewFile,BufRead *.erb set filetype=eruby.html
@@ -459,25 +459,6 @@ let $PERL_DLL = "/System/Library/Perl/5.12/darwin-thread-multi-2level/CORE/libpe
 let $PYTHON_DLL = "$HOME/.pythonz/CPython-2.7.3/lib/libpython2.7.dylib"
 "" }}}
 
-"" Syntax chack {{{
-" Rubyのsyntaxチェック
-" augroup rbsyntaxcheck
-"   autocmd!
-"   autocmd BufWrite *.rb w !ruby -c
-" augroup END
-
-" Perlのsyntaxチェック
-" augroup plsyntaxcheck
-"   autocmd!
-"   function! _CheckPerlCode()
-"     let s:perl_path = split(vimproc#system('which perl'), "\n")[-1]
-"     exe ":!" . s:perl_path . " -wc -M'Project::Libs lib_dirs => [qw(local/lib/perl5)]' %"
-"   endfunction
-"   command! CheckCode call _CheckPerlCode()
-"   autocmd BufWritePost *.pl,*.pm,*.t :CheckCode
-" augroup END
-"" }}}
-
 " Go {{{
 if $GOROOT != ''
   set rtp+=$GOROOT/misc/vim
@@ -546,6 +527,7 @@ NeoBundle 'thinca/vim-guicolorscheme'
 NeoBundle 'thinca/vim-ref'
 NeoBundle 'Lokaltog/vim-powerline'
 NeoBundle 'tomtom/tcomment_vim'
+NeoBundle 'tpope/vim-surround'
 NeoBundle 'vim-scripts/gtags.vim'
 NeoBundle 'hewes/unite-gtags'
 NeoBundle 'danchoi/ri.vim'
@@ -564,6 +546,7 @@ NeoBundle 'rhysd/wombat256.vim'
 NeoBundle 'rhysd/unite-zsh-cdr.vim'
 NeoBundle 'trotter/autojump.vim'
 NeoBundle 'y-uuki/perl-local-lib-path.vim'
+NeoBundle 'derekwyatt/vim-scala'
 " NeoBundle 'airblade/vim-rooter'
 " NeoBundle 'ujihisa/vimshell-ssh.git'
 " NeoBundle 'c9s/cpan.vim'
@@ -1040,14 +1023,14 @@ let g:quickrun_config = {
   \   'cmdopt' : '-Wall -Wextra -O2',
   \   'exec' : '%c %o -fsyntax-only %s:p',
   \ },
+  \ 'watchdogs_checker/perl-projectlibs' : {
+  \   'command' : 'perl',
+  \   'cmdopt'  : '-MProject::Libs lib_dirs => [qw(local/lib/perl5)]',
+  \ },
+  \ 'perl/watchdogs_checker' : {
+  \   'type' : 'watchdogs_checker/perl-projectlibs',
+  \ },
 \ }
-  " \ 'watchdogs_checker/perl-projectlibs' : {
-  " \   'command' : 'perl',
-  " \   'cmdopt'  : '-MProject::Libs lib_dirs => [qw(local/lib/perl5)]',
-  " \ },
-  " \ 'perl/watchdogs_checker' : {
-  " \   'type' : 'watchdogs_checker/perl-projectlibs',
-  " \ },
 " systemの代わりにvimproc#systemを使う http://vim-users.jp/2010/08/hack168/
 let g:quickrun_config['*'] = {'runmode': "async:remote:vimproc", 'split': 'below'}
 " QuickRun 結果の開き方
@@ -1070,7 +1053,7 @@ nnoremap <silent><Leader>qR :<C-u>QuickRun<Space>
 let g:quickrun_config['cpp/clang'] = { 'command' : 'clang++', 'cmdopt' : '-stdlib=libc++ -std=c++11 -Wall -Wextra -O2' }
 autocmd MyAutocmd FileType cpp nnoremap <silent><buffer><Leader>qc :<C-u>QuickRun -type cpp/clang<CR>
 
-" call watchdogs#setup(g:quickrun_config)
+call watchdogs#setup(g:quickrun_config)
 "" }}}
 
 "" vim-hier {{{
@@ -1087,11 +1070,11 @@ let g:unite_source_ruby_require_ruby_command = '/usr/local/opt/rbenv/shims/ruby'
 "" }}}
 
 "" perl-local-lib-path {{{
-" augroup PerlLocalLibPathGroup
-"   autocmd!
-"   g:perl_local_lib_path = ["t/lib"]
-"   autocmd FileType perl PerlLocalLibPath
-" augroup END
+augroup PerlLocalLibPathGroup
+  autocmd!
+  " g:perl_local_lib_path = ["t/lib"]
+  autocmd FileType perl PerlLocalLibPath
+augroup END
 " }}}
 
 "" vim-rooter

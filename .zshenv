@@ -52,6 +52,7 @@ path=(
   ${HOME}/.rvm/bin(N-/)            # RVM
   ${HOME}/.pyenv/bin(N-/)          # Pyenv
   /usr/local/share/npm/bin(N-/)    # NPM
+  /usr/local/mysql/bin(N-/)        # MySQL
   $path
 )
 
@@ -131,6 +132,14 @@ setup_GOROOT
 export GOPATH=$HOME/.go
 export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
 
-unset LD_LIBRARY_PATH
-unset DYLD_LIBRARY_PATH
-unset DYLD_FALLBACK_LIBRARY_PATH
+# AWS
+export AWS_CONFIG_FILE=$HOME/.aws.conf
+
+# MySQL 5.5
+export DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:/usr/local/mysql/lib
+
+# unset LD_LIBRARY_PATH
+# unset DYLD_LIBRARY_PATH
+# unset DYLD_FALLBACK_LIBRARY_PATH
+
+source $HOME/.zshenv.local

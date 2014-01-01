@@ -148,6 +148,8 @@ SAVEHIST=$HISTSIZE
 
 ### Aliases {{{
 alias q='exit'
+alias h='proxychains4 -q -f ~/.proxychains/htn.conf'
+alias n='proxychains4 -q -f ~/.proxychains/vlo.conf'
 
 ## Utils
 alias ll='ls -lh'
@@ -187,6 +189,7 @@ if ! type vim > /dev/null 2>&1; then
     alias vim=vi
 fi
 
+alias git='GIT_SSL_NO_VERIFY=1 git'
 # GitFlow & HubFlow
 alias gf='git flow'
 alias ghf='git hf'
