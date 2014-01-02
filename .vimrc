@@ -312,10 +312,6 @@ nnoremap <silent><C-p>   :<C-u>bprevious<CR>
 nnoremap ge :<C-u>tabedit<Space>
 nnoremap gn :<C-u>tabnew<CR>
 
-" そっこうのvimrc
-nnoremap <silent> <Space>ev  :<C-u>edit $MYVIMRC<CR>
-nnoremap <silent> <Space>eg  :<C-u>edit $MYGVIMRC<CR>
-
 " 初回のみ a:cmd の動きをして，それ以降は行内をローテートする
 let s:smart_line_pos = -1
 function! s:smart_move(cmd)
@@ -559,6 +555,7 @@ NeoBundle 'osyo-manga/vim-over'
 NeoBundle 'mhinz/vim-signify'
 NeoBundle 'rhysd/conflict-marker.vim'
 NeoBundle 'rhysd/clever-f.vim'
+NeoBundle 'rhysd/accelerated-jk'
 
 " if_lua プラグイン
 let s:meet_neocomplete_requirements = has('lua') && (v:version > 703 || (v:version == 703 && has('patch885')))
@@ -696,6 +693,13 @@ if s:meet_neocomplete_requirements
     let g:neocomplete#ctags_arguments_list = {
       \ 'perl' : '-R -h ".pm"'
       \ }
+    " 補完の区切り文字
+    if !exists('g:neocomplte_delimiter_patterns')
+        let g:neocomplete_delimiter_patterns = {}
+    endif
+    let g:neocomplete_delimiter_patterns.vim = ['#']
+    let g:neocomplete_delimiter_patterns.ruby = ['::']
+    let g:neocomplete_delimiter_patterns.perl = ['::']
 else
     " neocomplcache用設定
     let g:neocomplcache_enable_at_startup = 1
@@ -729,6 +733,13 @@ else
     let g:neocomplcache_ctags_arguments_list = {
       \ 'perl' : '-R -h ".pm"'
       \ }
+    " 補完の区切り文字
+    if !exists('g:neocomplcache_delimiter_patterns')
+        let g:neocomplcache_delimiter_patterns = {}
+    endif
+    let g:neocomplcache_delimiter_patterns.vim = ['#']
+    let g:neocomplcache_delimiter_patterns.ruby = ['::']
+    let g:neocomplcache_delimiter_patterns.perl = ['::']
 endif
 
 " AutoComplPopを無効にする
@@ -1206,6 +1217,12 @@ let g:clever_f_across_no_line = 1
 " let g:clever_f_chars_match_any_signs = ';'
 let g:clever_f_use_migemo = 1
 " map : <Plug>(clever-f-repeat-forward)
-"}}}
+"" }}}
+
+"" accelerated-jk {{{
+let g:accelerated_jk_enable_deceleration = 1
+nmap j <Plug>(accelerated_jk_gj)
+nmap k <Plug>(accelerated_jk_gk)
+"" }}}
 
 " vim: set ft=vim fdm=marker ff=unix fileencoding=utf-8:
