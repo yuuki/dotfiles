@@ -67,9 +67,8 @@ set matchtime=3
 " vimを開いた位置ではなくファイルのディレクトリ位置を起点にする
 set browsedir=buffer
 " コピペにクリップボードを使用する
-set clipboard+=unnamed
 " ビジュアルモードで選択したテキストが、クリップボードに入るようにす
-set clipboard+=autoselect
+set clipboard=unnamed,autoselect
 " 文字にアンチエイリアスをかける
 if has('mac') && has('gui_running')
   set antialias
@@ -84,8 +83,6 @@ set ttyfast
 set foldmethod=marker
 " カーソル下の単語を help で調べる
 set keywordprg=:help
-" OSのクリップボードを使う
-set clipboard=unnamed
 " コマンド表示いらない
 set noshowcmd
 " コマンド実行中は再描画しない
@@ -968,6 +965,7 @@ augroup END
 "" }}}
 
 "" VimFiler {{{
+
 let g:vimfiler_as_default_explorer = 1
 let g:vimfiler_safe_mode_by_default = 0
 let g:vimfiler_split_command = 'vertical rightbelow vsplit'
