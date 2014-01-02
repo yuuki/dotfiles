@@ -4,6 +4,7 @@
 augroup MyAutocmd
     autocmd!
 augroup END
+sss
 
 """ Options {{{
 " Vi互換モードを使わない
@@ -556,6 +557,7 @@ NeoBundle 'kana/vim-textobj-function' " for vim-operator-search
 NeoBundle 'thinca/vim-textobj-function-perl' " なぜかlazyloadできない
 NeoBundle 't9md/vim-textobj-function-ruby'
 NeoBundle 'osyo-manga/vim-over'
+NeoBundle 'mhinz/vim-signify'
 
 " if_lua プラグイン
 let s:meet_neocomplete_requirements = has('lua') && (v:version > 703 || (v:version == 703 && has('patch885')))
@@ -1187,4 +1189,12 @@ xmap ib <Plug>(textobj-multiblock-i)
 "" vim-operator-search {{{
 nmap <Space>s <Plug>(operator-search)
 nmap <Space>/ <Plug>(operator-search)if
+"" }}}
+
+"" mhinz/vim-signify {{{
+let g:signify_vcs_list = ['git', 'svn']
+let g:signify_update_on_bufenter = 0
+let g:signify_update_on_focusgained = 0
+let g:signify_cursorhold_normal = 0
+let g:signify_cursorhold_insert = 0
 "" }}}
