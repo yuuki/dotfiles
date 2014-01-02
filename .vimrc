@@ -1,10 +1,9 @@
-
+scriptencoding utf-8
 " augroup がセットされていない autocmd 全般用の augroup
 " これをやっておかないと ReloadVimrc したときに困る．by Linda_pp
 augroup MyAutocmd
     autocmd!
 augroup END
-sss
 
 """ Options {{{
 " Vi互換モードを使わない
@@ -558,6 +557,8 @@ NeoBundle 'thinca/vim-textobj-function-perl' " なぜかlazyloadできない
 NeoBundle 't9md/vim-textobj-function-ruby'
 NeoBundle 'osyo-manga/vim-over'
 NeoBundle 'mhinz/vim-signify'
+NeoBundle 'rhysd/conflict-marker.vim'
+NeoBundle 'rhysd/clever-f.vim'
 
 " if_lua プラグイン
 let s:meet_neocomplete_requirements = has('lua') && (v:version > 703 || (v:version == 703 && has('patch885')))
@@ -856,7 +857,7 @@ augroup UniteCustomActions
 augroup END
 
 nnoremap  [unite] <Nop>
-nmap      f       [unite]
+nmap      <Space> [unite]
 
 "バッファを開いた時のパスを起点としたファイル検索
 nnoremap <silent> [unite]ff :<C-u>UniteWithBufferDir -buffer-name=files file -vertical<CR>
@@ -1141,14 +1142,14 @@ augroup PerlLocalLibPathGroup
 augroup END
 " }}}
 
-"" vim-rooter
+"" vim-rooter {{{
 " nnoremap [rooter] <Nop>
 " nmap     c        [rooter]
 " map <silent> <unique> [rooter]r <Plug>RooterChangeToRootDirectory
 " let g:rooter_patterns = ['Makefile.PL', '.git/']
-""
+"" }}}
 
-"" gtags.vim
+"" gtags.vim {{{
 nmap <C-g>  :<C-u>Gtags<Space>
 nmap <C-h>  :<C-u>Gtags -f %<CR>
 nmap <C-j>  :<C-u>GtagsCursor<CR>
@@ -1156,13 +1157,13 @@ nmap <C-n>  :cn<CR>
 nmap <C-p>  :cp<CR>
 nmap <C-g>r :<C-u>Gtags -r<Space>
 nmap <C-g>g :<C-u>Gtags -g<Space>
-""
+"" }}}
 
-"" operator-replace
+"" operator-replace {{{
 map <Leader>r <Plug>(operator-replace)
 " v_p を置き換える
 vmap p <Plug>(operator-replace)
-""
+"" }}}
 
 "" tmpwin {{{
 nnoremap <silent>_ :<C-u>call tmpwin#toggle('VimFiler')<CR>
@@ -1187,8 +1188,8 @@ xmap ib <Plug>(textobj-multiblock-i)
 "" }}}
 
 "" vim-operator-search {{{
-nmap <Space>s <Plug>(operator-search)
-nmap <Space>/ <Plug>(operator-search)if
+nmap ,s <Plug>(operator-search)
+nmap ,/ <Plug>(operator-search)if
 "" }}}
 
 "" mhinz/vim-signify {{{
@@ -1198,3 +1199,13 @@ let g:signify_update_on_focusgained = 0
 let g:signify_cursorhold_normal = 0
 let g:signify_cursorhold_insert = 0
 "" }}}
+
+"" clever-f.vim "{{{
+let g:clever_f_smart_case = 1
+let g:clever_f_across_no_line = 1
+" let g:clever_f_chars_match_any_signs = ';'
+let g:clever_f_use_migemo = 1
+" map : <Plug>(clever-f-repeat-forward)
+"}}}
+
+" vim: set ft=vim fdm=marker ff=unix fileencoding=utf-8:
