@@ -496,7 +496,7 @@ if has('vim_starting')
   call neobundle#rc()
 endif
 
-"" GitHub {{{
+""" {{{ NeoBundle
 NeoBundle 'Shougo/unite.vim'
 NeoBundle 'Shougo/vimproc', {
             \ 'build' : {
@@ -509,7 +509,6 @@ NeoBundle 'Shougo/vinarise'
 NeoBundle 'Shougo/echodoc'
 NeoBundle 'Shougo/neosnippet'
 NeoBundle 'Shougo/unite-ssh'
-NeoBundle has('lua') ? 'Shougo/neocomplete' : 'Shougo/neocomplcache'
 NeoBundle 'thinca/vim-quickrun'
 " NeoBundle 'thinca/vim-singleton'
 NeoBundle 'osyo-manga/unite-fold'
@@ -557,16 +556,14 @@ NeoBundle 'kana/vim-textobj-function' " for vim-operator-search
 NeoBundle 'thinca/vim-textobj-function-perl' " なぜかlazyloadできない
 NeoBundle 't9md/vim-textobj-function-ruby'
 NeoBundle 'osyo-manga/vim-over'
-"" }}}
 
-"" www.vim.org {{{
-NeoBundle 'dbext.vim'
-" NeoBundle 'L9'
-" NeoBundle 'taglist.vim'
-"" }}}
-
-"" others Git repositories {{{
-" NeoBundle 'git://git.wincent.com/command-t.git'
+" if_lua プラグイン
+let s:meet_neocomplete_requirements = has('lua') && (v:version > 703 || (v:version == 703 && has('patch885')))
+if s:meet_neocomplete_requirements
+    NeoBundle 'Shougo/neocomplete.vim'
+else
+    NeoBundle 'Shougo/neocomplcache.vim'
+endif
 "" }}}
 
 "" GUI colorscheme {{{
@@ -579,7 +576,7 @@ NeoBundleLazy 'rdark'
 NeoBundleLazy 'guicolorscheme.vim'
 "" }}}
 
-"" 遅延ロード {{{
+"" NeoBundleLazy {{{
 NeoBundleLazy 'Shougo/vimshell', {
             \ 'autoload' : {
             \     'commands' : ['VimShell', 'VimShellSendString', 'VimShellCurrentDir'],
@@ -662,7 +659,7 @@ endif
 
 "" neocomplcache {{{
 
-if neobundle#is_installed('neocomplete')
+if s:meet_neocomplete_requirements
     " neocomplete用設定
     let g:neocomplete#enable_at_startup = 1
     let g:neocomplete#enable_ignore_case = 1
@@ -696,7 +693,7 @@ if neobundle#is_installed('neocomplete')
     let g:neocomplete#ctags_arguments_list = {
       \ 'perl' : '-R -h ".pm"'
       \ }
-elseif neobundle#is_installed('neocomplcache')
+else
     " neocomplcache用設定
     let g:neocomplcache_enable_at_startup = 1
     let g:neocomplcache_enable_ignore_case = 1
