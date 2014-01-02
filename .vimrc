@@ -694,12 +694,12 @@ if s:meet_neocomplete_requirements
       \ 'perl' : '-R -h ".pm"'
       \ }
     " 補完の区切り文字
-    if !exists('g:neocomplte_delimiter_patterns')
-        let g:neocomplete_delimiter_patterns = {}
+    if !exists('g:neocomplete#delimiter_patterns')
+        let g:neocomplete#delimiter_patterns = {}
     endif
-    let g:neocomplete_delimiter_patterns.vim = ['#']
-    let g:neocomplete_delimiter_patterns.ruby = ['::']
-    let g:neocomplete_delimiter_patterns.perl = ['::']
+    let g:neocomplete#delimiter_patterns.vim = ['#']
+    let g:neocomplete#delimiter_patterns.ruby = ['::']
+    let g:neocomplete#delimiter_patterns.perl = ['::']
 else
     " neocomplcache用設定
     let g:neocomplcache_enable_at_startup = 1
