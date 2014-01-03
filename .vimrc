@@ -374,8 +374,8 @@ augroup FileTypeDetect
   autocmd BufNewFile,BufRead *.aj setf java
   autocmd BufNewFile,BufRead *.jspx setf xhtml
   autocmd BufNewFile,BufRead *.tex,*.latex,*.sty,*.dtx,*.ltx,*.bbl setf tex
-  autocmd BufNewFile,BufRead *.tt,*.tt2 call s:FTtt2()
-  autocmd BufNewFile,BufRead *.html call s:FTtt2html()
+  autocmd BufNewFile,BufRead *.tt,*.tt2 setf tt2html
+  autocmd BufNewFile,BufRead *.html setf tt2html
   autocmd BufNewFile,BufRead *.mkd setf markdown
   autocmd BufNewFile,BufRead *.md  setf markdown
   autocmd BufNewFile,BufRead *.less setf less
@@ -460,25 +460,25 @@ endif
 
 "" Functions for Template Toolkit 2 syntax {{{
 " http://d.hatena.ne.jp/dayflower/20090626/1245983732
-function! s:FTtt2()
-  let save_cursor = getpos('.')
-  call cursor(1, 1)
-  if search('\<\c\%(html\|head\|body\|div\)', 'cn') > 0
-    setf tt2html
-  else
-    setf tt2
-  endif
-  call setpos('.', save_cursor)
-endfunction
-
-function! s:FTtt2html()
-  let save_cursor = getpos('.')
-  call cursor(1, 1)
-  if search('\[%', 'cn') > 0
-    setlocal filetype=tt2html
-  endif
-  call setpos('.', save_cursor)
-endfunction
+" function! s:FTtt2()
+"   let save_cursor = getpos('.')
+"   call cursor(1, 1)
+"   if search('\<\c\%(html\|head\|body\|div\)', 'cn') > 0
+"     setf tt2html
+"   else
+"     setf tt2
+"   endif
+"   call setpos('.', save_cursor)
+" endfunction
+"
+" function! s:FTtt2html()
+"   let save_cursor = getpos('.')
+"   call cursor(1, 1)
+"   if search('\[%', 'cn') > 0
+"     setlocal filetype=tt2html
+"   endif
+"   call setpos('.', save_cursor)
+" endfunction
 "" }}}
 
 """ }}}
@@ -589,10 +589,13 @@ NeoBundleLazy 'y-uuki/unite-perl-module.vim', {
 NeoBundleLazy 'benizi/perl-support.vim', {
             \ 'autoload' : {'filetypes' : 'perl'}
             \ }
-NeoBundleLazy 'petdance/vim-perl', {
+NeoBundleLazy 'vim-perl/vim-perl', {
             \ 'autoload' : {'filetypes' : 'perl'}
             \ }
 NeoBundleLazy 'moznion/vim-cpanfile', {
+            \ 'autoload' : {'filetypes' : 'perl'}
+            \ }
+NeoBundleLazy 'mattn/perlvalidate-vim.git', {
             \ 'autoload' : {'filetypes' : 'perl'}
             \ }
 NeoBundleLazy 'vim-ruby/vim-ruby', {
