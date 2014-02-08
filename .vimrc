@@ -204,6 +204,9 @@ command! -bar -bang -nargs=? -complete=file Scouter
 """ }}}
 
 """ Keymap {{{
+" :w1 と打ってしまうくせ防止
+cabbrev q1 q!
+cabbrev w1 w!
 " insertモードから抜ける
 inoremap <silent> jj <ESC>
 inoremap <silent> <C-j> j
@@ -555,7 +558,7 @@ NeoBundle 'osyo-manga/vim-over'
 NeoBundle 'mhinz/vim-signify'
 NeoBundle 'rhysd/conflict-marker.vim'
 NeoBundle 'rhysd/clever-f.vim'
-NeoBundle 'rhysd/accelerated-jk'
+" NeoBundle 'rhysd/accelerated-jk'
 
 " if_lua プラグイン
 let s:meet_neocomplete_requirements = has('lua') && (v:version > 703 || (v:version == 703 && has('patch885')))
@@ -876,11 +879,11 @@ nmap      <Space> [unite]
 "バッファを開いた時のパスを起点としたファイル検索
 nnoremap <silent> [unite]ff :<C-u>UniteWithBufferDir -buffer-name=files file -vertical<CR>
 " 最近使用したファイル一覧
-nnoremap <silent> [unite]m :<C-u>Unite -no-split file_mru<CR>
+nnoremap <silent> [unite]m :<C-u>Unite file_mru<CR>
 " ファイル一覧
-nnoremap <silent> [unite]f :<C-u>Unite -no-split -buffer-name=files file<CR>
+nnoremap <silent> [unite]f :<C-u>Unite -buffer-name=files file<CR>
 " バッファ一覧
-nnoremap <silent> [unite]b :<C-u>Unite -no-split buffer<CR>
+nnoremap <silent> [unite]b :<C-u>Unite buffer<CR>
 " Unite ソース一覧
 nnoremap <silent> [unite]s :<C-u>Unite source -vertical<CR>
 " 常用セット
@@ -922,7 +925,7 @@ nnoremap <silent>[unite]z :<C-u>Unite zsh-cdr<CR>
 " nnoremap <silent> [unite]gu :<C-u>Unite -no-split git_untracked<CR>
 
 " project検索
-nnoremap <silent> [unite]g  :<C-u>Unite file_rec/async:!<CR>
+nnoremap <silent> [unite]v :<C-u>Unite file_rec/async:!<CR>
 
 "" unite-perl-module
 " Perl local lib modules
@@ -1181,7 +1184,7 @@ vmap p <Plug>(operator-replace)
 
 "" tmpwin {{{
 nnoremap <silent>_ :<C-u>call tmpwin#toggle('VimFiler')<CR>
-nnoremap <silent>_g :<C-u>call tmpwin#toggle('Unite file_rec/async:!')<CR>
+" nnoremap <silent>g_ :<C-u>call tmpwin#toggle('Unite file_rec/async:!')<CR>
 "" }}}
 
 "" vim-operator-surround {{{
@@ -1223,9 +1226,9 @@ let g:clever_f_use_migemo = 1
 "" }}}
 
 "" accelerated-jk {{{
-let g:accelerated_jk_enable_deceleration = 1
-nmap j <Plug>(accelerated_jk_gj)
-nmap k <Plug>(accelerated_jk_gk)
+" let g:accelerated_jk_enable_deceleration = 1
+" nmap j <Plug>(accelerated_jk_gj)
+" nmap k <Plug>(accelerated_jk_gk)
 "" }}}
 
 " vim: set ft=vim fdm=marker ff=unix fileencoding=utf-8:

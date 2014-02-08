@@ -13,7 +13,7 @@
   path = .gitconfig.local
 [core]
   editor = /usr/bin/vim
-	excludesfile = /opt/boxen/config/git/gitignore
+	excludesfile = ~/.gitignore
   autocrlf = input
 [grep]
   lineNumber = true
@@ -87,8 +87,9 @@
   lst = ls-tree
   cch= "!f() { git cherry -v "$@" | awk '{ if($1 == \"+\"){ color = \"green\" } if($1 == \"-\"){ color = \"red\" } cmd = \"git show --date=short --no-notes --pretty=format:\\047%C\" color $1 \" %h %Cgreen%cd %Cblue%cn%x09%Creset%s\\047 --summary \" $2; cmd | getline t; close(cmd); print t }' ;}; f"
   rm-cached-all="!f() {for i in `git status | grep deleted | awk '{print $3}'`; do git rm $i; done}"
-[credential]
-	helper = /opt/boxen/bin/boxen-git-credential
-
 [hub]
-protocol = https
+  protocol = git
+[branch]
+	autosetuprebase = always
+[merge]
+	ff = false

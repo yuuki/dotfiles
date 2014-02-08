@@ -33,7 +33,7 @@ if has('gui_macvim')
 
   " カラースキーム
   " set background=dark
-  colorscheme wombat256rhysd
+  colorscheme wallaby
 
   " ウインドウの幅
   set columns=200

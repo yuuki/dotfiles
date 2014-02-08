@@ -100,7 +100,7 @@ bindkey '^]' insert-last-word
 
 ### Completion {{{
 # 補完に使うソース
-zstyle ':completion:*' completer _complete _expand _list _match _prefix _approximate _history
+zstyle ':completion:*' completer _complete _expand _list _match _prefix _approximate
 
 # Enable cache
 zstyle ':completion::complete:*' use_cache 1
@@ -250,11 +250,6 @@ alias -g .....='..//..//..//..'
 stty -ixon -ixoff
 
 ### plugins {{{
-# cdd
-if [[ -f "${ZSH_HOME}/plugins/cdd/cdd" ]]; then
-  source "${ZSH_HOME}/plugins/cdd/cdd"
-  add-zsh-hook chpwd _cdd_chpwd
-fi
 if [[ -f "${ZSH_HOME}/plugins/auto-fu.zsh/auto-fu.zsh" ]]; then
   # source "${ZSH_HOME}/plugins/auto-fu.zsh/auto-fu.zsh"
   # zle-line-init () {auto-fu-init;}; zle -N zle-line-init

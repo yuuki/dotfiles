@@ -9,7 +9,6 @@ if [[ -f $HOME/.zsh/antigen/antigen.zsh ]]; then
   # Bundles from the default app.
   antigen-bundles <<EOBUNDLES
   autojump
-  brew
   git
 EOBUNDLES
 

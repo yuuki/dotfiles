@@ -125,12 +125,12 @@ function setup_GOROOT() {
   local GODIR=`dirname $GOPATH`
   local GOPATH_BREW_RELATIVE=`readlink $GOPATH`
   local GOPATH_BREW=`dirname $GOPATH_BREW_RELATIVE`
-  export GOROOT=`cd $GODIR; cd $GOPATH_BREW/..; pwd`
+  export GOROOT=`cd $GODIR; cd $GOPATH_BREW/..; pwd`/libexec
 }
 setup_GOROOT
 
 export GOPATH=$HOME/.go
-export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
+export PATH=$GOROOT/bin:$GOPATH/bin:$PATH
 
 # AWS
 export AWS_CONFIG_FILE=$HOME/.aws.conf
