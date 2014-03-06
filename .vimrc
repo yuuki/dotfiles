@@ -667,8 +667,10 @@ endif
 
 if s:meet_neocomplete_requirements
     " neocomplete用設定
+    "vim起動時に有効化
     let g:neocomplete#enable_at_startup = 1
     let g:neocomplete#enable_ignore_case = 1
+    "smart_caseを有効にする．大文字が入力されるまで大文字小文字の区別をなくす
     let g:neocomplete#enable_smart_case = 1
     " 日本語を収集しないようにする
     if !exists('g:neocomplete#keyword_patterns')
@@ -706,6 +708,18 @@ if s:meet_neocomplete_requirements
     let g:neocomplete#delimiter_patterns.vim = ['#']
     let g:neocomplete#delimiter_patterns.ruby = ['::']
     let g:neocomplete#delimiter_patterns.perl = ['::']
+    "リスト表示
+    let g:neocomplete#max_list = 300
+
+    "neocompleteのマッピング
+    inoremap <expr><C-g> neocomplete#undo_completion()
+    inoremap <expr><C-s> neocomplete#complete_common_string()
+    " <Tab>: completion
+    inoremap <expr><Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+    "<C-h>, <BS>: close popup and delete backword char.
+    inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
+    inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
+    inoremap <expr><C-y> neocomplete#cancel_popup()
 else
     " neocomplcache用設定
     let g:neocomplcache_enable_at_startup = 1
@@ -745,7 +759,13 @@ else
     endif
     let g:neocomplcache_delimiter_patterns.vim = ['#']
     let g:neocomplcache_delimiter_patterns.ruby = ['::']
-    let g:neocomplcache_delimiter_patterns.perl = ['::']
+    let g:neocomplcache_delimiter_patterns.perl = []
+    "neocomplcacheのマッピング
+    inoremap <expr><C-g> neocomplcache#undo_completion()
+    inoremap <expr><C-s> neocomplcache#complete_common_string()
+    " <CR>: close popup and save indent.
+    " <Tab>: completion
+    inoremap <expr><Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 endif
 
 " AutoComplPopを無効にする
@@ -768,14 +788,6 @@ augroup NeocomplcacheOmniFunc
     autocmd FileType c          setlocal omnifunc=ccomplete#Complete
     " autocmd FileType ruby set omnifunc=rubycomplete#Complete
 augroup END
-
-" neocomplcacheのキーマップ {{{
-" <CR>: close popup and save indent.
-imap     <expr><CR>  pumvisible() ? neocomplcache#smart_close_popup()."\<CR>" : "\<CR>"
-inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
-inoremap <expr><C-g> neocomplcache#undo_completion()
-inoremap <expr><C-y> neocomplcache#close_popup()
-" }}}
 "" }}}
 
 "" neosnippet {{{
@@ -1087,6 +1099,7 @@ endif
 let g:quickrun_config = {
   \ 'perl' : { 'command' : 'perl', 'cmdopt' : "-M'Project::Libs lib_dirs => [qw(. local/lib/perl5 t/lib)]'" },
   \ 'cpp'  : { 'command' : "g++",  'cmdopt' : '-Wall -Wextra -O2' },
+  \ 'go'  : { 'command' : "go",  'exec' : '%c run %s' },
   \
   \ 'syntax/perl' : {
   \   'runner' : 'vimproc',
@@ -1230,5 +1243,9 @@ let g:clever_f_use_migemo = 1
 " nmap j <Plug>(accelerated_jk_gj)
 " nmap k <Plug>(accelerated_jk_gk)
 "" }}}
+
+if filereadable(expand('~/.vimrc.local'))
+  source ~/.vimrc.local
+endif
 
 " vim: set ft=vim fdm=marker ff=unix fileencoding=utf-8:
