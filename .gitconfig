@@ -18,6 +18,7 @@
 [grep]
   lineNumber = true
 [alias]
+	ls = ls-files
   st = status
   sh = show
   so = remote show origin
@@ -40,7 +41,6 @@
   bm = branch --merged     # merge済みのbranchを表示
   bn = branch --no-merged  # mergeしてないbranchを表示
   # log関連
-  ls = log --stat
   lp = log -p
   la = log --pretty=\"format:%ad %h (%an): %s\" --date=short  # ざっくりログ出す
   lr = log origin          # originのlog
@@ -93,3 +93,9 @@
 	autosetuprebase = always
 [merge]
 	ff = false
+[branch "master"]
+	rebase = true
+[web]
+    browser = open
+[browser "chrome"]
+    cmd = open -a 'Google Chrome.app'

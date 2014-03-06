@@ -9,7 +9,7 @@ git submodule sync
 echo "git submodule update --init"
 git submodule update --init
 
-DOT_FILES=( .zshrc .zshenv .zprofile .zsh .zshrc.antigen .ctags .emacs.el .gdbinit .gemrc .gitconfig .gitignore .inputrc .irbrc .pryrc .perldb .proverc .screenrc .vim .vimrc .gvimrc .tmux.conf .dir_colors .rdebugrc .bash_completion .re.pl .ctags .gdbinit )
+DOT_FILES=( .zshrc .zshenv .zprofile .zsh .zshrc.antigen .ctags .emacs.el .gdbinit .gemrc .gitconfig .gitignore .inputrc .irbrc .pryrc .perldb .proverc .screenrc .vim .vimrc .vimrc.local .gvimrc .tmux.conf .dir_colors .rdebugrc .bash_completion .re.pl .ctags .gdbinit )
 
 for file in ${DOT_FILES[@]}
 do
@@ -17,10 +17,10 @@ do
 done
 
 /bin/rm -f $HOME/dotfiles/.vim/perl-support
-/bin/ln -s $HOME/dotfiles/.vim/bundle/perl-support.vim/perl-support $HOME/dotfiles/.vim/perl-support
+/bin/ln -fs $HOME/dotfiles/.vim/bundle/perl-support.vim/perl-support $HOME/dotfiles/.vim/perl-support
 
 zsh
-/bin/ln -s ${DOTFILES_DIR}/.zsh/yuuki.zsh-theme $HOME/.antigen/repos/https-COLON--SLASH--SLASH-github.com-SLASH-robbyrussell-SLASH-oh-my-zsh.git/themes/
+/bin/ln -fs ${DOTFILES_DIR}/.zsh/yuuki.zsh-theme $HOME/.antigen/repos/https-COLON--SLASH--SLASH-github.com-SLASH-robbyrussell-SLASH-oh-my-zsh.git/themes/
 
 # vim
 vim -c "NeoBundleInstall!"
