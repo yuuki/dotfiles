@@ -559,6 +559,7 @@ NeoBundle 'mhinz/vim-signify'
 NeoBundle 'rhysd/conflict-marker.vim'
 NeoBundle 'rhysd/clever-f.vim'
 " NeoBundle 'rhysd/accelerated-jk'
+NeoBundle 'jnwhiteh/vim-golang'
 
 " if_lua プラグイン
 let s:meet_neocomplete_requirements = has('lua') && (v:version > 703 || (v:version == 703 && has('patch885')))
@@ -1148,7 +1149,7 @@ nnoremap <silent><Leader>qR :<C-u>QuickRun<Space>
 let g:quickrun_config['cpp/clang'] = { 'command' : 'clang++', 'cmdopt' : '-stdlib=libc++ -std=c++11 -Wall -Wextra -O2' }
 autocmd MyAutocmd FileType cpp nnoremap <silent><buffer><Leader>qc :<C-u>QuickRun -type cpp/clang<CR>
 
-call watchdogs#setup(g:quickrun_config)
+" call watchdogs#setup(g:quickrun_config)
 "" }}}
 
 "" vim-hier {{{
@@ -1242,6 +1243,13 @@ let g:clever_f_use_migemo = 1
 " let g:accelerated_jk_enable_deceleration = 1
 " nmap j <Plug>(accelerated_jk_gj)
 " nmap k <Plug>(accelerated_jk_gk)
+"" }}}
+
+"" vim-golang {{{
+if $GOROOT != ''
+  set rtp+=$GOROOT/misc/vim
+endif
+autocmd FileType go autocmd BufWritePre <buffer> Fmt
 "" }}}
 
 if filereadable(expand('~/.vimrc.local'))
