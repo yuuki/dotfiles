@@ -371,6 +371,7 @@ augroup FileTypeDetect
   autocmd BufNewFile,BufRead cpanfile set syntax=perl.cpanfile
   autocmd BufNewFile,BufRead *.PL,*.t,*.psgi,*.perldb,cpanfile setf perl
   autocmd BufNewFile,BufRead *.tx setfiletype xslate " from vim-xslate
+  autocmd BufNewFile,BufRead Capfile set filetype=ruby
   autocmd BufNewFile,BufRead *.html if search('^; ') > 0 | set filetype=xslate | endif
   autocmd BufNewFile,BufRead *.hpp,*.cl setf cpp
   autocmd BufNewFile,BufRead *.cu,*.hcu setf cuda
@@ -507,6 +508,7 @@ NeoBundle 'Shougo/vimfiler'
 NeoBundle 'Shougo/vinarise'
 NeoBundle 'Shougo/echodoc'
 NeoBundle 'Shougo/neosnippet'
+NeoBundle 'Shougo/neosnippet-snippets'
 NeoBundle 'Shougo/unite-ssh'
 NeoBundle 'thinca/vim-quickrun'
 " NeoBundle 'thinca/vim-singleton'
@@ -560,6 +562,7 @@ NeoBundle 'rhysd/conflict-marker.vim'
 NeoBundle 'rhysd/clever-f.vim'
 " NeoBundle 'rhysd/accelerated-jk'
 NeoBundle 'jnwhiteh/vim-golang'
+NeoBundle 'moznion/github-commit-comment.vim'
 
 " if_lua プラグイン
 let s:meet_neocomplete_requirements = has('lua') && (v:version > 703 || (v:version == 703 && has('patch885')))
@@ -1104,9 +1107,10 @@ let g:quickrun_config = {
   \
   \ 'syntax/perl' : {
   \   'runner' : 'vimproc',
-  \   'command' : 'perl',
+  \   'command' : expand('~/dotfiles/bin/efm_perl.pl'),
   \   'cmdopt' : "-M'Project::Libs lib_dirs => [qw(. local/lib/perl5 t/lib)]'",
-  \   'exec' : '%c %o -c %s:p',
+  \   'exec' : '%c %o %s:p',
+  \   'quickfix/errorformat' : '%f:%l:%m',
   \ },
   \ 'syntax/ruby' : {
   \   'runner' : 'vimproc',
@@ -1134,8 +1138,8 @@ let g:quickrun_config._ = { 'outputter' : 'unite_quickfix', 'split' : 'rightbelo
 " outputter
 let g:quickrun_unite_quickfix_outputter_unite_context = { 'no_empty' : 1 }
 
-autocmd MyAutocmd BufWritePost *.pl,*.pm,*.t         QuickRun -outputter quickfix -type syntax/perl
-autocmd MyAutocmd BufWritePost *.rb                  QuickRun -outputter quickfix -type syntax/ruby
+" autocmd MyAutocmd BufWritePost *.pl,*.pm,*.t         QuickRun -outputter quickfix -type syntax/perl
+" autocmd MyAutocmd BufWritePost *.rb                  QuickRun -outputter quickfix -type syntax/ruby
 " autocmd MyAutocmd BufWritePost *.cpp,*.cc,*.hpp,*.hh QuickRun -outputter quickfix -type syntax/cpp
 
 nnoremap <Leader>q  <Nop>
