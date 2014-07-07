@@ -20,6 +20,7 @@ Session.vim
 .zshrc.local
 *.err
 *.zwc
+*.un~
 tags
 GPATH
 GRTAGS
@@ -27,5 +28,10 @@ GTAGS
 
 .vim/bundle/*
 .gitconfig.local
+.vimrc.local
 .perl-version
 .mackerel
+.bundle
+.ruby-version
+vendor/bundle
+vendor/cookbooks
