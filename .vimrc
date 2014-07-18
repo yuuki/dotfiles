@@ -97,6 +97,9 @@ set t_Co=256
 " set list
 " Listモードに使われる文字を設定する "
 "set listchars=tab:\ \ ,trail:-,eol:\
+" 勝手に作られる系のファイルを一箇所にまとめる
+set directory=~/.vim/swp
+set undodir=D:~/.vim/undo
 """ }}}
 
 """ Util {{{
@@ -545,8 +548,8 @@ NeoBundle 'derekwyatt/vim-scala'
 " NeoBundle 'airblade/vim-rooter'
 " NeoBundle 'ujihisa/vimshell-ssh.git'
 " NeoBundle 'c9s/cpan.vim'
-NeoBundle 'fuenor/qfixhowm'
-NeoBundle 'osyo-manga/unite-qfixhowm'
+" NeoBundle 'fuenor/qfixhowm'
+" NeoBundle 'osyo-manga/unite-qfixhowm'
 NeoBundle 'rhysd/tmpwin.vim'
 NeoBundle 'tpope/vim-repeat' " for vim-operator-surround
 NeoBundle 'rhysd/vim-operator-surround'
@@ -563,6 +566,9 @@ NeoBundle 'rhysd/clever-f.vim'
 " NeoBundle 'rhysd/accelerated-jk'
 NeoBundle 'jnwhiteh/vim-golang'
 NeoBundle 'moznion/github-commit-comment.vim'
+NeoBundle 'honza/dockerfile.vim'
+NeoBundle 'glidenote/memolist.vim'
+NeoBundle 'glidenote/serverspec-snippets'
 
 " if_lua プラグイン
 let s:meet_neocomplete_requirements = has('lua') && (v:version > 703 || (v:version == 703 && has('patch885')))
@@ -809,7 +815,10 @@ if has('conceal')
 endif
 "" }}}
 " 自作スニペット {{{
-let g:neosnippet#snippets_directory=$HOME.'/.vim/snippets/snippets'
+let g:neosnippet#snippets_directory = [
+      \'~/.vim/snippets/snippets',
+      \'~/.vim/bundle/serverspec-snippets',
+      \]
 "" }}}
 
 "" unite.vim {{{
@@ -941,7 +950,9 @@ nnoremap <silent>[unite]z :<C-u>Unite zsh-cdr<CR>
 " nnoremap <silent> [unite]gu :<C-u>Unite -no-split git_untracked<CR>
 
 " project検索
-nnoremap <silent> [unite]v :<C-u>Unite file_rec/async:!<CR>
+call unite#custom#source('file_rec/async', 'ignore_pattern', '\(png\|gif\|jpeg\|jpg\tar.gz\)$')
+let g:unite_source_rec_max_cache_files = 200000
+nnoremap <silent> [unite]v :<C-u>Unite -start-insert file_rec/async:!<CR>
 
 "" unite-perl-module
 " Perl local lib modules
@@ -957,7 +968,7 @@ nnoremap <silent> [unite]gg :<C-u>Unite gtags/gtags<SPACE>
 nnoremap <silent> [unite]gcc :<C-u>Unite gtags/completion<CR>
 
 "" unite-qfixhowm
-nnoremap <silent> [unite]mm :<C-u>Unite qfixhowm/new qfixhowm -hide-source-names<CR>
+" nnoremap <silent> [unite]mm :<C-u>Unite qfixhowm/new qfixhowm -hide-source-names<CR>
 
 " C++ インクルードファイル
 autocmd MyAutocmd FileType cpp nnoremap <buffer>[unite]i :<C-u>Unite file_include -vertical<CR>
@@ -1254,6 +1265,16 @@ if $GOROOT != ''
   set rtp+=$GOROOT/misc/vim
 endif
 autocmd FileType go autocmd BufWritePre <buffer> Fmt
+"" }}}
+
+"" memolist {{{
+let g:memolist_path = "~/Dropbox/memo"
+let g:memolist_unite        = 1
+let g:memolist_unite_source = "file_rec"
+let g:memolist_unite_option = "-start-insert"
+nnoremap <Leader>mn  :MemoNew<CR>
+nnoremap <Leader>ml  :MemoList<CR>
+nnoremap <Leader>mg  :MemoGrep<CR>
 "" }}}
 
 if filereadable(expand('~/.vimrc.local'))
