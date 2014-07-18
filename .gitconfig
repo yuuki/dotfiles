@@ -87,6 +87,9 @@
   lst = ls-tree
   cch= "!f() { git cherry -v "$@" | awk '{ if($1 == \"+\"){ color = \"green\" } if($1 == \"-\"){ color = \"red\" } cmd = \"git show --date=short --no-notes --pretty=format:\\047%C\" color $1 \" %h %Cgreen%cd %Cblue%cn%x09%Creset%s\\047 --summary \" $2; cmd | getline t; close(cmd); print t }' ;}; f"
   rm-cached-all="!f() {for i in `git status | grep deleted | awk '{print $3}'`; do git rm $i; done}"
+  fetch-pullreq = fetch origin '+refs/pull/*/head:refs/pull/*'
+  plog = log --all --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+  delete-merged-branches = !git branch --merged | grep -v \\* | grep -v master | grep -v staging | grep -v develop | xargs -I % git branch -d %
 [hub]
   protocol = git
 [branch]
@@ -96,6 +99,13 @@
 [branch "master"]
 	rebase = true
 [web]
-    browser = open
+  browser = open
 [browser "chrome"]
-    cmd = open -a 'Google Chrome.app'
+  cmd = open -a 'Google Chrome.app'
+[pager]
+  log = diff-highlight | less
+  show = diff-highlight | less
+  diff = diff-highlight | less
+[ghq]
+  root = ~/.ghq
+  root = ~/.go/src
