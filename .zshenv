@@ -58,6 +58,7 @@ path=(
 
 # User-specific paths
 path=(
+  ${HOME}/code/my/opstools/bin(N-/)
   ${HOME}/bin(N-/)
   ${HOME}/local/bin(N-/)
   $path
