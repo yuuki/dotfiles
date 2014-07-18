@@ -89,6 +89,9 @@ bindkey '^R' history-incremental-search-backward
 bindkey "^S" history-incremental-pattern-search-forward
 bindkey -a 'O' push-line
 bindkey -a 'H' run-help
+bindkey '^x^b' percol-git-recent-branches
+bindkey '^xb' percol-git-recent-all-branches
+bindkey '^s' percol-ghq
 
 ## Ctrl + ] で前回のコマンドの最後の単語を挿入
 zle -N insert-last-word smart-insert-last-word
@@ -150,6 +153,7 @@ SAVEHIST=$HISTSIZE
 alias q='exit'
 alias h='proxychains4 -q -f ~/.proxychains/htn.conf'
 alias n='proxychains4 -q -f ~/.proxychains/vlo.conf'
+alias t='tsocks'
 
 ## Utils
 alias ll='ls -lh'
@@ -166,6 +170,7 @@ alias du='du -h'
 alias less='less -R'
 alias zmv='noglob zmv'
 alias pdftotext='pdftotext -layout -'
+alias gc="docker run -t -i --volumes-from gcloud-config2 google/cloud-sdk"
 
 if [[ -x /usr/local/bin/colordiff ]]; then
   alias diff='colordiff'
@@ -349,3 +354,104 @@ function ghub () {
   web_search "https://github.com/search?type=Code&q=" "+" "" $*
 }
 ### }}}
+
+function cliime() {
+  if [ $# = 0 ]; then
+    echo "usage: cliime RO-MAJI"
+    return 1
+  fi
+
+  BUNDLE_GEMFILE=~/build/cliime/Gemfile bundle exec -- ruby ~/build/cliime/cliime.rb $@ | percol | pbcopy
+}
+
+function tsshrb() {
+  BUNDLE_GEMFILE=~/build/tmux-cssh-rb/Gemfile bundle exec -- ruby ~/build/tmux-cssh-rb/bin/tssh -l y_uuki $@
+}
+function ntssh() {
+  BUNDLE_GEMFILE=~/build/tmux-cssh-rb/Gemfile bundle exec -- ruby ~/build/tmux-cssh-rb/bin/tssh -l y_uuki -c ~/.tsshrc_vlo $@
+}
+
+# function saba2() {
+#   (cd ~/code/hatena/mackerel2-client-rb 2>&1 >/dev/null && bundle exec -- ruby ~/code/hatena/mackerel2-client-rb/bin/mackerel2-cli $@)
+# }
+#
+# function service() {
+#   if [[ $1 == '' ]]; then
+#     echo "requried service name"
+#     exit 1
+#   fi
+#
+#   saba2 services/$1 | jq '.[].hosts[].fqdn'
+# }
+#
+# function roles() {
+#   if [[ $1 == '' ]]; then
+#     echo "requried service name"
+#     exit 1
+#   fi
+#   if [[ $2 == '' ]]; then
+#     echo "requried role name"
+#     exit 1
+#   fi
+#
+#   saba2 "services/$1/roles/$2/hosts" | jq ".[].hosts[].fqdn"
+# }
+
+function exists { which $1 &> /dev/null }
+
+if exists percol; then
+    function percol_select_history() {
+        local tac
+        exists gtac && tac="gtac" || { exists tac && tac="tac" || { tac="tail -r" } }
+        BUFFER=$(fc -l -n 1 | eval $tac | percol --query "$LBUFFER")
+        CURSOR=$#BUFFER         # move cursor
+        zle -R -c               # refresh
+    }
+
+    zle -N percol_select_history
+    bindkey '^R' percol_select_history
+fi
+
+function percol-git-recent-branches () {
+    local selected_branch=$(git for-each-ref --format='%(refname)' --sort=-committerdate refs/heads | \
+        perl -pne 's{^refs/heads/}{}' | \
+        percol --query "$LBUFFER")
+    if [ -n "$selected_branch" ]; then
+        BUFFER="git checkout ${selected_branch}"
+        zle accept-line
+    fi
+    zle clear-screen
+}
+zle -N percol-git-recent-branches
+
+function percol-git-recent-all-branches () {
+    local selected_branch=$(git for-each-ref --format='%(refname)' --sort=-committerdate refs/heads refs/remotes | \
+        perl -pne 's{^refs/(heads|remotes)/}{}' | \
+        percol --query "$LBUFFER")
+    if [ -n "$selected_branch" ]; then
+        BUFFER="git checkout -t ${selected_branch}"
+        zle accept-line
+    fi
+    zle clear-screen
+}
+zle -N percol-git-recent-all-branches
+
+function percol-ghq () {
+    local selected_dir=$(ghq list --full-path | percol --query "$LBUFFER")
+    if [ -n "$selected_dir" ]; then
+        BUFFER="cd ${selected_dir}"
+        zle accept-line
+    fi
+    zle clear-screen
+}
+zle -N percol-ghq
+
+function dssh () {
+    ssh docker@$(boot2docker ip 2>>/dev/null)
+}
+
+function docker-attach() {
+  id=`sudo docker ps -q --no-trunc $1`
+  root=/var/lib/docker/execdriver/native/$id
+  sudo sh -c "cd $root && $GOPATH/bin/nsinit exec $2"
+}
