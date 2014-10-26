@@ -27,6 +27,7 @@ GRTAGS
 GTAGS
 
 .vim/bundle/*
+.vim/swp/
 .gitconfig.local
 .vimrc.local
 .perl-version

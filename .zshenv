@@ -130,7 +130,7 @@ function setup_GOROOT() {
 }
 setup_GOROOT
 
-export GOPATH=$HOME/.go
+export GOPATH=$HOME
 export PATH=$GOROOT/bin:$GOPATH/bin:$PATH
 
 # AWS
@@ -143,4 +143,18 @@ export DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:/usr/local/mysql/lib
 # unset DYLD_LIBRARY_PATH
 # unset DYLD_FALLBACK_LIBRARY_PATH
 
+# export DOCKER_HOST=tcp://localhost:2375
+# export BOOT2DOCKER_IP=`boot2docker ip 2>/dev/null`
+export DOCKER_CERT_PATH=$HOME/.boot2docker/certs/boot2docker-vm
+export DOCKER_TLS_VERIFY=1
+
+# Java
+export JAVA_HOME=`/usr/libexec/java_home`
+export PATH="$HOME/.jenv/bin:$PATH"
+
+# Postgres
+source $HOME/.pgvm/pgvm_env
+
+
 source $HOME/.zshenv.local
+

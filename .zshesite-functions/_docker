@@ -1,0 +1,11 @@
+--2014-06-18 22:11:00--  https://raw.githubusercontent.com/dotcloud/docker/master/contrib/completion/zsh/_docker
+Resolving raw.githubusercontent.com... 103.245.222.133
+Connecting to raw.githubusercontent.com|103.245.222.133|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 8168 (8.0K) [text/plain]
+Saving to: ‘_docker.1’
+
+     0K .......                                               100% 3.98M=0.002s
+
+2014-06-18 22:11:02 (3.98 MB/s) - ‘_docker.1’ saved [8168/8168]
+

@@ -150,10 +150,12 @@ SAVEHIST=$HISTSIZE
 ### }}}
 
 ### Aliases {{{
+alias d='docker'
 alias q='exit'
 alias h='proxychains4 -q -f ~/.proxychains/htn.conf'
 alias n='proxychains4 -q -f ~/.proxychains/vlo.conf'
 alias t='tsocks'
+alias g='git'
 
 ## Utils
 alias ll='ls -lh'
@@ -171,6 +173,10 @@ alias less='less -R'
 alias zmv='noglob zmv'
 alias pdftotext='pdftotext -layout -'
 alias gc="docker run -t -i --volumes-from gcloud-config2 google/cloud-sdk"
+alias be="bundle exec"
+alias chef-zero="docker run -d -p 8889:8889 paulczar/chef-zero '/usr/local/bin/chef-zero-bg'"
+alias dntpsync="boot2docker ssh sudo ntpclient -s -h pool.ntp.org"
+alias r="roles"
 
 if [[ -x /usr/local/bin/colordiff ]]; then
   alias diff='colordiff'
@@ -194,7 +200,6 @@ if ! type vim > /dev/null 2>&1; then
     alias vim=vi
 fi
 
-alias git='GIT_SSL_NO_VERIFY=1 git'
 # GitFlow & HubFlow
 alias gf='git flow'
 alias ghf='git hf'
@@ -437,7 +442,7 @@ function percol-git-recent-all-branches () {
 zle -N percol-git-recent-all-branches
 
 function percol-ghq () {
-    local selected_dir=$(ghq list --full-path | percol --query "$LBUFFER")
+    local selected_dir=$((cdr -l | awk '{ print $2 }'; ghq list --full-path) | peco)
     if [ -n "$selected_dir" ]; then
         BUFFER="cd ${selected_dir}"
         zle accept-line
@@ -446,12 +451,33 @@ function percol-ghq () {
 }
 zle -N percol-ghq
 
+function gpi () {
+    [ "$#" -eq 0 ] && echo "Usage : gpi QUERY" && return 1
+    ghs "$@" | peco | awk '{print $1}' | ghq import
+}
+
+function gpr () {
+    ghq list --full-path | peco | xargs rm -r
+}
+
 function dssh () {
     ssh docker@$(boot2docker ip 2>>/dev/null)
 }
 
-function docker-attach() {
-  id=`sudo docker ps -q --no-trunc $1`
-  root=/var/lib/docker/execdriver/native/$id
-  sudo sh -c "cd $root && $GOPATH/bin/nsinit exec $2"
+function u()
+{
+    cd ./$(git rev-parse --show-cdup)
+    if [ $# = 1 ]; then
+        cd $1
+    fi
 }
+
+function docker-bash() {
+    docker run --rm --entrypoint="/bin/bash" -t -i "$@"
+
+}
+
+function dinit() {
+    $(boot2docker shellinit)
+}
+

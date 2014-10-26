@@ -374,7 +374,7 @@ augroup FileTypeDetect
   autocmd BufNewFile,BufRead cpanfile set syntax=perl.cpanfile
   autocmd BufNewFile,BufRead *.PL,*.t,*.psgi,*.perldb,cpanfile setf perl
   autocmd BufNewFile,BufRead *.tx setfiletype xslate " from vim-xslate
-  autocmd BufNewFile,BufRead Capfile set filetype=ruby
+  autocmd BufNewFile,BufRead Capfile,Thorfile set filetype=ruby
   autocmd BufNewFile,BufRead *.html if search('^; ') > 0 | set filetype=xslate | endif
   autocmd BufNewFile,BufRead *.hpp,*.cl setf cpp
   autocmd BufNewFile,BufRead *.cu,*.hcu setf cuda
@@ -388,6 +388,7 @@ augroup FileTypeDetect
   autocmd BufNewFile,BufRead *.less setf less
   autocmd BufNewFile,BufRead *.coffee setf coffee
   autocmd BufNewFile,BufRead *.erb set filetype=eruby.html
+  autocmd BufNewFile,BufRead *.rs set filetype=rust
 augroup END
 
 augroup IndentGroup
@@ -412,6 +413,7 @@ augroup IndentGroup
   autocmd FileType perl       setlocal sw=4 sts=4 ts=4 et
   autocmd FileType python     setlocal sw=4 sts=4 ts=4 et
   autocmd FileType ruby       setlocal sw=2 sts=2 ts=2 et
+  autocmd FileType rust       setlocal sw=4 sts=4 ts=4 et
   autocmd FileType scala      setlocal sw=2 sts=2 ts=2 et
   autocmd FileType sh         setlocal sw=4 sts=4 ts=4 et
   autocmd FileType sql        setlocal sw=4 sts=4 ts=4 et
@@ -556,9 +558,9 @@ NeoBundle 'rhysd/vim-operator-surround'
 NeoBundle "kana/vim-textobj-user"
 NeoBundle 'osyo-manga/vim-textobj-multiblock'
 NeoBundle 'osyo-manga/vim-operator-search'
-NeoBundle 'kana/vim-textobj-function' " for vim-operator-search
-NeoBundle 'thinca/vim-textobj-function-perl' " なぜかlazyloadできない
-NeoBundle 't9md/vim-textobj-function-ruby'
+" NeoBundle 'kana/vim-textobj-function' " for vim-operator-search
+" NeoBundle 'thinca/vim-textobj-function-perl' " なぜかlazyloadできない
+" NeoBundle 't9md/vim-textobj-function-ruby'
 NeoBundle 'osyo-manga/vim-over'
 NeoBundle 'mhinz/vim-signify'
 NeoBundle 'rhysd/conflict-marker.vim'
@@ -1265,6 +1267,7 @@ if $GOROOT != ''
   set rtp+=$GOROOT/misc/vim
 endif
 autocmd FileType go autocmd BufWritePre <buffer> Fmt
+set completeopt=menu,preview
 "" }}}
 
 "" memolist {{{

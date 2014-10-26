@@ -45,6 +45,7 @@
   la = log --pretty=\"format:%ad %h (%an): %s\" --date=short  # ざっくりログ出す
   lr = log origin          # originのlog
   lg = log --oneline --decorate --graph # branchとtagをgraph表示
+  ld = log -p --graph --decorate
   # diff関連
   dm = diff master         # masterとのdiff
   dc = diff --cached -M    # ファイル名変更時に無駄な差分を出力しない
@@ -69,6 +70,7 @@
   psom = push origin master
   pshm = push heroku master
   pl = pull
+  prb = "!f() { git rev-parse --abbrev-ref HEAD ; }; git pull --rebase origin `f`"
   # rebase関連
   rb = rebase
   rbi = rebase -i
@@ -107,5 +109,4 @@
   show = diff-highlight | less
   diff = diff-highlight | less
 [ghq]
-  root = ~/.ghq
-  root = ~/.go/src
+  root = ~/src
