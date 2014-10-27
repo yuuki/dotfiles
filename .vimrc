@@ -514,7 +514,8 @@ NeoBundle 'Shougo/vinarise'
 NeoBundle 'Shougo/echodoc'
 NeoBundle 'Shougo/neosnippet'
 NeoBundle 'Shougo/neosnippet-snippets'
-NeoBundle 'Shougo/unite-ssh'
+NeoBundle 'Shougo/neomru.vim'
+" NeoBundle 'Shougo/unite-ssh'
 NeoBundle 'thinca/vim-quickrun'
 " NeoBundle 'thinca/vim-singleton'
 NeoBundle 'osyo-manga/unite-fold'
@@ -572,6 +573,7 @@ NeoBundle 'honza/dockerfile.vim'
 NeoBundle 'glidenote/memolist.vim'
 NeoBundle 'glidenote/serverspec-snippets'
 NeoBundle 'majutsushi/tagbar'
+NeoBundle 'sorah/unite-ghq'
 
 " if_lua プラグイン
 let s:meet_neocomplete_requirements = has('lua') && (v:version > 703 || (v:version == 703 && has('patch885')))
@@ -846,6 +848,9 @@ if executable('ag')
     let g:unite_source_grep_recursive_opt = ''
 endif
 
+" unite のデフォルトアクション
+call unite#custom#default_action('directory' , 'vimfiler')
+
 " unite.vim カスタムアクション
 function! s:define_unite_actions()
     " Git リポジトリのすべてのファイルを開くアクション {{{
@@ -933,7 +938,7 @@ nnoremap <silent> [unite]a :<C-u>UniteBookmarkAdd<CR>
 " スニペット候補表示
 nnoremap <silent> [unite]s <Plug>(neocomplcache_start_unite_snippet)
 " Git のルートディレクトリを開く
-nnoremap <silent><expr>[unite]fg  ":\<C-u>Unite file -input=".fnamemodify(<SID>git_root_dir(),":p")
+" nnoremap <silent><expr>[unite]fg  :<C-u>Unite file -input=".fnamemodify(<SID>git_root_dir(),":p")
 " プロジェクトのファイル一覧
 nnoremap <silent>[unite]p         :<C-u>Unite file_rec:! file/new<CR>
 " 検索に unite-lines を使う
@@ -942,6 +947,8 @@ nnoremap <silent><expr> [unite]/ line('$') > 5000 ?
             \ ":\<C-u>Unite -buffer-name=search -start-insert line\<CR>"
 " zsh の cdr コマンド
 nnoremap <silent>[unite]z :<C-u>Unite zsh-cdr<CR>
+" unite-ghq + cdr
+nnoremap <silent>[unite]q :<C-u>Unite -start-insert -default-action=vimfiler zsh-cdr ghq directory_mru<CR>
 
 " git常用
 " nnoremap <silent> [unite]ga :<C-u>Unite -no-split git_cached git_untracked<CR>
@@ -954,7 +961,7 @@ nnoremap <silent>[unite]z :<C-u>Unite zsh-cdr<CR>
 
 " project検索
 call unite#custom#source('file_rec/async', 'ignore_pattern', '\(png\|gif\|jpeg\|jpg\tar.gz\)$')
-let g:unite_source_rec_max_cache_files = 200000
+let g:unite_source_rec_max_cache_files = 500000
 nnoremap <silent> [unite]v :<C-u>Unite -start-insert file_rec/async:!<CR>
 
 "" unite-perl-module
@@ -1012,7 +1019,6 @@ augroup END
 "" }}}
 
 "" VimFiler {{{
-
 let g:vimfiler_as_default_explorer = 1
 let g:vimfiler_safe_mode_by_default = 0
 let g:vimfiler_split_command = 'vertical rightbelow vsplit'
@@ -1064,9 +1070,9 @@ nnoremap <Leader>fb   :<C-u>VimFilerBufferDir<CR>
 nnoremap <Leader>fB   :<C-u>VimFilerBufferDir<CR>
 nnoremap <silent><expr><Leader>fg ":\<C-u>VimFiler " . <SID>git_root_dir() . '\<CR>'
 nnoremap <silent><expr><Leader>fe ":\<C-u>VimFilerExplorer " . <SID>git_root_dir() . '\<CR>'
-nnoremap <buffer><silent><expr><CR> vimfiler#smart_cursor_map("\<Plug>(vimfiler_expand_tree)", "\<Plug>(vimfiler_edit_file)")
-nnoremap <buffer><silent>s          :call vimfiler#mappings#do_action('my_split')<CR>
-nnoremap <buffer><silent>v          :call vimfiler#mappings#do_action('my_vsplit')<CR>
+" nnoremap <buffer><silent><expr><CR> vimfiler#smart_cursor_map("\<Plug>(vimfiler_expand_tree)", "\<Plug>(vimfiler_edit_file)")
+" nnoremap <buffer><silent><expr>s          :call vimfiler#mappings#do_action('my_split')<CR>
+" nnoremap <buffer><silent><expr>v          :call vimfiler#mappings#do_action('my_vsplit')<CR>
 nnoremap <silent>_ :<C-u>VimFilerTree<CR>
 "" }}}
 
@@ -1291,6 +1297,7 @@ let g:clever_f_use_migemo = 1
 "" }}}
 
 "" vim-go {{{
+autocmd FileType go nmap <Leader>g :GoFmt<CR>
 autocmd FileType go nmap <Leader>s <Plug>(go-implements)
 autocmd FileType go nmap <Leader>i <Plug>(go-info)
 autocmd FileType go nmap <Leader>gd <Plug>(go-doc)
