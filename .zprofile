@@ -1,19 +1,8 @@
 
 ### External script {{{
-# Rbenv
+# rbenv
 if type rbenv > /dev/null 2>&1; then
   eval "$(rbenv init -)"
-fi
-
-# RVM
-if type rvm > /dev/null 2>&1; then
-  [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
-fi
-
-# Perlbrew
-if type perlbrew > /dev/null 2>&1; then
-  [[ -s $HOME/.perlbrew/etc/bashrc ]] && source $HOME/.perlbrew/etc/bashrc
-  [[ -s $HOME/perl5/perlbrew/etc/bashrc ]] && source $HOME/perl5/perlbrew/etc/bashrc
 fi
 
 # plenv
@@ -33,16 +22,6 @@ fi
 
 # autojump
 if type autojump > /dev/null 2>&1; then
-  [[ -f `brew --prefix`/etc/autojump ]] && source `brew --prefix`/etc/autojump
+  [[ -f /usr/local/etc/autojump ]] && source /usr/local/etc/autojump
 fi
-
-# # mysqlenv
-# if ! type mysqlenv > /dev/null 2>&1; then
-#   [[ -s $HOME/.mysqlenv/etc/bashrc ]] && source $HOME/.mysqlenv/etc/bashrc
-# fi
-
-# hub
-# if type hub > /dev/null 2>&1; then
-#   eval "$(hub alias -s)"
-# fi
 ### }}}
