@@ -1,5 +1,8 @@
 # vim:set ft=zsh foldmethod=marker:
 
+# Start profiling
+# zmodload zsh/zprof && zprof
+
 # ZSH_HOME
 export ZSH_HOME=${HOME}/.zsh
 
@@ -121,17 +124,10 @@ export XDG_DATA_HOME=/usr/local/share
 
 export PYTHONPATH=/usr/local/lib/python2.7/site-packages:$PYTHONPATH
 
-function setup_GOROOT() {
-  local GOPATH=`which go`
-  local GODIR=`dirname $GOPATH`
-  local GOPATH_BREW_RELATIVE=`readlink $GOPATH`
-  local GOPATH_BREW=`dirname $GOPATH_BREW_RELATIVE`
-  export GOROOT=`cd $GODIR; cd $GOPATH_BREW/..; pwd`/libexec
-}
-setup_GOROOT
-
+# Go
+export GOROOT='/usr/local/opt/go/libexec/'
 export GOPATH=$HOME
-export PATH=$GOROOT/bin:$GOPATH/bin:$PATH
+export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
 
 # AWS
 export AWS_CONFIG_FILE=$HOME/.aws.conf

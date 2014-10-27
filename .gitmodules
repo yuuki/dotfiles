@@ -1,9 +1,6 @@
 [submodule ".vim/bundle/neobundle.vim"]
 	path = .vim/bundle/neobundle.vim
 	url = https://github.com/Shougo/neobundle.vim
-[submodule ".zsh/antigen"]
-	path = .zsh/antigen
-	url = https://github.com/zsh-users/antigen.git
 [submodule ".zsh/plugins/cdd"]
 	path = .zsh/plugins/cdd
 	url = https://github.com/m4i/cdd.git
@@ -13,3 +10,6 @@
 [submodule ".vim/snippets"]
 	path = .vim/snippets
 	url = git@github.com:y-uuki/snipmate-snippets.git
+[submodule ".zsh/plugins/zsh-git-prompt"]
+	path = .zsh/plugins/zsh-git-prompt
+	url = git@github.com:olivierverdier/zsh-git-prompt.git

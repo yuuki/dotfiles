@@ -3,13 +3,8 @@
 umask 022
 limit coredumpsize 0
 
-### Load oh-my-zsh plugins and thema {{{
-[[ -s $HOME/.zshrc.antigen ]] && source $HOME/.zshrc.antigen
-### }}}
-
 ### Load modules {{{
-autoload -Uz compinit; compinit -u
-autoload -Uz colors; colors
+autoload -Uz compinit; compinit -C
 autoload -Uz history-search-end
 autoload -Uz vcs_info
 autoload -Uz term_info
@@ -19,6 +14,7 @@ autoload -Uz smart-insert-last-word
 autoload -Uz add-zsh-hook
 autoload -Uz chpwd_recent_dirs
 autoload -Uz cdr
+# autoload -Uz promptinit && promptinit
 ### }}}
 
 ### Set options {{{
@@ -72,6 +68,18 @@ setopt auto_menu             # lsのメニュー化
 unsetopt promptcr            # 改行コードで終らない出力もちゃんと出力する
 unsetopt no_clobber          # リダイレクトで上書きを許可
 
+### }}}
+
+### plugins {{{
+if [[ -f "${ZSH_HOME}/plugins/zsh-git-prompt/zshrc.sh" ]]; then
+  source "${ZSH_HOME}/plugins/zsh-git-prompt/zshrc.sh"
+fi
+# if [[ -f "${ZSH_HOME}/plugins/auto-fu.zsh/auto-fu.zsh" ]]; then
+  # source "${ZSH_HOME}/plugins/auto-fu.zsh/auto-fu.zsh"
+  # zle-line-init () {auto-fu-init;}; zle -N zle-line-init
+  # zstyle ':completion:*' completer _oldlist _complete
+  # zle -N zle-keymap-select auto-fu-zle-keymap-select
+# fi
 ### }}}
 
 ### Keybind {{{
@@ -149,15 +157,28 @@ HISTSIZE=10000000
 SAVEHIST=$HISTSIZE
 ### }}}
 
+### Prompt {{{
+ZSH_THEME_GIT_PROMPT_CHANGED="%{$fg[yellow]%}%{✚%G%}" # default blue but hard to see
+
+PROMPT="%{$fg_bold[NCOLOR]%}%{$fg_bold[green]%}%p %{$fg[cyan]%}%c "
+GIT_PROMPT='%b$(git_super_status) %'
+PROMPT="${PROMPT}${GIT_PROMPT} %{$reset_color%}"
+### }}}
+
 ### Aliases {{{
 alias d='docker'
 alias q='exit'
 alias h='proxychains4 -q -f ~/.proxychains/htn.conf'
 alias n='proxychains4 -q -f ~/.proxychains/vlo.conf'
 alias t='tsocks'
+
+## Git
 alias g='git'
+alias gst='git status'
+alias gl='git log -p'
 
 ## Utils
+alias ls='ls --color=auto'
 alias ll='ls -lh'
 alias la='ls -a'
 alias lla='ls -alh'
@@ -258,15 +279,6 @@ alias -g .....='..//..//..//..'
 
 # Vim側でC-s C-q
 stty -ixon -ixoff
-
-### plugins {{{
-if [[ -f "${ZSH_HOME}/plugins/auto-fu.zsh/auto-fu.zsh" ]]; then
-  # source "${ZSH_HOME}/plugins/auto-fu.zsh/auto-fu.zsh"
-  # zle-line-init () {auto-fu-init;}; zle -N zle-line-init
-  # zstyle ':completion:*' completer _oldlist _complete
-  # zle -N zle-keymap-select auto-fu-zle-keymap-select
-fi
-### }}}
 
 ### functions {{{
 
@@ -481,3 +493,7 @@ function dinit() {
     $(boot2docker shellinit)
 }
 
+# End profiling
+# if (which zprof > /dev/null) ;then
+#     zprof | cat
+# fi

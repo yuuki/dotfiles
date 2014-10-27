@@ -548,7 +548,7 @@ NeoBundle 'rhysd/unite-zsh-cdr.vim'
 NeoBundle 'trotter/autojump.vim'
 NeoBundle 'y-uuki/perl-local-lib-path.vim'
 NeoBundle 'derekwyatt/vim-scala'
-" NeoBundle 'airblade/vim-rooter'
+NeoBundle 'airblade/vim-rooter'
 " NeoBundle 'ujihisa/vimshell-ssh.git'
 " NeoBundle 'c9s/cpan.vim'
 " NeoBundle 'fuenor/qfixhowm'
@@ -574,6 +574,7 @@ NeoBundle 'glidenote/memolist.vim'
 NeoBundle 'glidenote/serverspec-snippets'
 NeoBundle 'majutsushi/tagbar'
 NeoBundle 'sorah/unite-ghq'
+NeoBundle 'cohama/agit.vim'
 
 " if_lua プラグイン
 let s:meet_neocomplete_requirements = has('lua') && (v:version > 703 || (v:version == 703 && has('patch885')))
@@ -1225,10 +1226,9 @@ augroup END
 " }}}
 
 "" vim-rooter {{{
-" nnoremap [rooter] <Nop>
-" nmap     c        [rooter]
-" map <silent> <unique> [rooter]r <Plug>RooterChangeToRootDirectory
-" let g:rooter_patterns = ['Makefile.PL', '.git/']
+let g:rooter_manual_only = 1
+nnoremap <silent> <unique> <Leader>cd <Plug>RooterChangeToRootDirectory
+let g:rooter_patterns = ['cpanfile', 'Rakefile', 'Makefile', '.git/']
 "" }}}
 
 "" gtags.vim {{{
