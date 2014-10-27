@@ -552,7 +552,7 @@ NeoBundle 'derekwyatt/vim-scala'
 " NeoBundle 'c9s/cpan.vim'
 " NeoBundle 'fuenor/qfixhowm'
 " NeoBundle 'osyo-manga/unite-qfixhowm'
-NeoBundle 'rhysd/tmpwin.vim'
+" NeoBundle 'rhysd/tmpwin.vim'
 NeoBundle 'tpope/vim-repeat' " for vim-operator-surround
 NeoBundle 'rhysd/vim-operator-surround'
 NeoBundle "kana/vim-textobj-user"
@@ -566,11 +566,12 @@ NeoBundle 'mhinz/vim-signify'
 NeoBundle 'rhysd/conflict-marker.vim'
 NeoBundle 'rhysd/clever-f.vim'
 " NeoBundle 'rhysd/accelerated-jk'
-NeoBundle 'jnwhiteh/vim-golang'
+NeoBundle 'fatih/vim-go'
 NeoBundle 'moznion/github-commit-comment.vim'
 NeoBundle 'honza/dockerfile.vim'
 NeoBundle 'glidenote/memolist.vim'
 NeoBundle 'glidenote/serverspec-snippets'
+NeoBundle 'majutsushi/tagbar'
 
 " if_lua プラグイン
 let s:meet_neocomplete_requirements = has('lua') && (v:version > 703 || (v:version == 703 && has('patch885')))
@@ -1031,6 +1032,29 @@ augroup VimFilerMapping
   autocmd FileType vimfiler nmap <buffer><silent>x <Plug>(vimfiler_hide)
 augroup END
 
+""" VimFilerTree {{{
+" http://qiita.com/shiena/items/870ac0f1db8e9a8672a7
+command! VimFilerTree call VimFilerTree()
+function VimFilerTree()
+    exec ':VimFiler -buffer-name=explorer -split -simple -winwidth=25 -toggle -no-quit'
+    wincmd t
+    setl winfixwidth
+endfunction
+let my_action = {'is_selectable' : 1}
+function! my_action.func(candidates)
+    wincmd p
+    exec 'split '. a:candidates[0].action__path
+endfunction
+call unite#custom_action('file', 'my_split', my_action)
+
+let my_action = {'is_selectable' : 1}
+function! my_action.func(candidates)
+    wincmd p
+    exec 'vsplit '. a:candidates[0].action__path
+endfunction
+call unite#custom_action('file', 'my_vsplit', my_action)
+""" }}}
+
 nnoremap <Leader>f    <Nop>
 nnoremap <Leader>ff   :<C-u>VimFiler<CR>
 nnoremap <Leader>fnq  :<C-u>VimFiler -no-quit<CR>
@@ -1040,6 +1064,10 @@ nnoremap <Leader>fb   :<C-u>VimFilerBufferDir<CR>
 nnoremap <Leader>fB   :<C-u>VimFilerBufferDir<CR>
 nnoremap <silent><expr><Leader>fg ":\<C-u>VimFiler " . <SID>git_root_dir() . '\<CR>'
 nnoremap <silent><expr><Leader>fe ":\<C-u>VimFilerExplorer " . <SID>git_root_dir() . '\<CR>'
+nnoremap <buffer><silent><expr><CR> vimfiler#smart_cursor_map("\<Plug>(vimfiler_expand_tree)", "\<Plug>(vimfiler_edit_file)")
+nnoremap <buffer><silent>s          :call vimfiler#mappings#do_action('my_split')<CR>
+nnoremap <buffer><silent>v          :call vimfiler#mappings#do_action('my_vsplit')<CR>
+nnoremap <silent>_ :<C-u>VimFilerTree<CR>
 "" }}}
 
 "" vimshell {{{
@@ -1214,7 +1242,7 @@ vmap p <Plug>(operator-replace)
 "" }}}
 
 "" tmpwin {{{
-nnoremap <silent>_ :<C-u>call tmpwin#toggle('VimFiler')<CR>
+" nnoremap <silent>_ :<C-u>call tmpwin#toggle('VimFiler')<CR>
 " nnoremap <silent>g_ :<C-u>call tmpwin#toggle('Unite file_rec/async:!')<CR>
 "" }}}
 
@@ -1262,12 +1290,24 @@ let g:clever_f_use_migemo = 1
 " nmap k <Plug>(accelerated_jk_gk)
 "" }}}
 
-"" vim-golang {{{
-if $GOROOT != ''
-  set rtp+=$GOROOT/misc/vim
-endif
-autocmd FileType go autocmd BufWritePre <buffer> Fmt
-set completeopt=menu,preview
+"" vim-go {{{
+autocmd FileType go nmap <Leader>s <Plug>(go-implements)
+autocmd FileType go nmap <Leader>i <Plug>(go-info)
+autocmd FileType go nmap <Leader>gd <Plug>(go-doc)
+autocmd FileType go nmap <Leader>gv <Plug>(go-doc-vertical)
+autocmd FileType go nmap <Leader>gb <Plug>(go-doc-browser)
+autocmd FileType go nmap <leader>r <Plug>(go-run)
+autocmd FileType go nmap <leader>b <Plug>(go-build)
+autocmd FileType go nmap <leader>t <Plug>(go-test)
+autocmd FileType go nmap <leader>c <Plug>(go-coverage)
+autocmd FileType go nmap <Leader>ds <Plug>(go-def-split)
+autocmd FileType go nmap <Leader>dv <Plug>(go-def-vertical)
+autocmd FileType go nmap <Leader>dt <Plug>(go-def-tab)
+autocmd FileType go nmap <Leader>e <Plug>(go-rename)
+" let g:go_fmt_fail_silently = 1
+let g:go_fmt_command = "goimports"
+let g:go_fmt_autosave = 0
+let g:go_snippet_engine = "neosnippet"
 "" }}}
 
 "" memolist {{{
@@ -1278,6 +1318,10 @@ let g:memolist_unite_option = "-start-insert"
 nnoremap <Leader>mn  :MemoNew<CR>
 nnoremap <Leader>ml  :MemoList<CR>
 nnoremap <Leader>mg  :MemoGrep<CR>
+"" }}}
+
+"" tagbar {{{
+nnoremap <silent>+ :TagbarToggle<CR>
 "" }}}
 
 if filereadable(expand('~/.vimrc.local'))
