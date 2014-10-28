@@ -199,6 +199,11 @@ alias chef-zero="docker run -d -p 8889:8889 paulczar/chef-zero '/usr/local/bin/c
 alias dntpsync="boot2docker ssh sudo ntpclient -s -h pool.ntp.org"
 alias r="roles"
 
+## memo
+alias memo='cat > /dev/null'
+alias memolist='vim +MemoList'
+alias memonew='vim +MemoNew'
+
 if [[ -x /usr/local/bin/colordiff ]]; then
   alias diff='colordiff'
 fi

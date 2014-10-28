@@ -1317,7 +1317,36 @@ let g:go_fmt_autosave = 0
 let g:go_snippet_engine = "neosnippet"
 "" }}}
 
-"" memolist {{{
+"" memolist.vim {{{
+nnoremap <Leader>mn :<C-u>MemoNew<CR>
+nnoremap <silent><Leader>ml :<C-u>call <SID>memolist()<CR>
+nnoremap <Leader>mg :<C-u>execute 'Unite' 'grep:'.g:memolist_path '-auto-preview'<CR>
+
+if isdirectory(expand('~/Dropbox/memo'))
+    let g:memolist_path = expand('~/Dropbox/memo')
+else
+    if isdirectory(expand('~/.vim/memo'))
+        call mkdir(expand('~/.vim/memo'), 'p')
+    endif
+    let g:memolist_path = expand('~/.vim/memo')
+endif
+
+let g:memolist_memo_suffix = 'md'
+let g:memolist_unite = 1
+let g:memolist_unite_option = '-auto-preview -no-start-insert'
+
+function! s:memolist()
+    " delete swap files because they make unite auto preview hung up
+    for swap in glob(g:memolist_path.'/.*.sw?', 1, 1)
+        if swap !~# '^\.\+$' && filereadable(swap)
+            call delete(swap)
+        endif
+    endfor
+
+    MemoList
+endfunction
+"}}}
+
 let g:memolist_path = "~/Dropbox/memo"
 let g:memolist_unite        = 1
 let g:memolist_unite_source = "file_rec"
