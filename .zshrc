@@ -198,6 +198,7 @@ alias be="bundle exec"
 alias chef-zero="docker run -d -p 8889:8889 paulczar/chef-zero '/usr/local/bin/chef-zero-bg'"
 alias dntpsync="boot2docker ssh sudo ntpclient -s -h pool.ntp.org"
 alias r="roles"
+alias matrix="docker run -it --rm nathanleclaire/matrix_japan cmatrix -"
 
 ## memo
 alias memo='cat > /dev/null'
@@ -459,7 +460,7 @@ function percol-git-recent-all-branches () {
 zle -N percol-git-recent-all-branches
 
 function percol-ghq () {
-    local selected_dir=$((cdr -l | awk '{ print $2 }'; ghq list --full-path) | peco)
+    local selected_dir=`(cdr -l | awk '{ print $2 }'; ghq list --full-path) | peco`
     if [ -n "$selected_dir" ]; then
         BUFFER="cd ${selected_dir}"
         zle accept-line
