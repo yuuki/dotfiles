@@ -73,12 +73,16 @@ unsetopt no_clobber          # リダイレクトで上書きを許可
 ### plugins {{{
 if [[ -f "${ZSH_HOME}/plugins/zsh-git-prompt/zshrc.sh" ]]; then
   source "${ZSH_HOME}/plugins/zsh-git-prompt/zshrc.sh"
+  export GIT_PROMPT_EXECUTABLE="haskell"
+  export ZSH_THEME_GIT_PROMPT_CACHE=1
 fi
-# if [[ -f "${ZSH_HOME}/plugins/auto-fu.zsh/auto-fu.zsh" ]]; then
-  # source "${ZSH_HOME}/plugins/auto-fu.zsh/auto-fu.zsh"
-  # zle-line-init () {auto-fu-init;}; zle -N zle-line-init
-  # zstyle ':completion:*' completer _oldlist _complete
-  # zle -N zle-keymap-select auto-fu-zle-keymap-select
+# if [[ -f "${ZSH_HOME}/plugins/zsh-autosuggestions/autosuggestions.plugin.zsh" ]]; then
+#   source "${ZSH_HOME}/plugins/zsh-autosuggestions/autosuggestions.plugin.zsh"
+#   zle-line-init() {
+#       zle autosuggest-start
+#   }
+#   zle -N zle-line-init
+#   bindkey '^T' autosuggest-toggle
 # fi
 ### }}}
 
@@ -176,6 +180,7 @@ alias t='tsocks'
 alias g='git'
 alias gst='git status'
 alias gl='git log -p'
+alias gg='git grep -H --break'
 
 ## Utils
 alias ls='ls --color=auto'
@@ -328,56 +333,6 @@ function pwd-clip() {
     echo -n $PWD | ${=copyToClipboard}
 }
 
-# url: $1, delimiter: $2, prefix: $3, words: $4..
-function web_search {
-  local url=$1       && shift
-  local delimiter=$1 && shift
-  local prefix=$1    && shift
-  local query
-
-  while [ -n "$1" ]; do
-    if [ -n "$query" ]; then
-      query="${query}${delimiter}${prefix}$1"
-    else
-      query="${prefix}$1"
-    fi
-    shift
-  done
-
-  open "${url}${query}"
-}
-
-function qiita () {
-  web_search "http://qiita.com/search?utf8=✓&q=" "+" "" $*
-}
-
-function google () {
-  web_search "https://www.google.co.jp/search?&q=" "+" "" $*
-}
-
-# search in metacpan
-function perld() {
-  command perldoc $1 2>/dev/null
-  [ $? -ne 0 ] && web_search "https://metacpan.org/search?q=" "+" "" $*
-  return 0
-}
-
-# search in rurima
-function rurima () {
-  web_search "http://rurema.clear-code.com" "/" "query:" $*
-}
-
-# search in rubygems
-function gems () {
-  web_search "http://rubygems.org/search?utf8=✓&query=" "+" "" $*
-}
-
-# search in github
-function ghub () {
-  web_search "https://github.com/search?type=Code&q=" "+" "" $*
-}
-### }}}
-
 function cliime() {
   if [ $# = 0 ]; then
     echo "usage: cliime RO-MAJI"
@@ -393,32 +348,6 @@ function tsshrb() {
 function ntssh() {
   BUNDLE_GEMFILE=~/build/tmux-cssh-rb/Gemfile bundle exec -- ruby ~/build/tmux-cssh-rb/bin/tssh -l y_uuki -c ~/.tsshrc_vlo $@
 }
-
-# function saba2() {
-#   (cd ~/code/hatena/mackerel2-client-rb 2>&1 >/dev/null && bundle exec -- ruby ~/code/hatena/mackerel2-client-rb/bin/mackerel2-cli $@)
-# }
-#
-# function service() {
-#   if [[ $1 == '' ]]; then
-#     echo "requried service name"
-#     exit 1
-#   fi
-#
-#   saba2 services/$1 | jq '.[].hosts[].fqdn'
-# }
-#
-# function roles() {
-#   if [[ $1 == '' ]]; then
-#     echo "requried service name"
-#     exit 1
-#   fi
-#   if [[ $2 == '' ]]; then
-#     echo "requried role name"
-#     exit 1
-#   fi
-#
-#   saba2 "services/$1/roles/$2/hosts" | jq ".[].hosts[].fqdn"
-# }
 
 function exists { which $1 &> /dev/null }
 
@@ -462,7 +391,7 @@ zle -N percol-git-recent-all-branches
 function percol-ghq () {
     local selected_dir=`(cdr -l | awk '{ print $2 }'; ghq list --full-path) | peco`
     if [ -n "$selected_dir" ]; then
-        BUFFER="cd ${selected_dir}"
+        local BUFFER="cd ${selected_dir}"
         zle accept-line
     fi
     zle clear-screen
@@ -498,6 +427,8 @@ function docker-bash() {
 function dinit() {
     $(boot2docker shellinit)
 }
+
+### }}}
 
 # End profiling
 # if (which zprof > /dev/null) ;then

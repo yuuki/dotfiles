@@ -145,12 +145,11 @@ export DOCKER_CERT_PATH=$HOME/.boot2docker/certs/boot2docker-vm
 export DOCKER_TLS_VERIFY=1
 
 # Java
-export JAVA_HOME=`/usr/libexec/java_home`
+# export JAVA_HOME=`/usr/libexec/java_home`
 export PATH="$HOME/.jenv/bin:$PATH"
 
 # Postgres
 source $HOME/.pgvm/pgvm_env
-
 
 source $HOME/.zshenv.local
 
