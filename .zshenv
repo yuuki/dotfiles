@@ -143,6 +143,9 @@ export DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:/usr/local/mysql/lib
 # export BOOT2DOCKER_IP=`boot2docker ip 2>/dev/null`
 export DOCKER_CERT_PATH=$HOME/.boot2docker/certs/boot2docker-vm
 export DOCKER_TLS_VERIFY=1
+if [ "`boot2docker status`" = "running" ]; then
+  $(boot2docker shellinit 2>/dev/null)
+fi
 
 # Java
 # export JAVA_HOME=`/usr/libexec/java_home`
