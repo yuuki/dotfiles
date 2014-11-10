@@ -575,6 +575,7 @@ NeoBundle 'glidenote/serverspec-snippets'
 NeoBundle 'majutsushi/tagbar'
 NeoBundle 'sorah/unite-ghq'
 NeoBundle 'cohama/agit.vim'
+NeoBundle 'chase/vim-ansible-yaml'
 
 " if_lua プラグイン
 let s:meet_neocomplete_requirements = has('lua') && (v:version > 703 || (v:version == 703 && has('patch885')))
