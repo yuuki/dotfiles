@@ -389,7 +389,7 @@ function percol-git-recent-all-branches () {
 zle -N percol-git-recent-all-branches
 
 function percol-ghq () {
-    local selected_dir=`(cdr -l | awk '{ print $2 }'; ghq list --full-path) | peco`
+    local selected_dir=$((cdr -l | awk '{ print $2 }'; ghq list --full-path) | peco)
     if [ -n "$selected_dir" ]; then
         local BUFFER="cd ${selected_dir}"
         zle accept-line
