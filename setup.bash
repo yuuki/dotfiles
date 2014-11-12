@@ -9,7 +9,7 @@ git submodule sync
 echo "git submodule update --init"
 git submodule update --init
 
-DOT_FILES=( .zshrc .zshenv .zprofile .zsh .ctags .emacs.el .gdbinit .gemrc .gitconfig .gitignore .inputrc .irbrc .pryrc .perldb .proverc .screenrc .vim .vimrc .vimrc.local .gvimrc .tmux.conf .dir_colors .rdebugrc .bash_completion .re.pl .ctags .gdbinit )
+DOT_FILES=( .zshrc .zshenv .zprofile .zsh .ctags .emacs.el .gdbinit .gemrc .gitconfig .gitignore .inputrc .irbrc .pryrc .perldb .proverc .screenrc .vim .vimrc .vimrc.local .gvimrc .tmux.conf .dir_colors .rdebugrc .bash_completion .re.pl .ctags .gdbinit .tigrc )
 
 for file in ${DOT_FILES[@]}
 do
