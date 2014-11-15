@@ -383,8 +383,7 @@ augroup FileTypeDetect
   autocmd BufNewFile,BufRead *.tex,*.latex,*.sty,*.dtx,*.ltx,*.bbl setf tex
   autocmd BufNewFile,BufRead *.tt,*.tt2 setf tt2html
   autocmd BufNewFile,BufRead *.html setf tt2html
-  autocmd BufNewFile,BufRead *.mkd setf markdown
-  autocmd BufNewFile,BufRead *.md  setf markdown
+  autocmd BufNewFile,BufRead *.{md,mdwn,mkd,mkdn,mark*} setf markdown
   autocmd BufNewFile,BufRead *.less setf less
   autocmd BufNewFile,BufRead *.coffee setf coffee
   autocmd BufNewFile,BufRead *.erb set filetype=eruby.html
@@ -566,6 +565,9 @@ NeoBundle 'majutsushi/tagbar'
 NeoBundle 'sorah/unite-ghq'
 NeoBundle 'cohama/agit.vim'
 NeoBundle 'chase/vim-ansible-yaml'
+NeoBundle 'godlygeek/tabular'
+NeoBundle 'joker1007/vim-markdown-quote-syntax'
+NeoBundle 'rcmdnk/vim-markdown'
 
 " if_lua プラグイン
 let s:meet_neocomplete_requirements = has('lua') && (v:version > 703 || (v:version == 703 && has('patch885')))
@@ -626,9 +628,6 @@ NeoBundleLazy 'osyo-manga/neocomplcache-clang_complete', {
             \ }
 NeoBundleLazy 'kchmck/vim-coffee-script', {
             \ 'autoload' : {'filetypes' : 'coffee'}
-            \ }
-NeoBundleLazy 'plasticboy/vim-markdown', {
-            \ 'autoload' : {'filetypes' : 'markdown'}
             \ }
 NeoBundleLazy 'groenewege/vim-less', {
             \ 'autoload' : {'filetypes' : 'less'}
@@ -1289,6 +1288,7 @@ let g:clever_f_use_migemo = 1
 
 "" vim-go {{{
 autocmd FileType go nmap <Leader>g :GoFmt<CR>
+autocmd FileType go nmap <Leader>p :GoImport<CR>
 autocmd FileType go nmap <Leader>s <Plug>(go-implements)
 autocmd FileType go nmap <Leader>i <Plug>(go-info)
 autocmd FileType go nmap <Leader>gd <Plug>(go-doc)
@@ -1336,7 +1336,6 @@ function! s:memolist()
 
     MemoList
 endfunction
-"}}}
 
 let g:memolist_path = "~/Dropbox/memo"
 let g:memolist_unite        = 1
@@ -1349,6 +1348,10 @@ nnoremap <Leader>mg  :MemoGrep<CR>
 
 "" tagbar {{{
 nnoremap <silent>+ :TagbarToggle<CR>
+"" }}}
+
+"" vim-markdown {{{
+let g:vim_markdown_folding_disabled=1
 "" }}}
 
 if filereadable(expand('~/.vimrc.local'))
