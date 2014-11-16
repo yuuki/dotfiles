@@ -170,11 +170,16 @@ PROMPT="${PROMPT}${GIT_PROMPT} %{$reset_color%}"
 ### }}}
 
 ### Aliases {{{
-alias d='docker'
 alias q='exit'
 alias h='proxychains4 -q -f ~/.proxychains/htn.conf'
 alias n='proxychains4 -q -f ~/.proxychains/vlo.conf'
 alias t='tsocks'
+
+## Docker
+alias d='docker'
+alias dr='docker run'
+alias drr='docker run --rm'
+alias db='docker build -t'
 
 ## Git
 alias g='git'
@@ -204,7 +209,6 @@ alias chef-zero="docker run -d -p 8889:8889 paulczar/chef-zero '/usr/local/bin/c
 alias dntpsync="boot2docker ssh sudo ntpclient -s -h pool.ntp.org"
 alias r="roles"
 alias matrix="docker run -it --rm nathanleclaire/matrix_japan cmatrix -"
-
 ## memo
 alias memo='cat > /dev/null'
 alias memolist='vim +MemoList'
@@ -219,7 +223,7 @@ if [[ -x /usr/local/bin/src-hilite-lesspipe.sh ]]; then
   export LESSOPEN='| /usr/local/bin/src-hilite-lesspipe.sh %s'
 fi
 
-## vim
+## Vim
 alias v='vim'
 alias vrc='vim ~/.vimrc'
 if [ -f '/Applications/MacVim.app/Contents/MacOS/Vim' ]; then
