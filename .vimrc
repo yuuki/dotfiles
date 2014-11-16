@@ -492,182 +492,216 @@ endif
 """ }}}
 
 """ Plugins {{{
-filetype off
-filetype plugin indent off
+" neobundle.vim が無ければインストールする
+if ! isdirectory(expand('~/.vim/bundle'))
+    echon "Installing neobundle.vim..."
+    silent call mkdir(expand('~/.vim/bundle'), 'p')
+    silent !git clone https://github.com/Shougo/neobundle.vim $HOME/.vim/bundle/neobundle.vim
+    echo "done."
+    if v:shell_error
+        echoerr "neobundle.vim installation has failed!"
+        finish
+    endif
+endif
 
 if has('vim_starting')
-  set rtp+=~/.vim/bundle/neobundle.vim/
-  call neobundle#rc()
+    set rtp+=~/.vim/bundle/neobundle.vim/
 endif
 
-""" {{{ NeoBundle
-NeoBundle 'Shougo/unite.vim'
-NeoBundle 'Shougo/vimproc', {
-            \ 'build' : {
-            \       'mac'     : 'make -f make_mac.mak',
-            \       'unix'    : 'make -f make_unix.mak',
-            \   }
-            \ }
-NeoBundle 'Shougo/vimfiler'
-NeoBundle 'Shougo/vinarise'
-NeoBundle 'Shougo/echodoc'
-NeoBundle 'Shougo/neosnippet'
-NeoBundle 'Shougo/neosnippet-snippets'
-NeoBundle 'Shougo/neomru.vim'
-" NeoBundle 'Shougo/unite-ssh'
-NeoBundle 'thinca/vim-quickrun'
-" NeoBundle 'thinca/vim-singleton'
-NeoBundle 'osyo-manga/unite-fold'
-NeoBundle 'osyo-manga/unite-quickfix'
-NeoBundle 'h1mesuke/unite-outline'
-NeoBundle 'tsukkee/unite-tag'
-NeoBundle 'jceb/vim-hier'
-NeoBundle 'thinca/vim-guicolorscheme'
-NeoBundle 'Lokaltog/vim-powerline'
-NeoBundle 'tomtom/tcomment_vim'
-NeoBundle 'vim-scripts/gtags.vim'
-NeoBundle 'hewes/unite-gtags'
-" NeoBundle 'tpope/vim-bundler'
-" NeoBundle 'tpope/vim-rake'
-" NeoBundle 'tpope/vim-abolish'
-NeoBundle 'tpope/vim-fugitive'
-NeoBundle 'kana/vim-operator-user'
-NeoBundle 'kana/vim-operator-replace'
-NeoBundle 'rhysd/vim-operator-surround'
-NeoBundle "kana/vim-textobj-user"
-NeoBundle 'osyo-manga/vim-textobj-multiblock'
-NeoBundle 'osyo-manga/vim-operator-search'
-NeoBundle 'tpope/vim-repeat' " for vim-operator-surround
-" NeoBundle 'kana/vim-textobj-function' " for vim-operator-search
-" NeoBundle 'thinca/vim-textobj-function-perl' " なぜかlazyloadできない
-" NeoBundle 't9md/vim-textobj-function-ruby'
-NeoBundle 'rhysd/quickrun-unite-quickfix-outputter'
-NeoBundle 'osyo-manga/shabadou.vim'
-NeoBundle 'osyo-manga/vim-watchdogs'
-NeoBundle 'rhysd/wallaby.vim'
-NeoBundle 'rhysd/unite-zsh-cdr.vim'
-NeoBundle 'y-uuki/perl-local-lib-path.vim'
-NeoBundle 'derekwyatt/vim-scala'
-NeoBundle 'airblade/vim-rooter'
-" NeoBundle 'osyo-manga/unite-qfixhowm'
-" NeoBundle 'rhysd/tmpwin.vim'
-NeoBundle 'osyo-manga/vim-over'
-NeoBundle 'mhinz/vim-signify'
-NeoBundle 'rhysd/conflict-marker.vim'
-NeoBundle 'rhysd/clever-f.vim'
-" NeoBundle 'rhysd/accelerated-jk'
-NeoBundle 'fatih/vim-go'
-NeoBundle 'moznion/github-commit-comment.vim'
-NeoBundle 'honza/dockerfile.vim'
-NeoBundle 'glidenote/memolist.vim'
-NeoBundle 'glidenote/serverspec-snippets'
-NeoBundle 'majutsushi/tagbar'
-NeoBundle 'sorah/unite-ghq'
-NeoBundle 'cohama/agit.vim'
-NeoBundle 'chase/vim-ansible-yaml'
-NeoBundle 'godlygeek/tabular'
-NeoBundle 'joker1007/vim-markdown-quote-syntax'
-NeoBundle 'rcmdnk/vim-markdown'
-
-" if_lua プラグイン
 let s:meet_neocomplete_requirements = has('lua') && (v:version > 703 || (v:version == 703 && has('patch885')))
-if s:meet_neocomplete_requirements
-    NeoBundle 'Shougo/neocomplete.vim'
+
+call neobundle#begin(expand('~/.vim/bundle'))
+
+function! s:cache_bundles()
+
+    NeoBundle 'Shougo/unite.vim'
+    NeoBundle 'Shougo/vimproc', {
+                \ 'build' : {
+                \       'mac'     : 'make -f make_mac.mak',
+                \       'unix'    : 'make -f make_unix.mak',
+                \   }
+                \ }
+    NeoBundle 'Shougo/vimfiler'
+    NeoBundle 'Shougo/vinarise'
+    NeoBundle 'Shougo/echodoc'
+    NeoBundle 'Shougo/neosnippet'
+    NeoBundle 'Shougo/neosnippet-snippets'
+    NeoBundle 'Shougo/neomru.vim'
+    " NeoBundle 'Shougo/unite-ssh'
+    NeoBundle 'thinca/vim-quickrun'
+    " NeoBundle 'thinca/vim-singleton'
+    NeoBundle 'osyo-manga/unite-fold'
+    NeoBundle 'osyo-manga/unite-quickfix'
+    NeoBundle 'h1mesuke/unite-outline'
+    NeoBundle 'tsukkee/unite-tag'
+    NeoBundle 'jceb/vim-hier'
+    NeoBundle 'thinca/vim-guicolorscheme'
+    NeoBundle 'Lokaltog/vim-powerline'
+    NeoBundle 'tomtom/tcomment_vim'
+    NeoBundle 'vim-scripts/gtags.vim'
+    NeoBundle 'hewes/unite-gtags'
+    " NeoBundle 'tpope/vim-bundler'
+    " NeoBundle 'tpope/vim-rake'
+    " NeoBundle 'tpope/vim-abolish'
+    NeoBundle 'tpope/vim-fugitive'
+    NeoBundle 'kana/vim-operator-user'
+    NeoBundle 'kana/vim-operator-replace'
+    NeoBundle 'rhysd/vim-operator-surround'
+    NeoBundle "kana/vim-textobj-user"
+    NeoBundle 'osyo-manga/vim-textobj-multiblock'
+    NeoBundle 'osyo-manga/vim-operator-search'
+    NeoBundle 'tpope/vim-repeat' " for vim-operator-surround
+    " NeoBundle 'kana/vim-textobj-function' " for vim-operator-search
+    " NeoBundle 'thinca/vim-textobj-function-perl' " なぜかlazyloadできない
+    " NeoBundle 't9md/vim-textobj-function-ruby'
+    NeoBundle 'rhysd/quickrun-unite-quickfix-outputter'
+    NeoBundle 'osyo-manga/shabadou.vim'
+    NeoBundle 'osyo-manga/vim-watchdogs'
+    NeoBundle 'rhysd/wallaby.vim'
+    NeoBundle 'rhysd/unite-zsh-cdr.vim'
+    NeoBundle 'y-uuki/perl-local-lib-path.vim'
+    NeoBundle 'derekwyatt/vim-scala'
+    NeoBundle 'airblade/vim-rooter'
+    " NeoBundle 'osyo-manga/unite-qfixhowm'
+    " NeoBundle 'rhysd/tmpwin.vim'
+    NeoBundle 'osyo-manga/vim-over'
+    NeoBundle 'mhinz/vim-signify'
+    NeoBundle 'rhysd/conflict-marker.vim'
+    NeoBundle 'rhysd/clever-f.vim'
+    " NeoBundle 'rhysd/accelerated-jk'
+    NeoBundle 'fatih/vim-go'
+    NeoBundle 'moznion/github-commit-comment.vim'
+    NeoBundle 'honza/dockerfile.vim'
+    NeoBundle 'glidenote/memolist.vim'
+    NeoBundle 'glidenote/serverspec-snippets'
+    NeoBundle 'majutsushi/tagbar'
+    NeoBundle 'sorah/unite-ghq'
+    NeoBundle 'cohama/agit.vim'
+    NeoBundle 'chase/vim-ansible-yaml'
+    NeoBundle 'godlygeek/tabular'
+    NeoBundle 'joker1007/vim-markdown-quote-syntax'
+    NeoBundle 'rcmdnk/vim-markdown'
+
+    if s:meet_neocomplete_requirements
+        NeoBundle 'Shougo/neocomplete.vim'
+    else
+        NeoBundle 'Shougo/neocomplcache.vim'
+    endif
+
+    " colorscheme
+    NeoBundle 'ujihisa/unite-colorscheme'
+    NeoBundle 'tomasr/molokai'
+    NeoBundle 'altercation/vim-colors-solarized'
+    NeoBundle 'telamon/vim-color-github'
+    NeoBundle 'earendel'
+    NeoBundle 'rdark'
+    NeoBundle 'guicolorscheme.vim'
+    NeoBundle 'rhysd/wallaby.vim'
+
+    NeoBundleLazy 'Shougo/vimshell', {
+                \ 'autoload' : {
+                \     'commands' : ['VimShell', 'VimShellSendString', 'VimShellCurrentDir'],
+                \     }
+                \ }
+    NeoBundleLazy 'y-uuki/unite-perl-module.vim', {
+                \ 'depends' : [ 'Shougo/unite.vim' ],
+                \ 'autoload' : {'filetypes' : 'perl'}
+                \ }
+    NeoBundleLazy 'benizi/perl-support.vim', {
+                \ 'autoload' : {'filetypes' : 'perl'}
+                \ }
+    NeoBundleLazy 'vim-perl/vim-perl', {
+                \ 'autoload' : {'filetypes' : 'perl'}
+                \ }
+    NeoBundleLazy 'moznion/vim-cpanfile', {
+                \ 'autoload' : {'filetypes' : 'perl'}
+                \ }
+    NeoBundleLazy 'mattn/perlvalidate-vim.git', {
+                \ 'autoload' : {'filetypes' : 'perl'}
+                \ }
+    NeoBundleLazy 'vim-ruby/vim-ruby', {
+                \ 'autoload' : {'filetypes' : 'ruby'}
+                \ }
+    NeoBundleLazy 'rhysd/unite-ruby-require.vim', {
+                \ 'depends' : [ 'Shougo/unite.vim' ],
+                \ 'autoload' : {'filetypes' : 'ruby'}
+                \ }
+    NeoBundleLazy 'motemen/xslate-vim', {
+                \ 'autoload' : {'filetypes' : 'xslate'}
+                \ }
+    NeoBundleLazy 'vim-jp/cpp-vim', {
+                \ 'autoload' : {'filetypes' : 'cpp'}
+                \ }
+    NeoBundleLazy 'osyo-manga/neocomplcache-clang_complete', {
+                \ 'autoload' : {'filetypes' : 'cpp'}
+                \ }
+    NeoBundleLazy 'kchmck/vim-coffee-script', {
+                \ 'autoload' : {'filetypes' : 'coffee'}
+                \ }
+    NeoBundleLazy 'groenewege/vim-less', {
+                \ 'autoload' : {'filetypes' : 'less'}
+                \ }
+    NeoBundleLazy 'tpope/vim-haml.git', {
+                \ 'autoload' : {'filetypes' : 'haml'}
+                \ }
+    NeoBundleLazy 'zaiste/tmux.vim', {
+                \ 'autoload' : {'filetypes' : 'tmux'}
+                \ }
+    NeoBundleLazy 'micheljansen/vim-latex', {
+                \ 'autoload' : {'filetypes' : 'latex'}
+                \ }
+    NeoBundleLazy 'derekwyatt/vim-scala', {
+                \ 'autoload' : {'filetypes' : 'scala'}
+                \ }
+    NeoBundleLazy 'kana/vim-operator-replace', {
+                \ 'autoload' : {
+                \     'mappings' : '<Plug>(operator-replace)'
+                \     }
+                \ }
+    NeoBundleLazy 'roalddevries/yaml.vim', {
+                \ 'autoload' : {'filetypes' : 'yaml'}
+                \ }
+    NeoBundleLazy 'sudo.vim'
+
+    NeoBundleCheck
+    NeoBundleSaveCache
+endfunction
+
+if neobundle#has_cache()
+    NeoBundleLoadCache
 else
-    NeoBundle 'Shougo/neocomplcache.vim'
+    call s:cache_bundles()
 endif
-"" }}}
 
-"" GUI colorscheme {{{
-NeoBundleLazy 'ujihisa/unite-colorscheme'
-NeoBundleLazy 'tomasr/molokai'
-NeoBundleLazy 'altercation/vim-colors-solarized'
-NeoBundleLazy 'telamon/vim-color-github'
-NeoBundleLazy 'earendel'
-NeoBundleLazy 'rdark'
-NeoBundleLazy 'guicolorscheme.vim'
-"" }}}
+call neobundle#end()
+filetype plugin indent on     " required!
 
-"" NeoBundleLazy {{{
-NeoBundleLazy 'Shougo/vimshell', {
-            \ 'autoload' : {
-            \     'commands' : ['VimShell', 'VimShellSendString', 'VimShellCurrentDir'],
-            \     }
-            \ }
-NeoBundleLazy 'y-uuki/unite-perl-module.vim', {
-            \ 'depends' : [ 'Shougo/unite.vim' ],
-            \ 'autoload' : {'filetypes' : 'perl'}
-            \ }
-NeoBundleLazy 'benizi/perl-support.vim', {
-            \ 'autoload' : {'filetypes' : 'perl'}
-            \ }
-NeoBundleLazy 'vim-perl/vim-perl', {
-            \ 'autoload' : {'filetypes' : 'perl'}
-            \ }
-NeoBundleLazy 'moznion/vim-cpanfile', {
-            \ 'autoload' : {'filetypes' : 'perl'}
-            \ }
-NeoBundleLazy 'mattn/perlvalidate-vim.git', {
-            \ 'autoload' : {'filetypes' : 'perl'}
-            \ }
-NeoBundleLazy 'vim-ruby/vim-ruby', {
-            \ 'autoload' : {'filetypes' : 'ruby'}
-            \ }
-NeoBundleLazy 'rhysd/unite-ruby-require.vim', {
-            \ 'depends' : [ 'Shougo/unite.vim' ],
-            \ 'autoload' : {'filetypes' : 'ruby'}
-            \ }
-NeoBundleLazy 'motemen/xslate-vim', {
-            \ 'autoload' : {'filetypes' : 'xslate'}
-            \ }
-NeoBundleLazy 'vim-jp/cpp-vim', {
-            \ 'autoload' : {'filetypes' : 'cpp'}
-            \ }
-NeoBundleLazy 'osyo-manga/neocomplcache-clang_complete', {
-            \ 'autoload' : {'filetypes' : 'cpp'}
-            \ }
-NeoBundleLazy 'kchmck/vim-coffee-script', {
-            \ 'autoload' : {'filetypes' : 'coffee'}
-            \ }
-NeoBundleLazy 'groenewege/vim-less', {
-            \ 'autoload' : {'filetypes' : 'less'}
-            \ }
-NeoBundleLazy 'tpope/vim-haml.git', {
-            \ 'autoload' : {'filetypes' : 'haml'}
-            \ }
-NeoBundleLazy 'zaiste/tmux.vim', {
-            \ 'autoload' : {'filetypes' : 'tmux'}
-            \ }
-NeoBundleLazy 'micheljansen/vim-latex', {
-            \ 'autoload' : {'filetypes' : 'latex'}
-            \ }
-NeoBundleLazy 'derekwyatt/vim-scala', {
-            \ 'autoload' : {'filetypes' : 'scala'}
-            \ }
-NeoBundleLazy 'kana/vim-operator-replace', {
-            \ 'autoload' : {
-            \     'mappings' : '<Plug>(operator-replace)'
-            \     }
-            \ }
-NeoBundleLazy 'roalddevries/yaml.vim', {
-            \ 'autoload' : {'filetypes' : 'yaml'}
-            \ }
-"" }}}
+autocmd MyAutocmd BufWritePost *vimrc,*gvimrc NeoBundleClearCache
 
-" 書き込み権限の無いファイルを編集しようとした時
-NeoBundleLazy 'sudo.vim'
 " ReadOnly のファイルを編集しようとしたときに sudo.vim を遅延読み込み
 autocmd MyAutocmd FileChangedRO * NeoBundleSource sudo.vim
 autocmd MyAutocmd FileChangedRO * execute "command! W SudoWrite" expand('%')
-"" }}}
+""" }}}
 
-filetype plugin indent on
 
-"" wallaby {{{
+" カラースキーム {{{
+" シンタックスハイライト
+syntax enable
 if !has('gui_running')
-    colorscheme wallaby
+    if &t_Co < 256
+        colorscheme default
+    else
+        try
+            colorscheme wallaby
+        catch
+            colorscheme desert
+        endtry
+    endif
 endif
-"" }}}
+
+" seoul256 バックグラウンドカラーの明るさ
+let g:seoul256_background = 233
+" }}}
 
 "" neocomplcache {{{
 
@@ -1288,7 +1322,7 @@ let g:clever_f_use_migemo = 1
 
 "" vim-go {{{
 autocmd FileType go nmap <Leader>g :GoFmt<CR>
-autocmd FileType go nmap <Leader>p :GoImport<CR>
+autocmd FileType go nmap <Leader>p :GoImports<CR>
 autocmd FileType go nmap <Leader>s <Plug>(go-implements)
 autocmd FileType go nmap <Leader>i <Plug>(go-info)
 autocmd FileType go nmap <Leader>gd <Plug>(go-doc)
