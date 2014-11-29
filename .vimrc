@@ -133,16 +133,16 @@ augroup END
 " vimrcのリロード
 command! ReloadVimrc source $MYVIMRC
 
-" 保存時に行末のスペースを削除
-augroup rtrim
-  function! RTrim()
-    let s:cursor = getpos(".")
-    %s/\s\+$//e
-    call setpos(".", s:cursor)
-  endfunction
-  autocmd BufWritePre * call RTrim()
-augroup END
-
+" " 保存時に行末のスペースを削除
+" augroup rtrim
+"   function! RTrim()
+"     let s:cursor = getpos(".")
+"     %s/\s\+$//e
+"     call setpos(".", s:cursor)
+"   endfunction
+"   autocmd BufWritePre * call RTrim()
+" augroup END
+"
 " カーソル位置の復元
 autocmd MyAutocmd BufReadPost *
   \ if line("'\"") > 1 && line("'\"") <= line("$") |
@@ -178,43 +178,24 @@ function! s:git_root_dir()
   endif
 endfunction
 
-" 補完色を変更
-highlight Pmenu ctermbg=8
-highlight PmenuSel ctermbg=1
-highlight PmenuSbar ctermbg=0
-
 " 行末のスペースをハイライト
-highlight WhitespaceEOL ctermbg=red guibg=red
-match WhitespaceEOL /\s\+$/
-autocmd MyAutocmd WinEnter * match WhitespaceEOL /\s\+$/
+" highlight WhitespaceEOL ctermbg=red guibg=red
+" match WhitespaceEOL /\s\+$/
+" autocmd MyAutocmd WinEnter * match WhitespaceEOL /\s\+$/
 
 " 挿入モードとノーマルモードでステータスラインの色変更
 autocmd MyAutocmd InsertEnter * hi StatusLine guifg=DarkBlue guibg=DarkYellow gui=none ctermfg=Blue ctermfg=Yellow cterm=none
 autocmd MyAutocmd InsertLeave * hi StatusLine guifg=DarkBlue guibg=DarkGray   gui=none ctermfg=Blue ctermbg=DarkGray cterm=none
-
-" Vim 力を測る Scouter （thinca さん改良版）
-" http://d.hatena.ne.jp/thinca/20091031/1257001194
-function! Scouter(file, ...)
-  let pat = '^\s*$\|^\s*"'
-  let lines = readfile(a:file)
-  if !a:0 || !a:1
-    let lines = split(substitute(join(lines, "\n"), '\n\s*\\', '', 'g'), "\n")
-  endif
-  return len(filter(lines,'v:val !~ pat'))
-endfunction
-command! -bar -bang -nargs=? -complete=file Scouter
-      \        echo Scouter(empty(<q-args>) ? $MYVIMRC : expand(<q-args>), <bang>0)
 """ }}}
 
 """ Keymap {{{
 " :w1 と打ってしまうくせ防止
 cabbrev q1 q!
 cabbrev w1 w!
+cabbrev wq1 wq!
 " insertモードから抜ける
 inoremap <silent> jj <ESC>
 inoremap <silent> <C-j> j
-" inoremap <silent> kk <ESC>
-" inoremap <silent> <C-k> k
 
 " ; と : をスワップ
 inoremap : ;
@@ -241,8 +222,6 @@ nnoremap <silent>- :<C-u>call <SID>smart_move('g$')<CR>
 vnoremap <silent>- :<C-u>call <SID>smart_move('g$')<CR>
 " Visualモード時にvで行末まで選択する
 vnoremap v $h
-" 選択範囲置換補助
-vnoremap <C-r> ::s/\%V
 
 " 表示行単位で行移動する
 nmap j gj
@@ -284,13 +263,6 @@ inoremap <>5 <%  %><Left><Left><Left>
 nnoremap ; :<C-u>call append(expand('.'), '')<CR>
 "ヘルプ表示
 nnoremap <Leader>h :<C-u>vert to help<Space>
-
-"<BS>の挙動 いきおいあまっていろいろ消してしまう
-" nnoremap <BS> bdw
-
-" 縦方向移動支援
-" nnoremap J 3j
-" nnoremap K 3k"
 
 " CTRL-hjklでウィンドウ移動
 nnoremap <C-j> <C-w>j
@@ -425,17 +397,11 @@ augroup IndentGroup
   autocmd FileType yaml       setlocal sw=2 sts=2 ts=2 et
   autocmd FileType zsh        setlocal sw=2 sts=2 ts=2 et
 
-  let $BOOST_ROOT = "/usr/local/opt/boost/include/boost"
-  autocmd FileType cpp set path+=$BOOST_ROOT
-
   autocmd FileType perl,cgi   compiler perl
   autocmd FileType perl,cgi   nmap <buffer>,pt <ESC>:%! perltidy<CR> " ソースコード全体を整形
   autocmd FileType perl,cgi   nmap <buffer>,ptv <ESC>:%'<, '>! perltidy<CR> " 選択された部分のソースコードを整形
-
   autocmd FileType python     setlocal cinwords=if,elif,else,for,while,try,except,finally,def,class
   autocmd FileType ruby       compiler ruby
-  autocmd FileType ruby       setlocal nocompatible
-
   autocmd FileType go         setlocal noexpandtab
 augroup END
 
@@ -466,30 +432,6 @@ if $GOROOT != ''
   set rtp+=$GOROOT/misc/vim
 endif
 " }}}
-
-"" Functions for Template Toolkit 2 syntax {{{
-" http://d.hatena.ne.jp/dayflower/20090626/1245983732
-" function! s:FTtt2()
-"   let save_cursor = getpos('.')
-"   call cursor(1, 1)
-"   if search('\<\c\%(html\|head\|body\|div\)', 'cn') > 0
-"     setf tt2html
-"   else
-"     setf tt2
-"   endif
-"   call setpos('.', save_cursor)
-" endfunction
-"
-" function! s:FTtt2html()
-"   let save_cursor = getpos('.')
-"   call cursor(1, 1)
-"   if search('\[%', 'cn') > 0
-"     setlocal filetype=tt2html
-"   endif
-"   call setpos('.', save_cursor)
-" endfunction
-"" }}}
-
 """ }}}
 
 """ Plugins {{{
@@ -528,9 +470,7 @@ function! s:cache_bundles()
     NeoBundle 'Shougo/neosnippet'
     NeoBundle 'Shougo/neosnippet-snippets'
     NeoBundle 'Shougo/neomru.vim'
-    " NeoBundle 'Shougo/unite-ssh'
     NeoBundle 'thinca/vim-quickrun'
-    " NeoBundle 'thinca/vim-singleton'
     NeoBundle 'osyo-manga/unite-fold'
     NeoBundle 'osyo-manga/unite-quickfix'
     NeoBundle 'h1mesuke/unite-outline'
@@ -539,11 +479,7 @@ function! s:cache_bundles()
     NeoBundle 'thinca/vim-guicolorscheme'
     NeoBundle 'Lokaltog/vim-powerline'
     NeoBundle 'tomtom/tcomment_vim'
-    NeoBundle 'vim-scripts/gtags.vim'
     NeoBundle 'hewes/unite-gtags'
-    " NeoBundle 'tpope/vim-bundler'
-    " NeoBundle 'tpope/vim-rake'
-    " NeoBundle 'tpope/vim-abolish'
     NeoBundle 'tpope/vim-fugitive'
     NeoBundle 'kana/vim-operator-user'
     NeoBundle 'kana/vim-operator-replace'
@@ -551,25 +487,16 @@ function! s:cache_bundles()
     NeoBundle "kana/vim-textobj-user"
     NeoBundle 'osyo-manga/vim-textobj-multiblock'
     NeoBundle 'osyo-manga/vim-operator-search'
-    NeoBundle 'tpope/vim-repeat' " for vim-operator-surround
-    " NeoBundle 'kana/vim-textobj-function' " for vim-operator-search
-    " NeoBundle 'thinca/vim-textobj-function-perl' " なぜかlazyloadできない
-    " NeoBundle 't9md/vim-textobj-function-ruby'
     NeoBundle 'rhysd/quickrun-unite-quickfix-outputter'
     NeoBundle 'osyo-manga/shabadou.vim'
     NeoBundle 'osyo-manga/vim-watchdogs'
-    NeoBundle 'rhysd/wallaby.vim'
     NeoBundle 'rhysd/unite-zsh-cdr.vim'
     NeoBundle 'y-uuki/perl-local-lib-path.vim'
-    NeoBundle 'derekwyatt/vim-scala'
     NeoBundle 'airblade/vim-rooter'
-    " NeoBundle 'osyo-manga/unite-qfixhowm'
-    " NeoBundle 'rhysd/tmpwin.vim'
     NeoBundle 'osyo-manga/vim-over'
     NeoBundle 'mhinz/vim-signify'
     NeoBundle 'rhysd/conflict-marker.vim'
     NeoBundle 'rhysd/clever-f.vim'
-    " NeoBundle 'rhysd/accelerated-jk'
     NeoBundle 'fatih/vim-go'
     NeoBundle 'moznion/github-commit-comment.vim'
     NeoBundle 'honza/dockerfile.vim'
@@ -629,12 +556,6 @@ function! s:cache_bundles()
                 \ }
     NeoBundleLazy 'motemen/xslate-vim', {
                 \ 'autoload' : {'filetypes' : 'xslate'}
-                \ }
-    NeoBundleLazy 'vim-jp/cpp-vim', {
-                \ 'autoload' : {'filetypes' : 'cpp'}
-                \ }
-    NeoBundleLazy 'osyo-manga/neocomplcache-clang_complete', {
-                \ 'autoload' : {'filetypes' : 'cpp'}
                 \ }
     NeoBundleLazy 'kchmck/vim-coffee-script', {
                 \ 'autoload' : {'filetypes' : 'coffee'}
@@ -1006,9 +927,6 @@ nnoremap <silent> [unite]gcc :<C-u>Unite gtags/completion<CR>
 "" unite-qfixhowm
 " nnoremap <silent> [unite]mm :<C-u>Unite qfixhowm/new qfixhowm -hide-source-names<CR>
 
-" C++ インクルードファイル
-autocmd MyAutocmd FileType cpp nnoremap <buffer>[unite]i :<C-u>Unite file_include -vertical<CR>
-
 augroup UniteMapping
   autocmd!
   " insertモード時はC-gでいつでもバッファを閉じられる（絞り込み欄が空の時はC-hでもOK）
@@ -1072,19 +990,19 @@ function VimFilerTree()
     wincmd t
     setl winfixwidth
 endfunction
-let my_action = {'is_selectable' : 1}
-function! my_action.func(candidates)
+let g:vim_filer_tree_my_action = {'is_selectable' : 1}
+function! g:vim_filer_tree_my_action.func(candidates)
     wincmd p
     exec 'split '. a:candidates[0].action__path
 endfunction
-call unite#custom_action('file', 'my_split', my_action)
+call unite#custom_action('file', 'my_split', g:vim_filer_tree_my_action)
 
-let my_action = {'is_selectable' : 1}
-function! my_action.func(candidates)
+let g:vim_filer_tree_my_action = {'is_selectable' : 1}
+function! g:vim_filer_tree_my_action.func(candidates)
     wincmd p
     exec 'vsplit '. a:candidates[0].action__path
 endfunction
-call unite#custom_action('file', 'my_vsplit', my_action)
+call unite#custom_action('file', 'my_vsplit', g:vim_filer_tree_my_action)
 """ }}}
 
 nnoremap <Leader>f    <Nop>
@@ -1096,72 +1014,9 @@ nnoremap <Leader>fb   :<C-u>VimFilerBufferDir<CR>
 nnoremap <Leader>fB   :<C-u>VimFilerBufferDir<CR>
 nnoremap <silent><expr><Leader>fg ":\<C-u>VimFiler " . <SID>git_root_dir() . '\<CR>'
 nnoremap <silent><expr><Leader>fe ":\<C-u>VimFilerExplorer " . <SID>git_root_dir() . '\<CR>'
-" nnoremap <buffer><silent><expr><CR> vimfiler#smart_cursor_map("\<Plug>(vimfiler_expand_tree)", "\<Plug>(vimfiler_edit_file)")
-" nnoremap <buffer><silent><expr>s          :call vimfiler#mappings#do_action('my_split')<CR>
-" nnoremap <buffer><silent><expr>v          :call vimfiler#mappings#do_action('my_vsplit')<CR>
 nnoremap <silent>_ :<C-u>VimFilerTree<CR>
 "" }}}
-
-"" vimshell {{{
-let g:vimshell_user_prompt = 'getcwd()'
-let g:vimshell_disable_escape_highlight = 1
-"" }}}
-
-"" vim-unite-vcs {{{
-" nnoremap  [vcs] <Nop>
-" nmap      fv    [vcs]
-"
-" nnoremap [vcs]l  :<C-u>Unite vcs/log<CR>
-" nnoremap [vcs]s  :<C-u>Unite vcs/status<CR>
-" nnoremap [vcs]r  :<C-u>Unite vcs/file_rec<CR>
-"" }}}
-
-"" unite-tag {{{
-" http://d.hatena.ne.jp/osyo-manga/20120205/1328368314
-" neocomplcache が作成した tag ファイルのパスを tags に追加する
-function! s:TagsUpdate()
-    " include している tag ファイルが毎回同じとは限らないので毎回初期化
-    setlocal tags=
-    for filename in neocomplcache#sources#include_complete#get_include_files(bufnr('%'))
-        execute "setlocal tags+=".neocomplcache#cache#encode_name('tags_output', filename)
-    endfor
-    execute "setlocal tags+=".<SID>git_root_dir()."tags"
-endfunction
-
-command!
-    \ -nargs=? PopupTags
-    \ call <SID>TagsUpdate()
-    \ |Unite tag:<args>
-
-function! s:get_func_name(word)
-    let end = match(a:word, '<\|[\|(')
-    return end == -1 ? a:word : a:word[ : end-1 ]
-endfunction
-
-" カーソル下のワード(word)で絞り込み
-noremap <silent> g<C-]> :<C-u>execute "PopupTags ".expand('<cword>')<CR>
-
-" カーソル下のワード(WORD)で ( か < か [ までが現れるまでで絞り込み
-" 例)
-" boost::array<std::stirng... → boost::array で絞り込み
-noremap <silent> G<C-]> :<C-u>execute "PopupTags "
-    \.substitute(<SID>get_func_name(expand('<cWORD>')), '\:', '\\\:', "g")<CR>
 """ }}}
-
-"" singleton.vim {{{
-" call singleton#enable()
-"" }}}
-
-"" vim-fugitive {{{
-nnoremap [fugi] <Nop>
-nmap     gi    [fugi]
-
-nnoremap [fugi]st :<C-u>Gstatus<CR>
-nnoremap [fugi]bl :<C-u>Gblame<CR>
-nnoremap [fugi]gr :<C-u>Ggrep<SPACE>
-nnoremap [fugi]lo :<C-u>Glog<CR>
-nnoremap [fugi]re :<C-u>Gread<CR>
-"" }}}
 
 "" vim-quickrun & vim-watchdogs {{{
 " 書き込み後にシンタックスチェックを行う
@@ -1175,7 +1030,6 @@ if !has("g:quickrun_config")
 endif
 let g:quickrun_config = {
   \ 'perl' : { 'command' : 'perl', 'cmdopt' : "-M'Project::Libs lib_dirs => [qw(. local/lib/perl5 t/lib)]'" },
-  \ 'cpp'  : { 'command' : "g++",  'cmdopt' : '-Wall -Wextra -O2' },
   \ 'go'  : { 'command' : "go",  'exec' : '%c run %s' },
   \
   \ 'syntax/perl' : {
@@ -1189,12 +1043,6 @@ let g:quickrun_config = {
   \   'runner' : 'vimproc',
   \   'command' : 'ruby',
   \   'exec' : '%c -c %s:p %o',
-  \ },
-  \ 'syntax/cpp' : {
-  \   'runner' : 'vimproc',
-  \   'command' : 'g++',
-  \   'cmdopt' : '-Wall -Wextra -O2',
-  \   'exec' : '%c %o -fsyntax-only %s:p',
   \ },
   \ 'watchdogs_checker/perl-projectlibs' : {
   \   'command' : 'perl',
@@ -1213,7 +1061,6 @@ let g:quickrun_unite_quickfix_outputter_unite_context = { 'no_empty' : 1 }
 
 " autocmd MyAutocmd BufWritePost *.pl,*.pm,*.t         QuickRun -outputter quickfix -type syntax/perl
 " autocmd MyAutocmd BufWritePost *.rb                  QuickRun -outputter quickfix -type syntax/ruby
-" autocmd MyAutocmd BufWritePost *.cpp,*.cc,*.hpp,*.hh QuickRun -outputter quickfix -type syntax/cpp
 
 nnoremap <Leader>q  <Nop>
 nnoremap <silent><Leader>qr :<C-u>QuickRun<CR>
@@ -1222,20 +1069,11 @@ vnoremap <silent><Leader>qr :QuickRun<CR>
 vnoremap <silent><Leader>qf :QuickRun >quickfix -runner vimproc<CR>
 nnoremap <silent><Leader>qR :<C-u>QuickRun<Space>
 
-" clang で実行する
-let g:quickrun_config['cpp/clang'] = { 'command' : 'clang++', 'cmdopt' : '-stdlib=libc++ -std=c++11 -Wall -Wextra -O2' }
-autocmd MyAutocmd FileType cpp nnoremap <silent><buffer><Leader>qc :<C-u>QuickRun -type cpp/clang<CR>
-
 " call watchdogs#setup(g:quickrun_config)
 "" }}}
 
 "" vim-hier {{{
 nnoremap <silent><Esc><Esc> :<C-u>nohlsearch<CR>:HierClear<CR>
-"" }}}
-
-"" vim-ruby {{{
-" <C-Space>でomni補完
-inoremap <C-Space> <C-x><C-o>
 "" }}}
 
 "" unite-ruby-require {{{
@@ -1256,49 +1094,6 @@ nnoremap <silent> <unique> <Leader>cd <Plug>RooterChangeToRootDirectory
 let g:rooter_patterns = ['cpanfile', 'Rakefile', 'Makefile', '.git/']
 "" }}}
 
-"" gtags.vim {{{
-nmap <C-g>  :<C-u>Gtags<Space>
-nmap <C-h>  :<C-u>Gtags -f %<CR>
-nmap <C-j>  :<C-u>GtagsCursor<CR>
-nmap <C-n>  :cn<CR>
-nmap <C-p>  :cp<CR>
-nmap <C-g>r :<C-u>Gtags -r<Space>
-nmap <C-g>g :<C-u>Gtags -g<Space>
-"" }}}
-
-"" operator-replace {{{
-map <Leader>r <Plug>(operator-replace)
-" v_p を置き換える
-vmap p <Plug>(operator-replace)
-"" }}}
-
-"" tmpwin {{{
-" nnoremap <silent>_ :<C-u>call tmpwin#toggle('VimFiler')<CR>
-" nnoremap <silent>g_ :<C-u>call tmpwin#toggle('Unite file_rec/async:!')<CR>
-"" }}}
-
-"" vim-operator-surround {{{
-map <silent>sa <Plug>(operator-surround-append)
-map <silent>sd <Plug>(operator-surround-delete)
-map <silent>sr <Plug>(operator-surround-replace)
-" nmap <silent>gdd <Plug>(operator-surround-delete)<Plug>(textobj-anyblock-a)
-" nmap <silent>gcc <Plug>(operator-surround-replace)<Plug>(textobj-anyblock-a)
-" nmap <silent>gdb <Plug>(operator-surround-delete)<Plug>(textobj-between-a)
-" nmap <silent>gcb <Plug>(operator-surround-replace)<Plug>(textobj-between-a)
-"" }}}
-
-"" vim-textobj-multiblock {{{
-omap ab <Plug>(textobj-multiblock-a)
-omap ib <Plug>(textobj-multiblock-i)
-xmap ab <Plug>(textobj-multiblock-a)
-xmap ib <Plug>(textobj-multiblock-i)
-"" }}}
-
-"" vim-operator-search {{{
-nmap ,s <Plug>(operator-search)
-nmap ,/ <Plug>(operator-search)if
-"" }}}
-
 "" mhinz/vim-signify {{{
 let g:signify_vcs_list = ['git', 'svn']
 let g:signify_update_on_bufenter = 0
@@ -1315,28 +1110,25 @@ let g:clever_f_use_migemo = 1
 " map : <Plug>(clever-f-repeat-forward)
 "" }}}
 
-"" accelerated-jk {{{
-" let g:accelerated_jk_enable_deceleration = 1
-" nmap j <Plug>(accelerated_jk_gj)
-" nmap k <Plug>(accelerated_jk_gk)
-"" }}}
-
 "" vim-go {{{
-autocmd FileType go nmap <Leader>g :GoFmt<CR>
-autocmd FileType go nmap <Leader>p :GoImports<CR>
-autocmd FileType go nmap <Leader>s <Plug>(go-implements)
-autocmd FileType go nmap <Leader>i <Plug>(go-info)
-autocmd FileType go nmap <Leader>gd <Plug>(go-doc)
-autocmd FileType go nmap <Leader>gv <Plug>(go-doc-vertical)
-autocmd FileType go nmap <Leader>gb <Plug>(go-doc-browser)
-autocmd FileType go nmap <leader>r <Plug>(go-run)
-autocmd FileType go nmap <leader>b <Plug>(go-build)
-autocmd FileType go nmap <leader>t <Plug>(go-test)
-autocmd FileType go nmap <leader>c <Plug>(go-coverage)
-autocmd FileType go nmap <Leader>ds <Plug>(go-def-split)
-autocmd FileType go nmap <Leader>dv <Plug>(go-def-vertical)
-autocmd FileType go nmap <Leader>dt <Plug>(go-def-tab)
-autocmd FileType go nmap <Leader>e <Plug>(go-rename)
+augroup GolangCmd
+  autocmd!
+  autocmd FileType go nnoremap <Leader>g :GoFmt<CR>
+  autocmd FileType go nnoremap <Leader>p :GoImports<CR>
+  autocmd FileType go nmap <Leader>s <Plug>(go-implements)
+  autocmd FileType go nmap <Leader>i <Plug>(go-info)
+  autocmd FileType go nmap <Leader>gd <Plug>(go-doc)
+  autocmd FileType go nmap <Leader>gv <Plug>(go-doc-vertical)
+  autocmd FileType go nmap <Leader>gb <Plug>(go-doc-browser)
+  autocmd FileType go nmap <leader>r <Plug>(go-run)
+  autocmd FileType go nmap <leader>b <Plug>(go-build)
+  autocmd FileType go nmap <leader>t <Plug>(go-test)
+  autocmd FileType go nmap <leader>c <Plug>(go-coverage)
+  autocmd FileType go nmap <Leader>ds <Plug>(go-def-split)
+  autocmd FileType go nmap <Leader>dv <Plug>(go-def-vertical)
+  autocmd FileType go nmap <Leader>dt <Plug>(go-def-tab)
+  autocmd FileType go nmap <Leader>e <Plug>(go-rename)
+augroup END
 " let g:go_fmt_fail_silently = 1
 let g:go_fmt_command = "goimports"
 let g:go_fmt_autosave = 0
