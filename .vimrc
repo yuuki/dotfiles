@@ -99,7 +99,7 @@ set t_Co=256
 "set listchars=tab:\ \ ,trail:-,eol:\
 " 勝手に作られる系のファイルを一箇所にまとめる
 set directory=~/.vim/swp
-set undodir=D:~/.vim/undo
+set undodir=~/.vim/undo
 """ }}}
 
 """ Util {{{
