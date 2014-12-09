@@ -180,6 +180,7 @@ alias d='docker'
 alias dr='docker run'
 alias drr='docker run --rm'
 alias db='docker build -t'
+alias boot2docker-datesync='boot2docker ssh sudo /usr/local/bin/ntpclient -s -h pool.ntp.org date'
 
 ## Git
 alias g='git'
@@ -432,9 +433,22 @@ function dinit() {
     $(boot2docker shellinit)
 }
 
+function gget() {
+    ghq get $(echo "$@" | gsed -e "s/\.git//")
+}
+
+function uu() {
+    gsed -i "s/ssh:\/\/git@github\.com\/\(.*\)/git@github.com:\1.git/" .git/config
+}
+
 ### }}}
+
+source ~/.zshrc.local
 
 # End profiling
 # if (which zprof > /dev/null) ;then
 #     zprof | cat
 # fi
+
+# added by travis gem
+[ -f /Users/y_uuki/.travis/travis.sh ] && source /Users/y_uuki/.travis/travis.sh
