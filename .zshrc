@@ -177,9 +177,12 @@ alias t='tsocks'
 
 ## Docker
 alias d='docker'
+alias dps='docker ps'
+alias drm='docker rm'
 alias dr='docker run'
 alias drr='docker run --rm'
 alias db='docker build -t'
+alias dssh='boot2docker ssh'
 alias boot2docker-datesync='boot2docker ssh sudo /usr/local/bin/ntpclient -s -h pool.ntp.org date'
 
 ## Git
@@ -412,25 +415,12 @@ function gpr () {
     ghq list --full-path | peco | xargs rm -r
 }
 
-function dssh () {
-    ssh docker@$(boot2docker ip 2>>/dev/null)
-}
-
 function u()
 {
     cd ./$(git rev-parse --show-cdup)
     if [ $# = 1 ]; then
         cd $1
     fi
-}
-
-function docker-bash() {
-    docker run --rm --entrypoint="/bin/bash" -t -i "$@"
-
-}
-
-function dinit() {
-    $(boot2docker shellinit)
 }
 
 function gget() {
@@ -441,6 +431,34 @@ function uu() {
     gsed -i "s/ssh:\/\/git@github\.com\/\(.*\)/git@github.com:\1.git/" .git/config
 }
 
+function gc () {
+    cd $(ghq get $1 | tee -a /dev/stderr | tail -n 1 | awk '{ print $NF }')
+}
+
+function dbash() {
+    docker run --rm --entrypoint="/bin/bash" -t -i "$@"
+}
+
+function dexec() {
+    docker exec -t -i "$@" /bin/bash
+}
+
+function dinit() {
+    $(boot2docker shellinit)
+}
+
+function dip() {
+    boot2docker ip 2>/dev/null
+}
+
+function da () {  
+    docker start $1 && docker attach $1
+}
+
+function dbox () {    
+    docker run -it --name $1 --volumes-from=volume_container \
+    -e BOX_NAME=$1 yuuk1/dev
+}
 ### }}}
 
 source ~/.zshrc.local
