@@ -98,6 +98,10 @@
 	autosetuprebase = always
 [merge]
 	ff = false
+[url "git@github.com:"]
+  insteadof = "ssh://git@github.com/"
+  pushinsteadof = "https://github.com/"
+  pushinsteadof = "git://github.com/"
 [branch "master"]
 	rebase = true
 [web]

@@ -28,6 +28,7 @@ GTAGS
 
 .vim/bundle/*
 .vim/swp/
+.vim/undo/
 .gitconfig.local
 .vimrc.local
 .perl-version
