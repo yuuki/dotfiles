@@ -182,7 +182,9 @@ alias drm='docker rm'
 alias dr='docker run'
 alias drr='docker run --rm'
 alias db='docker build -t'
+alias dl='docker ps -l -q' 
 alias dssh='boot2docker ssh'
+alias dexec='docker exec -it `docker ps | tail -n +2 | peco | cut -d " " -f1` /bin/bash'
 alias boot2docker-datesync='boot2docker ssh sudo /usr/local/bin/ntpclient -s -h pool.ntp.org date'
 
 ## Git
@@ -432,15 +434,7 @@ function uu() {
 }
 
 function gc () {
-    cd $(ghq get $1 | tee -a /dev/stderr | tail -n 1 | awk '{ print $NF }')
-}
-
-function dbash() {
-    docker run --rm --entrypoint="/bin/bash" -t -i "$@"
-}
-
-function dexec() {
-    docker exec -t -i "$@" /bin/bash
+    cd $(gget $1 | tee -a /dev/stderr | tail -n 1 | awk '{ print $NF }')
 }
 
 function dinit() {
@@ -459,6 +453,13 @@ function dbox () {
     docker run -it --name $1 --volumes-from=volume_container \
     -e BOX_NAME=$1 yuuk1/dev
 }
+
+function dbash() {
+    local image=$(docker images | tail -n +2 | peco | cut -d " " -f1)
+    if [ -n "$image" ]; then
+        docker run --rm --entrypoint=/bin/bash -it $image
+    fi
+}  
 ### }}}
 
 source ~/.zshrc.local
