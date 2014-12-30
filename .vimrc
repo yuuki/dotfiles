@@ -259,6 +259,9 @@ inoremap []5 [%  %]<Left><Left><Left>
 inoremap {}5 {%  %}<Left><Left><Left>
 inoremap <>5 <%  %><Left><Left><Left>
 
+" 行末までヤンク
+nnoremap Y y$
+
 " 空行挿入
 nnoremap ; :<C-u>call append(expand('.'), '')<CR>
 "ヘルプ表示
@@ -584,6 +587,10 @@ function! s:cache_bundles()
                 \ 'autoload' : {'filetypes' : 'yaml'}
                 \ }
     NeoBundleLazy 'sudo.vim'
+    NeoBundleLazy 'lambdalisue/unite-grep-vcs', {
+                \ 'autoload': {
+                \    'unite_sources': ['grep/git', 'grep/hg'],
+                \ }}
 
     NeoBundleCheck
     NeoBundleSaveCache
@@ -896,6 +903,8 @@ nnoremap <silent><expr> [unite]/ line('$') > 5000 ?
 nnoremap <silent>[unite]z :<C-u>Unite zsh-cdr<CR>
 " unite-ghq + cdr
 nnoremap <silent>[unite]q :<C-u>Unite -start-insert -default-action=vimfiler zsh-cdr ghq directory_mru<CR>
+" unite-grep-vcs
+nnoremap <silent> [unite]gg :<C-u>Unite grep/git:. -buffer-name=search-buffer<CR>
 
 " git常用
 " nnoremap <silent> [unite]ga :<C-u>Unite -no-split git_cached git_untracked<CR>
@@ -921,7 +930,7 @@ autocmd MyAutocmd FileType perl nnoremap <buffer>[unite]pg :<C-u>Unite perl/glob
 nnoremap <silent> [unite]gc :<C-u>Unite gtags/context<CR>
 nnoremap <silent> [unite]gr :<C-u>Unite gtags/ref<CR>
 nnoremap <silent> [unite]gd :<C-u>Unite gtags/def<CR>
-nnoremap <silent> [unite]gg :<C-u>Unite gtags/gtags<SPACE>
+nnoremap <silent> [unite]gt :<C-u>Unite gtags/gtags<SPACE>
 nnoremap <silent> [unite]gcc :<C-u>Unite gtags/completion<CR>
 
 "" unite-qfixhowm
