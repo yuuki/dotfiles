@@ -22,24 +22,4 @@ done
 # vim
 vim -c "NeoBundleInstall!"
 
-# neobundleのオプションでビルドできるようになった
-# if [[ -d .vim/bundle/vimproc ]]; then
-#   cd .vim/bundle/vimproc
-#   case $OSTYPE in
-#   darwin*)
-#     if [[ ! -e autoload/vimproc_mac.so ]]; then
-#       echo "Installing vimproc"
-#       make -f make_mac.mak
-#     fi
-#     ;;
-#   linux*)
-#     if [[ ! -e autoload/vimproc_unix.so ]] ; then
-#       echo "Installing vimproc"
-#       make -f make_unix.mak
-#     fi
-#     ;;
-#   esac
-#   cd $DOTFILES_DIR
-# fi
-
 echo "set"
