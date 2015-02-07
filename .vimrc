@@ -512,6 +512,7 @@ function! s:cache_bundles()
     NeoBundle 'godlygeek/tabular'
     NeoBundle 'joker1007/vim-markdown-quote-syntax'
     NeoBundle 'rcmdnk/vim-markdown'
+    NeoBundle 'markcornick/vim-terraform'
 
     if s:meet_neocomplete_requirements
         NeoBundle 'Shougo/neocomplete.vim'
