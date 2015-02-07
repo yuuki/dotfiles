@@ -103,7 +103,7 @@ bindkey -a 'O' push-line
 bindkey -a 'H' run-help
 bindkey '^x^b' percol-git-recent-branches
 bindkey '^xb' percol-git-recent-all-branches
-bindkey '^s' percol-ghq
+bindkey '^s' peco-ghq
 
 ## Ctrl + ] で前回のコマンドの最後の単語を挿入
 zle -N insert-last-word smart-insert-last-word
@@ -398,7 +398,7 @@ function percol-git-recent-all-branches () {
 }
 zle -N percol-git-recent-all-branches
 
-function percol-ghq () {
+function peco-ghq () {
     local selected_dir=$((cdr -l | awk '{ print $2 }'; ghq list --full-path) | peco)
     if [ -n "$selected_dir" ]; then
         local BUFFER="cd ${selected_dir}"
@@ -406,7 +406,7 @@ function percol-ghq () {
     fi
     zle clear-screen
 }
-zle -N percol-ghq
+zle -N peco-ghq
 
 function gpi () {
     [ "$#" -eq 0 ] && echo "Usage : gpi QUERY" && return 1
@@ -455,7 +455,7 @@ function dbox () {
 }
 
 function dbash() {
-    local image=$(docker images | tail -n +2 | peco | cut -d " " -f1)
+    local image=$(docker images | tail -n +2 | peco | cut -d " " -f3)
     if [ -n "$image" ]; then
         docker run --rm --entrypoint=/bin/bash -it $image
     fi
@@ -470,4 +470,4 @@ source ~/.zshrc.local
 # fi
 
 # added by travis gem
-[ -f /Users/y_uuki/.travis/travis.sh ] && source /Users/y_uuki/.travis/travis.sh
+[ -f $HOME/.travis/travis.sh ] && . /Users/y_uuki/.travis/travis.sh
