@@ -347,6 +347,7 @@ augroup FileTypeDetect
   autocmd!
   autocmd BufNewFile,BufRead cpanfile set filetype=cpanfile
   autocmd BufNewFile,BufRead cpanfile set syntax=perl.cpanfile
+  autocmd BufNewFile,BufRead ELBfile,EIPfile,Groupfile,IAMfile,Routefile setf ruby
   autocmd BufNewFile,BufRead *.PL,*.t,*.psgi,*.perldb,cpanfile setf perl
   autocmd BufNewFile,BufRead *.tx setfiletype xslate " from vim-xslate
   autocmd BufNewFile,BufRead Capfile,Thorfile set filetype=ruby
