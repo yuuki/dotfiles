@@ -174,6 +174,8 @@ alias q='exit'
 alias h='proxychains4 -q -f ~/.proxychains/htn.conf'
 alias n='proxychains4 -q -f ~/.proxychains/vlo.conf'
 alias t='tsocks'
+alias s='ssh'
+alias ts='tssh'
 
 ## Docker
 alias d='docker'
@@ -460,6 +462,12 @@ function dbash() {
         docker run --rm --entrypoint=/bin/bash -it $image
     fi
 }  
+ 
+function git-ignore() { curl -s https://www.gitignore.io/api/$@ ;}
+ 
+function git-ignore-list() {
+  git-ignore `git-ignore list | ruby -ne 'puts $_.split(",")' | peco`
+}
 ### }}}
 
 source ~/.zshrc.local
