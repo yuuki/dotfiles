@@ -393,6 +393,7 @@ augroup IndentGroup
   autocmd FileType scala      setlocal sw=2 sts=2 ts=2 et
   autocmd FileType sh         setlocal sw=4 sts=4 ts=4 et
   autocmd FileType sql        setlocal sw=4 sts=4 ts=4 et
+  autocmd FileType terraform  setlocal sw=4 sts=4 ts=4 et
   autocmd FileType tex        setlocal sw=2 sts=2 ts=2 et
   autocmd FileType tt2        setlocal sw=2 sts=2 ts=2 et
   autocmd FileType tt2html    setlocal sw=2 sts=2 ts=2 et
@@ -514,6 +515,7 @@ function! s:cache_bundles()
     NeoBundle 'joker1007/vim-markdown-quote-syntax'
     NeoBundle 'rcmdnk/vim-markdown'
     NeoBundle 'markcornick/vim-terraform'
+    NeoBundle 'vim-scripts/vim-auto-save'
 
     if s:meet_neocomplete_requirements
         NeoBundle 'Shougo/neocomplete.vim'
@@ -1190,6 +1192,12 @@ nnoremap <silent>+ :TagbarToggle<CR>
 
 "" vim-markdown {{{
 let g:vim_markdown_folding_disabled=1
+"" }}}
+
+"" vim-auto-save {{{
+let g:auto_save = 1
+let g:auto_save_in_insert_mode = 0
+let g:auto_save_no_updatetime = 0
 "" }}}
 
 if filereadable(expand('~/.vimrc.local'))
