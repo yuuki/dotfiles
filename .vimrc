@@ -103,6 +103,11 @@ set undodir=~/.vim/undo
 """ }}}
 
 """ Util {{{
+augroup AutoDeleteTailSpace
+  autocmd!
+  autocmd BufWritePre * :%s/\s\+$//ge
+augroup END
+
 " 一定時間カーソルを移動しないとカーソルラインを表示（ただし，ウィンドウ移動時
 " はなぜか切り替わらない
 " http://d.hatena.ne.jp/thinca/20090530/1243615055
@@ -487,14 +492,13 @@ function! s:cache_bundles()
     NeoBundle 'hewes/unite-gtags'
     NeoBundle 'tpope/vim-fugitive'
     NeoBundle 'kana/vim-operator-user'
-    NeoBundle 'kana/vim-operator-replace'
     NeoBundle 'rhysd/vim-operator-surround'
     NeoBundle "kana/vim-textobj-user"
     NeoBundle 'osyo-manga/vim-textobj-multiblock'
     NeoBundle 'osyo-manga/vim-operator-search'
     NeoBundle 'rhysd/quickrun-unite-quickfix-outputter'
     NeoBundle 'osyo-manga/shabadou.vim'
-    NeoBundle 'osyo-manga/vim-watchdogs'
+"    NeoBundle 'osyo-manga/vim-watchdogs'
     NeoBundle 'rhysd/unite-zsh-cdr.vim'
     NeoBundle 'y-uuki/perl-local-lib-path.vim'
     NeoBundle 'airblade/vim-rooter'
@@ -515,7 +519,7 @@ function! s:cache_bundles()
     NeoBundle 'joker1007/vim-markdown-quote-syntax'
     NeoBundle 'rcmdnk/vim-markdown'
     NeoBundle 'markcornick/vim-terraform'
-    NeoBundle 'vim-scripts/vim-auto-save'
+"    NeoBundle 'vim-scripts/vim-auto-save'
 
     if s:meet_neocomplete_requirements
         NeoBundle 'Shougo/neocomplete.vim'
@@ -1195,9 +1199,10 @@ let g:vim_markdown_folding_disabled=1
 "" }}}
 
 "" vim-auto-save {{{
-let g:auto_save = 1
-let g:auto_save_in_insert_mode = 0
-let g:auto_save_no_updatetime = 0
+" let g:auto_save = 1
+" let g:auto_save_in_insert_mode = 0
+" let g:auto_save_no_updatetime = 0
+" let g:auto_save_silent = 1
 "" }}}
 
 if filereadable(expand('~/.vimrc.local'))
