@@ -101,8 +101,8 @@ bindkey '^R' history-incremental-search-backward
 bindkey "^S" history-incremental-pattern-search-forward
 bindkey -a 'O' push-line
 bindkey -a 'H' run-help
-bindkey '^x^b' percol-git-recent-branches
-bindkey '^xb' percol-git-recent-all-branches
+bindkey '^x^b' peco-git-recent-branches
+bindkey '^xb' peco-git-recent-all-branches
 bindkey '^s' peco-ghq
 
 ## Ctrl + ] で前回のコマンドの最後の単語を挿入
@@ -176,6 +176,12 @@ alias n='proxychains4 -q -f ~/.proxychains/vlo.conf'
 alias t='tsocks'
 alias s='ssh'
 alias ts='tssh'
+alias hs='h ssh'
+alias hssh='h ssh'
+alias hts='h tssh'
+alias htssh='h tssh'
+alias hbe='h bundle exec'
+alias hg='h git'
 
 ## Docker
 alias d='docker'
@@ -184,7 +190,7 @@ alias drm='docker rm'
 alias dr='docker run'
 alias drr='docker run --rm'
 alias db='docker build -t'
-alias dl='docker ps -l -q' 
+alias dl='docker ps -l -q'
 alias dssh='boot2docker ssh'
 alias dexec='docker exec -it `docker ps | tail -n +2 | peco | cut -d " " -f1` /bin/bash'
 alias boot2docker-datesync='boot2docker ssh sudo /usr/local/bin/ntpclient -s -h pool.ntp.org date'
@@ -351,7 +357,7 @@ function cliime() {
     return 1
   fi
 
-  BUNDLE_GEMFILE=~/build/cliime/Gemfile bundle exec -- ruby ~/build/cliime/cliime.rb $@ | percol | pbcopy
+  BUNDLE_GEMFILE=~/build/cliime/Gemfile bundle exec -- ruby ~/build/cliime/cliime.rb $@ | peco | pbcopy
 }
 
 function tsshrb() {
@@ -363,42 +369,40 @@ function ntssh() {
 
 function exists { which $1 &> /dev/null }
 
-if exists percol; then
-    function percol_select_history() {
+if exists peco; then
+    function peco_select_history() {
         local tac
         exists gtac && tac="gtac" || { exists tac && tac="tac" || { tac="tail -r" } }
-        BUFFER=$(fc -l -n 1 | eval $tac | percol --query "$LBUFFER")
+        BUFFER=$(fc -l -n 1 | eval $tac | peco)
         CURSOR=$#BUFFER         # move cursor
         zle -R -c               # refresh
     }
 
-    zle -N percol_select_history
-    bindkey '^R' percol_select_history
+    zle -N peco_select_history
+    bindkey '^R' peco_select_history
 fi
 
-function percol-git-recent-branches () {
+function peco-git-recent-branches () {
     local selected_branch=$(git for-each-ref --format='%(refname)' --sort=-committerdate refs/heads | \
-        perl -pne 's{^refs/heads/}{}' | \
-        percol --query "$LBUFFER")
+        perl -pne 's{^refs/heads/}{}' |  peco)
     if [ -n "$selected_branch" ]; then
         BUFFER="git checkout ${selected_branch}"
         zle accept-line
     fi
     zle clear-screen
 }
-zle -N percol-git-recent-branches
+zle -N peco-git-recent-branches
 
-function percol-git-recent-all-branches () {
+function peco-git-recent-all-branches () {
     local selected_branch=$(git for-each-ref --format='%(refname)' --sort=-committerdate refs/heads refs/remotes | \
-        perl -pne 's{^refs/(heads|remotes)/}{}' | \
-        percol --query "$LBUFFER")
+        perl -pne 's{^refs/(heads|remotes)/}{}' | peco )
     if [ -n "$selected_branch" ]; then
-        BUFFER="git checkout -t ${selected_branch}"
+        BUFFER="git checkout ${selected_branch}"
         zle accept-line
     fi
     zle clear-screen
 }
-zle -N percol-git-recent-all-branches
+zle -N peco-git-recent-all-branches
 
 function peco-ghq () {
     local selected_dir=$((cdr -l | awk '{ print $2 }'; ghq list --full-path) | peco)
@@ -439,6 +443,10 @@ function gc () {
     cd $(gget $1 | tee -a /dev/stderr | tail -n 1 | awk '{ print $NF }')
 }
 
+function ip() {
+    ipconfig getifaddr en0
+}
+
 function dinit() {
     $(boot2docker shellinit)
 }
@@ -447,24 +455,24 @@ function dip() {
     boot2docker ip 2>/dev/null
 }
 
-function da () {  
+function da () {
     docker start $1 && docker attach $1
 }
 
-function dbox () {    
+function dbox () {
     docker run -it --name $1 --volumes-from=volume_container \
     -e BOX_NAME=$1 yuuk1/dev
 }
 
 function dbash() {
-    local image=$(docker images | tail -n +2 | peco | cut -d " " -f3)
+    local image=$(docker images | tail -n +2 | peco | cut -d " " -f1)
     if [ -n "$image" ]; then
         docker run --rm --entrypoint=/bin/bash -it $image
     fi
-}  
- 
+}
+
 function git-ignore() { curl -s https://www.gitignore.io/api/$@ ;}
- 
+
 function git-ignore-list() {
   git-ignore `git-ignore list | ruby -ne 'puts $_.split(",")' | peco`
 }
