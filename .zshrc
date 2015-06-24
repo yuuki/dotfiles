@@ -193,7 +193,10 @@ alias db='docker build -t'
 alias dl='docker ps -l -q'
 alias dssh='boot2docker ssh'
 alias dexec='docker exec -it `docker ps | tail -n +2 | peco | cut -d " " -f1` /bin/bash'
-alias boot2docker-datesync='boot2docker ssh sudo /usr/local/bin/ntpclient -s -h pool.ntp.org date'
+alias b2d='boot2docker'
+alias b2d-datesync='boot2docker ssh sudo /usr/local/bin/ntpclient -s -h pool.ntp.org date'
+alias dm='docker-machine'
+alias dc='docker-compose'
 
 ## Git
 alias g='git'
@@ -487,3 +490,6 @@ source ~/.zshrc.local
 
 # added by travis gem
 [ -f $HOME/.travis/travis.sh ] && . /Users/y_uuki/.travis/travis.sh
+
+# direnv
+eval "$(direnv hook zsh)"
