@@ -21,6 +21,7 @@ fpath=(
 typeset -U path
 path=(
   /usr/local/bin(N-/)
+  /usr/local/sbin(N-/)
   /usr/bin(N-/)
   /bin(N-/)
   $path
@@ -65,7 +66,7 @@ path=(
 
 # User-specific paths
 path=(
-  ${HOME}/code/my/opstools/bin(N-/)
+  ${HOME}/code/my/opstools(N-/)
   ${HOME}/bin(N-/)
   ${HOME}/local/bin(N-/)
   $path
@@ -118,7 +119,6 @@ cplus_include_path=(
   $HOMEBREW_PREFIX/include/boost
   $cplus_include_path
 )
-export DYLD_FALLBACK_LIBRARY_PATH=$HOMEBREW_PREFIX/lib:$DYLD_FALLBACK_LIBRARY_PATH
 
 # JAVA
 export CLASSPATH=$CLASSPATH:$JAVA_HOME/lib:.
@@ -136,22 +136,19 @@ export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
 # AWS
 export AWS_CONFIG_FILE=$HOME/.aws.conf
 
-# MySQL 5.5
-export DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:/usr/local/mysql/lib
-
 # unset LD_LIBRARY_PATH
 # unset DYLD_LIBRARY_PATH
 # unset DYLD_FALLBACK_LIBRARY_PATH
 
 # export DOCKER_HOST=tcp://localhost:2375
 # export BOOT2DOCKER_IP=`boot2docker ip 2>/dev/null`
-export DOCKER_CERT_PATH=$HOME/.boot2docker/certs/boot2docker-vm
-export DOCKER_TLS_VERIFY=1
-if [ "`boot2docker status`" = "running" ]; then
-  $(boot2docker shellinit 2>/dev/null)
-  export DOCKER_ADDR=$(echo $DOCKER_HOST | sed 's/^tcp:\/\/\(.+\):\(\d+\)$/\1/g' )
-  export DOCKER_ADDR_PORT=$(echo $DOCKER_HOST | sed 's/^tcp:\/\///g' )
-fi
+# export DOCKER_CERT_PATH=$HOME/.boot2docker/certs/boot2docker-vm
+# export DOCKER_TLS_VERIFY=1
+# if [ "`boot2docker status`" = "running" ]; then
+#   $(boot2docker shellinit 2>/dev/null)
+#   export DOCKER_ADDR=$(echo $DOCKER_HOST | sed 's/^tcp:\/\/\(.+\):\(\d+\)$/\1/g' )
+#   export DOCKER_ADDR_PORT=$(echo $DOCKER_HOST | sed 's/^tcp:\/\///g' )
+# fi
 
 # Java
 # export JAVA_HOME=`/usr/libexec/java_home`

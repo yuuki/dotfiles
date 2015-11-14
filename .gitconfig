@@ -60,6 +60,7 @@
   gr = grep
   gn = grep -n
   sed = ! git grep -z --full-name -l '.' | xargs -0 sed -i -e
+  grb = grep -n --heading --break 
   # stash関連
   ss = stash
   ssl = stash list

@@ -17,6 +17,14 @@ autoload -Uz cdr
 # autoload -Uz promptinit && promptinit
 ### }}}
 
+#XXX
+# The next line updates PATH for the Google Cloud SDK.
+source '/Users/y_uuki/google-cloud-sdk/path.zsh.inc'
+
+# The next line enables shell command completion for gcloud.
+source '/Users/y_uuki/google-cloud-sdk/completion.zsh.inc'
+
+
 ### Set options {{{
 # Completion
 setopt list_packed           # 補完候補を詰めて表示
@@ -104,6 +112,7 @@ bindkey -a 'H' run-help
 bindkey '^x^b' peco-git-recent-branches
 bindkey '^xb' peco-git-recent-all-branches
 bindkey '^s' peco-ghq
+bindkey '^xp' peco-git-add
 
 ## Ctrl + ] で前回のコマンドの最後の単語を挿入
 zle -N insert-last-word smart-insert-last-word
@@ -191,10 +200,10 @@ alias dr='docker run'
 alias drr='docker run --rm'
 alias db='docker build -t'
 alias dl='docker ps -l -q'
-alias dssh='boot2docker ssh'
+#alias dssh='boot2docker ssh'
 alias dexec='docker exec -it `docker ps | tail -n +2 | peco | cut -d " " -f1` /bin/bash'
-alias b2d='boot2docker'
-alias b2d-datesync='boot2docker ssh sudo /usr/local/bin/ntpclient -s -h pool.ntp.org date'
+#alias b2d='boot2docker'
+#alias b2d-datesync='boot2docker ssh sudo /usr/local/bin/ntpclient -s -h pool.ntp.org date'
 alias dm='docker-machine'
 alias dc='docker-compose'
 
@@ -220,10 +229,8 @@ alias du='du -h'
 alias less='less -R'
 alias zmv='noglob zmv'
 alias pdftotext='pdftotext -layout -'
-alias gc="docker run -t -i --volumes-from gcloud-config2 google/cloud-sdk"
 alias be="bundle exec"
-alias chef-zero="docker run -d -p 8889:8889 paulczar/chef-zero '/usr/local/bin/chef-zero-bg'"
-alias dntpsync="boot2docker ssh sudo ntpclient -s -h pool.ntp.org"
+#alias dntpsync="boot2docker ssh sudo ntpclient -s -h pool.ntp.org"
 alias r="roles"
 alias matrix="docker run -it --rm nathanleclaire/matrix_japan cmatrix -"
 ## memo
@@ -389,7 +396,7 @@ function peco-git-recent-branches () {
     local selected_branch=$(git for-each-ref --format='%(refname)' --sort=-committerdate refs/heads | \
         perl -pne 's{^refs/heads/}{}' |  peco)
     if [ -n "$selected_branch" ]; then
-        BUFFER="git checkout ${selected_branch}"
+        local BUFFER="git checkout ${selected_branch}"
         zle accept-line
     fi
     zle clear-screen
@@ -400,7 +407,7 @@ function peco-git-recent-all-branches () {
     local selected_branch=$(git for-each-ref --format='%(refname)' --sort=-committerdate refs/heads refs/remotes | \
         perl -pne 's{^refs/(heads|remotes)/}{}' | peco )
     if [ -n "$selected_branch" ]; then
-        BUFFER="git checkout ${selected_branch}"
+        local BUFFER="git checkout ${selected_branch}"
         zle accept-line
     fi
     zle clear-screen
@@ -416,6 +423,21 @@ function peco-ghq () {
     zle clear-screen
 }
 zle -N peco-ghq
+
+function peco-git-add () {
+    local selected_file="$(git status --porcelain | \
+                                  sed '/^[A|UU|M]/d' | \
+                                  peco | \
+                                  awk -F ' ' '{print $NF}')"
+    if [ -n "$selected_file" ]; then
+        search_root=$(git rev-parse --show-toplevel)
+        files=$(echo "$selected_file" | tr '\n' ' ')
+        local BUFFER="cd ${search_root} && git add ${files}"
+        zle accept-line
+    fi
+    zle clear-screen
+}
+zle -N peco-git-add
 
 function gpi () {
     [ "$#" -eq 0 ] && echo "Usage : gpi QUERY" && return 1
@@ -450,9 +472,9 @@ function ip() {
     ipconfig getifaddr en0
 }
 
-function dinit() {
-    $(boot2docker shellinit)
-}
+# function dinit() {
+#     $(boot2docker shellinit)
+# }
 
 function dip() {
     boot2docker ip 2>/dev/null
@@ -481,6 +503,12 @@ function git-ignore-list() {
 }
 ### }}}
 
+# added by travis gem
+[ -f $HOME/.travis/travis.sh ] && . /Users/y_uuki/.travis/travis.sh
+
+# direnv
+eval "$(direnv hook zsh)"
+
 source ~/.zshrc.local
 
 # End profiling
@@ -488,8 +516,3 @@ source ~/.zshrc.local
 #     zprof | cat
 # fi
 
-# added by travis gem
-[ -f $HOME/.travis/travis.sh ] && . /Users/y_uuki/.travis/travis.sh
-
-# direnv
-eval "$(direnv hook zsh)"

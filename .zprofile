@@ -1,8 +1,9 @@
 
 ### External script {{{
+
 # rbenv
 if type rbenv > /dev/null 2>&1; then
-  eval "$(rbenv init -)"
+  eval "$(rbenv init - --no-rehash)"
 fi
 
 # plenv
@@ -23,5 +24,18 @@ fi
 # autojump
 if type autojump > /dev/null 2>&1; then
   [[ -f /usr/local/etc/autojump ]] && source /usr/local/etc/autojump
+fi
+
+# direnv
+if type direnv > /dev/null 2>&1; then
+  eval "$(direnv hook zsh)"
+fi
+
+# qfc https://github.com/pindexis/qfc
+[[ -s "$HOME/.qfc/bin/qfc.sh" ]] && source "$HOME/.qfc/bin/qfc.sh"
+
+# dockertoolbox
+if type docker-machine > /dev/null 2>&1; then
+  eval "$(docker-machine env default)"
 fi
 ### }}}

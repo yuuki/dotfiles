@@ -103,10 +103,10 @@ set undodir=~/.vim/undo
 """ }}}
 
 """ Util {{{
-augroup AutoDeleteTailSpace
-  autocmd!
-  autocmd BufWritePre * :%s/\s\+$//ge
-augroup END
+" augroup AutoDeleteTailSpace
+"   autocmd!
+"   autocmd BufWritePre * :%s/\s\+$//ge
+" augroup END
 
 " 一定時間カーソルを移動しないとカーソルラインを表示（ただし，ウィンドウ移動時
 " はなぜか切り替わらない
@@ -138,16 +138,6 @@ augroup END
 " vimrcのリロード
 command! ReloadVimrc source $MYVIMRC
 
-" " 保存時に行末のスペースを削除
-" augroup rtrim
-"   function! RTrim()
-"     let s:cursor = getpos(".")
-"     %s/\s\+$//e
-"     call setpos(".", s:cursor)
-"   endfunction
-"   autocmd BufWritePre * call RTrim()
-" augroup END
-"
 " カーソル位置の復元
 autocmd MyAutocmd BufReadPost *
   \ if line("'\"") > 1 && line("'\"") <= line("$") |
@@ -192,6 +182,9 @@ endfunction
 autocmd MyAutocmd InsertEnter * hi StatusLine guifg=DarkBlue guibg=DarkYellow gui=none ctermfg=Blue ctermfg=Yellow cterm=none
 autocmd MyAutocmd InsertLeave * hi StatusLine guifg=DarkBlue guibg=DarkGray   gui=none ctermfg=Blue ctermbg=DarkGray cterm=none
 """ }}}
+
+" tmp memo
+command! Memo edit ~/Dropbox/memo/tmp.txt
 
 """ Keymap {{{
 " :w1 と打ってしまうくせ防止
@@ -519,6 +512,7 @@ function! s:cache_bundles()
     NeoBundle 'joker1007/vim-markdown-quote-syntax'
     NeoBundle 'rcmdnk/vim-markdown'
     NeoBundle 'markcornick/vim-terraform'
+    NeoBundle 'vim-scripts/VOoM'
 "    NeoBundle 'vim-scripts/vim-auto-save'
 
     if s:meet_neocomplete_requirements
@@ -1147,7 +1141,7 @@ augroup GolangCmd
   autocmd FileType go nmap <Leader>e <Plug>(go-rename)
 augroup END
 " let g:go_fmt_fail_silently = 1
-let g:go_fmt_command = "goimports"
+let g:go_fmt_command = "gofmt"
 let g:go_fmt_autosave = 0
 let g:go_snippet_engine = "neosnippet"
 "" }}}
