@@ -24,6 +24,7 @@ path=(
   /usr/local/sbin(N-/)
   /usr/bin(N-/)
   /bin(N-/)
+  /opt/homebrew/bin(N-/)
   $path
 )
 
@@ -36,37 +37,25 @@ if type brew >> /dev/null 2>&1; then
 fi
 
 # heroku
-if type heroku >> /dev/null 2>&1; then
-  path=(
-    /usr/local/heroku/bin(N-/)
-    $path
-  )
-fi
-
-# Application path
-path=(
-  /Applications/UpTeX.app/teTeX/bin(N-/)                # Tex
-  /Applications/VMware Fusion.app/Contents/Library      # VMware
-  /Applications/android-sdk-macosx/tools(N-/)           # Android
-  /Applications/android-sdk-macosx/platform-tools(N-/)  # Android
-  $path
-)
+# if type heroku >> /dev/null 2>&1; then
+#   path=(
+#     /usr/local/heroku/bin(N-/)
+#     $path
+#   )
+# fi
 
 # LL Path
 path=(
-  ${HOME}/perl5/perlbrew/bin(N-/)  # Perlbrew
   ${HOME}/.rbenv/shims(N-/)        # Rbenv
+  ${HOME}/.rbenv/bin(N-/)          # Rbenv
   ${HOME}/.plenv/bin(N-/)          # Plenv
-  ${HOME}/.rvm/bin(N-/)            # RVM
   ${HOME}/.pyenv/bin(N-/)          # Pyenv
-  /usr/local/share/npm/bin(N-/)    # NPM
-  /usr/local/mysql/bin(N-/)        # MySQL
   $path
 )
 
 # User-specific paths
 path=(
-  ${HOME}/code/my/opstools(N-/)
+  ${HOME}/src/github.com/yuuki1/opstools/bin(N-/)
   ${HOME}/bin(N-/)
   ${HOME}/local/bin(N-/)
   $path
@@ -101,8 +90,8 @@ else
 fi
 
 # Homebrew
-export HOMEBREW_TEMP="/Volumes/Macintosh\ HD/tmp"
-export HOMEBREW_PREFIX="/usr/local"
+export HOMEBREW_TEMP="/tmp"
+export HOMEBREW_PREFIX="/opt/homebrew"
 
 fpath=(
   $HOMEBREW_PREFIX/share/zsh/site-functions(N-/)
@@ -122,14 +111,13 @@ cplus_include_path=(
 
 # JAVA
 export CLASSPATH=$CLASSPATH:$JAVA_HOME/lib:.
-export ANDROID_HOME=/Applications/android-sdk-macosx
 
 export XDG_DATA_HOME=/usr/local/share
 
-export PYTHONPATH=/usr/local/lib/python2.7/site-packages:$PYTHONPATH
+#export PYTHONPATH=/usr/local/lib/python2.7/site-packages:$PYTHONPATH
 
 # Go
-export GOROOT='/usr/local/opt/go/libexec/'
+export GOROOT="$HOMEBREW_PREFIX"/opt/go/libexec/
 export GOPATH=$HOME
 export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
 
@@ -152,10 +140,10 @@ export AWS_CONFIG_FILE=$HOME/.aws.conf
 
 # Java
 # export JAVA_HOME=`/usr/libexec/java_home`
-export PATH="$HOME/.jenv/bin:$PATH"
+# export PATH="$HOME/.jenv/bin:$PATH"
 
 # Postgres
-source $HOME/.pgvm/pgvm_env
+# source $HOME/.pgvm/pgvm_env
 
 source $HOME/.zshenv.local
 

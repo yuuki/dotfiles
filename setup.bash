@@ -1,6 +1,6 @@
 #!/bin/bash
 
-DOTFILES_DIR=$HOME/dotfiles
+DOTFILES_DIR=$PWD
 
 # submodule
 echo "git submodule sync"

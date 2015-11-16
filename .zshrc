@@ -17,14 +17,6 @@ autoload -Uz cdr
 # autoload -Uz promptinit && promptinit
 ### }}}
 
-#XXX
-# The next line updates PATH for the Google Cloud SDK.
-source '/Users/y_uuki/google-cloud-sdk/path.zsh.inc'
-
-# The next line enables shell command completion for gcloud.
-source '/Users/y_uuki/google-cloud-sdk/completion.zsh.inc'
-
-
 ### Set options {{{
 # Completion
 setopt list_packed           # 補完候補を詰めて表示
@@ -214,7 +206,6 @@ alias gl='git log -p'
 alias gg='git grep -H --break'
 
 ## Utils
-alias ls='ls --color=auto'
 alias ll='ls -lh'
 alias la='ls -a'
 alias lla='ls -alh'

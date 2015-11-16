@@ -1,1 +1,1 @@
-/Users/y_uuki/dotfiles/.zsh
+/Users/y_uuki/src/github.com/yuuki1/dotfiles/.zsh

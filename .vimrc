@@ -458,8 +458,6 @@ let s:meet_neocomplete_requirements = has('lua') && (v:version > 703 || (v:versi
 
 call neobundle#begin(expand('~/.vim/bundle'))
 
-function! s:cache_bundles()
-
     NeoBundle 'Shougo/unite.vim'
     NeoBundle 'Shougo/vimproc', {
                 \ 'build' : {
@@ -508,7 +506,7 @@ function! s:cache_bundles()
     NeoBundle 'sorah/unite-ghq'
     NeoBundle 'cohama/agit.vim'
     NeoBundle 'chase/vim-ansible-yaml'
-    NeoBundle 'godlygeek/tabular'
+"    NeoBundle 'godlygeek/tabular'
     NeoBundle 'joker1007/vim-markdown-quote-syntax'
     NeoBundle 'rcmdnk/vim-markdown'
     NeoBundle 'markcornick/vim-terraform'
@@ -596,13 +594,12 @@ function! s:cache_bundles()
 
     NeoBundleCheck
     NeoBundleSaveCache
-endfunction
 
-if neobundle#has_cache()
-    NeoBundleLoadCache
-else
-    call s:cache_bundles()
-endif
+"if neobundle#has_cache()
+"    NeoBundleLoadCache
+"else
+"    call s:cache_bundles()
+"endif
 
 call neobundle#end()
 filetype plugin indent on     " required!

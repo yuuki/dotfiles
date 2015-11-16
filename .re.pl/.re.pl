@@ -1,1 +1,1 @@
-/Users/y_uuki/dotfiles/.re.pl
+/Users/y_uuki/src/github.com/yuuki1/dotfiles/.re.pl
