@@ -1,5 +1,4 @@
 # vim:set ft=zsh foldmethod=marker:
-
 umask 022
 limit coredumpsize 0
 
@@ -173,7 +172,6 @@ PROMPT="${PROMPT}${GIT_PROMPT} %{$reset_color%}"
 ### Aliases {{{
 alias q='exit'
 alias h='proxychains4 -q -f ~/.proxychains/htn.conf'
-alias n='proxychains4 -q -f ~/.proxychains/vlo.conf'
 alias t='tsocks'
 alias s='ssh'
 alias ts='tssh'
@@ -205,7 +203,11 @@ alias gst='git status'
 alias gl='git log -p'
 alias gg='git grep -H --break'
 
+## Vim
+alias mvim='/opt/homebrew-cask/Caskroom/macvim-kaoriya/7.4.769-20150707/MacVim.app/Contents/MacOS/mvim'
+
 ## Utils
+alias ls='ls --color=auto'
 alias ll='ls -lh'
 alias la='ls -a'
 alias lla='ls -alh'
@@ -496,9 +498,6 @@ function git-ignore-list() {
 
 # added by travis gem
 [ -f $HOME/.travis/travis.sh ] && . /Users/y_uuki/.travis/travis.sh
-
-# direnv
-eval "$(direnv hook zsh)"
 
 source ~/.zshrc.local
 
