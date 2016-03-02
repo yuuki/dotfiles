@@ -186,6 +186,10 @@ autocmd MyAutocmd InsertLeave * hi StatusLine guifg=DarkBlue guibg=DarkGray   gu
 " tmp memo
 command! Memo edit ~/Dropbox/memo/tmp.txt
 
+" git-browse-remote
+" http://motemen.hatenablog.com/entry/2014/06/05/released-git-browse-remote-0-1-0
+command! -nargs=* -range GB !git browse-remote --rev -L<line1>,<line2> <f-args> -- %
+
 """ Keymap {{{
 " :w1 と打ってしまうくせ防止
 cabbrev q1 q!
@@ -458,142 +462,143 @@ let s:meet_neocomplete_requirements = has('lua') && (v:version > 703 || (v:versi
 
 call neobundle#begin(expand('~/.vim/bundle'))
 
-    NeoBundle 'Shougo/unite.vim'
-    NeoBundle 'Shougo/vimproc', {
-                \ 'build' : {
-                \       'mac'     : 'make -f make_mac.mak',
-                \       'unix'    : 'make -f make_unix.mak',
-                \   }
-                \ }
-    NeoBundle 'Shougo/vimfiler'
-    NeoBundle 'Shougo/vinarise'
-    NeoBundle 'Shougo/echodoc'
-    NeoBundle 'Shougo/neosnippet'
-    NeoBundle 'Shougo/neosnippet-snippets'
-    NeoBundle 'Shougo/neomru.vim'
-    NeoBundle 'thinca/vim-quickrun'
-    NeoBundle 'osyo-manga/unite-fold'
-    NeoBundle 'osyo-manga/unite-quickfix'
-    NeoBundle 'h1mesuke/unite-outline'
-    NeoBundle 'tsukkee/unite-tag'
-    NeoBundle 'jceb/vim-hier'
-    NeoBundle 'thinca/vim-guicolorscheme'
-    NeoBundle 'Lokaltog/vim-powerline'
-    NeoBundle 'tomtom/tcomment_vim'
-    NeoBundle 'hewes/unite-gtags'
-    NeoBundle 'tpope/vim-fugitive'
-    NeoBundle 'kana/vim-operator-user'
-    NeoBundle 'rhysd/vim-operator-surround'
-    NeoBundle "kana/vim-textobj-user"
-    NeoBundle 'osyo-manga/vim-textobj-multiblock'
-    NeoBundle 'osyo-manga/vim-operator-search'
-    NeoBundle 'rhysd/quickrun-unite-quickfix-outputter'
-    NeoBundle 'osyo-manga/shabadou.vim'
-"    NeoBundle 'osyo-manga/vim-watchdogs'
-    NeoBundle 'rhysd/unite-zsh-cdr.vim'
-    NeoBundle 'y-uuki/perl-local-lib-path.vim'
-    NeoBundle 'airblade/vim-rooter'
-    NeoBundle 'osyo-manga/vim-over'
-    NeoBundle 'mhinz/vim-signify'
-    NeoBundle 'rhysd/conflict-marker.vim'
-    NeoBundle 'rhysd/clever-f.vim'
-    NeoBundle 'fatih/vim-go'
-    NeoBundle 'moznion/github-commit-comment.vim'
-    NeoBundle 'honza/dockerfile.vim'
-    NeoBundle 'glidenote/memolist.vim'
-    NeoBundle 'glidenote/serverspec-snippets'
-    NeoBundle 'majutsushi/tagbar'
-    NeoBundle 'sorah/unite-ghq'
-    NeoBundle 'cohama/agit.vim'
-    NeoBundle 'chase/vim-ansible-yaml'
-"    NeoBundle 'godlygeek/tabular'
-    NeoBundle 'joker1007/vim-markdown-quote-syntax'
-    NeoBundle 'rcmdnk/vim-markdown'
-    NeoBundle 'markcornick/vim-terraform'
-    NeoBundle 'vim-scripts/VOoM'
-"    NeoBundle 'vim-scripts/vim-auto-save'
+NeoBundle 'Shougo/unite.vim'
+NeoBundle 'Shougo/vimproc', {
+            \ 'build' : {
+            \       'mac'     : 'make -f make_mac.mak',
+            \       'unix'    : 'make -f make_unix.mak',
+            \   }
+            \ }
+NeoBundle 'Shougo/vimfiler'
+NeoBundle 'Shougo/vinarise'
+NeoBundle 'Shougo/echodoc'
+NeoBundle 'Shougo/neosnippet'
+NeoBundle 'Shougo/neosnippet-snippets'
+NeoBundle 'Shougo/neomru.vim'
+NeoBundle 'thinca/vim-quickrun'
+NeoBundle 'osyo-manga/unite-fold'
+NeoBundle 'osyo-manga/unite-quickfix'
+NeoBundle 'h1mesuke/unite-outline'
+NeoBundle 'tsukkee/unite-tag'
+NeoBundle 'jceb/vim-hier'
+NeoBundle 'thinca/vim-guicolorscheme'
+NeoBundle 'Lokaltog/vim-powerline'
+NeoBundle 'tomtom/tcomment_vim'
+NeoBundle 'hewes/unite-gtags'
+NeoBundle 'tpope/vim-fugitive'
+NeoBundle 'kana/vim-operator-user'
+NeoBundle 'rhysd/vim-operator-surround'
+NeoBundle "kana/vim-textobj-user"
+NeoBundle 'osyo-manga/vim-textobj-multiblock'
+NeoBundle 'osyo-manga/vim-operator-search'
+NeoBundle 'rhysd/quickrun-unite-quickfix-outputter'
+NeoBundle 'osyo-manga/shabadou.vim'
+" NeoBundle 'osyo-manga/vim-watchdogs'
+NeoBundle 'rhysd/unite-zsh-cdr.vim'
+NeoBundle 'y-uuki/perl-local-lib-path.vim'
+NeoBundle 'airblade/vim-rooter'
+NeoBundle 'osyo-manga/vim-over'
+NeoBundle 'mhinz/vim-signify'
+NeoBundle 'rhysd/conflict-marker.vim'
+NeoBundle 'rhysd/clever-f.vim'
+NeoBundle 'fatih/vim-go'
+NeoBundle 'moznion/github-commit-comment.vim'
+NeoBundle 'honza/dockerfile.vim'
+NeoBundle 'glidenote/memolist.vim'
+NeoBundle 'glidenote/serverspec-snippets'
+NeoBundle 'majutsushi/tagbar'
+NeoBundle 'sorah/unite-ghq'
+NeoBundle 'cohama/agit.vim'
+NeoBundle 'chase/vim-ansible-yaml'
+" NeoBundle 'godlygeek/tabular'
+NeoBundle 'joker1007/vim-markdown-quote-syntax'
+NeoBundle 'rcmdnk/vim-markdown'
+NeoBundle 'markcornick/vim-terraform'
+NeoBundle 'vim-scripts/VOoM'
+" NeoBundle 'vim-scripts/vim-auto-save'
+NeoBundle 'rust-lang/rust.vim'
 
-    if s:meet_neocomplete_requirements
-        NeoBundle 'Shougo/neocomplete.vim'
-    else
-        NeoBundle 'Shougo/neocomplcache.vim'
-    endif
+if s:meet_neocomplete_requirements
+    NeoBundle 'Shougo/neocomplete.vim'
+else
+    NeoBundle 'Shougo/neocomplcache.vim'
+endif
 
-    " colorscheme
-    NeoBundle 'ujihisa/unite-colorscheme'
-    NeoBundle 'tomasr/molokai'
-    NeoBundle 'altercation/vim-colors-solarized'
-    NeoBundle 'telamon/vim-color-github'
-    NeoBundle 'earendel'
-    NeoBundle 'rdark'
-    NeoBundle 'guicolorscheme.vim'
-    NeoBundle 'rhysd/wallaby.vim'
+" colorscheme
+NeoBundle 'ujihisa/unite-colorscheme'
+NeoBundle 'tomasr/molokai'
+NeoBundle 'altercation/vim-colors-solarized'
+NeoBundle 'telamon/vim-color-github'
+NeoBundle 'earendel'
+NeoBundle 'rdark'
+NeoBundle 'guicolorscheme.vim'
+NeoBundle 'rhysd/wallaby.vim'
 
-    NeoBundleLazy 'Shougo/vimshell', {
-                \ 'autoload' : {
-                \     'commands' : ['VimShell', 'VimShellSendString', 'VimShellCurrentDir'],
-                \     }
-                \ }
-    NeoBundleLazy 'y-uuki/unite-perl-module.vim', {
-                \ 'depends' : [ 'Shougo/unite.vim' ],
-                \ 'autoload' : {'filetypes' : 'perl'}
-                \ }
-    NeoBundleLazy 'benizi/perl-support.vim', {
-                \ 'autoload' : {'filetypes' : 'perl'}
-                \ }
-    NeoBundleLazy 'vim-perl/vim-perl', {
-                \ 'autoload' : {'filetypes' : 'perl'}
-                \ }
-    NeoBundleLazy 'moznion/vim-cpanfile', {
-                \ 'autoload' : {'filetypes' : 'perl'}
-                \ }
-    NeoBundleLazy 'mattn/perlvalidate-vim.git', {
-                \ 'autoload' : {'filetypes' : 'perl'}
-                \ }
-    NeoBundleLazy 'vim-ruby/vim-ruby', {
-                \ 'autoload' : {'filetypes' : 'ruby'}
-                \ }
-    NeoBundleLazy 'rhysd/unite-ruby-require.vim', {
-                \ 'depends' : [ 'Shougo/unite.vim' ],
-                \ 'autoload' : {'filetypes' : 'ruby'}
-                \ }
-    NeoBundleLazy 'motemen/xslate-vim', {
-                \ 'autoload' : {'filetypes' : 'xslate'}
-                \ }
-    NeoBundleLazy 'kchmck/vim-coffee-script', {
-                \ 'autoload' : {'filetypes' : 'coffee'}
-                \ }
-    NeoBundleLazy 'groenewege/vim-less', {
-                \ 'autoload' : {'filetypes' : 'less'}
-                \ }
-    NeoBundleLazy 'tpope/vim-haml.git', {
-                \ 'autoload' : {'filetypes' : 'haml'}
-                \ }
-    NeoBundleLazy 'zaiste/tmux.vim', {
-                \ 'autoload' : {'filetypes' : 'tmux'}
-                \ }
-    NeoBundleLazy 'micheljansen/vim-latex', {
-                \ 'autoload' : {'filetypes' : 'latex'}
-                \ }
-    NeoBundleLazy 'derekwyatt/vim-scala', {
-                \ 'autoload' : {'filetypes' : 'scala'}
-                \ }
-    NeoBundleLazy 'kana/vim-operator-replace', {
-                \ 'autoload' : {
-                \     'mappings' : '<Plug>(operator-replace)'
-                \     }
-                \ }
-    NeoBundleLazy 'roalddevries/yaml.vim', {
-                \ 'autoload' : {'filetypes' : 'yaml'}
-                \ }
-    NeoBundleLazy 'sudo.vim'
-    NeoBundleLazy 'lambdalisue/unite-grep-vcs', {
-                \ 'autoload': {
-                \    'unite_sources': ['grep/git', 'grep/hg'],
-                \ }}
+NeoBundleLazy 'Shougo/vimshell', {
+            \ 'autoload' : {
+            \     'commands' : ['VimShell', 'VimShellSendString', 'VimShellCurrentDir'],
+            \     }
+            \ }
+NeoBundleLazy 'y-uuki/unite-perl-module.vim', {
+            \ 'depends' : [ 'Shougo/unite.vim' ],
+            \ 'autoload' : {'filetypes' : 'perl'}
+            \ }
+NeoBundleLazy 'benizi/perl-support.vim', {
+            \ 'autoload' : {'filetypes' : 'perl'}
+            \ }
+NeoBundleLazy 'vim-perl/vim-perl', {
+            \ 'autoload' : {'filetypes' : 'perl'}
+            \ }
+NeoBundleLazy 'moznion/vim-cpanfile', {
+            \ 'autoload' : {'filetypes' : 'perl'}
+            \ }
+NeoBundleLazy 'mattn/perlvalidate-vim.git', {
+            \ 'autoload' : {'filetypes' : 'perl'}
+            \ }
+NeoBundleLazy 'vim-ruby/vim-ruby', {
+            \ 'autoload' : {'filetypes' : 'ruby'}
+            \ }
+NeoBundleLazy 'rhysd/unite-ruby-require.vim', {
+            \ 'depends' : [ 'Shougo/unite.vim' ],
+            \ 'autoload' : {'filetypes' : 'ruby'}
+            \ }
+NeoBundleLazy 'motemen/xslate-vim', {
+            \ 'autoload' : {'filetypes' : 'xslate'}
+            \ }
+NeoBundleLazy 'kchmck/vim-coffee-script', {
+            \ 'autoload' : {'filetypes' : 'coffee'}
+            \ }
+NeoBundleLazy 'groenewege/vim-less', {
+            \ 'autoload' : {'filetypes' : 'less'}
+            \ }
+NeoBundleLazy 'tpope/vim-haml.git', {
+            \ 'autoload' : {'filetypes' : 'haml'}
+            \ }
+NeoBundleLazy 'zaiste/tmux.vim', {
+            \ 'autoload' : {'filetypes' : 'tmux'}
+            \ }
+NeoBundleLazy 'micheljansen/vim-latex', {
+            \ 'autoload' : {'filetypes' : 'latex'}
+            \ }
+NeoBundleLazy 'derekwyatt/vim-scala', {
+            \ 'autoload' : {'filetypes' : 'scala'}
+            \ }
+NeoBundleLazy 'kana/vim-operator-replace', {
+            \ 'autoload' : {
+            \     'mappings' : '<Plug>(operator-replace)'
+            \     }
+            \ }
+NeoBundleLazy 'roalddevries/yaml.vim', {
+            \ 'autoload' : {'filetypes' : 'yaml'}
+            \ }
+NeoBundleLazy 'sudo.vim'
+NeoBundleLazy 'lambdalisue/unite-grep-vcs', {
+            \ 'autoload': {
+            \    'unite_sources': ['grep/git', 'grep/hg'],
+            \ }}
 
-    NeoBundleCheck
-    NeoBundleSaveCache
+NeoBundleCheck
+NeoBundleSaveCache
 
 "if neobundle#has_cache()
 "    NeoBundleLoadCache
