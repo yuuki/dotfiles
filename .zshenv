@@ -20,11 +20,11 @@ fpath=(
 # system path
 typeset -U path
 path=(
+  /opt/homebrew/bin(N-/)
   /usr/local/bin(N-/)
   /usr/local/sbin(N-/)
   /usr/bin(N-/)
   /bin(N-/)
-  /opt/homebrew/bin(N-/)
   $path
 )
 
@@ -46,7 +46,6 @@ fi
 
 # LL Path
 path=(
-  ${HOME}/.rbenv/shims(N-/)        # Rbenv
   ${HOME}/.rbenv/bin(N-/)          # Rbenv
   ${HOME}/.plenv/bin(N-/)          # Plenv
   ${HOME}/.pyenv/bin(N-/)          # Pyenv
@@ -124,19 +123,20 @@ export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
 # AWS
 export AWS_CONFIG_FILE=$HOME/.aws.conf
 
+export LD_LIBRARY_PATH=/opt/homebrew/lib:$LD_LIBRARY_PATH
+export DYLD_FALLBACK_LIBRARY_PATH=/opt/homebrew/lib:$DYLD_FALLBACK_LIBRARY_PATH
+export C_INCLUDE_PATH=/opt/homebrew/include:$C_INCLUDE_PATH
+export CPLUS_INCLUDE_PATH=/opt/homebrew/include
+export CFLAGS="-I/opt/homebrew/include"
+export CXXLAGS="-I/opt/homebrew/include"
+export LDFLAGS="-L/opt/homebrew/lib"
 # unset LD_LIBRARY_PATH
 # unset DYLD_LIBRARY_PATH
 # unset DYLD_FALLBACK_LIBRARY_PATH
 
-# export DOCKER_HOST=tcp://localhost:2375
-# export BOOT2DOCKER_IP=`boot2docker ip 2>/dev/null`
-# export DOCKER_CERT_PATH=$HOME/.boot2docker/certs/boot2docker-vm
-# export DOCKER_TLS_VERIFY=1
-# if [ "`boot2docker status`" = "running" ]; then
-#   $(boot2docker shellinit 2>/dev/null)
-#   export DOCKER_ADDR=$(echo $DOCKER_HOST | sed 's/^tcp:\/\/\(.+\):\(\d+\)$/\1/g' )
-#   export DOCKER_ADDR_PORT=$(echo $DOCKER_HOST | sed 's/^tcp:\/\///g' )
-# fi
+if [ "`docker-machine status default`" = "Running" ]; then
+  eval $(docker-machine env default) >>/dev/null
+fi
 
 # Java
 # export JAVA_HOME=`/usr/libexec/java_home`
