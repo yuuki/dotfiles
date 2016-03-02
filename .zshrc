@@ -204,7 +204,7 @@ alias gl='git log -p'
 alias gg='git grep -H --break'
 
 ## Vim
-alias mvim='/opt/homebrew-cask/Caskroom/macvim-kaoriya/7.4.769-20150707/MacVim.app/Contents/MacOS/mvim'
+alias mvim='~/Applications/MacVim.app/Contents/MacOS/mvim'
 
 ## Utils
 alias ls='ls --color=auto'
