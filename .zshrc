@@ -202,6 +202,7 @@ alias g='git'
 alias gst='git status'
 alias gl='git log -p'
 alias gg='git grep -H --break'
+alias gbr='git-browse-remote'
 
 ## Vim
 alias mvim='~/Applications/MacVim.app/Contents/MacOS/mvim'
