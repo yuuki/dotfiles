@@ -10,7 +10,7 @@
 [push]
   default = simple
 [include]
-  path = .gitconfig.local
+  path = ~/.gitconfig.local
 [core]
   editor = /usr/bin/vim
 	excludesfile = ~/.gitignore
@@ -59,7 +59,7 @@
   # grep関連
   gr = grep
   gn = grep -n
-  sed = ! git grep -z --full-name -l '.' | xargs -0 sed -i -e
+  sed = ! git grep -z --full-name -l '.' | xargs -0 perl -pi -e
   grb = grep -n --heading --break 
   # stash関連
   ss = stash
@@ -83,7 +83,7 @@
   sm = submodule
   sma = submodule add
   smu = submodule update
-  smg = submodule foreach 'git grep'
+  sgrep =  "!f() { git --no-pager grep \"$1\"; git submodule foreach \"git --no-pager grep '$1'; true\" | grep -B 1 \"$1\"; }; f"
   # colorized cheery -v
   # ls
   ls = ls-files
@@ -93,6 +93,7 @@
   fetch-pullreq = fetch origin '+refs/pull/*/head:refs/pull/*'
   plog = log --all --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
   delete-merged-branches = !git branch --merged | grep -v \\* | grep -v master | grep -v staging | grep -v develop | xargs -I % git branch -d %
+  re = browse-remote
 [hub]
   protocol = git
 [branch]
@@ -119,3 +120,9 @@
 	clean = git hawser clean %f
 	smudge = git hawser smudge %f
 	required = true
+[browse-remote "github.com"]
+	top = https://{host}/{path}
+	ref = https://{host}/{path}/tree/{short_ref}
+	rev = https://{host}/{path}/commit/{commit}
+	pr = https://{host}/{path}/pull/{short_ref}
+	file = "https://{host}/{path}/{file.directory? and :tree or :blob}/{short_rev}/{file}{lines && \"#L%s\" % lines.join(\"-\")}"
