@@ -1,4 +1,3 @@
-
 ### External script {{{
 
 # rbenv
@@ -21,11 +20,6 @@ if type tmuxinator > /dev/null 2>&1; then
   [[ -s $HOME/.tmuxinator/scripts/tmuxinator ]] && source $HOME/.tmuxinator/scripts/tmuxinator
 fi
 
-# autojump
-if type autojump > /dev/null 2>&1; then
-  [[ -f /usr/local/etc/autojump ]] && source /usr/local/etc/autojump
-fi
-
 # direnv
 if type direnv > /dev/null 2>&1; then
   eval "$(direnv hook zsh)"
@@ -36,6 +30,6 @@ fi
 
 # dockertoolbox
 if type docker-machine > /dev/null 2>&1; then
-  eval "$(docker-machine env default)"
+  eval "$(docker-machine env default 2>/dev/null)"
 fi
 ### }}}
