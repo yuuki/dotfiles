@@ -145,5 +145,7 @@ fi
 # Postgres
 # source $HOME/.pgvm/pgvm_env
 
+export REPORTTIME=5
+
 source $HOME/.zshenv.local
 
