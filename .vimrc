@@ -100,6 +100,8 @@ set t_Co=256
 " 勝手に作られる系のファイルを一箇所にまとめる
 set directory=~/.vim/swp
 set undodir=~/.vim/undo
+" stop hiding json quote
+set conceallevel=0
 """ }}}
 
 """ Util {{{
