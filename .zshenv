@@ -52,6 +52,12 @@ path=(
   $path
 )
 
+# Rust
+path=(
+  ${HOME}/.cargo/bin(N-/)
+  $path
+)
+
 # User-specific paths
 path=(
   ${HOME}/src/github.com/yuuki1/opstools/bin(N-/)
