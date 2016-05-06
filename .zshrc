@@ -231,6 +231,9 @@ alias matrix="docker run -it --rm nathanleclaire/matrix_japan cmatrix -"
 alias memo='cat > /dev/null'
 alias memolist='vim +MemoList'
 alias memonew='vim +MemoNew'
+# rust
+alias cb='cargo build'
+alias cr='cargo run'
 
 if [[ -x /usr/local/bin/colordiff ]]; then
   alias diff='colordiff'
@@ -507,3 +510,9 @@ source ~/.zshrc.local
 #     zprof | cat
 # fi
 
+
+# The next line updates PATH for the Google Cloud SDK.
+source '/Users/y_uuki/google-cloud-sdk/path.zsh.inc'
+
+# The next line enables shell command completion for gcloud.
+source '/Users/y_uuki/google-cloud-sdk/completion.zsh.inc'
