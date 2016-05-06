@@ -31,6 +31,8 @@ if has('gui_macvim')
   set antialias
   set guifont=Osaka-Mono:h18
 
+  autocmd MyAutocmd FileType text setlocal textwidth=0
+
   " カラースキーム
   " set background=dark
   colorscheme wallaby
