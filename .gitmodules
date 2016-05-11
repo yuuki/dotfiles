@@ -13,3 +13,6 @@
 [submodule ".zsh/plugins/zsh-git-prompt"]
 	path = .zsh/plugins/zsh-git-prompt
 	url = git@github.com:olivierverdier/zsh-git-prompt.git
+[submodule ".zsh/plugins/zsh-directory-history"]
+	path = .zsh/plugins/zsh-directory-history
+	url = https://github.com/tymm/zsh-directory-history.git
