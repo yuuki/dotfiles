@@ -1148,9 +1148,12 @@ augroup GolangCmd
   autocmd FileType go nmap <Leader>e <Plug>(go-rename)
 augroup END
 " let g:go_fmt_fail_silently = 1
-let g:go_fmt_command = "gofmt"
-let g:go_fmt_autosave = 0
+let g:go_fmt_command = "goimports"
+let g:go_fmt_autosave = 1
 let g:go_snippet_engine = "neosnippet"
+let g:go_highlight_functions = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_fields = 1
 "" }}}
 
 "" memolist.vim {{{
