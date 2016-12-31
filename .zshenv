@@ -123,7 +123,7 @@ export XDG_DATA_HOME=/usr/local/share
 
 # Go
 export GOROOT="$HOMEBREW_PREFIX"/opt/go/libexec/
-export GOPATH=$HOME
+export GOPATH=$HOME/go
 export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
 
 # AWS
