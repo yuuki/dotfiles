@@ -215,7 +215,7 @@ alias g='git'
 alias gst='git status'
 alias gl='git log -p'
 alias gg='git grep -H --break'
-alias gbr='git-browse-remote'
+alias gbr='/opt/homebrew/bin/git-browse-remote'
 
 ## Vim
 alias mvim='~/Applications/MacVim.app/Contents/MacOS/mvim'
@@ -237,6 +237,7 @@ alias less='less -R'
 alias zmv='noglob zmv'
 alias pdftotext='pdftotext -layout -'
 alias be="bundle exec"
+alias cap="/opt/homebrew/bin/cap"
 #alias dntpsync="boot2docker ssh sudo ntpclient -s -h pool.ntp.org"
 alias r="roles"
 alias matrix="docker run -it --rm nathanleclaire/matrix_japan cmatrix -"
