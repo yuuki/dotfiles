@@ -75,10 +75,10 @@ if [[ -f "${ZSH_HOME}/plugins/zsh-git-prompt/zshrc.sh" ]]; then
   export GIT_PROMPT_EXECUTABLE="haskell"
   export ZSH_THEME_GIT_PROMPT_CACHE=1
 fi
-if [[ -f "${ZSH_HOME}/plugins/zsh-directory-history/directory-history.plugin.zsh" ]]; then
-  export PATH="$PATH":"${ZSH_HOME}/plugins/zsh-directory-history/"
-  source "${ZSH_HOME}/plugins/zsh-directory-history/directory-history.plugin.zsh"
-fi
+# if [[ -f "${ZSH_HOME}/plugins/zsh-directory-history/directory-history.plugin.zsh" ]]; then
+#   export PATH="$PATH":"${ZSH_HOME}/plugins/zsh-directory-history/"
+#   source "${ZSH_HOME}/plugins/zsh-directory-history/directory-history.plugin.zsh"
+# fi
 # if [[ -f "${ZSH_HOME}/plugins/zsh-autosuggestions/autosuggestions.plugin.zsh" ]]; then
 #   source "${ZSH_HOME}/plugins/zsh-autosuggestions/autosuggestions.plugin.zsh"
 #   zle-line-init() {
@@ -111,12 +111,12 @@ bindkey '^xb' peco-git-recent-all-branches
 bindkey '^s' peco-ghq
 bindkey '^xp' peco-git-add
 
-# Bind up/down arrow keys to navigate through your history
-bindkey '^\e[B' directory-history-search-backward
-bindkey '^\e[A' directory-history-search-forward
-# Bind CTRL+k and CTRL+j to substring search
-bindkey '^j' history-substring-search-down
-bindkey '^k' history-substring-search-up
+# # Bind up/down arrow keys to navigate through your history
+# bindkey '^\e[B' directory-history-search-backward
+# bindkey '^\e[A' directory-history-search-forward
+# # Bind CTRL+k and CTRL+j to substring search
+# bindkey '^j' history-substring-search-down
+# bindkey '^k' history-substring-search-up
 
 ## Ctrl + ] で前回のコマンドの最後の単語を挿入
 zle -N insert-last-word smart-insert-last-word
