@@ -416,6 +416,9 @@ augroup IndentGroup
   autocmd FileType go         setlocal noexpandtab
 augroup END
 
+" http://d.hatena.ne.jp/WK6/20120606/1338993826
+autocmd FileType text setlocal textwidth=0
+
 "" ファイル形式毎にテンプレートを設定 {{{
 augroup templates
   autocmd!
