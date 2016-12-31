@@ -187,6 +187,7 @@ autocmd MyAutocmd InsertLeave * hi StatusLine guifg=DarkBlue guibg=DarkGray   gu
 
 " tmp memo
 command! Memo edit ~/Dropbox/memo/tmp.txt
+command! Work edit ~/Dropbox/memo/works.txt
 
 " git-browse-remote
 " http://motemen.hatenablog.com/entry/2014/06/05/released-git-browse-remote-0-1-0
