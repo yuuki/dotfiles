@@ -551,9 +551,6 @@ NeoBundleLazy 'y-uuki/unite-perl-module.vim', {
             \ 'depends' : [ 'Shougo/unite.vim' ],
             \ 'autoload' : {'filetypes' : 'perl'}
             \ }
-NeoBundleLazy 'benizi/perl-support.vim', {
-            \ 'autoload' : {'filetypes' : 'perl'}
-            \ }
 NeoBundleLazy 'vim-perl/vim-perl', {
             \ 'autoload' : {'filetypes' : 'perl'}
             \ }
