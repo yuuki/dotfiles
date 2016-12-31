@@ -193,7 +193,6 @@ alias hssh='h ssh'
 alias hts='h tssh'
 alias htssh='h tssh'
 alias hbe='h bundle exec'
-alias hg='h git'
 
 ## Docker
 alias d='docker'
