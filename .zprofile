@@ -32,4 +32,10 @@ fi
 if type docker-machine > /dev/null 2>&1; then
   eval "$(docker-machine env default 2>/dev/null)"
 fi
+
+# rustup
+if [[ -f "$HOME/.cargo/env" ]]; then
+  . "$HOME/.cargo/env"
+fi
+
 ### }}}
