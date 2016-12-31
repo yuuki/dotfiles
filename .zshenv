@@ -129,6 +129,9 @@ export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
 # AWS
 export AWS_CONFIG_FILE=$HOME/.aws.conf
 
+# MySQL
+export PATH=$HOME/.mysqlenv/bin:$HOME/.mysqlenv/mysql-build/bin:$PATH
+
 export LD_LIBRARY_PATH=/opt/homebrew/lib:$LD_LIBRARY_PATH
 export DYLD_FALLBACK_LIBRARY_PATH=/opt/homebrew/lib:$DYLD_FALLBACK_LIBRARY_PATH
 export C_INCLUDE_PATH=/opt/homebrew/include:$C_INCLUDE_PATH
