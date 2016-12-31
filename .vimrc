@@ -368,7 +368,8 @@ augroup FileTypeDetect
   autocmd BufNewFile,BufRead *.less setf less
   autocmd BufNewFile,BufRead *.coffee setf coffee
   autocmd BufNewFile,BufRead *.erb set filetype=eruby.html
-  autocmd BufNewFile,BufRead *.rs set filetype=rust
+  autocmd BufNewFile,BufRead */nginx.conf set filetype=nginx
+  autocmd BufNewFile,BufRead *.nginx.conf set filetype=nginx
 augroup END
 
 augroup IndentGroup
@@ -520,6 +521,7 @@ NeoBundle 'markcornick/vim-terraform'
 NeoBundle 'vim-scripts/VOoM'
 " NeoBundle 'vim-scripts/vim-auto-save'
 NeoBundle 'rust-lang/rust.vim'
+NeoBundle 'vim-scripts/nginx.vim'
 
 if s:meet_neocomplete_requirements
     NeoBundle 'Shougo/neocomplete.vim'
