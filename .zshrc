@@ -249,9 +249,19 @@ alias matrix="docker run -it --rm nathanleclaire/matrix_japan cmatrix -"
 alias memo='cat > /dev/null'
 alias memolist='vim +MemoList'
 alias memonew='vim +MemoNew'
-# rust
+## rust
 alias cb='cargo build'
 alias cr='cargo run'
+## Homebrew
+alias br=brew
+alias bri='brew install'
+alias bru='brew update'
+alias brug='brew upgrade'
+## Perl
+alias ce='carton exec'
+alias ci='carton install'
+alias cpanm-local='cpanm --installdeps -L local/ .'
+alias perl-local='perl -Mlib::core::only -Mlib=local/lib/perl5/'
 
 if [[ -x /usr/local/bin/colordiff ]]; then
   alias diff='colordiff'
