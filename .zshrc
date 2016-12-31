@@ -294,30 +294,12 @@ if [[ -x /usr/local/bin/src-hilite-lesspipe.sh ]]; then
   export LESSOPEN='| /usr/local/bin/src-hilite-lesspipe.sh %s'
 fi
 
-# Tex
-alias -s tex=platex
-alias -s dvi=dvipdfmx
-alias -s bib=bibtex
-
-# Homebrew
-alias br=brew
-alias bri='brew install'
-alias bru='brew update'
-alias brug='brew upgrade'
-
-## Others
-alias ce='carton exec'
-alias ci='carton install'
-alias plackup='plackup -L Shotgun'
-
-## Perl
-alias cpanm-local='cpanm --installdeps -L local/ .'
-alias perl-local='perl -Mlib::core::only -Mlib=local/lib/perl5/'
-
-## pipe
+## util
 alias findbig='find . -type f -exec ls -s {} \; | sort -n -r | head -5'
 alias cpurank='ps -eo user,pcpu,pid,cmd | sort -r -k2 | head -6'
 alias diskrank='du -ah | sort -r -k1 | head -5'
+alias urldecode='python -c "import sys, urllib as ul; print ul.unquote_plus(sys.argv[1])"'
+alias urlencode='python -c "import sys, urllib as ul; print ul.quote_plus(sys.argv[1])"'
 
 ## OSX GUI
 alias safari='open -a Safari'
