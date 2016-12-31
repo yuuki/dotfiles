@@ -217,6 +217,10 @@ alias gl='git log -p'
 alias gg='git grep -H --break'
 alias gbr='/opt/homebrew/bin/git-browse-remote'
 
+## Make
+alias mb='make build'
+alias mt='make test'
+
 ## Vim
 alias mvim='~/Applications/MacVim.app/Contents/MacOS/mvim'
 
