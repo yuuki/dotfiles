@@ -143,9 +143,9 @@ export LDFLAGS="-L/opt/homebrew/lib"
 # unset DYLD_LIBRARY_PATH
 # unset DYLD_FALLBACK_LIBRARY_PATH
 
-if [ "`docker-machine status default`" = "Running" ]; then
-  eval $(docker-machine env default) >>/dev/null
-fi
+# if [ "`docker-machine status default`" = "Running" ]; then
+#   eval $(docker-machine env default) >>/dev/null
+# fi
 
 # Java
 # export JAVA_HOME=`/usr/libexec/java_home`
