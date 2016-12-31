@@ -37,5 +37,9 @@ fi
 if [[ -f "$HOME/.cargo/env" ]]; then
   . "$HOME/.cargo/env"
 fi
+# mysqlenv
+if [[ -f "$HOME/.mysqlenv/etc/bashrc" ]]; then
+  . "$HOME/.mysqlenv/etc/bashrc"
+fi
 
 ### }}}
