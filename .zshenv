@@ -31,7 +31,7 @@ path=(
 # coreutils
 if type brew >> /dev/null 2>&1; then
   path=(
-    $(brew --prefix coreutils)/libexec/gnubin(N-/)
+    /opt/homebrew/opt/coreutils/libexec/gnubin(N-/)
     $path
   )
 fi
