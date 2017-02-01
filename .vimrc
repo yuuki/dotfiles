@@ -205,6 +205,8 @@ inoremap <silent> <C-j> j
 " ; と : をスワップ
 inoremap : ;
 inoremap ; :
+nnoremap : ;
+nnoremap ; :
 
 " insertモードでもquit
 inoremap <C-q><C-q> <Esc>:wq<CR>
@@ -268,7 +270,8 @@ inoremap <>5 <%  %><Left><Left><Left>
 nnoremap Y y$
 
 " 空行挿入
-nnoremap ; :<C-u>call append(expand('.'), '')<CR>
+nnoremap O :<C-u>call append(expand('.'), '')<CR>j
+
 "ヘルプ表示
 nnoremap <Leader>h :<C-u>vert to help<Space>
 
@@ -1142,6 +1145,10 @@ augroup GolangCmd
   autocmd FileType go nmap <leader>b <Plug>(go-build)
   autocmd FileType go nmap <leader>t <Plug>(go-test)
   autocmd FileType go nmap <leader>c <Plug>(go-coverage)
+  autocmd FileType go nmap <leader>cc <Plug>(go-coverage-clear)
+  autocmd FileType go nmap <leader>ct <Plug>(go-coverage-toggle)
+  autocmd FileType go nmap <leader>l <Plug>(go-lint)
+  autocmd FileType go nmap <leader>v <Plug>(go-vet)
   autocmd FileType go nmap <Leader>ds <Plug>(go-def-split)
   autocmd FileType go nmap <Leader>dv <Plug>(go-def-vertical)
   autocmd FileType go nmap <Leader>dt <Plug>(go-def-tab)
