@@ -5,6 +5,8 @@
 
 # ZSH_HOME
 export ZSH_HOME=${HOME}/.zsh
+# /etc/profile を読み込まないように
+setopt no_global_rcs
 
 # Local
 export LANG='ja_JP.UTF-8'
@@ -60,9 +62,9 @@ path=(
 
 # User-specific paths
 path=(
-  ${HOME}/src/github.com/yuuki1/opstools/bin(N-/)
-  ${HOME}/bin(N-/)
+  ${HOME}/src/github.com/yuuki/opstools/bin(N-/)
   ${HOME}/local/bin(N-/)
+  ${HOME}/bin(N-/)
   $path
 )
 
