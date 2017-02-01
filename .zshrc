@@ -61,7 +61,7 @@ setopt notify                # バックグラウンドジョブが終了した�
 setopt rm_star_wait          # rm * を実行する前に確認
 setopt chase_links           # シンボリックリンクはリンク先のパスに変換してから実行
 setopt print_exit_value      # 戻り値が 0 以外の場合終了コードを表示
-setopt single_line_zle       # デフォルトの複数行コマンドライン編集ではなく，１行編集モードになる
+# setopt single_line_zle       # デフォルトの複数行コマンドライン編集ではなく，１行編集モードになる
 setopt auto_list             # lsのリスト表示
 setopt auto_menu             # lsのメニュー化
 unsetopt promptcr            # 改行コードで終らない出力もちゃんと出力する
