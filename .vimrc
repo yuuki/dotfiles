@@ -176,9 +176,12 @@ function! s:git_root_dir()
 endfunction
 
 " 行末のスペースをハイライト
-" highlight WhitespaceEOL ctermbg=red guibg=red
-" match WhitespaceEOL /\s\+$/
-" autocmd MyAutocmd WinEnter * match WhitespaceEOL /\s\+$/
+"http://d.hatena.ne.jp/mickey24/20120808/vim_highlight_trailing_spaces
+augroup HighlightTrailingSpaces
+  autocmd!
+  autocmd VimEnter,WinEnter,ColorScheme * highlight TrailingSpaces term=underline guibg=Red ctermbg=Red
+  autocmd VimEnter,WinEnter * match TrailingSpaces /\s\+$/
+augroup END
 
 " 挿入モードとノーマルモードでステータスラインの色変更
 autocmd MyAutocmd InsertEnter * hi StatusLine guifg=DarkBlue guibg=DarkYellow gui=none ctermfg=Blue ctermfg=Yellow cterm=none
@@ -207,6 +210,8 @@ inoremap : ;
 inoremap ; :
 nnoremap : ;
 nnoremap ; :
+vnoremap : ;
+vnoremap ; :
 
 " insertモードでもquit
 inoremap <C-q><C-q> <Esc>:wq<CR>
