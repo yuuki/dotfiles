@@ -534,6 +534,8 @@ NeoBundle 'vim-scripts/VOoM'
 NeoBundle 'rust-lang/rust.vim'
 NeoBundle 'vim-scripts/nginx.vim'
 NeoBundle 'kmnk/vim-unite-giti'
+NeoBundle 'rhysd/committia.vim'
+NeoBundle 'vim-scripts/ZoomWin'
 
 if s:meet_neocomplete_requirements
     NeoBundle 'Shougo/neocomplete.vim'
@@ -1250,6 +1252,22 @@ let g:vim_markdown_folding_disabled=1
 " let g:auto_save_no_updatetime = 0
 " let g:auto_save_silent = 1
 "" }}}
+
+" committia.vim {{{
+let g:committia_hooks = {}
+function! g:committia_hooks.edit_open(info) abort
+    " Additional settings
+    setlocal spell
+
+    " If no commit message, start with insert mode
+    if getline(1) ==# ''
+        startinsert
+    end
+
+    imap <buffer><C-n> <Plug>(committia-scroll-diff-down-half)
+    imap <buffer><C-p> <Plug>(committia-scroll-diff-up-half)
+endfunction
+" }}}
 
 if filereadable(expand('~/.vimrc.local'))
   source ~/.vimrc.local
