@@ -60,7 +60,7 @@
   gr = grep
   gn = grep -n
   sed = ! git grep -z --full-name -l '.' | xargs -0 perl -pi -e
-  grb = grep -n --heading --break 
+  grb = grep -n --heading --break
   # stash関連
   ss = stash
   ssl = stash list
@@ -69,9 +69,10 @@
   # push/pull関連
   ps = push
   psom = push origin master
+  psb = "!f() { /opt/homebrew/bin/git rev-parse --abbrev-ref HEAD ; }; /opt/homebrew/bin/git push origin `f`"
   pshm = push heroku master
   pl = pull
-  prb = "!f() { git rev-parse --abbrev-ref HEAD ; }; git pull --rebase origin `f`"
+  prb = "!f() { /opt/homebrew/bin/git rev-parse --abbrev-ref HEAD ; }; /opt/homebrew/bin/git pull --rebase origin `f`"
   # rebase関連
   rb = rebase
   rbi = rebase -i
