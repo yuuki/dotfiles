@@ -962,6 +962,8 @@ nmap <silent> [unite]gc  <SID>(git-config)
 nmap <silent> [unite]gl  <SID>(git-log)
 nmap <silent> [unite]gL  <SID>(git-log-this-file)
 
+call unite#custom#default_action("giti/status", "add")
+
 if globpath(&rtp, 'plugin/giti.vim') != ''
   let g:giti_log_default_line_count = 100
   nnoremap <expr><silent> <SID>(git-diff)        ':<C-u>GitiDiff ' . expand('%:p') . '<CR>'
