@@ -285,10 +285,6 @@ if ! type vim > /dev/null 2>&1; then
     alias vim=vi
 fi
 
-# GitFlow & HubFlow
-alias gf='git flow'
-alias ghf='git hf'
-
 export LESS="--tabs=4 --no-init --LONG-PROMPT --ignore-case -R"
 if [[ -x /usr/local/bin/src-hilite-lesspipe.sh ]]; then
   export LESSOPEN='| /usr/local/bin/src-hilite-lesspipe.sh %s'
