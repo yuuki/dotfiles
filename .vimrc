@@ -533,6 +533,7 @@ NeoBundle 'vim-scripts/VOoM'
 " NeoBundle 'vim-scripts/vim-auto-save'
 NeoBundle 'rust-lang/rust.vim'
 NeoBundle 'vim-scripts/nginx.vim'
+NeoBundle 'kmnk/vim-unite-giti'
 
 if s:meet_neocomplete_requirements
     NeoBundle 'Shougo/neocomplete.vim'
@@ -923,15 +924,6 @@ nnoremap <silent>[unite]q :<C-u>Unite -start-insert -default-action=vimfiler zsh
 " unite-grep-vcs
 nnoremap <silent> [unite]gg :<C-u>Unite grep/git:. -buffer-name=search-buffer<CR>
 
-" git常用
-" nnoremap <silent> [unite]ga :<C-u>Unite -no-split git_cached git_untracked<CR>
-" " git ls-files一覧
-" nnoremap <silent> [unite]g :<C-u>Unite -no-split git_cached<CR>
-" " git modefied一覧
-" nnoremap <silent> [unite]gm :<C-u>Unite -no-split git_modified<CR>
-" " git untracked一覧
-" nnoremap <silent> [unite]gu :<C-u>Unite -no-split git_untracked<CR>
-
 " project検索
 call unite#custom#source('file_rec/async', 'ignore_pattern', '\(png\|gif\|jpeg\|jpg\tar.gz\)$')
 let g:unite_source_rec_max_cache_files = 500000
@@ -949,6 +941,44 @@ nnoremap <silent> [unite]gr :<C-u>Unite gtags/ref<CR>
 nnoremap <silent> [unite]gd :<C-u>Unite gtags/def<CR>
 nnoremap <silent> [unite]gt :<C-u>Unite gtags/gtags<SPACE>
 nnoremap <silent> [unite]gcc :<C-u>Unite gtags/completion<CR>
+
+"" vim-unite-giti
+nmap <Leader>gd <SID>(git-diff-cached)
+nmap <Leader>gD <SID>(git-diff)
+nmap <Leader>gf <SID>(git-fetch-now)
+nmap <Leader>gF <SID>(git-fetch)
+nmap <Leader>gp <SID>(git-push-now)
+nmap <Leader>gP <SID>(git-pull-now)
+nmap <Leader>gl <SID>(git-log-line)
+nmap <Leader>gL <SID>(git-log)
+nmap <silent> [unite]gg  <SID>(giti-sources)
+nmap <silent> [unite]gst <SID>(git-status)
+nmap <silent> [unite]gb  <SID>(git-branch)
+nmap <silent> [unite]gB  <SID>(git-branch_all)
+nmap <silent> [unite]gc  <SID>(git-config)
+nmap <silent> [unite]gl  <SID>(git-log)
+nmap <silent> [unite]gL  <SID>(git-log-this-file)
+
+if globpath(&rtp, 'plugin/giti.vim') != ''
+  let g:giti_log_default_line_count = 100
+  nnoremap <expr><silent> <SID>(git-diff)        ':<C-u>GitiDiff ' . expand('%:p') . '<CR>'
+  nnoremap <expr><silent> <SID>(git-diff-cached) ':<C-u>GitiDiffCached ' . expand('%:p') .  '<CR>'
+  nnoremap       <silent> <SID>(git-fetch-now)    :<C-u>GitiFetch<CR>
+  nnoremap       <silent> <SID>(git-fetch)        :<C-u>GitiFetch
+  nnoremap <expr><silent> <SID>(git-push-now)    ':<C-u>GitiPushWithSettingUpstream origin ' . giti#branch#current_name() . '<CR>'
+  nnoremap       <silent> <SID>(git-push)         :<C-u>GitiPush
+  nnoremap       <silent> <SID>(git-pull-now)     :<C-u>GitiPull<CR>
+  nnoremap       <silent> <SID>(git-pull)         :<C-u>GitiPull
+  nnoremap       <silent> <SID>(git-log-line)     :<C-u>GitiLogLine ' . expand('%:p') . '<CR>'
+  nnoremap       <silent> <SID>(git-log)          :<C-u>GitiLog ' . expand('%:p') . '<CR>'
+  nnoremap <silent> <SID>(giti-sources)   :<C-u>Unite giti<CR>
+  nnoremap <silent> <SID>(git-status)     :<C-u>Unite giti/status<CR>
+  nnoremap <silent> <SID>(git-branch)     :<C-u>Unite giti/branch<CR>
+  nnoremap <silent> <SID>(git-branch_all) :<C-u>Unite giti/branch_all<CR>
+  nnoremap <silent> <SID>(git-config)     :<C-u>Unite giti/config<CR>
+  nnoremap <silent> <SID>(git-log)        :<C-u>Unite giti/log<CR>
+  nnoremap <silent><expr> <SID>(git-log-this-file) ':<C-u>Unite giti/log:' . expand('%:p') . '<CR>'
+endif
 
 "" unite-qfixhowm
 " nnoremap <silent> [unite]mm :<C-u>Unite qfixhowm/new qfixhowm -hide-source-names<CR>
