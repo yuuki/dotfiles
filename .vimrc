@@ -1172,6 +1172,20 @@ let g:clever_f_use_migemo = 1
 " map : <Plug>(clever-f-repeat-forward)
 "" }}}
 
+"" vim-fugitive {{{
+nnoremap <Leader>gs :<C-u>Gstatus<CR>
+nnoremap <Leader>gC :<C-u>Gcommit -v<CR>
+function! s:fugitive_commit() abort
+    ZoomWin
+    Gcommit -v
+    silent only
+    if getline('.') == ''
+        startinsert
+    endif
+endfunction
+nnoremap <Leader>gc :<C-u>call <SID>fugitive_commit()<CR>
+"" }}}
+
 "" vim-go {{{
 augroup GolangCmd
   autocmd!
