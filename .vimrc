@@ -1047,7 +1047,7 @@ augroup END
 """ VimFilerTree {{{
 " http://qiita.com/shiena/items/870ac0f1db8e9a8672a7
 command! VimFilerTree call VimFilerTree()
-function VimFilerTree()
+function! VimFilerTree()
     exec ':VimFiler -buffer-name=explorer -split -simple -winwidth=25 -toggle -no-quit'
     wincmd t
     setl winfixwidth
@@ -1152,8 +1152,8 @@ augroup END
 
 "" vim-rooter {{{
 let g:rooter_manual_only = 1
-nnoremap <silent> <unique> <Leader>cd <Plug>RooterChangeToRootDirectory
-let g:rooter_patterns = ['cpanfile', 'Rakefile', 'Makefile', '.git/']
+" nnoremap <silent> <unique> <Leader>cd <Plug>RooterChangeToRootDirectory
+" let g:rooter_patterns = ['cpanfile', 'Rakefile', 'Makefile', '.git/']
 "" }}}
 
 "" mhinz/vim-signify {{{
