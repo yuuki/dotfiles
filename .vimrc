@@ -953,7 +953,8 @@ nmap <Leader>gp <SID>(git-push-now)
 nmap <Leader>gP <SID>(git-pull-now)
 nmap <Leader>gl <SID>(git-log-line)
 nmap <Leader>gL <SID>(git-log)
-nmap <silent> [unite]gg  <SID>(giti-sources)
+
+nmap <silent> [unite]gg  <SID>(giti-grep)
 nmap <silent> [unite]gst <SID>(git-status)
 nmap <silent> [unite]gb  <SID>(git-branch)
 nmap <silent> [unite]gB  <SID>(git-branch_all)
@@ -979,6 +980,7 @@ if globpath(&rtp, 'plugin/giti.vim') != ''
   nnoremap <silent> <SID>(git-branch_all) :<C-u>Unite giti/branch_all<CR>
   nnoremap <silent> <SID>(git-config)     :<C-u>Unite giti/config<CR>
   nnoremap <silent> <SID>(git-log)        :<C-u>Unite giti/log<CR>
+  nnoremap <silent> <SID>(giti-grep)      :<C-u>Unite giti/grep<CR>
   nnoremap <silent><expr> <SID>(git-log-this-file) ':<C-u>Unite giti/log:' . expand('%:p') . '<CR>'
 endif
 
