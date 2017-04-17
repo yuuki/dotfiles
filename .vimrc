@@ -406,7 +406,7 @@ augroup IndentGroup
   autocmd FileType rust       setlocal sw=4 sts=4 ts=4 et
   autocmd FileType scala      setlocal sw=2 sts=2 ts=2 et
   autocmd FileType sh         setlocal sw=4 sts=4 ts=4 et
-  autocmd FileType sql        setlocal sw=4 sts=4 ts=4 et
+  autocmd FileType sql        setlocal sw=2 sts=2 ts=2 et
   autocmd FileType terraform  setlocal sw=4 sts=4 ts=4 et
   autocmd FileType tex        setlocal sw=2 sts=2 ts=2 et
   autocmd FileType tt2        setlocal sw=2 sts=2 ts=2 et
