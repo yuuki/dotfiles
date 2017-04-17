@@ -607,6 +607,9 @@ NeoBundleLazy 'kana/vim-operator-replace', {
 NeoBundleLazy 'roalddevries/yaml.vim', {
             \ 'autoload' : {'filetypes' : 'yaml'}
             \ }
+NeoBundleLazy 'corylanou/vim-present', {
+            \ 'autoload' : {'filetypes' : 'present'}
+            \ }
 NeoBundleLazy 'sudo.vim'
 NeoBundleLazy 'lambdalisue/unite-grep-vcs', {
             \ 'autoload': {
