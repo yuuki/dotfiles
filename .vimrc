@@ -101,7 +101,7 @@ set t_Co=256
 set directory=~/.vim/swp
 set undodir=~/.vim/undo
 " stop hiding json quote
-set conceallevel=0
+"set conceallevel=0
 """ }}}
 
 """ Util {{{
