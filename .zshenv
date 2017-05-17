@@ -128,9 +128,6 @@ export GOROOT="$HOMEBREW_PREFIX"/opt/go/libexec/
 export GOPATH=$HOME/go
 export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
 
-# AWS
-export AWS_CONFIG_FILE=$HOME/.aws.conf
-
 # MySQL
 export PATH=$HOME/.mysqlenv/bin:$HOME/.mysqlenv/mysql-build/bin:$PATH
 
@@ -155,6 +152,9 @@ export LDFLAGS="-L/opt/homebrew/lib"
 
 # Postgres
 # source $HOME/.pgvm/pgvm_env
+
+# Rust
+export RUST_SRC_PATH=$(rustc --print sysroot)/lib/rustlib/src/rust/src/
 
 export REPORTTIME=5
 
