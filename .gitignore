@@ -38,3 +38,5 @@ GTAGS
 .ruby-version
 vendor/bundle
 vendor/cookbooks
+rusty-tags\.vi
+/TODO
