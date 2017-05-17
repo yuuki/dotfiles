@@ -1,5 +1,3 @@
-### External script {{{
-
 # rbenv
 if type rbenv > /dev/null 2>&1; then
   eval "$(rbenv init - --no-rehash)"
@@ -41,5 +39,3 @@ fi
 if [[ -f "$HOME/.mysqlenv/etc/bashrc" ]]; then
   . "$HOME/.mysqlenv/etc/bashrc"
 fi
-
-### }}}
