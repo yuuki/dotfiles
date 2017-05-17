@@ -206,8 +206,8 @@ inoremap <silent> jj <ESC>
 inoremap <silent> <C-j> j
 
 " ; と : をスワップ
-inoremap : ;
-inoremap ; :
+" inoremap : ;
+" inoremap ; :
 nnoremap : ;
 nnoremap ; :
 vnoremap : ;
