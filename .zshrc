@@ -110,6 +110,7 @@ bindkey '^x^b' peco-git-recent-branches
 bindkey '^xb' peco-git-recent-all-branches
 bindkey '^s' peco-ghq
 bindkey '^xp' peco-git-add
+bindkey '^w' peco-mkr-roles
 
 # # Bind up/down arrow keys to navigate through your history
 # bindkey '^\e[B' directory-history-search-backward
@@ -222,7 +223,7 @@ alias mb='make build'
 alias mt='make test'
 
 ## Vim
-alias mvim='~/Applications/MacVim.app/Contents/MacOS/mvim'
+alias mvim='~/Applications/MacVim.app/Contents/bin/mvim'
 
 ## Utils
 alias ls='ls --color=auto'
@@ -294,8 +295,6 @@ fi
 alias findbig='find . -type f -exec ls -s {} \; | sort -n -r | head -5'
 alias cpurank='ps -eo user,pcpu,pid,cmd | sort -r -k2 | head -6'
 alias diskrank='du -ah | sort -r -k1 | head -5'
-alias urldecode='python -c "import sys, urllib as ul; print ul.unquote_plus(sys.argv[1])"'
-alias urlencode='python -c "import sys, urllib as ul; print ul.quote_plus(sys.argv[1])"'
 
 ## OSX GUI
 alias safari='open -a Safari'
@@ -394,6 +393,15 @@ if exists peco; then
     zle -N peco_select_history
     bindkey '^R' peco_select_history
 fi
+
+function peco-mkr-roles() {
+  local selected_role=$(mkr services | jq -rM '[.[] | .name as $name | .roles // [] | map("\($name) \(.)")] | flatten | .[]' | peco)
+  if [ -n "${selected_role}" ]; then
+     local BUFFER="tssh \`roles "${selected_role}"\`"
+  fi
+  zle clear-screen
+}
+zle -N peco-mkr-roles
 
 function peco-git-recent-branches () {
     local selected_branch=$(git for-each-ref --format='%(refname)' --sort=-committerdate refs/heads | \
