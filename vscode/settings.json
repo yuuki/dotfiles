@@ -1,0 +1,116 @@
+{
+    "editor.fontSize": 15,
+    "editor.renderWhitespace": "boundary",
+    "editor.formatOnSave": true,
+    "editor.formatOnType": true,
+    "editor.minimap.enabled": false,
+    "editor.cursorBlinking": "solid",
+    "terminal.external.osxExec": "iTerm.app",
+    "terminal.integrated.scrollback": 5000,
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/CVS": true,
+        "**/.DS_Store": true,
+        "**/bundle": true
+    },
+    // Vim
+    "vim.easymotion": true,
+    "vim.incsearch": true,
+    "vim.useSystemClipboard": true,
+    "vim.useCtrlKeys": true,
+    "vim.hlsearch": true,
+    "vim.insertModeKeyBindings": [
+        {
+            "before": [
+                "j",
+                "j"
+            ],
+            "after": [
+                "<Esc>"
+            ]
+        }
+    ],
+    "vim.otherModesKeyBindingsNonRecursive": [
+        {
+            "before": [
+                "<leader>",
+                "d"
+            ],
+            "after": [
+                "d",
+                "d"
+            ]
+        },
+        {
+            "before": [
+                "<C-n>"
+            ],
+            "after": [],
+            "commands": [
+                {
+                    "command": ":nohl"
+                }
+            ]
+        },
+        // https://qiita.com/carnelia0702/items/a2c9f9932ec469b46acb
+        {
+            "before": [
+                "u"
+            ],
+            "after": [],
+            "commands": [
+                {
+                    "command": "undo"
+                }
+            ]
+        },
+        {
+            "before": [
+                "<C-r>"
+            ],
+            "after": [],
+            "commands": [
+                {
+                    "command": "redo"
+                }
+            ]
+        }
+    ],
+    "vim.handleKeys": {
+        "<C-a>": false,
+        "<C-f>": false
+    },
+    "vim.otherModesKeyBindingsNonRecursive": [
+        {
+            "before": [
+                ":",
+                ":"
+            ],
+            "after": [],
+            "commands": [
+                {
+                    "command": "workbench.action.showCommands",
+                    "args": []
+                }
+            ]
+        },
+        // {
+        //     "before": [
+        //         ":"
+        //     ],
+        //     "after": [],
+        //     "commands": [
+        //         {
+        //             "command": "ghqOpen",
+        //             "args": []
+        //         }
+        //     ]
+        // }
+    ],
+    // Go
+    "go.gopath": "/Users/y_uuki/go",
+    "go.formatOnSave": true,
+    "workbench.startupEditor": "newUntitledFile",
+}

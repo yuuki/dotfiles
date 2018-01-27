@@ -1,0 +1,11 @@
+// Place your key bindings in this file to overwrite the defaults[
+[
+    {
+        "key": "shift+h",
+        "command": "workbench.action.terminal.toggleTerminal"
+    },
+    {
+        "key": "ctrl+e",
+        "command": "workbench.action.toggleSidebarVisibility"
+    },
+]
