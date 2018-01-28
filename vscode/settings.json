@@ -6,6 +6,7 @@
     "editor.minimap.enabled": false,
     "editor.cursorBlinking": "solid",
     "terminal.external.osxExec": "iTerm.app",
+    "editor.wordWrap": "on",
     "terminal.integrated.scrollback": 5000,
     "files.exclude": {
         "**/.git": true,
@@ -15,6 +16,9 @@
         "**/.DS_Store": true,
         "**/bundle": true
     },
+    "workbench.startupEditor": "newUntitledFile",
+    "window.zoomLevel": 0,
+    "window.title": "${rootName}${separator}${rootPath}",
     // Vim
     "vim.easymotion": true,
     "vim.incsearch": true,
@@ -33,6 +37,24 @@
         }
     ],
     "vim.otherModesKeyBindingsNonRecursive": [
+        {
+            "before": [
+                "j"
+            ],
+            "after": [
+                "g",
+                "j"
+            ]
+        },
+        {
+            "before": [
+                "k"
+            ],
+            "after": [
+                "g",
+                "k"
+            ]
+        },
         {
             "before": [
                 "<leader>",
@@ -76,17 +98,10 @@
                     "command": "redo"
                 }
             ]
-        }
-    ],
-    "vim.handleKeys": {
-        "<C-a>": false,
-        "<C-f>": false
-    },
-    "vim.otherModesKeyBindingsNonRecursive": [
+        },
         {
             "before": [
-                ":",
-                ":"
+                ";",
             ],
             "after": [],
             "commands": [
@@ -96,21 +111,16 @@
                 }
             ]
         },
-        // {
-        //     "before": [
-        //         ":"
-        //     ],
-        //     "after": [],
-        //     "commands": [
-        //         {
-        //             "command": "ghqOpen",
-        //             "args": []
-        //         }
-        //     ]
-        // }
     ],
+    "vim.handleKeys": {
+        "<C-a>": false,
+        "<C-f>": false
+    },
     // Go
     "go.gopath": "/Users/y_uuki/go",
-    "go.formatOnSave": true,
-    "workbench.startupEditor": "newUntitledFile",
+    "go.goroot": "/opt/homebrew/opt/go/libexec//Users/y_uuki/go",
+    // Japanese
+    // https: //www.off-soft.net/ja/software/develop2/japanese-problem-with-visual-studio-code.html
+    "editor.wordSeparators": "`~!@#$%^&*()-=+[{]}\\|;:'\",.<>/?、。「」（）；：・？＜＞＋－＊／｛｝｜～＆％＄＃”！’　にをはがのとも",
+    "vim.iskeyword": "`~!@#$%^&*()-=+[{]}\\|;:'\",.<>/?、。「」（）；：・？＜＞＋－＊／｛｝｜～＆％＄＃”！’　にをはがのとも",
 }

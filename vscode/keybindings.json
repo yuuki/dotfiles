@@ -1,11 +1,56 @@
-// Place your key bindings in this file to overwrite the defaults[
 [
     {
-        "key": "shift+h",
+        "key": "alt+h",
         "command": "workbench.action.terminal.toggleTerminal"
     },
     {
-        "key": "ctrl+e",
+        "key": "ctrl+shift+h",
+        "command": "workbench.action.toggleMaximizedPanel",
+    },
+    {
+        "key": "alt+e",
         "command": "workbench.action.toggleSidebarVisibility"
     },
+    {
+        "key": "ctrl+e",
+        "command": "workbench.view.explorer",
+    },
+    {
+        "key": "ctrl+-",
+        "command": "workbench.action.focusActiveEditorGroup",
+        "when": "terminalFocus"
+    },
+    {
+        "key": "ctrl+-",
+        "command": "workbench.action.terminal.focus",
+        "when": "!terminalFocus"
+    },
+    {
+        "key": "cmd+[",
+        "command": "workbench.action.quickSwitchWindow"
+    },
+    {
+        "key": "cmd+[",
+        "command": "workbench.action.quickOpenNavigateNext",
+        "when": "inWindowsPicker"
+    },
+    {
+        "key": "cmd+]",
+        "command": "workbench.action.quickSwitchWindow"
+    },
+    {
+        "key": "cmd+]",
+        "command": "workbench.action.quickOpenNavigatePrevious",
+        "when": "inQuickOpen"
+    },
+    {
+        "key": "r",
+        "command": "renameFile",
+        "when": "explorerViewletVisible && filesExplorerFocus && !inputFocus"
+    },
+    {
+        "key": "enter",
+        "command": "-renameFile",
+        "when": "explorerViewletVisible && filesExplorerFocus && !inputFocus"
+    }
 ]
