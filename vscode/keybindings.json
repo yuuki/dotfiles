@@ -52,5 +52,9 @@
         "key": "enter",
         "command": "-renameFile",
         "when": "explorerViewletVisible && filesExplorerFocus && !inputFocus"
+    },
+    {
+        "key": "cmd+n",
+        "command": "explorer.newFile"
     }
 ]

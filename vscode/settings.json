@@ -3,6 +3,7 @@
     "editor.renderWhitespace": "boundary",
     "editor.formatOnSave": true,
     "editor.formatOnType": true,
+    "editor.formatOnPaste": true,
     "editor.minimap.enabled": false,
     "editor.cursorBlinking": "solid",
     "terminal.external.osxExec": "iTerm.app",
