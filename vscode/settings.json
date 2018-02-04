@@ -119,7 +119,8 @@
     },
     // Go
     "go.gopath": "/Users/y_uuki/go",
-    "go.goroot": "/opt/homebrew/opt/go/libexec//Users/y_uuki/go",
+    "go.goroot": "/opt/homebrew/opt/go/libexec",
+    "go.formatTool": "goimports",
     // Japanese
     // https: //www.off-soft.net/ja/software/develop2/japanese-problem-with-visual-studio-code.html
     "editor.wordSeparators": "`~!@#$%^&*()-=+[{]}\\|;:'\",.<>/?、。「」（）；：・？＜＞＋－＊／｛｝｜～＆％＄＃”！’　にをはがのとも",
