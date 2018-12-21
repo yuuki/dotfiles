@@ -208,10 +208,10 @@ inoremap <silent> <C-j> j
 " ; と : をスワップ
 " inoremap : ;
 " inoremap ; :
-nnoremap : ;
-nnoremap ; :
-vnoremap : ;
-vnoremap ; :
+" nnoremap : ;
+" nnoremap ; :
+" vnoremap : ;
+" vnoremap ; :
 
 " insertモードでもquit
 inoremap <C-q><C-q> <Esc>:wq<CR>
@@ -496,7 +496,6 @@ NeoBundle 'osyo-manga/unite-quickfix'
 NeoBundle 'h1mesuke/unite-outline'
 NeoBundle 'tsukkee/unite-tag'
 NeoBundle 'jceb/vim-hier'
-NeoBundle 'thinca/vim-guicolorscheme'
 NeoBundle 'Lokaltog/vim-powerline'
 NeoBundle 'tomtom/tcomment_vim'
 NeoBundle 'hewes/unite-gtags'
@@ -532,6 +531,7 @@ NeoBundle 'markcornick/vim-terraform'
 NeoBundle 'vim-scripts/VOoM'
 " NeoBundle 'vim-scripts/vim-auto-save'
 NeoBundle 'rust-lang/rust.vim'
+NeoBundle 'racer-rust/vim-racer'
 NeoBundle 'vim-scripts/nginx.vim'
 NeoBundle 'kmnk/vim-unite-giti'
 NeoBundle 'rhysd/committia.vim'
@@ -550,7 +550,6 @@ NeoBundle 'altercation/vim-colors-solarized'
 NeoBundle 'telamon/vim-color-github'
 NeoBundle 'earendel'
 NeoBundle 'rdark'
-NeoBundle 'guicolorscheme.vim'
 NeoBundle 'rhysd/wallaby.vim'
 
 NeoBundleLazy 'Shougo/vimshell', {
@@ -609,6 +608,9 @@ NeoBundleLazy 'roalddevries/yaml.vim', {
             \ }
 NeoBundleLazy 'corylanou/vim-present', {
             \ 'autoload' : {'filetypes' : 'present'}
+            \ }
+NeoBundleLazy 'majutsushi/tagbar', {
+            \ 'autoload' : {'filetypes' : 'go'}
             \ }
 NeoBundleLazy 'sudo.vim'
 NeoBundleLazy 'lambdalisue/unite-grep-vcs', {
@@ -1219,6 +1221,56 @@ let g:go_snippet_engine = "neosnippet"
 let g:go_highlight_functions = 1
 let g:go_highlight_methods = 1
 let g:go_highlight_fields = 1
+"" }}}
+
+"" rust.vim {{{
+let g:rustfmt_autosave = 1
+let g:rustfmt_command = $HOME . '/.cargo/bin/rustfmt'
+
+set hidden
+let g:racer_cmd = $HOME . '/.cargo/bin/racer'
+
+augroup RustCmd
+  autocmd!
+  autocmd FileType rust nmap gd <Plug>(rust-def)
+  autocmd FileType rust nmap gs <Plug>(rust-def-split)
+  autocmd FileType rust nmap gx <Plug>(rust-def-vertical)
+  autocmd FileType rust nmap <Leader>gd <Plug>(rust-doc)
+
+  autocmd BufRead *.rs :setlocal tags=./rusty-tags.vi;/,$RUST_SRC_PATH/rusty-tags.vi
+  autocmd BufWrite *.rs :silent! exec "!rusty-tags vi --quiet --start-dir=" . expand('%:p:h') . "&"
+augroup END
+"" }}}
+
+"" tagbar {{{
+nmap <Leader>G :TagbarToggle<CR>
+let g:tagbar_type_go = {
+	\ 'ctagstype' : 'go',
+	\ 'kinds'     : [
+		\ 'p:package',
+		\ 'i:imports:1',
+		\ 'c:constants',
+		\ 'v:variables',
+		\ 't:types',
+		\ 'n:interfaces',
+		\ 'w:fields',
+		\ 'e:embedded',
+		\ 'm:methods',
+		\ 'r:constructor',
+		\ 'f:functions'
+	\ ],
+	\ 'sro' : '.',
+	\ 'kind2scope' : {
+		\ 't' : 'ctype',
+		\ 'n' : 'ntype'
+	\ },
+	\ 'scope2kind' : {
+		\ 'ctype' : 't',
+		\ 'ntype' : 'n'
+	\ },
+	\ 'ctagsbin'  : 'gotags',
+	\ 'ctagsargs' : '-sort -silent'
+\ }
 "" }}}
 
 "" memolist.vim {{{

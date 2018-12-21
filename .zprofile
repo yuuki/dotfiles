@@ -39,3 +39,7 @@ fi
 if [[ -f "$HOME/.mysqlenv/etc/bashrc" ]]; then
   . "$HOME/.mysqlenv/etc/bashrc"
 fi
+
+if type ndenv > /dev/null 2>&1; then
+  eval "$(ndenv init -)"
+fi

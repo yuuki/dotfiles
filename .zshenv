@@ -131,6 +131,9 @@ export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
 # MySQL
 export PATH=$HOME/.mysqlenv/bin:$HOME/.mysqlenv/mysql-build/bin:$PATH
 
+# getext
+export PATH=$PATH:/opt/homebrew/opt/gettext/bin
+
 export LD_LIBRARY_PATH=/opt/homebrew/lib:$LD_LIBRARY_PATH
 export DYLD_FALLBACK_LIBRARY_PATH=/opt/homebrew/lib:$DYLD_FALLBACK_LIBRARY_PATH
 export C_INCLUDE_PATH=/opt/homebrew/include:$C_INCLUDE_PATH
@@ -155,6 +158,11 @@ export LDFLAGS="-L/opt/homebrew/lib"
 
 # Rust
 export RUST_SRC_PATH=$(rustc --print sysroot)/lib/rustlib/src/rust/src/
+
+export PATH="$HOME/.ndenv/bin:$PATH"
+
+# # AWS
+# source $(brew --prefix)/bin/aws_zsh_completer.sh
 
 export REPORTTIME=5
 

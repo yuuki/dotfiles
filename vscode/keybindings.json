@@ -1,10 +1,10 @@
 [
     {
-        "key": "alt+h",
+        "key": "alt+-",
         "command": "workbench.action.terminal.toggleTerminal"
     },
     {
-        "key": "ctrl+shift+h",
+        "key": "ctrl+shift+-",
         "command": "workbench.action.toggleMaximizedPanel",
     },
     {
@@ -46,15 +46,15 @@
     {
         "key": "r",
         "command": "renameFile",
-        "when": "explorerViewletVisible && filesExplorerFocus && !inputFocus"
-    },
-    {
-        "key": "enter",
-        "command": "-renameFile",
-        "when": "explorerViewletVisible && filesExplorerFocus && !inputFocus"
+        "when": "explorerViewletVisible && filesExplorerFocus && !exploreResourceIsRoot && !inputFocus"
     },
     {
         "key": "cmd+n",
         "command": "explorer.newFile"
+    },
+    {
+        "key": "enter",
+        "command": "-renameFile",
+        "when": "explorerViewletVisible && filesExplorerFocus && !explorerResourceIsRoot && !explorerResourceReadonly && !inputFocus"
     }
 ]

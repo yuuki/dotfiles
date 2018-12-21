@@ -35,8 +35,8 @@ GTAGS
 .perl-version
 .mackerel
 .bundle
-.ruby-version
 vendor/bundle
 vendor/cookbooks
 rusty-tags\.vi
 /TODO
+.vscode/

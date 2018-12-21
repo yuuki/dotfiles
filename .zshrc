@@ -110,7 +110,10 @@ bindkey '^x^b' peco-git-recent-branches
 bindkey '^xb' peco-git-recent-all-branches
 bindkey '^s' peco-ghq
 bindkey '^xp' peco-git-add
-bindkey '^w' peco-mkr-roles
+bindkey '^mr' peco-mkr-roles
+bindkey '^mo' peco-mkr-roles-open
+bindkey '^mh' peco-mkr-hosts
+bindkey '^[o' complete-mackerel-host-ip
 
 # # Bind up/down arrow keys to navigate through your history
 # bindkey '^\e[B' directory-history-search-backward
@@ -194,6 +197,7 @@ alias hssh='h ssh'
 alias hts='h tssh'
 alias htssh='h tssh'
 alias hbe='h bundle exec'
+alias fe='furo2 exec'
 
 ## Docker
 alias d='docker'
@@ -216,14 +220,15 @@ alias g='git'
 alias gst='git status'
 alias gl='git log -p'
 alias gg='git grep -H --break'
-alias gbr='/opt/homebrew/bin/git-browse-remote'
+alias gbr='git-browse-remote'
 
 ## Make
 alias mb='make build'
 alias mt='make test'
 
 ## Vim
-alias mvim='~/Applications/MacVim.app/Contents/bin/mvim'
+#alias mvim='~/Applications/MacVim.app/Contents/bin/mvim'
+alias mvim='open -n -a ~/Applications/MacVim.app'
 
 ## Utils
 alias ls='ls --color=auto'
@@ -247,7 +252,7 @@ alias cap="/opt/homebrew/bin/cap"
 alias r="roles"
 alias matrix="docker run -it --rm nathanleclaire/matrix_japan cmatrix -"
 ## memo
-alias memo='cat > /dev/null'
+alias memo='code -n ~/Dropbox/memo/tmp.txt ~/Dropbox/memo/goal.md'
 alias memolist='vim +MemoList'
 alias memonew='vim +MemoNew'
 ## rust
@@ -272,6 +277,9 @@ export LESS='--tabs=4 --no-init --LONG-PROMPT --ignore-case -R'
 if [[ -x /usr/local/bin/src-hilite-lesspipe.sh ]]; then
   export LESSOPEN='| /usr/local/bin/src-hilite-lesspipe.sh %s'
 fi
+
+## VScode
+alias c='code'
 
 ## Vim
 alias v='vim'
@@ -381,11 +389,11 @@ function ntssh() {
 
 function exists { which $1 &> /dev/null }
 
-if exists peco; then
+if exists fzf; then
     function peco_select_history() {
         local tac
         exists gtac && tac="gtac" || { exists tac && tac="tac" || { tac="tail -r" } }
-        BUFFER=$(fc -l -n 1 | eval $tac | peco)
+        BUFFER=$(fc -l -n 1 | eval $tac | fzf --query "${LBUFFER}")
         CURSOR=$#BUFFER         # move cursor
         zle -R -c               # refresh
     }
@@ -395,13 +403,33 @@ if exists peco; then
 fi
 
 function peco-mkr-roles() {
-  local selected_role=$(mkr services | jq -rM '[.[] | .name as $name | .roles // [] | map("\($name) \(.)")] | flatten | .[]' | peco)
+  local selected_role=$(mkr services | jq -rM '[.[] | .name as $name | .roles // [] | map("\($name) \(.)")] | flatten | .[]' | fzf --query "${LBUFFER}")
   if [ -n "${selected_role}" ]; then
      local BUFFER="tssh \`roles "${selected_role}"\`"
   fi
   zle clear-screen
 }
 zle -N peco-mkr-roles
+
+function peco-mkr-roles-open() {
+  local org_name='hatena'
+  local selected_role=$(mkr services | jq -rM '[.[] | .name as $name | .roles // [] | map("\($name)/\(.)")] | flatten | .[]' | fzf --query "${LBUFFER}")
+  if [ -n "${selected_role}" ]; then
+     local BUFFER="open https://mackerel.io/orgs/${org_name}/services/${selected_role}/-/graphs"
+     zle accept-line
+  fi
+  zle clear-screen
+}
+zle -N peco-mkr-roles-open
+
+function peco-mkr-hosts() {
+  local selected_host=$(mkr hosts | jq -r -M ".[].name" | fzf --query "${LBUFFER}")
+  if [ -n "${selected_host}" ]; then
+     local BUFFER="$selected_host"
+  fi
+  zle clear-screen
+}
+zle -N peco-mkr-hosts
 
 function peco-git-recent-branches () {
     local selected_branch=$(git for-each-ref --format='%(refname)' --sort=-committerdate refs/heads | \
@@ -426,7 +454,7 @@ function peco-git-recent-all-branches () {
 zle -N peco-git-recent-all-branches
 
 function peco-ghq () {
-    local selected_dir=$((cdr -l | awk '{ print $2 }'; ghq list --full-path) | peco)
+    local selected_dir=$((cdr -l | awk '{print $2}'; ghq list --full-path) | fzf --query "${LBUFFER}")
     if [ -n "$selected_dir" ]; then
         local BUFFER="cd ${selected_dir}"
         zle accept-line
@@ -483,14 +511,6 @@ function ip() {
     ipconfig getifaddr en0
 }
 
-# function dinit() {
-#     $(boot2docker shellinit)
-# }
-
-function dip() {
-    boot2docker ip 2>/dev/null
-}
-
 function da () {
     docker start $1 && docker attach $1
 }
@@ -517,6 +537,98 @@ function git-ignore-list() {
 # added by travis gem
 [ -f $HOME/.travis/travis.sh ] && . /Users/y_uuki/.travis/travis.sh
 
+# http://motemen.hatenablog.com/entry/2015/07/mackerel-mkr-peco-zsh
+autoload -U modify-current-argument
+autoload -U split-shell-arguments
+
+funcition complete-mackerel-host-ip () {
+    local apikey=$1
+    local apikey_name=$2
+
+    local mode_append_only=0
+    local REPLY
+    local reply
+
+    local filter='peco'
+
+    split-shell-arguments
+    if [ $(($REPLY % 2)) -eq 0 ]; then
+        # query by word under cursor
+        query_arg="--query=$reply[$REPLY]"
+    elif [ -n "${LBUFFER##* }" ]; then
+        # query by word jsut before cursor
+        query_arg="--query=${LBUFFER##* }"
+    else
+        # no word detected
+        query_arg='--query='
+        mode_append_only=1
+    fi
+
+    res=$(MACKEREL_APIKEY=${apikey:-$MACKEREL_APIKEY} MACKEREL_APIKEY_NAME=${apikey_name:-$MACKEREL_APIKEY_NAME} mkr-hosts-tsv | eval $filter "$query_arg")
+    if [ -z "$res" ]; then
+        zle reset-prompt
+        return 1
+    fi
+
+    ip=$(echo "$res" | cut -f1)
+    host=$(echo "$res" | cut -f2)
+
+    if [ $mode_append_only = 1 ]; then
+        LBUFFER+="$host"
+    else
+        modify-current-argument "$host"
+    fi
+
+    BUFFER+=" # $ip"
+
+    zle reset-prompt
+}
+zle -N complete-mackerel-host-ip
+
+function open-mackerel-role () {
+    local apikey=$1
+    local apikey_name=$2
+
+    local mode_append_only=0
+    local REPLY
+    local reply
+
+    local filter='peco'
+
+    split-shell-arguments
+    if [ $(($REPLY % 2)) -eq 0 ]; then
+        # query by word under cursor
+        query_arg="--query=$reply[$REPLY]"
+    elif [ -n "${LBUFFER##* }" ]; then
+        # query by word jsut before cursor
+        query_arg="--query=${LBUFFER##* }"
+    else
+        # no word detected
+        query_arg='--query='
+        mode_append_only=1
+    fi
+
+    res=$(MACKEREL_APIKEY=${apikey:-$MACKEREL_APIKEY} MACKEREL_APIKEY_NAME=${apikey_name:-$MACKEREL_APIKEY_NAME} mkr-hosts-tsv | eval $filter "$query_arg")
+    if [ -z "$res" ]; then
+        zle reset-prompt
+        return 1
+    fi
+
+    ip=$(echo "$res" | cut -f1)
+    host=$(echo "$res" | cut -f2)
+
+    if [ $mode_append_only = 1 ]; then
+        LBUFFER+="$host"
+    else
+        modify-current-argument "$host"
+    fi
+
+    BUFFER+=" # $ip"
+
+    zle reset-prompt
+}
+zle -N open-mackerel-role
+
 source ~/.zshrc.local
 
 # End profiling
@@ -530,3 +642,6 @@ source '/Users/y_uuki/google-cloud-sdk/path.zsh.inc'
 
 # The next line enables shell command completion for gcloud.
 source '/Users/y_uuki/google-cloud-sdk/completion.zsh.inc'
+
+# added by travis gem
+[ -f /Users/y_uuki/.travis/travis.sh ] && source /Users/y_uuki/.travis/travis.sh
