@@ -9,8 +9,8 @@ export ZSH_HOME=${HOME}/.zsh
 setopt no_global_rcs
 
 # Local
-export LANG='ja_JP.UTF-8'
-export LC_CTYPE="ja_JP.UTF-8"
+export LANG='en_US.UTF-8'
+export LC_CTYPE="en_US.UTF-8"
 
 # fpath
 typeset -U fpath
@@ -85,7 +85,7 @@ manpath=(
   /usr/share/man(N-/)
 )
 
-export LANG=ja_JP.UTF-8
+#export LANG=ja_JP.UTF-8
 
 export EDITOR="vim"
 
@@ -124,9 +124,8 @@ export XDG_DATA_HOME=/usr/local/share
 #export PYTHONPATH=/usr/local/lib/python2.7/site-packages:$PYTHONPATH
 
 # Go
-export GOROOT="$HOMEBREW_PREFIX"/opt/go/libexec/
 export GOPATH=$HOME/go
-export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
+export PATH=$GOPATH/bin:$GOPATH/bin:$PATH
 
 # MySQL
 export PATH=$HOME/.mysqlenv/bin:$HOME/.mysqlenv/mysql-build/bin:$PATH
@@ -157,12 +156,16 @@ export LDFLAGS="-L/opt/homebrew/lib"
 # source $HOME/.pgvm/pgvm_env
 
 # Rust
-export RUST_SRC_PATH=$(rustc --print sysroot)/lib/rustlib/src/rust/src/
+if type rustc > /dev/null 2>&1; then
+  export RUST_SRC_PATH=$(rustc --print sysroot)/lib/rustlib/src/rust/src/
+fi
 
 export PATH="$HOME/.ndenv/bin:$PATH"
 
 # # AWS
 # source $(brew --prefix)/bin/aws_zsh_completer.sh
+
+export PATH="${HOME}/bin:${PATH}"
 
 export REPORTTIME=5
 

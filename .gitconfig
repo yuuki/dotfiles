@@ -71,10 +71,10 @@
   # push/pull関連
   ps = push
   psom = push origin master
-  psb = "!f() { /opt/homebrew/bin/git rev-parse --abbrev-ref HEAD ; }; /opt/homebrew/bin/git push origin `f`"
+  psb = "!f() { git rev-parse --abbrev-ref HEAD ; }; git push origin `f`"
   pshm = push heroku master
   pl = pull
-  prb = "!f() { /opt/homebrew/bin/git rev-parse --abbrev-ref HEAD ; }; /opt/homebrew/bin/git pull --rebase origin `f`"
+  prb = "!f() { git rev-parse --abbrev-ref HEAD ; }; git pull --rebase origin `f`"
   # rebase関連
   rb = rebase
   rbi = rebase -i

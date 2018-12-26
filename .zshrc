@@ -238,12 +238,8 @@ alias lla='ls -alh'
 alias cp='cp -p'
 alias grep='grep --color=auto'
 alias gr=grep
-alias pgrep='pgrep -fl'
 alias pg=pgrep
 alias lookup='find . -name "$@"'
-alias df='df -h'
-alias du='du -h'
-alias less='less -R'
 alias zmv='noglob zmv'
 alias pdftotext='pdftotext -layout -'
 alias be="bundle exec"
@@ -635,13 +631,6 @@ source ~/.zshrc.local
 # if (which zprof > /dev/null) ;then
 #     zprof | cat
 # fi
-
-
-# The next line updates PATH for the Google Cloud SDK.
-source '/Users/y_uuki/google-cloud-sdk/path.zsh.inc'
-
-# The next line enables shell command completion for gcloud.
-source '/Users/y_uuki/google-cloud-sdk/completion.zsh.inc'
 
 # added by travis gem
 [ -f /Users/y_uuki/.travis/travis.sh ] && source /Users/y_uuki/.travis/travis.sh
