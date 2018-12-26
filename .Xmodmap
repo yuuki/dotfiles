@@ -1,0 +1,10 @@
+remove lock = Caps_Lock
+
+keycode 66 = Control_L
+keycode 102 = Escape
+keycode 100 = Escape
+keycode 101 = Alt_R
+
+add control = Control_L
+add mod1 = Alt_R
+
