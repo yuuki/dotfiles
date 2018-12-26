@@ -6,7 +6,9 @@ end
 
 window class_only: 'google-chrome' do
   remap 'Ctrl-Shift-bracketright', to: 'Ctrl-Tab'
+  remap 'Alt-Shift-bracketright', to: 'Ctrl-Tab'
   remap 'Ctrl-Shift-bracketleft', to: 'Ctrl-Shift-Tab'
+  remap 'Alt-Shift-bracketleft', to: 'Ctrl-Shift-Tab'
 end
 
 # -- window switcher --
@@ -20,4 +22,4 @@ remap 'Alt-1', to: activate('Alacritty.Alacritty', '/usr/bin/alacritty')
 remap 'Alt-2', to: activate('google-chrome.Google-chrome', '/opt/google/chrome/chrome')
 remap 'Alt-3', to: activate('code-oss.code-oss', '/usr/bin/code')
 remap 'Alt-8', to: activate('Thunar.Thunar', '/usr/bin/Thunar')
-remap 'Alt-minus', to: activate('tusk.Tusk', '/usr/bin/tusk')
+remap 'Alt-bracketleft', to: activate('tusk.Tusk', '/usr/bin/tusk')
