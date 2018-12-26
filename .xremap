@@ -1,7 +1,12 @@
 # !ruby
+
 window class_only: 'slack' do
   remap 'Alt-k', to: 'Alt-Up'
   remap 'Alt-j', to: 'Alt-Down'
+  remap 'Ctrl-Shift-bracketright', to: 'Ctrl-Tab'
+  remap 'Alt-Shift-bracketright', to: 'Ctrl-Tab'
+  remap 'Ctrl-Shift-bracketleft', to: 'Ctrl-Shift-Tab'
+  remap 'Alt-Shift-bracketleft', to: 'Ctrl-Shift-Tab'
 end
 
 window class_only: 'google-chrome' do
@@ -9,6 +14,9 @@ window class_only: 'google-chrome' do
   remap 'Alt-Shift-bracketright', to: 'Ctrl-Tab'
   remap 'Ctrl-Shift-bracketleft', to: 'Ctrl-Shift-Tab'
   remap 'Alt-Shift-bracketleft', to: 'Ctrl-Shift-Tab'
+  remap 'Alt-n', to: 'Ctrl-n'
+  remap 'Alt-t', to: 'Ctrl-t'
+  remap 'Alt-w', to: 'Ctrl-w'
 end
 
 # -- window switcher --
