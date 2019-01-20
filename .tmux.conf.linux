@@ -1,0 +1,11 @@
+# for linux
+
+# https://qiita.com/aaaat/items/f9fa3f2018d63b85c1dd
+# tmuxのbufferとxのclipboardを連携させる
+if-shell 'type xsel' \
+  "bind-key -T copy-mode-vi y send-keys -X copy-pipe-and-cancel 'xsel -ib'"
+if-shell 'type xsel' \
+  "bind-key -T copy-mode-vi Y send-keys -X copy-pipe 'xsel -ib'"
+if-shell 'type xsel' \
+  "bind ] run-shell \
+    'xsel -ob | xargs -0 -I{} tmux set-buffer -- {} && tmux paste-buffer'"
