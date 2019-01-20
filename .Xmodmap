@@ -1,5 +1,6 @@
 remove lock = Caps_Lock
 
+keycode 47 = colon semicolon Cyrillic_ZHE
 keycode 66 = Control_L
 keycode 102 = Escape
 keycode 100 = Escape
