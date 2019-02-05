@@ -6,6 +6,7 @@
     "editor.formatOnPaste": true,
     "editor.minimap.enabled": false,
     "editor.cursorBlinking": "solid",
+    "terminal.external.osxExec": "iTerm.app",
     "editor.wordWrap": "on",
     "terminal.integrated.scrollback": 5000,
     "search.smartCase": true,
@@ -120,7 +121,8 @@
         "<C-f>": false
     },
     // Go
-    "go.gopath": "/home/yuuki/go",
+    "go.gopath": "/Users/y_uuki/go",
+    "go.goroot": "/opt/homebrew/opt/go/libexec",
     "go.formatTool": "goimports",
     // Japanese
     // https: //www.off-soft.net/ja/software/develop2/japanese-problem-with-visual-studio-code.html
@@ -131,5 +133,9 @@
     "explorer.confirmDragAndDrop": false,
     "files.watcherExclude": {
         "**/local/**": true
+    },
+    "files.eol": "\n",
+    "[markdown]": {
+        "editor.quickSuggestions": true
     },
 }

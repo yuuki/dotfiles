@@ -11,6 +11,7 @@
   default = simple
 [include]
   path = ~/.gitconfig.local
+  path = ~/.gitconfig.platform
 [core]
   editor = /usr/bin/vim
 	excludesfile = ~/.gitignore
@@ -109,10 +110,6 @@
   pushinsteadof = "git://github.com/"
 [branch "master"]
 	rebase = true
-[web]
-  browser = open
-[browser "chrome"]
-  cmd = open -a 'Google Chrome.app'
 [pager]
   log = diff-highlight | less
   show = diff-highlight | less

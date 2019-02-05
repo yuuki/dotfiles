@@ -68,7 +68,7 @@ set matchtime=3
 set browsedir=buffer
 " コピペにクリップボードを使用する
 " ビジュアルモードで選択したテキストが、クリップボードに入るようにす
-set clipboard=unnamed,autoselect
+set clipboard=unnamedplus,autoselect
 " 文字にアンチエイリアスをかける
 if has('mac') && has('gui_running')
   set antialias
@@ -422,6 +422,7 @@ augroup IndentGroup
   autocmd FileType python     setlocal cinwords=if,elif,else,for,while,try,except,finally,def,class
   autocmd FileType ruby       compiler ruby
   autocmd FileType go         setlocal noexpandtab
+  autocmd FileType tex        setlocal spelllang=en,cjk
 augroup END
 
 " http://d.hatena.ne.jp/WK6/20120606/1338993826

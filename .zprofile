@@ -43,3 +43,34 @@ fi
 if type ndenv > /dev/null 2>&1; then
   eval "$(ndenv init -)"
 fi
+
+# http://d.hatena.ne.jp/homaju/20180508/1525734970
+if [ "$TERM_PROGRAM" = "alacritty" ]; then
+  SESSION_NAME=ope
+  if [[ -z "$TMUX" && -z "$STY" ]] && type tmux >/dev/null 2>&1; then
+    option=
+    if tmux has-session -t ${SESSION_NAME} 2> /dev/null; then
+      option=attach -t ${SESSION_NAME}
+    else
+      option=new-session -s ${SESSION_NAME}
+    fi
+    tmux ${option} && exit
+  fi
+fi
+
+if type ssh-agent > /dev/null 2>&1; then
+  eval "$(ssh-agent)" >> /dev/null
+fi
+
+# http://www.gcd.org/blog/2006/09/100/
+agent="$HOME/tmp/ssh-agent-$USER"
+if [ -S "$SSH_AUTH_SOCK" ]; then
+	case $SSH_AUTH_SOCK in
+	/tmp/*/agent.[0-9]*)
+		ln -snf "$SSH_AUTH_SOCK" ${agent} && export SSH_AUTH_SOCK=${agent}
+	esac
+elif [ -S ${agent} ]; then
+	export SSH_AUTH_SOCK=${agent}
+else
+	echo "no ssh-agent"
+fi

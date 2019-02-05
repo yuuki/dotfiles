@@ -51,5 +51,10 @@ if has('gui_macvim')
   if has('kaoriya')
     let g:plugin_dicwin_disable = 1
   endif
+elseif has('unix')
+  set antialias
+  set guifont=Monospace\ 14
+  set ambiwidth=double
+  colorscheme wallaby
 endif
 " vim: set ft=vim fdm=marker ff=unix fileencoding=utf-8 :

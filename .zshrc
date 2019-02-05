@@ -241,7 +241,6 @@ alias gr=grep
 alias pg=pgrep
 alias lookup='find . -name "$@"'
 alias zmv='noglob zmv'
-alias pdftotext='pdftotext -layout -'
 alias be="bundle exec"
 alias cap="/opt/homebrew/bin/cap"
 #alias dntpsync="boot2docker ssh sudo ntpclient -s -h pool.ntp.org"
@@ -299,6 +298,7 @@ fi
 alias findbig='find . -type f -exec ls -s {} \; | sort -n -r | head -5'
 alias cpurank='ps -eo user,pcpu,pid,cmd | sort -r -k2 | head -6'
 alias diskrank='du -ah | sort -r -k1 | head -5'
+alias pbcopy='xclip -selection c'
 
 ## OSX GUI
 alias safari='open -a Safari'
@@ -320,6 +320,11 @@ alias -g P=' --help | less'
 alias -g ...='..//..'
 alias -g ....='..//..//..'
 alias -g .....='..//..//..//..'
+
+# Linux only
+if [[ "$(uname 2> /dev/null)" == "Linux" ]]; then
+  alias pbcopy='xclip -selection c'
+fi
 ### }}}
 
 # Vim側でC-s C-q
@@ -501,10 +506,6 @@ function uu() {
 
 function gc () {
     cd $(gget $1 | tee -a /dev/stderr | tail -n 1 | awk '{ print $NF }')
-}
-
-function ip() {
-    ipconfig getifaddr en0
 }
 
 function da () {

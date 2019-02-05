@@ -59,6 +59,7 @@ path=(
   ${HOME}/.cargo/bin(N-/)
   $path
 )
+export PATH="${HOME}/.cargo/bin:${PATH}"
 
 # User-specific paths
 path=(
@@ -126,6 +127,9 @@ export XDG_DATA_HOME=/usr/local/share
 # Go
 export GOPATH=$HOME/go
 export PATH=$GOPATH/bin:$GOPATH/bin:$PATH
+
+# Ruby
+export PATH="$(ruby -e 'print Gem.user_dir')/bin:$PATH"
 
 # MySQL
 export PATH=$HOME/.mysqlenv/bin:$HOME/.mysqlenv/mysql-build/bin:$PATH
