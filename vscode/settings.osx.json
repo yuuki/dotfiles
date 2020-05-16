@@ -1,7 +1,6 @@
 {
     "editor.fontSize": 15,
     "editor.renderWhitespace": "boundary",
-    "editor.formatOnSave": true,
     "editor.formatOnType": true,
     "editor.formatOnPaste": true,
     "editor.minimap.enabled": false,
@@ -40,90 +39,77 @@
             ]
         }
     ],
-    "vim.otherModesKeyBindingsNonRecursive": [
+    "vim.normalModeKeyBindingsNonRecursive": [
         {
-            "before": [
-                "j"
-            ],
-            "after": [
-                "g",
-                "j"
-            ]
+            "before": ["<leader>", "d"],
+            "after": ["d", "d"]
         },
         {
-            "before": [
-                "k"
-            ],
-            "after": [
-                "g",
-                "k"
-            ]
+            "before": ["<C-n>"],
+            "commands": [":nohl"]
         },
         {
-            "before": [
-                "<leader>",
-                "d"
-            ],
-            "after": [
-                "d",
-                "d"
-            ]
-        },
-        {
-            "before": [
-                "<C-n>"
-            ],
-            "after": [],
-            "commands": [
-                {
-                    "command": ":nohl"
-                }
-            ]
-        },
-        // https://qiita.com/carnelia0702/items/a2c9f9932ec469b46acb
-        {
-            "before": [
-                "u"
-            ],
-            "after": [],
-            "commands": [
-                {
-                    "command": "undo"
-                }
-            ]
-        },
-        {
-            "before": [
-                "<C-r>"
-            ],
-            "after": [],
-            "commands": [
-                {
-                    "command": "redo"
-                }
-            ]
-        },
-        {
-            "before": [
-                ";",
-            ],
-            "after": [],
-            "commands": [
-                {
-                    "command": "workbench.action.showCommands",
-                    "args": []
-                }
-            ]
-        },
+            "before": ["j"],
+            "after": ["g", "j"]
+        }
     ],
+    "vim.leader": "<space>",
     "vim.handleKeys": {
         "<C-a>": false,
         "<C-f>": false
     },
     // Go
-    "go.gopath": "/Users/y_uuki/go",
-    "go.goroot": "/opt/homebrew/opt/go/libexec",
+    // "go.gopath": "/Users/y-tsubouchi/go",
+    // "go.goroot": "/Users/y-tsubouchi/homebrew/opt/go/libexec",
     "go.formatTool": "goimports",
+    "go.formatFlags": [ "-w" ],
+    "go.buildOnSave": "package",
+    "go.installDependenciesWhenBuilding": false,
+    "go.testFlags": [
+        "-v",
+        "-count=1"
+    ],
+    "go.useLanguageServer": true,
+    "go.alternateTools": {
+        "go-langserver": "gopls"
+    },
+    "go.languageServerExperimentalFeatures": {
+        "format": true,
+        "autoComplete": true,
+        "rename": true,
+        "goToDefinition": true,
+        "hover": true,
+        "signatureHelp": true,
+        "goToTypeDefinition": true,
+        "goToImplementation": true,
+        "documentSymbols": true,
+        "workspaceSymbols": true,
+        "findReferences": true,
+        "diagnostics": true
+    },
+    "[go]": {
+        "editor.tabSize": 4,
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": true,
+        },
+        // Optional: Disable snippets, as they conflict with completion ranking.
+        "editor.snippetSuggestions": "none",
+    },
+    "gopls": {
+        // Add parameter placeholders when completing a function.
+        "usePlaceholders": true,
+
+        // If true, enable additional analyses with staticcheck.
+        // Warning: This will significantly increase memory usage.
+        "staticcheck": false,
+    },
+    "[go.mod]": {
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": true,
+        },
+    },
     // Japanese
     // https: //www.off-soft.net/ja/software/develop2/japanese-problem-with-visual-studio-code.html
     "editor.wordSeparators": "`~!@#$%^&*()-=+[{]}\\|;:'\",.<>/?、。「」（）；：・？＜＞＋－＊／｛｝｜～＆％＄＃”！’　にをはがのとも",
@@ -132,10 +118,51 @@
     "explorer.confirmDelete": false,
     "explorer.confirmDragAndDrop": false,
     "files.watcherExclude": {
+        "**/images/**": true,
         "**/local/**": true
     },
     "files.eol": "\n",
     "[markdown]": {
-        "editor.quickSuggestions": true
+        "editor.quickSuggestions": true,
     },
+    "[rust]": {
+        "editor.tabSize": 4
+    },
+    "[elixir]": {
+        "editor.tabSize": 2
+    },
+    "[python]": {
+        "editor.tabSize": 4
+    },
+    "[ruby]": {
+        "editor.tabSize": 2
+    },
+    "[perl]": {
+        "editor.tabSize": 4
+    },
+    "workbench.iconTheme": "vscode-icons",
+    "editor.renderControlCharacters": true,
+    "terminal.integrated.copyOnSelection": true,
+    "files.trimFinalNewlines": true,
+    "breadcrumbs.enabled": true,
+    "C_Cpp.updateChannel": "Insiders",
+    "go.autocompleteUnimportedPackages": true,
+    "workbench.list.keyboardNavigation": "simple",
+    "latex-workshop.view.pdf.viewer": "tab",
+    "latex-workshop.message.update.show": false,
+    "vs-kubernetes": {
+        "vs-kubernetes.kubectl-path": "/Users/y-tsubouchi/.vs-kubernetes/tools/kubectl/kubectl",
+        "vs-kubernetes.helm-path": "/Users/y-tsubouchi/.vs-kubernetes/tools/helm/darwin-amd64/helm",
+        "vs-kubernetes.minikube-path": "/Users/y-tsubouchi/.vs-kubernetes/tools/minikube/darwin-amd64/minikube",
+        "vs-kubernetes.minikube-path.mac": "/Users/y-tsubouchi/.vs-kubernetes/tools/minikube/darwin-amd64/minikube"
+    },
+    "vsicons.dontShowNewVersionMessage": true,
+    "sync.gist": "6e57cd5e3b99adfdf9898c3349955999",
+    "wordcounter.count_paragraphs": false,
+    "wordcounter.count_lines": false,
+    "wordcounter.include_eol_chars": false,
+    "wordcounter.readtime": false,
+    "workbench.editor.enablePreview": false,
+    "go.coverOnSingleTest": true,
+    "files.autoSave": "afterDelay",
 }

@@ -16,12 +16,12 @@
         "command": "workbench.view.explorer",
     },
     {
-        "key": "ctrl+-",
+        "key": "ctrl+cmd+-",
         "command": "workbench.action.focusActiveEditorGroup",
         "when": "terminalFocus"
     },
     {
-        "key": "ctrl+-",
+        "key": "ctrl+cmd+-",
         "command": "workbench.action.terminal.focus",
         "when": "!terminalFocus"
     },
@@ -44,17 +44,59 @@
         "when": "inQuickOpen"
     },
     {
-        "key": "r",
-        "command": "renameFile",
+        "key": "cmd+n",
+        "command": "explorer.newFile",
         "when": "explorerViewletVisible && filesExplorerFocus && !exploreResourceIsRoot && !inputFocus"
     },
     {
-        "key": "cmd+n",
-        "command": "explorer.newFile"
+        "key": "cmd+enter",
+        "command": "latex-workshop.onEnterKey",
+        "when": "editorTextFocus && vim.active && !editorReadonly && !suggestWidgetVisible && editorLangId == 'latex' && vim.mode == 'Insert'"
+    },
+    {
+        "key": "enter",
+        "command": "-latex-workshop.onEnterKey",
+        "when": "editorTextFocus && vim.active && !editorReadonly && !suggestWidgetVisible && editorLangId == 'latex' && vim.mode == 'Insert'"
+    },
+    {
+        "key": "cmd+enter",
+        "command": "latex-workshop.onEnterKey",
+        "when": "editorTextFocus && !editorReadonly && !suggestWidgetVisible && !vim.active && editorLangId == 'latex'"
+    },
+    {
+        "key": "enter",
+        "command": "-latex-workshop.onEnterKey",
+        "when": "editorTextFocus && !editorReadonly && !suggestWidgetVisible && !vim.active && editorLangId == 'latex'"
+    },
+    {
+        "key": "shift+cmd+w",
+        "command": "workbench.action.switchWindow"
+    },
+    {
+        "key": "ctrl+w",
+        "command": "-workbench.action.switchWindow"
+    },
+    {
+        "key": "enter",
+        "command": "list.expand",
+        "when": "explorerResourceIsFolder && listFocus && !inputFocus"
+    },
+    {
+        "key": "cmd+r",
+        "command": "renameFile",
+        "when": "explorerViewletVisible && filesExplorerFocus && !explorerResourceIsRoot && !explorerResourceReadonly && !inputFocus"
     },
     {
         "key": "enter",
         "command": "-renameFile",
         "when": "explorerViewletVisible && filesExplorerFocus && !explorerResourceIsRoot && !explorerResourceReadonly && !inputFocus"
+    },
+    {
+        "key": "ctrl+shift+-",
+        "command": "workbench.action.navigateForward"
+    },
+    {
+        "key": "ctrl+shift+-",
+        "command": "-workbench.action.navigateForward"
     }
 ]
