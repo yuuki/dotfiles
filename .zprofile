@@ -31,6 +31,15 @@ if type docker-machine > /dev/null 2>&1; then
   eval "$(docker-machine env default 2>/dev/null)"
 fi
 
+if type kubectl > /dev/null 2>&1; then
+  autoload -Uz compinit; compinit
+  . <(kubectl completion zsh)
+fi
+# go
+if type goenv > /dev/null 2>&1; then
+  eval "$(goenv init -)"
+fi
+
 # rustup
 if [[ -f "$HOME/.cargo/env" ]]; then
   . "$HOME/.cargo/env"
@@ -44,22 +53,10 @@ if type ndenv > /dev/null 2>&1; then
   eval "$(ndenv init -)"
 fi
 
-# http://d.hatena.ne.jp/homaju/20180508/1525734970
-if [ "$TERM_PROGRAM" = "alacritty" ]; then
-  SESSION_NAME=ope
-  if [[ -z "$TMUX" && -z "$STY" ]] && type tmux >/dev/null 2>&1; then
-    option=
-    if tmux has-session -t ${SESSION_NAME} 2> /dev/null; then
-      option=attach -t ${SESSION_NAME}
-    else
-      option=new-session -s ${SESSION_NAME}
-    fi
-    tmux ${option} && exit
-  fi
-fi
-
 if type ssh-agent > /dev/null 2>&1; then
-  eval "$(ssh-agent)" >> /dev/null
+  if ! pgrep -q ssh-agent; then
+    eval "$(ssh-agent)" >> /dev/null
+  fi
 fi
 
 # http://www.gcd.org/blog/2006/09/100/
@@ -74,3 +71,5 @@ elif [ -S ${agent} ]; then
 else
 	echo "no ssh-agent"
 fi
+
+export PATH="$HOME/.cargo/bin:$PATH"

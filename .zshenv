@@ -12,62 +12,27 @@ setopt no_global_rcs
 export LANG='en_US.UTF-8'
 export LC_CTYPE="en_US.UTF-8"
 
+# Homebrew
+export HOMEBREW_TEMP="/tmp"
+export HOMEBREW_PREFIX="${HOME}/homebrew"
+
 # fpath
-typeset -U fpath
-fpath=(
-  ${ZSH_HOME}/site-functions
-  ${fpath}
-)
+export FPATH="${ZSH_HOME}/site-functions:$HOMEBREW_PREFIX/share/zsh/site-functions:$HOMEBREW_PREFIX/share/zsh/functions:${FPATH}"
 
 # system path
-typeset -U path
-path=(
-  /opt/homebrew/bin(N-/)
-  /usr/local/bin(N-/)
-  /usr/local/sbin(N-/)
-  /usr/bin(N-/)
-  /bin(N-/)
-  $path
-)
+export PATH="${HOMEBREW_PREFIX}/bin:${HOMEBREW_PREFIX}/sbin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:${PATH}"
 
 # coreutils
 if type brew >> /dev/null 2>&1; then
-  path=(
-    /opt/homebrew/opt/coreutils/libexec/gnubin(N-/)
-    $path
-  )
+  export PATH="${HOMEBREW_PREFIX}/opt/coreutils/libexec/gnubin:${PATH}"
 fi
 
-# heroku
-# if type heroku >> /dev/null 2>&1; then
-#   path=(
-#     /usr/local/heroku/bin(N-/)
-#     $path
-#   )
-# fi
-
-# LL Path
-path=(
-  ${HOME}/.rbenv/bin(N-/)          # Rbenv
-  ${HOME}/.plenv/bin(N-/)          # Plenv
-  ${HOME}/.pyenv/bin(N-/)          # Pyenv
-  $path
-)
-
-# Rust
-path=(
-  ${HOME}/.cargo/bin(N-/)
-  $path
-)
+# Language Path
+export PATH="${HOME}/.rbenv/bin:${HOME}/.plenv/bin:${HOME}/.pyenv/bin:${PATH}"
 export PATH="${HOME}/.cargo/bin:${PATH}"
 
 # User-specific paths
-path=(
-  ${HOME}/src/github.com/yuuki/opstools/bin(N-/)
-  ${HOME}/local/bin(N-/)
-  ${HOME}/bin(N-/)
-  $path
-)
+export PATH="${HOME}/src/github.com/yuuki/opstools/bin:${HOME}/local/bin:${HOME}/bin:${PATH}"
 
 # SUDO_PATH
 typeset -xT SUDO_PATH sudo_path
@@ -97,16 +62,6 @@ else
   export PAGER="less"
 fi
 
-# Homebrew
-export HOMEBREW_TEMP="/tmp"
-export HOMEBREW_PREFIX="/opt/homebrew"
-
-fpath=(
-  $HOMEBREW_PREFIX/share/zsh/site-functions(N-/)
-  $HOMEBREW_PREFIX/share/zsh/functions(N-/)
-  ${fpath}
-)
-
 # C++
 typeset -xT CPLUS_INCLUDE_PATH cplus_include_path
 typeset -U cplus_include_path
@@ -120,30 +75,38 @@ cplus_include_path=(
 # JAVA
 export CLASSPATH=$CLASSPATH:$JAVA_HOME/lib:.
 
-export XDG_DATA_HOME=/usr/local/share
+
+if [ "$(uname 2> /dev/null)" = "Linux" ]; then
+  export XDG_DATA_HOME=/usr/local/share
+fi
 
 #export PYTHONPATH=/usr/local/lib/python2.7/site-packages:$PYTHONPATH
 
 # Go
 export GOPATH=$HOME/go
-export PATH=$GOPATH/bin:$GOPATH/bin:$PATH
+export PATH=$GOPATH/bin:$PATH
+export GOENV_ROOT="$HOME/.goenv"
+export PATH="$GOENV_ROOT/bin:$PATH"
+export PATH="$GOROOT/bin:$PATH"
+export PATH="$PATH:$GOPATH/bin"
 
 # Ruby
-export PATH="$(ruby -e 'print Gem.user_dir')/bin:$PATH"
+export PATH="${HOMEBREW_PREFIX}/opt/ruby/bin:$PATH"
+export PATH="$(gem environment gemdir)/bin:$PATH"
 
 # MySQL
 export PATH=$HOME/.mysqlenv/bin:$HOME/.mysqlenv/mysql-build/bin:$PATH
 
-# getext
-export PATH=$PATH:/opt/homebrew/opt/gettext/bin
+# homebrew opt
+export PATH=${HOMEBREW_PREFIX}/opt/gettext/bin:${HOMEBREW_PREFIX}/opt/grep/libexec/gnubin:${PATH}
 
-export LD_LIBRARY_PATH=/opt/homebrew/lib:$LD_LIBRARY_PATH
-export DYLD_FALLBACK_LIBRARY_PATH=/opt/homebrew/lib:$DYLD_FALLBACK_LIBRARY_PATH
-export C_INCLUDE_PATH=/opt/homebrew/include:$C_INCLUDE_PATH
-export CPLUS_INCLUDE_PATH=/opt/homebrew/include
-export CFLAGS="-I/opt/homebrew/include"
-export CXXLAGS="-I/opt/homebrew/include"
-export LDFLAGS="-L/opt/homebrew/lib"
+export LD_LIBRARY_PATH=${HOMEBREW_PREFIX}/lib:$LD_LIBRARY_PATH
+export DYLD_FALLBACK_LIBRARY_PATH=${HOMEBREW_PREFIX}/lib:$DYLD_FALLBACK_LIBRARY_PATH
+export C_INCLUDE_PATH=${HOMEBREW_PREFIX}/include:$C_INCLUDE_PATH
+export CPLUS_INCLUDE_PATH=${HOMEBREW_PREFIX}/include
+export CFLAGS="-I${HOMEBREW_PREFIX}/include"
+export CXXLAGS="-I${HOMEBREW_PREFIX}/include"
+export LDFLAGS="-L${HOMEBREW_PREFIX}/lib"
 # unset LD_LIBRARY_PATH
 # unset DYLD_LIBRARY_PATH
 # unset DYLD_FALLBACK_LIBRARY_PATH

@@ -214,6 +214,8 @@ alias dexec='docker exec -it `docker ps | tail -n +2 | peco | cut -d " " -f1` /b
 #alias b2d-datesync='boot2docker ssh sudo /usr/local/bin/ntpclient -s -h pool.ntp.org date'
 alias dm='docker-machine'
 alias dc='docker-compose'
+alias k='kubectl'
+alias kgp='kubectl get pods'
 
 ## Git
 alias g='git'
@@ -231,7 +233,11 @@ alias mt='make test'
 alias mvim='open -n -a ~/Applications/MacVim.app'
 
 ## Utils
-alias ls='ls --color=auto'
+if ! type gls > /dev/null 2>&1; then
+  alias ls='ls --color=auto'
+else
+  alias ls='gls --color=auto'
+fi
 alias ll='ls -lh'
 alias la='ls -a'
 alias lla='ls -alh'
@@ -278,6 +284,7 @@ alias c='code'
 
 ## Vim
 alias v='vim'
+alias nv='nvim'
 alias vrc='vim ~/.vimrc'
 if [ -f '/Applications/MacVim.app/Contents/MacOS/Vim' ]; then
     alias vim='/Applications/MacVim.app/Contents/MacOS/Vim -u $HOME/.vimrc'
@@ -298,7 +305,6 @@ fi
 alias findbig='find . -type f -exec ls -s {} \; | sort -n -r | head -5'
 alias cpurank='ps -eo user,pcpu,pid,cmd | sort -r -k2 | head -6'
 alias diskrank='du -ah | sort -r -k1 | head -5'
-alias pbcopy='xclip -selection c'
 
 ## OSX GUI
 alias safari='open -a Safari'
@@ -324,6 +330,58 @@ alias -g .....='..//..//..//..'
 # Linux only
 if [[ "$(uname 2> /dev/null)" == "Linux" ]]; then
   alias pbcopy='xclip -selection c'
+fi
+### }}}
+
+### tmux {{{
+tmux-new-session() {
+  if [[ -n $TMUX ]]; then
+    tmux switch-client -t "$(TMUX= tmux -S "${TMUX%,*,*}" new-session -dP "$@")"
+  else
+    tmux new-session "$@"
+  fi
+}
+
+tmux_sessions() {
+  # Select existing session or create session with fuzzy search tool
+  # get the IDs
+  if ! ID="$(tmux list-sessions 2>/dev/null)"; then
+    # tmux returned error, so try cleaning up /tmp
+    /bin/rm -rf /tmp/tmux*
+  fi
+  create_new_session="Create New Session"
+  if [[ -n "$ID" ]]; then
+    ID="${create_new_session}:\n$ID"
+  else
+    ID="${create_new_session}:"
+  fi
+  ID="$(echo $ID | fzf --query "${LBUFFER}" | cut -d: -f1)"
+  if [[ "$ID" = "${create_new_session}" ]]; then
+    tmux-new-session
+  elif [[ -n "$ID" ]]; then
+    if [[ -n $TMUX ]]; then
+      tmux switch-client -t "$ID"
+    else
+      tmux attach-session -t "$ID"
+    fi
+  else
+    :  # Start terminal normally
+  fi
+}
+
+# Aliases
+if [[ -n $TMUX ]]; then
+  alias ta='tmux switch-client -t'
+else
+  alias ta='tmux attach-session -t'
+fi
+alias tl='tmux_sessions'
+alias ts='tmux-new-session -s'
+alias tksv='tmux kill-server'
+alias tkss='tmux kill-session -t'
+
+if [[ "$TERM_PROGRAM" = "alacritty" && ! -n $TMUX && $- == *l* ]]; then
+  tmux_sessions
 fi
 ### }}}
 
@@ -379,13 +437,6 @@ function cliime() {
   fi
 
   BUNDLE_GEMFILE=~/build/cliime/Gemfile bundle exec -- ruby ~/build/cliime/cliime.rb $@ | peco | pbcopy
-}
-
-function tsshrb() {
-  BUNDLE_GEMFILE=~/build/tmux-cssh-rb/Gemfile bundle exec -- ruby ~/build/tmux-cssh-rb/bin/tssh -l y_uuki $@
-}
-function ntssh() {
-  BUNDLE_GEMFILE=~/build/tmux-cssh-rb/Gemfile bundle exec -- ruby ~/build/tmux-cssh-rb/bin/tssh -l y_uuki -c ~/.tsshrc_vlo $@
 }
 
 function exists { which $1 &> /dev/null }
