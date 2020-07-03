@@ -16,7 +16,11 @@
         "**/.hg": true,
         "**/CVS": true,
         "**/.DS_Store": true,
-        "**/bundle": true
+        "**/bundle": true,
+        "**/.classpath": true,
+        "**/.project": true,
+        "**/.settings": true,
+        "**/.factorypath": true
     },
     "workbench.startupEditor": "newUntitledFile",
     "window.zoomLevel": 0,
@@ -165,4 +169,39 @@
     "workbench.editor.enablePreview": false,
     "go.coverOnSingleTest": true,
     "files.autoSave": "afterDelay",
+    "hediet.vscode-drawio.local-storage": {
+        ".drawio-config": {
+            "language": "",
+            "customFonts": [],
+            "libraries": "general;uml;er;bpmn;flowchart;basic;arrows2",
+            "customLibraries": [
+                "L.scratchpad"
+            ],
+            "plugins": [],
+            "recentColors": [],
+            "formatWidth": 0,
+            "createTarget": false,
+            "pageFormat": {
+                "x": 0,
+                "y": 0,
+                "width": 850,
+                "height": 1100
+            },
+            "search": true,
+            "showStartScreen": true,
+            "gridColor": "#d0d0d0",
+            "darkGridColor": "#6e6e6e",
+            "autosave": true,
+            "resizeImages": null,
+            "openCounter": 0,
+            "version": 18,
+            "unit": 1,
+            "isRulerOn": false,
+            "ui": ""
+        }
+    },
+    "hediet.vscode-drawio.offline": false,
+    "editor.suggestSelection": "first",
+    "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
+    "java.semanticHighlighting.enabled": true,
 }

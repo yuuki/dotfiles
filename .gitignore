@@ -17,6 +17,9 @@ Session.vim
 *.log
 *.dvi
 *.aux
+*.bbl
+*.blg
+*.out
 .zshrc.local
 *.err
 *.zwc
@@ -38,5 +41,6 @@ GTAGS
 vendor/bundle
 vendor/cookbooks
 rusty-tags\.vi
-/TODO
+TODO
 .vscode/
+/.envrc

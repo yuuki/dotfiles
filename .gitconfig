@@ -8,7 +8,7 @@
   interactive = auto
   grep = auto
 [push]
-  default = simple
+	default = simple
 [include]
   path = ~/.gitconfig.local
   path = ~/.gitconfig.platform
@@ -71,9 +71,8 @@
   ssp = stash pop
   # push/pull関連
   ps = push
-  psom = push origin master
+  psoh = push origin HEAD
   psb = "!f() { git rev-parse --abbrev-ref HEAD ; }; git push origin `f`"
-  pshm = push heroku master
   pl = pull
   prb = "!f() { git rev-parse --abbrev-ref HEAD ; }; git pull --rebase origin `f`"
   # rebase関連
@@ -98,6 +97,7 @@
   plog = log --all --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
   delete-merged-branches = !git branch --merged | grep -v \\* | grep -v master | grep -v staging | grep -v develop | xargs -I % git branch -d %
   re = browse-remote
+	tree = log --graph --all --format=\"%x09%C(cyan bold)%an%Creset%x09%C(yellow)%h%Creset %C(magenta reverse)%d%Creset %s\"
 [hub]
   protocol = git
 [branch]
@@ -126,6 +126,11 @@
 	rev = https://{host}/{path}/commit/{commit}
 	pr = https://{host}/{path}/pull/{short_ref}
 	file = "https://{host}/{path}/{file.directory? and :tree or :blob}/{short_rev}/{file}{lines && \"#L%s\" % lines.join(\"-\")}"
-[credential]
-	helper = "aws --version codecommit credential-helper "
-	UseHttpPath = true
+# [credential]
+# 	helper = "aws --version codecommit credential-helper "
+# 	UseHttpPath = true
+[filter "lfs"]
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
