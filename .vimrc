@@ -242,16 +242,16 @@ vmap j gj
 vmap k gk
 
 " insertモードでのカーソル移動 ポップアップウィンドウがでないように
-inoremap <C-e> <END>
-vnoremap <C-e> <END>
-cnoremap <C-e> <END>
-inoremap <C-a> <HOME>
-vnoremap <C-a> <HOME>
-cnoremap <C-a> <HOME>
-inoremap <silent><expr><C-j> pumvisible() ? "\<C-y>\<Down>" : "\<Down>"
-inoremap <silent><expr><C-k> pumvisible() ? "\<C-y>\<Up>" : "\<Up>"
-inoremap <silent><expr><C-h> pumvisible() ? "\<C-y>\<Left>" : "\<Left>"
-inoremap <silent><expr><C-l> pumvisible() ? "\<C-y>\<Right>" : "\<Right>"
+" inoremap <C-e> <END>
+" vnoremap <C-e> <END>
+" cnoremap <C-e> <END>
+" inoremap <C-a> <HOME>
+" vnoremap <C-a> <HOME>
+" cnoremap <C-a> <HOME>
+" inoremap <silent><expr><C-j> pumvisible() ? "\<C-y>\<Down>" : "\<Down>"
+" inoremap <silent><expr><C-k> pumvisible() ? "\<C-y>\<Up>" : "\<Up>"
+" inoremap <silent><expr><C-h> pumvisible() ? "\<C-y>\<Left>" : "\<Left>"
+" inoremap <silent><expr><C-l> pumvisible() ? "\<C-y>\<Right>" : "\<Right>"
 cnoremap <C-h> <Left>
 cnoremap <C-l> <Right>
 " カーソル前の文字削除
@@ -358,23 +358,13 @@ filetype indent on
 
 augroup FileTypeDetect
   autocmd!
-  autocmd BufNewFile,BufRead cpanfile set filetype=cpanfile
-  autocmd BufNewFile,BufRead cpanfile set syntax=perl.cpanfile
-  autocmd BufNewFile,BufRead ELBfile,EIPfile,Groupfile,IAMfile,Routefile setf ruby
   autocmd BufNewFile,BufRead *.PL,*.t,*.psgi,*.perldb,cpanfile setf perl
-  autocmd BufNewFile,BufRead *.tx setfiletype xslate " from vim-xslate
   autocmd BufNewFile,BufRead Capfile,Thorfile set filetype=ruby
-  autocmd BufNewFile,BufRead *.html if search('^; ') > 0 | set filetype=xslate | endif
   autocmd BufNewFile,BufRead *.hpp,*.cl setf cpp
   autocmd BufNewFile,BufRead *.cu,*.hcu setf cuda
   autocmd BufNewFile,BufRead *.aj setf java
-  autocmd BufNewFile,BufRead *.jspx setf xhtml
   autocmd BufNewFile,BufRead *.tex,*.latex,*.sty,*.dtx,*.ltx,*.bbl setf tex
-  autocmd BufNewFile,BufRead *.tt,*.tt2 setf tt2html
-  autocmd BufNewFile,BufRead *.html setf tt2html
   autocmd BufNewFile,BufRead *.{md,mdwn,mkd,mkdn,mark*} setf markdown
-  autocmd BufNewFile,BufRead *.less setf less
-  autocmd BufNewFile,BufRead *.coffee setf coffee
   autocmd BufNewFile,BufRead *.erb set filetype=eruby.html
   autocmd BufNewFile,BufRead */nginx.conf set filetype=nginx
   autocmd BufNewFile,BufRead *.nginx.conf set filetype=nginx
@@ -494,11 +484,11 @@ NeoBundle 'earendel'
 NeoBundle 'rdark'
 NeoBundle 'rhysd/wallaby.vim'
 
-NeoBundleLazy 'kana/vim-operator-replace', {
-            \ 'autoload' : {
-            \     'mappings' : '<Plug>(operator-replace)'
-            \     }
-            \ }
+" NeoBundleLazy 'kana/vim-operator-replace', {
+"             \ 'autoload' : {
+"             \     'mappings' : '<Plug>(operator-replace)'
+"             \     }
+"             \ }
 NeoBundleLazy 'corylanou/vim-present', {
             \ 'autoload' : {'filetypes' : 'present'}
             \ }

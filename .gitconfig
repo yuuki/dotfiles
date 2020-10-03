@@ -78,8 +78,6 @@
   # rebase関連
   rb = rebase
   rbi = rebase -i
-  # hub関連
-  see = browse
   # blame関連
   bl = blame
   # submodule関連

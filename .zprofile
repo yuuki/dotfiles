@@ -35,6 +35,12 @@ if type kubectl > /dev/null 2>&1; then
   autoload -Uz compinit; compinit
   . <(kubectl completion zsh)
 fi
+kubeps1="${HOMEBREW_PREFIX}/opt/kube-ps1/share/kube-ps1.sh"
+if [[ -f $kubeps1 ]]; then
+  source "/Users/y-tsubouchi/homebrew/opt/kube-ps1/share/kube-ps1.sh"
+  PS1='$(kube_ps1)'$PS1
+fi
+
 # go
 if type goenv > /dev/null 2>&1; then
   eval "$(goenv init -)"
@@ -51,6 +57,11 @@ fi
 
 if type ndenv > /dev/null 2>&1; then
   eval "$(ndenv init -)"
+fi
+
+# helm
+if type helm > /dev/null 2>&1; then
+  . <(helm completion zsh)
 fi
 
 if type ssh-agent > /dev/null 2>&1; then

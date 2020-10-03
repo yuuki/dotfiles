@@ -216,6 +216,7 @@ alias dm='docker-machine'
 alias dc='docker-compose'
 alias k='kubectl'
 alias kgp='kubectl get pods'
+alias gcs='gcloud compute ssh'
 
 ## Git
 alias g='git'
@@ -223,6 +224,7 @@ alias gst='git status'
 alias gl='git log -p'
 alias gg='git grep -H --break'
 alias gbr='git-browse-remote'
+alias gv='gh repo view --web'
 
 ## Make
 alias mb='make build'
@@ -259,11 +261,6 @@ alias memonew='vim +MemoNew'
 ## rust
 alias cb='cargo build'
 alias cr='cargo run'
-## Homebrew
-alias br=brew
-alias bri='brew install'
-alias bru='brew update'
-alias brug='brew upgrade'
 ## Perl
 alias ce='carton exec'
 alias ci='carton install'
@@ -283,8 +280,7 @@ fi
 alias c='code'
 
 ## Vim
-alias v='vim'
-alias nv='nvim'
+alias v='nvim'
 alias vrc='vim ~/.vimrc'
 if [ -f '/Applications/MacVim.app/Contents/MacOS/Vim' ]; then
     alias vim='/Applications/MacVim.app/Contents/MacOS/Vim -u $HOME/.vimrc'

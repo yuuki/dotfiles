@@ -90,6 +90,9 @@ export PATH="$GOENV_ROOT/bin:$PATH"
 export PATH="$GOROOT/bin:$PATH"
 export PATH="$PATH:$GOPATH/bin"
 
+# Python
+export PATH="${HOME}/Library/Python/3.8/bin:$PATH"
+
 # Ruby
 export PATH="${HOMEBREW_PREFIX}/opt/ruby/bin:$PATH"
 export PATH="$(gem environment gemdir)/bin:$PATH"
@@ -128,6 +131,10 @@ if type rustc > /dev/null 2>&1; then
 fi
 
 export PATH="$HOME/.ndenv/bin:$PATH"
+
+# Kubernetes
+export PATH="${PATH}:${HOME}/.krew/bin"
+export PATH=$PATH:~/.kube/plugins/jordanwilson230
 
 # # AWS
 # source $(brew --prefix)/bin/aws_zsh_completer.sh
