@@ -1,0 +1,1 @@
+/Users/y-tsubouchi/.config/fisherman/ghq/functions/__ghq_repository_search.fish

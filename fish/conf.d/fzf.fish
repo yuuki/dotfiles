@@ -1,0 +1,1 @@
+/Users/y-tsubouchi/.config/fisherman/fzf/conf.d/fzf.fish

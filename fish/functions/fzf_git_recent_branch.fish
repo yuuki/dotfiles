@@ -1,0 +1,1 @@
+/Users/y-tsubouchi/.config/fisherman/fzf-git-recent-branch/functions/fzf_git_recent_branch.fish

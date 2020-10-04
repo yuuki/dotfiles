@@ -1,0 +1,1 @@
+/Users/y-tsubouchi/.config/fisherman/global-abbreviation/functions/__gabbr_expand.fish

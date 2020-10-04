@@ -1,0 +1,1 @@
+/Users/y-tsubouchi/.config/fisherman/ghq/completions/ghq.fish
