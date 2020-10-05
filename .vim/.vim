@@ -1,1 +1,0 @@
-/Users/y_uuki/dotfiles/.vim
