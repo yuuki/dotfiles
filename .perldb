@@ -1,6 +1,0 @@
-use DB::Color;
-# デバッガの初期化終了後に呼び出されるサブルーチン
-sub afterinit {
-    # @DB::typeaheadにpushしておくと、TTY出力を模倣してくれる
-    push @DB::typeahead, "{{ v";
-}
