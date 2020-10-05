@@ -1,1 +1,8 @@
-/Users/y-tsubouchi/.config/fisherman/global-abbreviation/completions/gabbr.fish
+complete -c gabbr -d 'Global abbreviation for fish'
+complete -c gabbr -s a -l add -d 'Add abbreviation'
+complete -c gabbr -s e -l erase -d 'Erase abbreviation'
+complete -c gabbr -s f -l function -d 'Add function-abbreviation'
+complete -c gabbr -s l -l list -d 'Print all abbreviation names'
+complete -c gabbr -s s -l show -d 'Print all abbreviations'
+complete -c gabbr -s r -l reload -d 'Reload all abbreviations from your config file'
+complete -c gabbr -s h -l help -d 'Help'
