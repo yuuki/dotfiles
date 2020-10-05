@@ -32,6 +32,7 @@ set autoindent   " 自動でインデント
 " ------------------------------------------------------------
 "  key bind
 " ------------------------------------------------------------
+
 " :w1 と打ってしまうくせ防止
 cabbrev q1 q!
 cabbrev w1 w!
@@ -61,3 +62,11 @@ nnoremap N Nzvzz
 nnoremap * *zvzz
 nnoremap # *zvzz
 
+
+" ------------------------------------------------------------
+" command
+" ------------------------------------------------------------
+
+" git-browse-remote
+" http://motemen.hatenablog.com/entry/2014/06/05/released-git-browse-remote-0-1-0
+command! -nargs=* -range GB !git browse-remote --rev -L<line1>,<line2> <f-args> -- %
