@@ -3,11 +3,10 @@ fisherman/fzf
 tsub/fish-fzf-git-recent-branch
 decors/fish-ghq
 ryotako/fish-global-abbreviation
-oh-my-fish/plugin-tab
 fisherman/z
-amio/fish-theme-eden
 0rax/fish-bd
 tasuten/cd-gitroot-fish
 franciscolourenco/done
 acomagu/fish-async-prompt
+amio/fish-theme-eden
 evanlucas/fish-kubectl-completions
