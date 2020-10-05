@@ -75,18 +75,6 @@ if [[ -f "${ZSH_HOME}/plugins/zsh-git-prompt/zshrc.sh" ]]; then
   export GIT_PROMPT_EXECUTABLE="haskell"
   export ZSH_THEME_GIT_PROMPT_CACHE=1
 fi
-# if [[ -f "${ZSH_HOME}/plugins/zsh-directory-history/directory-history.plugin.zsh" ]]; then
-#   export PATH="$PATH":"${ZSH_HOME}/plugins/zsh-directory-history/"
-#   source "${ZSH_HOME}/plugins/zsh-directory-history/directory-history.plugin.zsh"
-# fi
-# if [[ -f "${ZSH_HOME}/plugins/zsh-autosuggestions/autosuggestions.plugin.zsh" ]]; then
-#   source "${ZSH_HOME}/plugins/zsh-autosuggestions/autosuggestions.plugin.zsh"
-#   zle-line-init() {
-#       zle autosuggest-start
-#   }
-#   zle -N zle-line-init
-#   bindkey '^T' autosuggest-toggle
-# fi
 ### }}}
 
 ### Keybind {{{
@@ -114,13 +102,6 @@ bindkey '^mr' peco-mkr-roles
 bindkey '^mo' peco-mkr-roles-open
 bindkey '^mh' peco-mkr-hosts
 bindkey '^[o' complete-mackerel-host-ip
-
-# # Bind up/down arrow keys to navigate through your history
-# bindkey '^\e[B' directory-history-search-backward
-# bindkey '^\e[A' directory-history-search-forward
-# # Bind CTRL+k and CTRL+j to substring search
-# bindkey '^j' history-substring-search-down
-# bindkey '^k' history-substring-search-up
 
 ## Ctrl + ] で前回のコマンドの最後の単語を挿入
 zle -N insert-last-word smart-insert-last-word
@@ -188,34 +169,15 @@ PROMPT="${PROMPT}${GIT_PROMPT} %{$reset_color%}"
 
 ### Aliases {{{
 alias q='exit'
-alias h='proxychains4 -q -f ~/.proxychains/htn.conf'
-alias t='tsocks'
 alias s='ssh'
 alias ts='tssh'
-alias hs='h ssh'
-alias hssh='h ssh'
-alias hts='h tssh'
-alias htssh='h tssh'
-alias hbe='h bundle exec'
-alias fe='furo2 exec'
 
 ## Docker
 alias d='docker'
-alias dps='docker ps'
-alias drm='docker rm'
-alias dr='docker run'
-alias drr='docker run --rm'
-alias drs='docker run --security-opt seccomp:unconfined --cap-add SYS_PTRACE'
-alias db='docker build -t'
-alias dl='docker ps -l -q'
-#alias dssh='boot2docker ssh'
 alias dexec='docker exec -it `docker ps | tail -n +2 | peco | cut -d " " -f1` /bin/bash'
-#alias b2d='boot2docker'
-#alias b2d-datesync='boot2docker ssh sudo /usr/local/bin/ntpclient -s -h pool.ntp.org date'
 alias dm='docker-machine'
 alias dc='docker-compose'
 alias k='kubectl'
-alias kgp='kubectl get pods'
 alias gcs='gcloud compute ssh'
 
 ## Git
@@ -230,10 +192,6 @@ alias gv='gh repo view --web'
 alias mb='make build'
 alias mt='make test'
 
-## Vim
-#alias mvim='~/Applications/MacVim.app/Contents/bin/mvim'
-alias mvim='open -n -a ~/Applications/MacVim.app'
-
 ## Utils
 if ! type gls > /dev/null 2>&1; then
   alias ls='ls --color=auto'
@@ -247,17 +205,10 @@ alias cp='cp -p'
 alias grep='grep --color=auto'
 alias gr=grep
 alias pg=pgrep
-alias lookup='find . -name "$@"'
-alias zmv='noglob zmv'
 alias be="bundle exec"
 alias cap="/opt/homebrew/bin/cap"
 #alias dntpsync="boot2docker ssh sudo ntpclient -s -h pool.ntp.org"
 alias r="roles"
-alias matrix="docker run -it --rm nathanleclaire/matrix_japan cmatrix -"
-## memo
-alias memo='code -n ~/Dropbox/memo/tmp.txt ~/Dropbox/memo/goal.md'
-alias memolist='vim +MemoList'
-alias memonew='vim +MemoNew'
 ## rust
 alias cb='cargo build'
 alias cr='cargo run'
@@ -302,23 +253,12 @@ alias findbig='find . -type f -exec ls -s {} \; | sort -n -r | head -5'
 alias cpurank='ps -eo user,pcpu,pid,cmd | sort -r -k2 | head -6'
 alias diskrank='du -ah | sort -r -k1 | head -5'
 
-## OSX GUI
-alias safari='open -a Safari'
-alias chrome='open -a GoogleChrome'
-alias prev='open -a Preview'
-alias texshop='open -a TexShop'
-
 # global alias
-alias -g TELLME='&& say succeeded || say failed'
 alias -g G="| grep"
 alias -g XG='| xargs grep'
 alias -g H='| head'
 alias -g T='| tail'
 alias -g L='| less -R'
-alias -g V='| view -R -'
-alias -g W='| wc'
-alias -g WL='| wc -l'
-alias -g P=' --help | less'
 alias -g ...='..//..'
 alias -g ....='..//..//..'
 alias -g .....='..//..//..//..'
@@ -371,10 +311,6 @@ if [[ -n $TMUX ]]; then
 else
   alias ta='tmux attach-session -t'
 fi
-alias tl='tmux_sessions'
-alias ts='tmux-new-session -s'
-alias tksv='tmux kill-server'
-alias tkss='tmux kill-session -t'
 
 if [[ "$TERM_PROGRAM" = "alacritty" && ! -n $TMUX && $- == *l* ]]; then
   tmux_sessions
