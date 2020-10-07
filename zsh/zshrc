@@ -69,14 +69,6 @@ unsetopt no_clobber          # リダイレクトで上書きを許可
 
 ### }}}
 
-### plugins {{{
-if [[ -f "${ZSH_HOME}/plugins/zsh-git-prompt/zshrc.sh" ]]; then
-  source "${ZSH_HOME}/plugins/zsh-git-prompt/zshrc.sh"
-  export GIT_PROMPT_EXECUTABLE="haskell"
-  export ZSH_THEME_GIT_PROMPT_CACHE=1
-fi
-### }}}
-
 ### Keybind {{{
 bindkey -e  # Emacs like keybind
 
@@ -92,16 +84,6 @@ bindkey '^R' history-incremental-search-backward
 bindkey "^S" history-incremental-pattern-search-forward
 bindkey -a 'O' push-line
 bindkey -a 'H' run-help
-
-# Peco
-bindkey '^x^b' peco-git-recent-branches
-bindkey '^xb' peco-git-recent-all-branches
-bindkey '^s' peco-ghq
-bindkey '^xp' peco-git-add
-bindkey '^mr' peco-mkr-roles
-bindkey '^mo' peco-mkr-roles-open
-bindkey '^mh' peco-mkr-hosts
-bindkey '^[o' complete-mackerel-host-ip
 
 ## Ctrl + ] で前回のコマンドの最後の単語を挿入
 zle -N insert-last-word smart-insert-last-word
@@ -174,7 +156,6 @@ alias ts='tssh'
 
 ## Docker
 alias d='docker'
-alias dexec='docker exec -it `docker ps | tail -n +2 | peco | cut -d " " -f1` /bin/bash'
 alias dm='docker-machine'
 alias dc='docker-compose'
 alias k='kubectl'
@@ -212,40 +193,15 @@ alias r="roles"
 ## rust
 alias cb='cargo build'
 alias cr='cargo run'
-## Perl
-alias ce='carton exec'
-alias ci='carton install'
-alias cpanm-local='cpanm --installdeps -L local/ .'
-alias perl-local='perl -Mlib::core::only -Mlib=local/lib/perl5/'
-
-if [[ -x /usr/local/bin/colordiff ]]; then
-  alias diff='colordiff'
-fi
-
-export LESS='--tabs=4 --no-init --LONG-PROMPT --ignore-case -R'
-if [[ -x /usr/local/bin/src-hilite-lesspipe.sh ]]; then
-  export LESSOPEN='| /usr/local/bin/src-hilite-lesspipe.sh %s'
-fi
 
 ## VScode
 alias c='code'
 
 ## Vim
 alias v='nvim'
-alias vrc='vim ~/.vimrc'
-if [ -f '/Applications/MacVim.app/Contents/MacOS/Vim' ]; then
-    alias vim='/Applications/MacVim.app/Contents/MacOS/Vim -u $HOME/.vimrc'
-    # alias mvim='/Applications/MacVim.app/Contents/MacOS/MacVim -u $HOME/.vimrc'
-    alias mvim='open -a MacVIm.app "$@"'
-fi
 # vimがなくてもvimでviを起動する。
 if ! type vim > /dev/null 2>&1; then
     alias vim=vi
-fi
-
-export LESS="--tabs=4 --no-init --LONG-PROMPT --ignore-case -R"
-if [[ -x /usr/local/bin/src-hilite-lesspipe.sh ]]; then
-  export LESSOPEN='| /usr/local/bin/src-hilite-lesspipe.sh %s'
 fi
 
 ## util
@@ -325,152 +281,6 @@ stty -ixon -ixoff
 ## ディレクトリ移動時に自動でls
 function chpwd() { ls -a }
 
-function history-all { history -E 1 }
-
-function mkcd() {
-    if (( ARGC != 1 )); then
-        printf 'usage: mkcd <new-directory>\n'
-        return 1;
-    fi
-    if [[ ! -d "$1" ]]; then
-        command mkdir -p "$1"
-    else
-        printf '"%s" already exists: cd-ing.\n' "$1"
-    fi
-    builtin cd "$1"
-}
-
-## clip current directory path
-function pwd-clip() {
-    local copyToClipboard
-
-    if which pbcopy >/dev/null 2>&1 ; then
-        # Mac
-        copyToClipboard='pbcopy'
-    elif which xsel >/dev/null 2>&1 ; then
-        # Linux
-        copyToClipboard='xsel --input --clipboard'
-    elif which putclip >/dev/null 2>&1 ; then
-        # Cygwin
-        copyToClipboard='putclip'
-    else
-        copyToClipboard='cat'
-    fi
-
-    # ${=VAR} enables SH_WORD_SPLIT option
-    # so ${=VAR] is splited in words, for example "a" "b" "c"
-    echo -n $PWD | ${=copyToClipboard}
-}
-
-function cliime() {
-  if [ $# = 0 ]; then
-    echo "usage: cliime RO-MAJI"
-    return 1
-  fi
-
-  BUNDLE_GEMFILE=~/build/cliime/Gemfile bundle exec -- ruby ~/build/cliime/cliime.rb $@ | peco | pbcopy
-}
-
-function exists { which $1 &> /dev/null }
-
-if exists fzf; then
-    function peco_select_history() {
-        local tac
-        exists gtac && tac="gtac" || { exists tac && tac="tac" || { tac="tail -r" } }
-        BUFFER=$(fc -l -n 1 | eval $tac | fzf --query "${LBUFFER}")
-        CURSOR=$#BUFFER         # move cursor
-        zle -R -c               # refresh
-    }
-
-    zle -N peco_select_history
-    bindkey '^R' peco_select_history
-fi
-
-function peco-mkr-roles() {
-  local selected_role=$(mkr services | jq -rM '[.[] | .name as $name | .roles // [] | map("\($name) \(.)")] | flatten | .[]' | fzf --query "${LBUFFER}")
-  if [ -n "${selected_role}" ]; then
-     local BUFFER="tssh \`roles "${selected_role}"\`"
-  fi
-  zle clear-screen
-}
-zle -N peco-mkr-roles
-
-function peco-mkr-roles-open() {
-  local org_name='hatena'
-  local selected_role=$(mkr services | jq -rM '[.[] | .name as $name | .roles // [] | map("\($name)/\(.)")] | flatten | .[]' | fzf --query "${LBUFFER}")
-  if [ -n "${selected_role}" ]; then
-     local BUFFER="open https://mackerel.io/orgs/${org_name}/services/${selected_role}/-/graphs"
-     zle accept-line
-  fi
-  zle clear-screen
-}
-zle -N peco-mkr-roles-open
-
-function peco-mkr-hosts() {
-  local selected_host=$(mkr hosts | jq -r -M ".[].name" | fzf --query "${LBUFFER}")
-  if [ -n "${selected_host}" ]; then
-     local BUFFER="$selected_host"
-  fi
-  zle clear-screen
-}
-zle -N peco-mkr-hosts
-
-function peco-git-recent-branches () {
-    local selected_branch=$(git for-each-ref --format='%(refname)' --sort=-committerdate refs/heads | \
-        perl -pne 's{^refs/heads/}{}' |  peco)
-    if [ -n "$selected_branch" ]; then
-        local BUFFER="git checkout ${selected_branch}"
-        zle accept-line
-    fi
-    zle clear-screen
-}
-zle -N peco-git-recent-branches
-
-function peco-git-recent-all-branches () {
-    local selected_branch=$(git for-each-ref --format='%(refname)' --sort=-committerdate refs/heads refs/remotes | \
-        perl -pne 's{^refs/(heads|remotes)/}{}' | peco )
-    if [ -n "$selected_branch" ]; then
-        local BUFFER="git checkout ${selected_branch}"
-        zle accept-line
-    fi
-    zle clear-screen
-}
-zle -N peco-git-recent-all-branches
-
-function peco-ghq () {
-    local selected_dir=$((cdr -l | awk '{print $2}'; ghq list --full-path) | fzf --query "${LBUFFER}")
-    if [ -n "$selected_dir" ]; then
-        local BUFFER="cd ${selected_dir}"
-        zle accept-line
-    fi
-    zle clear-screen
-}
-zle -N peco-ghq
-
-function peco-git-add () {
-    local selected_file="$(git status --porcelain | \
-                                  sed '/^[A|UU|M]/d' | \
-                                  peco | \
-                                  awk -F ' ' '{print $NF}')"
-    if [ -n "$selected_file" ]; then
-        search_root=$(git rev-parse --show-toplevel)
-        files=$(echo "$selected_file" | tr '\n' ' ')
-        local BUFFER="cd ${search_root} && git add ${files}"
-        zle accept-line
-    fi
-    zle clear-screen
-}
-zle -N peco-git-add
-
-function gpi () {
-    [ "$#" -eq 0 ] && echo "Usage : gpi QUERY" && return 1
-    ghs "$@" | peco | awk '{print $1}' | ghq import
-}
-
-function gpr () {
-    ghq list --full-path | peco | xargs rm -r
-}
-
 function u()
 {
     cd ./$(git rev-parse --show-cdup)
@@ -478,136 +288,7 @@ function u()
         cd $1
     fi
 }
-
-function gget() {
-    ghq get $(echo "$@" | gsed -e "s/\.git//")
-}
-
-function uu() {
-    gsed -i "s/ssh:\/\/git@github\.com\/\(.*\)/git@github.com:\1.git/" .git/config
-}
-
-function gc () {
-    cd $(gget $1 | tee -a /dev/stderr | tail -n 1 | awk '{ print $NF }')
-}
-
-function da () {
-    docker start $1 && docker attach $1
-}
-
-function dbox () {
-    docker run -it --name $1 --volumes-from=volume_container \
-    -e BOX_NAME=$1 yuuk1/dev
-}
-
-function dbash() {
-    local image=$(docker images | tail -n +2 | peco | cut -d " " -f1)
-    if [ -n "$image" ]; then
-        docker run --rm --entrypoint=/bin/bash -it $image
-    fi
-}
-
-function git-ignore() { curl -s https://www.gitignore.io/api/$@ ;}
-
-function git-ignore-list() {
-  git-ignore `git-ignore list | ruby -ne 'puts $_.split(",")' | peco`
-}
 ### }}}
-
-# added by travis gem
-[ -f $HOME/.travis/travis.sh ] && . /Users/y_uuki/.travis/travis.sh
-
-# http://motemen.hatenablog.com/entry/2015/07/mackerel-mkr-peco-zsh
-autoload -U modify-current-argument
-autoload -U split-shell-arguments
-
-funcition complete-mackerel-host-ip () {
-    local apikey=$1
-    local apikey_name=$2
-
-    local mode_append_only=0
-    local REPLY
-    local reply
-
-    local filter='peco'
-
-    split-shell-arguments
-    if [ $(($REPLY % 2)) -eq 0 ]; then
-        # query by word under cursor
-        query_arg="--query=$reply[$REPLY]"
-    elif [ -n "${LBUFFER##* }" ]; then
-        # query by word jsut before cursor
-        query_arg="--query=${LBUFFER##* }"
-    else
-        # no word detected
-        query_arg='--query='
-        mode_append_only=1
-    fi
-
-    res=$(MACKEREL_APIKEY=${apikey:-$MACKEREL_APIKEY} MACKEREL_APIKEY_NAME=${apikey_name:-$MACKEREL_APIKEY_NAME} mkr-hosts-tsv | eval $filter "$query_arg")
-    if [ -z "$res" ]; then
-        zle reset-prompt
-        return 1
-    fi
-
-    ip=$(echo "$res" | cut -f1)
-    host=$(echo "$res" | cut -f2)
-
-    if [ $mode_append_only = 1 ]; then
-        LBUFFER+="$host"
-    else
-        modify-current-argument "$host"
-    fi
-
-    BUFFER+=" # $ip"
-
-    zle reset-prompt
-}
-zle -N complete-mackerel-host-ip
-
-function open-mackerel-role () {
-    local apikey=$1
-    local apikey_name=$2
-
-    local mode_append_only=0
-    local REPLY
-    local reply
-
-    local filter='peco'
-
-    split-shell-arguments
-    if [ $(($REPLY % 2)) -eq 0 ]; then
-        # query by word under cursor
-        query_arg="--query=$reply[$REPLY]"
-    elif [ -n "${LBUFFER##* }" ]; then
-        # query by word jsut before cursor
-        query_arg="--query=${LBUFFER##* }"
-    else
-        # no word detected
-        query_arg='--query='
-        mode_append_only=1
-    fi
-
-    res=$(MACKEREL_APIKEY=${apikey:-$MACKEREL_APIKEY} MACKEREL_APIKEY_NAME=${apikey_name:-$MACKEREL_APIKEY_NAME} mkr-hosts-tsv | eval $filter "$query_arg")
-    if [ -z "$res" ]; then
-        zle reset-prompt
-        return 1
-    fi
-
-    ip=$(echo "$res" | cut -f1)
-    host=$(echo "$res" | cut -f2)
-
-    if [ $mode_append_only = 1 ]; then
-        LBUFFER+="$host"
-    else
-        modify-current-argument "$host"
-    fi
-
-    BUFFER+=" # $ip"
-
-    zle reset-prompt
-}
-zle -N open-mackerel-role
 
 source ~/.zshrc.local
 
@@ -615,6 +296,3 @@ source ~/.zshrc.local
 # if (which zprof > /dev/null) ;then
 #     zprof | cat
 # fi
-
-# added by travis gem
-[ -f /Users/y_uuki/.travis/travis.sh ] && source /Users/y_uuki/.travis/travis.sh
