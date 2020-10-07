@@ -145,7 +145,7 @@ SAVEHIST=$HISTSIZE
 ZSH_THEME_GIT_PROMPT_CHANGED="%{$fg[yellow]%}%{✚%G%}" # default blue but hard to see
 
 PROMPT="%{$fg_bold[NCOLOR]%}%{$fg_bold[green]%}%p %{$fg[cyan]%}%c "
-GIT_PROMPT='%b$(git_super_status) %'
+GIT_PROMPT='%b %'
 PROMPT="${PROMPT}${GIT_PROMPT} %{$reset_color%}"
 ### }}}
 
