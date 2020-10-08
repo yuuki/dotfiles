@@ -83,4 +83,3 @@ else
 	echo "no ssh-agent"
 fi
 
-export PATH="$HOME/.cargo/bin:$PATH"

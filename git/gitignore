@@ -44,3 +44,4 @@ rusty-tags\.vi
 TODO
 .vscode/
 /.envrc
+/.venv

@@ -23,9 +23,9 @@ export FPATH="${ZSH_HOME}/site-functions:$HOMEBREW_PREFIX/share/zsh/site-functio
 export PATH="${HOMEBREW_PREFIX}/bin:${HOMEBREW_PREFIX}/sbin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:${PATH}"
 
 # coreutils
-if type brew >> /dev/null 2>&1; then
-  export PATH="${HOMEBREW_PREFIX}/opt/coreutils/libexec/gnubin:${PATH}"
-fi
+#if type brew >> /dev/null 2>&1; then
+#  export PATH="${HOMEBREW_PREFIX}/opt/coreutils/libexec/gnubin:${PATH}"
+#fi
 
 # Language Path
 export PATH="${HOME}/.rbenv/bin:${HOME}/.plenv/bin:${HOME}/.pyenv/bin:${PATH}"
@@ -98,7 +98,7 @@ export PATH="${HOMEBREW_PREFIX}/opt/ruby/bin:$PATH"
 export PATH="$(gem environment gemdir)/bin:$PATH"
 
 # MySQL
-export PATH=$HOME/.mysqlenv/bin:$HOME/.mysqlenv/mysql-build/bin:$PATH
+#export PATH=$HOME/.mysqlenv/bin:$HOME/.mysqlenv/mysql-build/bin:$PATH
 
 # homebrew opt
 export PATH=${HOMEBREW_PREFIX}/opt/gettext/bin:${HOMEBREW_PREFIX}/opt/grep/libexec/gnubin:${PATH}
