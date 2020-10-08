@@ -61,43 +61,30 @@ set -x PAGER less
 set -x HOMEBREW_TEMP /tmp
 set -x HOMEBREW_PREFIX "$HOME/homebrew"
 
-# System path
+# Init path
+set -x PATH /usr/local/bin /usr/local/sbin /usr/sbin /usr/bin /sbin /bin
+
+# OSX Python
+set -x PATH "$HOME/Library/Python/3.8/bin" $PATH
+
+# Homebrew path
 set -x PATH "$HOMEBREW_PREFIX/bin" "$HOMEBREW_PREFIX/sbin" $PATH
-set -x PATH /usr/local/bin /usr/local/sbin /usr/sbin /usr/bin $PATH
 
 # coreutils
 set -x PATH "$HOMEBREW_PREFIX/opt/coreutils/libexec/gnubin" $PATH
 set -x PATH "$HOMEBREW_PREFIX/opt/gettext/bin" "$HOMEBREW_PREFIX/opt/grep/libexec/gnubin" $PATH
 
 # Languages path
-set -x PATH "$HOME/.rbenv/bin" "$HOME/.plenv/bin" "$HOME/.pyenv/bin" "$HOME/.cargo/bin" $PATH
+set -x PATH "$HOME/.rbenv/bin" "$HOME/.plenv/bin" "$HOME/.pyenv/bin" $PATH
 
 # Go
 set -x GOPATH "$HOME/go"
 set -x PATH "$GOPATH/bin" $PATH
 set -x GOENV_ROOT "$HOME/.goenv"
 set -x PATH "$GOENV_ROOT/bin" $PATH
-set -x PATH "$GOROOT/bin" $PATH
-set -x PATH "$GOPATH/bin" $PATH 
-
-# Python
-set -x PATH "$HOME/Library/Python/3.8/bin" $PATH
 
 # Ruby
-set -x PATH "$HOMEBREW_PREFIX/opt/ruby/bin" "(gem environment gemdir)/bin" $PATH
-
-set -x LD_LIBRARY_PATH "$HOMEBREW_PREFIX/lib" $LD_LIBRARY_PATH
-set -x DYLD_FALLBACK_LIBRARY_PATH "$HOMEBREW_PREFIX/lib" "$DYLD_FALLBACK_LIBRARY_PATH"
-set -x C_INCLUDE_PATH "$HOMEBREW_PREFIX/include" $C_INCLUDE_PATH
-set -x CPLUS_INCLUDE_PATH "$HOMEBREW_PREFIX/include"
-set -x CFLAGS "-I$HOMEBREW_PREFIX/include"
-set -x CXXLAGS "-I$HOMEBREW_PREFIX/include"
-set -x LDFLAGS "-L$HOMEBREW_PREFIX/lib"
-
-# Rust
-if type -q rustc
-  set -x RUST_SRC_PATH "(rustc --print sysroot)/lib/rustlib/src/rust/src/"
-end
+set -x PATH "$HOMEBREW_PREFIX/opt/ruby/bin" (gem environment gemdir)/bin $PATH
 
 # Node.js
 set -x PATH "$HOME/.ndenv/bin" $PATH
@@ -109,11 +96,28 @@ set -x PATH "$HOME/.kube/plugins/jordanwilson230" $PATH
 # User specifc path
 set -x PATH "$HOME/local/bin" "$HOME/bin" $PATH
 
+# sudo
 set -x SUDO_PATH /usr/local/sbin /usr/sbin /sbin
 
+# Man
 set -x MAN_PATH "HOMEBREW_PREFIX/share/man" "$HOME/local/share/man" /usr/local/share/man /usr/share/man
 
+# Java
 set -x CLASSPATH $CLASSPATH "$JAVA_HOME/lib" .
+
+# Rust
+if type -q rustc
+  set -x RUST_SRC_PATH "(rustc --print sysroot)/lib/rustlib/src/rust/src/"
+end
+
+# Library path
+set -x LD_LIBRARY_PATH "$HOMEBREW_PREFIX/lib" $LD_LIBRARY_PATH
+set -x DYLD_FALLBACK_LIBRARY_PATH "$HOMEBREW_PREFIX/lib" "$DYLD_FALLBACK_LIBRARY_PATH"
+set -x C_INCLUDE_PATH "$HOMEBREW_PREFIX/include" $C_INCLUDE_PATH
+set -x CPLUS_INCLUDE_PATH "$HOMEBREW_PREFIX/include"
+set -x CFLAGS "-I$HOMEBREW_PREFIX/include"
+set -x CXXLAGS "-I$HOMEBREW_PREFIX/include"
+set -x LDFLAGS "-L$HOMEBREW_PREFIX/lib"
 
 ### External tools settings
 
@@ -167,7 +171,7 @@ function attach_tmux_session_if_needed
   end
 
   set new_session "Create New Session" 
-  set ID (echo $ID\n$new_session | peco --on-cancel=error | cut -d: -f1)
+  set ID (echo $ID\n$new_session | fzf | cut -d: -f1)
   if test "$ID" = "$new_session"
     tmux new-session
   else if test -n "$ID"
