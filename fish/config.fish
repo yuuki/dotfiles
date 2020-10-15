@@ -1,12 +1,14 @@
 ### Abbr
 
+abbr -a r . ~/.config/fish/config.fish
+abbr -a cf {$EDITOR} ~/.config/fish/config.fish
+
 abbr -a q exit
 abbr -a v nvim
 abbr -a c code
 abbr -a s ssh
-abbr -a r . ~/.config/fish/config.fish
-abbr -a cf {$EDITOR} ~/.config/fish/config.fish
 
+abbr -a l ls -CF
 abbr -a ll ls -lh
 abbr -a la ls -a
 abbr -a cp cp -p
