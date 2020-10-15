@@ -45,3 +45,4 @@ TODO
 .vscode/
 /.envrc
 /.venv
+/.ipynb_checkpoints
