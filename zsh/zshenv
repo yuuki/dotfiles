@@ -1,8 +1,3 @@
-# vim:set ft=zsh foldmethod=marker:
-
-# Start profiling
-# zmodload zsh/zprof && zprof
-
 # ZSH_HOME
 export ZSH_HOME=${HOME}/.zsh
 # /etc/profile を読み込まないように
@@ -22,17 +17,8 @@ export FPATH="${ZSH_HOME}/site-functions:$HOMEBREW_PREFIX/share/zsh/site-functio
 # system path
 export PATH="${HOMEBREW_PREFIX}/bin:${HOMEBREW_PREFIX}/sbin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:${PATH}"
 
-# coreutils
-#if type brew >> /dev/null 2>&1; then
-#  export PATH="${HOMEBREW_PREFIX}/opt/coreutils/libexec/gnubin:${PATH}"
-#fi
-
-# Language Path
-export PATH="${HOME}/.rbenv/bin:${HOME}/.plenv/bin:${HOME}/.pyenv/bin:${PATH}"
-export PATH="${HOME}/.cargo/bin:${PATH}"
-
 # User-specific paths
-export PATH="${HOME}/src/github.com/yuuki/opstools/bin:${HOME}/local/bin:${HOME}/bin:${PATH}"
+export PATH="${HOME}/local/bin:${HOME}/bin:${PATH}"
 
 # SUDO_PATH
 typeset -xT SUDO_PATH sudo_path
@@ -51,44 +37,14 @@ manpath=(
   /usr/share/man(N-/)
 )
 
-#export LANG=ja_JP.UTF-8
-
 export EDITOR="nvim"
-
-# PAGER
-if type lv > /dev/null 2>&1; then
-  export PAGER="lv"
-else
-  export PAGER="less"
-fi
-
-# C++
-typeset -xT CPLUS_INCLUDE_PATH cplus_include_path
-typeset -U cplus_include_path
-cplus_include_path=(
-  $HOMEBREW_PREFIX/include
-  $HOMEBREW_PREFIX/opt/boost/include
-  $HOMEBREW_PREFIX/include/boost
-  $cplus_include_path
-)
-
-# JAVA
-export CLASSPATH=$CLASSPATH:$JAVA_HOME/lib:.
-
 
 if [ "$(uname 2> /dev/null)" = "Linux" ]; then
   export XDG_DATA_HOME=/usr/local/share
 fi
 
-#export PYTHONPATH=/usr/local/lib/python2.7/site-packages:$PYTHONPATH
-
 # Go
-export GOPATH=$HOME/go
-export PATH=$GOPATH/bin:$PATH
-export GOENV_ROOT="$HOME/.goenv"
-export PATH="$GOENV_ROOT/bin:$PATH"
-export PATH="$GOROOT/bin:$PATH"
-export PATH="$PATH:$GOPATH/bin"
+export PATH="$GOPATH/bin:$PATH"
 
 # Python
 export PATH="${HOME}/Library/Python/3.8/bin:$PATH"
@@ -96,52 +52,4 @@ export PATH="${HOME}/Library/Python/3.8/bin:$PATH"
 # Ruby
 export PATH="${HOMEBREW_PREFIX}/opt/ruby/bin:$PATH"
 export PATH="$(gem environment gemdir)/bin:$PATH"
-
-# MySQL
-#export PATH=$HOME/.mysqlenv/bin:$HOME/.mysqlenv/mysql-build/bin:$PATH
-
-# homebrew opt
-export PATH=${HOMEBREW_PREFIX}/opt/gettext/bin:${HOMEBREW_PREFIX}/opt/grep/libexec/gnubin:${PATH}
-
-export LD_LIBRARY_PATH=${HOMEBREW_PREFIX}/lib:$LD_LIBRARY_PATH
-export DYLD_FALLBACK_LIBRARY_PATH=${HOMEBREW_PREFIX}/lib:$DYLD_FALLBACK_LIBRARY_PATH
-export C_INCLUDE_PATH=${HOMEBREW_PREFIX}/include:$C_INCLUDE_PATH
-export CPLUS_INCLUDE_PATH=${HOMEBREW_PREFIX}/include
-export CFLAGS="-I${HOMEBREW_PREFIX}/include"
-export CXXLAGS="-I${HOMEBREW_PREFIX}/include"
-export LDFLAGS="-L${HOMEBREW_PREFIX}/lib"
-# unset LD_LIBRARY_PATH
-# unset DYLD_LIBRARY_PATH
-# unset DYLD_FALLBACK_LIBRARY_PATH
-
-# if [ "`docker-machine status default`" = "Running" ]; then
-#   eval $(docker-machine env default) >>/dev/null
-# fi
-
-# Java
-# export JAVA_HOME=`/usr/libexec/java_home`
-# export PATH="$HOME/.jenv/bin:$PATH"
-
-# Postgres
-# source $HOME/.pgvm/pgvm_env
-
-# Rust
-if type rustc > /dev/null 2>&1; then
-  export RUST_SRC_PATH=$(rustc --print sysroot)/lib/rustlib/src/rust/src/
-fi
-
-export PATH="$HOME/.ndenv/bin:$PATH"
-
-# Kubernetes
-export PATH="${PATH}:${HOME}/.krew/bin"
-export PATH=$PATH:~/.kube/plugins/jordanwilson230
-
-# # AWS
-# source $(brew --prefix)/bin/aws_zsh_completer.sh
-
-export PATH="${HOME}/bin:${PATH}"
-
-export REPORTTIME=5
-
-source $HOME/.zshenv.local
 
