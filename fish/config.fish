@@ -25,6 +25,8 @@ abbr -a u cd-gitroot
 
 abbr -a pr poetry run
 
+abbr -a prev open -a Preview
+
 abbr -a k kubectl
 abbr -a d docker
 abbr -a dm docker-machine
