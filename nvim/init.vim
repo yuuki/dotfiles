@@ -19,6 +19,8 @@ set expandtab
 set tabstop=2
 set shiftwidth=2
 
+set fileformats=unix,dos,mac
+
 set undolevels=1000
 set backspace=indent,eol,start
 set autochdir
