@@ -167,6 +167,7 @@ end
 
 ### Functions
 
+# auto tmux
 function attach_tmux_session_if_needed
   set ID (tmux list-sessions)
   if test -z "$ID"
@@ -185,4 +186,12 @@ end
 
 if test -z $TMUX && status --is-login
     attach_tmux_session_if_needed
+end
+
+# auto ls
+# https://blog.matzryo.com/entry/2018/09/02/cd-then-ls-with-fish-shell
+functions --copy cd standard_cd
+
+function cd
+  standard_cd $argv; and ls
 end
