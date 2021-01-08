@@ -41,7 +41,7 @@ GTAGS
 vendor/bundle
 vendor/cookbooks
 rusty-tags\.vi
-TODO
+/TODO
 .vscode/
 /.envrc
 /.venv
