@@ -85,6 +85,7 @@ set -x PATH "$HOME/.rbenv/bin" "$HOME/.plenv/bin" "$HOME/.pyenv/bin" $PATH
 set -x GOPATH "$HOME/go"
 set -x PATH "$GOPATH/bin" $PATH
 set -x GOENV_ROOT "$HOME/.goenv"
+set -x GOENV_DISABLE_GOPATH 1
 set -x PATH "$GOENV_ROOT/bin" $PATH
 
 # Ruby
