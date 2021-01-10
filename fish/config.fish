@@ -19,7 +19,7 @@ abbr -a mt make test
 abbr -a g git
 abbr -a gst git status
 abbr -a gl git log -p
-abbr -a gbr git-browse-remote
+abbr -a gbr gh pr view --web
 abbr -a gv gh repo view --web
 abbr -a u cd-gitroot
 
