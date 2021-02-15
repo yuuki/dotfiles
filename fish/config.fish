@@ -21,6 +21,7 @@ abbr -a gst git status
 abbr -a gl git log -p
 abbr -a gbr gh pr view --web
 abbr -a gv gh repo view --web
+abbr -a gmr 'gh pr merge --merge --delete-branch && git pull'
 abbr -a u cd-gitroot
 
 abbr -a pr poetry run
