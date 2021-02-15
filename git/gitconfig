@@ -88,7 +88,7 @@
   rm-cached-all="!f() {for i in `git status | grep deleted | awk '{print $3}'`; do git rm $i; done}"
   fetch-pullreq = fetch origin '+refs/pull/*/head:refs/pull/*'
   plog = log --all --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
-  delete-merged-branches = !git branch --merged | grep -v \\* | grep -v -E [master|main] | grep -v staging | grep -v develop | xargs -I % git branch -d %
+  delete-merged-branches = !git branch --merged | grep -v \\* | grep -v -E '[master|main]' | grep -v staging | grep -v develop | xargs -I % git branch -d %
   re = browse-remote
 	tree = log --graph --all --format=\"%x09%C(cyan bold)%an%Creset%x09%C(yellow)%h%Creset %C(magenta reverse)%d%Creset %s\"
 [hub]
@@ -122,3 +122,5 @@
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
+[init]
+	defaultBranch = main
