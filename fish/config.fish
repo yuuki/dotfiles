@@ -35,6 +35,7 @@ abbr -a dc docker-compose
 
 abbr -a gcs gcloud compute ssh
 
+abbr -a jq gojq
 
 gabbr --add G '| grep'
 gabbr --add H '| head'
