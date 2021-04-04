@@ -89,6 +89,7 @@ set -x PATH "$GOPATH/bin" $PATH
 set -x GOENV_ROOT "$HOME/.goenv"
 set -x GOENV_DISABLE_GOPATH 1
 set -x PATH "$GOENV_ROOT/bin" $PATH
+set -x PATH "/usr/local/go/bin" $PATH
 
 # Ruby
 set -x PATH "$HOMEBREW_PREFIX/opt/ruby/bin" (gem environment gemdir)/bin $PATH
