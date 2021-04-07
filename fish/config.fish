@@ -196,6 +196,12 @@ end
 # https://blog.matzryo.com/entry/2018/09/02/cd-then-ls-with-fish-shell
 functions --copy cd standard_cd
 
+# Share history
+function history-merge --on-event fish_preexec
+  history --save
+  history --merge
+end
+
 function cd
   standard_cd $argv; and ls
 end
