@@ -1,0 +1,21 @@
+#!/bin/bash
+
+# Thanks to https://yoshiori.hatenablog.com/entry/2021/04/13/171405
+
+AIR_PODS_ADDRESS=${1} # Your AirPods MAC address
+AIR_PODS_NAME="Yuuki’s AirPods Pro" # Your AirPods name
+
+BREW_BIN=$(brew --prefix)/bin
+
+${BREW_BIN}/bluetoothconnector -c $AIR_PODS_ADDRESS
+for ((i=0 ; i<10 ; i++))
+do
+    if [ "Connected" == $(${BREW_BIN}/bluetoothconnector  -s $AIR_PODS_ADDRESS) ]; then
+        sleep 1
+        ${BREW_BIN}/SwitchAudioSource -s "${AIR_PODS_NAME}"
+        sleep 1
+        say -v samantha Connected
+        break
+    fi
+    sleep 1
+done
