@@ -37,14 +37,6 @@ abbr -a gcs gcloud compute ssh
 
 abbr -a jq gojq
 
-gabbr --add G '| grep'
-gabbr --add H '| head'
-gabbr --add T '| tail'
-gabbr --add L '| less'
-gabbr --add ... '..//..'
-gabbr --add .... '..//..//..'
-gabbr --add ..... '..//..//..//..'
-
 ### Key bindings
 
 bind \cxb fzf_git_recent_branch
