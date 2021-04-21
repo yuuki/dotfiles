@@ -37,6 +37,8 @@ abbr -a gcs gcloud compute ssh
 
 abbr -a jq gojq
 
+abbr -a clip "nc -N localhost 8377" # clipper
+
 ### Key bindings
 
 bind \cxb fzf_git_recent_branch
