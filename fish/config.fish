@@ -37,7 +37,7 @@ abbr -a gcs gcloud compute ssh
 
 abbr -a jq gojq
 
-abbr -a clip "nc -N localhost 8377" # clipper
+abbr -a clip "nc -q0 -U ~/.clipper.sock" # clipper
 
 ### Key bindings
 
