@@ -1,0 +1,6 @@
+#!/bin/bash
+
+set -eux
+
+open $(find "${HOME}/Google Drive/My Drive/Paperpile/All Papers/" "${HOME}/Google Drive/My Drive/Books/" -type f | fzf --print0 -i)
+
