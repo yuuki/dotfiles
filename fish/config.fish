@@ -58,8 +58,9 @@ set -x EDITOR nvim
 set -x PAGER less
 
 # Homebrew
-set -x HOMEBREW_TEMP /tmp
-set -x HOMEBREW_PREFIX "$HOME/homebrew"
+if type -q brew
+  eval (/opt/homebrew/bin/brew shellenv)
+end
 
 # Init path
 set -x PATH /usr/local/bin /usr/local/sbin /usr/sbin /usr/bin /sbin /bin
@@ -155,7 +156,7 @@ end
 
 # rustup
 if test -e "$HOME/.cargo/env"
-  source "$HOME/.cargo/env"
+  set -U fish_user_paths $fish_user_paths $HOME/.cargo/bin
 end
 
 # ndenv
