@@ -8,8 +8,7 @@ export LANG='en_US.UTF-8'
 export LC_CTYPE="en_US.UTF-8"
 
 # Homebrew
-export HOMEBREW_TEMP="/tmp"
-export HOMEBREW_PREFIX="${HOME}/homebrew"
+eval $(/opt/homebrew/bin/brew shellenv)
 
 # fpath
 export FPATH="${ZSH_HOME}/site-functions:$HOMEBREW_PREFIX/share/zsh/site-functions:$HOMEBREW_PREFIX/share/zsh/functions:${FPATH}"
