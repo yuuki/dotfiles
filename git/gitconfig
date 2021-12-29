@@ -1,5 +1,5 @@
 [user]
-	name = yuuki
+  name = yuuki
   email = yuki.tsubo@gmail.com
 [color]
   status = auto
@@ -8,7 +8,7 @@
   interactive = auto
   grep = auto
 [push]
-	default = simple
+  default = simple
 [include]
   path = ~/.gitconfig.local
   path = ~/.gitconfig.platform
