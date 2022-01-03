@@ -426,10 +426,11 @@ window:
 #   - (macOS) /bin/bash --login
 #   - (Linux/BSD) user login shell
 #   - (Windows) powershell
-#shell:
-#  program: /bin/bash
-#  args:
-#    - --login
+shell:
+  program: /bin/zsh
+  args:
+    - -c
+    - "/opt/homebrew/bin/tmux a -t 0 || /opt/homebrew/bin/tmux"
 
 # Startup directory
 #
