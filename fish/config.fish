@@ -65,13 +65,13 @@ set -x LC_CTYPE en_US.UTF-8
 set -x EDITOR nvim
 set -x PAGER less
 
+# Init path
+set -x PATH /usr/local/bin /usr/local/sbin /usr/sbin /usr/bin /sbin /bin
+
 # Homebrew
 if type -q brew
   eval (/opt/homebrew/bin/brew shellenv)
 end
-
-# Init path
-set -x PATH /usr/local/bin /usr/local/sbin /usr/sbin /usr/bin /sbin /bin
 
 # OSX Python
 set -x PATH "$HOME/Library/Python/3.8/bin" $PATH
@@ -88,12 +88,15 @@ set -x PYENV_ROOT $HOME/.pyenv
 set -x PATH "$HOME/.rbenv/bin" "$HOME/.plenv/bin" "$PYENV_ROOT/bin" $PATH
 
 # Go
-set -x GOPATH "$HOME/go"
-set -x PATH "$GOPATH/bin" $PATH
-set -x GOENV_ROOT "$HOME/.goenv"
-set -x GOENV_DISABLE_GOPATH 1
-set -x PATH "$GOENV_ROOT/bin" $PATH
-set -x PATH "/usr/local/go/bin" $PATH
+set -x PATH $HOME/.goenv/bin $PATH
+if type -q goenv
+  goenv init - | source
+end
+
+# Python
+if type -q pyenv
+  pyenv init --path | source
+end
 
 # Python
 set -x PATH "$HOME/.poetry/bin" $PATH
