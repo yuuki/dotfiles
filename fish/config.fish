@@ -39,6 +39,12 @@ abbr -a jq gojq
 
 abbr -a clip "nc -q0 -U ~/.clipper.sock" # clipper
 
+abbr -a now '(date +%Y%m%d_%H%M%S)'
+abbr -a cdir '(basename $PWD)'
+abbr -a dirnow '(basename $PWD)_(date +%Y%m%d_%H%M%S)'
+
+abbr -a slog script -f '/tmp/(basename $PWD)_(date +%Y%m%d_%H%M%S).log'
+
 ### Key bindings
 
 bind \cxb fzf_git_recent_branch
@@ -86,6 +92,9 @@ set -x GOENV_DISABLE_GOPATH 1
 set -x PATH "$GOENV_ROOT/bin" $PATH
 set -x PATH "/usr/local/go/bin" $PATH
 
+# Python
+set -x PATH "$HOME/.poetry/bin" $PATH
+
 # Ruby
 set -x PATH "$HOMEBREW_PREFIX/opt/ruby/bin" (gem environment gemdir)/bin $PATH
 
@@ -112,6 +121,9 @@ set -x CLASSPATH $CLASSPATH "$JAVA_HOME/lib" .
 if type -q rustc
   set -x RUST_SRC_PATH "(rustc --print sysroot)/lib/rustlib/src/rust/src/"
 end
+
+# Krew
+set -x PATH $HOME/.krew/bin $PATH
 
 # Library path
 set -x LD_LIBRARY_PATH "$HOMEBREW_PREFIX/lib" $LD_LIBRARY_PATH
