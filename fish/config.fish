@@ -1,6 +1,6 @@
 ### Abbr
 
-abbr -a r . ~/.config/fish/config.fish
+abbr -a re . ~/.config/fish/config.fish
 abbr -a cf {$EDITOR} ~/.config/fish/config.fish
 
 abbr -a q exit
@@ -36,6 +36,8 @@ abbr -a dc docker-compose
 abbr -a gcs gcloud compute ssh
 
 abbr -a jq gojq
+
+abbr -a r radian
 
 abbr -a clip "nc -q0 -U ~/.clipper.sock" # clipper
 
