@@ -106,7 +106,7 @@ set -x PATH "$HOME/.krew/bin" $PATH
 set -x PATH "$HOME/.kube/plugins/jordanwilson230" $PATH
 
 # User specifc path
-set -x PATH "$HOME/local/bin" "$HOME/bin" $PATH
+set -x PATH "$HOME/.local/bin" "$HOME/local/bin" "$HOME/bin" $PATH
 
 # sudo
 set -x SUDO_PATH /usr/local/sbin /usr/sbin /sbin
