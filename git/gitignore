@@ -49,4 +49,9 @@ rusty-tags\.vi
 *.fdb_latexmk
 *.fls
 *.synctex.gz
+*.bcf
+*.run.xml
 /node_modules
+/tmp
+
+__debug*.py
