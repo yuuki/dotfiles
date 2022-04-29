@@ -9,9 +9,11 @@ function nvm --argument-names cmd v --description "Node version manager"
         end
     end
 
+    set --local their_version $v
+
     switch "$cmd"
         case -v --version
-            echo "nvm, version 2.2.4"
+            echo "nvm, version 2.2.7"
         case "" -h --help
             echo "Usage: nvm install <version>    Download and activate the specified Node version"
             echo "       nvm install              Install version from nearest .nvmrc file"
@@ -26,7 +28,8 @@ function nvm --argument-names cmd v --description "Node version manager"
             echo "       -v or --version          Print version"
             echo "       -h or --help             Print this help message"
             echo "Variables:"
-            echo "       nvm_mirror               Set mirror for Node binaries"
+            echo "       nvm_arch                 Override architecture, e.g. x64-musl"
+            echo "       nvm_mirror               Set the Node download mirror"
             echo "       nvm_default_version      Set the default version for new shells"
         case install
             _nvm_index_update $nvm_mirror $nvm_data/.index || return
@@ -34,7 +37,7 @@ function nvm --argument-names cmd v --description "Node version manager"
             string match --entire --regex -- (_nvm_version_match $v) <$nvm_data/.index | read v alias
 
             if ! set --query v[1]
-                echo "nvm: Invalid version number or alias: \"$argv[2..-1]\"" >&2
+                echo "nvm: Invalid version number or alias: \"$their_version\"" >&2
                 return 1
             end
 
@@ -63,7 +66,8 @@ function nvm --argument-names cmd v --description "Node version manager"
                     case x86_64
                         set arch x64
                     case arm64
-                        if test "$os" = darwin
+                        string match --regex --quiet "v(?<major>\d+)" $v
+                        if test "$os" = darwin -a $major -lt 16
                             set arch x64
                         end
                     case armv6 armv6l
@@ -73,6 +77,8 @@ function nvm --argument-names cmd v --description "Node version manager"
                     case armv8 armv8l aarch64
                         set arch arm64
                 end
+
+                set --query nvm_arch && set arch $nvm_arch
 
                 set --local dir "node-$v-$os-$arch"
                 set --local url $nvm_mirror/$v/$dir.$ext
@@ -110,7 +116,7 @@ function nvm --argument-names cmd v --description "Node version manager"
             _nvm_list | string match --entire --regex -- (_nvm_version_match $v) | read v __
 
             if ! set --query v[1]
-                echo "nvm: Node version not installed or invalid: \"$argv[2..-1]\"" >&2
+                echo "nvm: Can't use Node \"$their_version\", version must be installed first" >&2
                 return 1
             end
 
@@ -131,7 +137,7 @@ function nvm --argument-names cmd v --description "Node version manager"
             _nvm_list | string match --entire --regex -- (_nvm_version_match $v) | read v __
 
             if ! set -q v[1]
-                echo "nvm: Node version not installed or invalid: \"$argv[2..-1]\"" >&2
+                echo "nvm: Node version not installed or invalid: \"$their_version\"" >&2
                 return 1
             end
 

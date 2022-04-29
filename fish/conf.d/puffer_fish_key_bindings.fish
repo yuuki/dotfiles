@@ -1,11 +1,24 @@
-bind . _puffer_fish_expand_dots
-bind . -M insert _puffer_fish_expand_dots
-bind ! _puffer_fish_expand_bang
-bind ! -M insert _puffer_fish_expand_bang
+status is-interactive || exit
 
-set -l uninstall_event (basename (status -f) .fish)_uninstall
+function _puffer_fish_key_bindings --on-variable fish_key_bindings
+    if test "$fish_key_bindings" = fish_default_key_bindings
+        set modes default insert
+    else
+        set modes insert default
+    end
 
-function $uninstall_event --on-event $uninstall_event
+    bind --mode $modes[1] . _puffer_fish_expand_dots
+    bind --mode $modes[1] ! _puffer_fish_expand_bang
+    bind --mode $modes[1] '$' _puffer_fish_expand_lastarg
+    bind --mode $modes[2] --erase . ! '$'
+end
+
+_puffer_fish_key_bindings
+
+set -l uninstall_event puffer_fish_key_bindings_uninstall
+
+function _$uninstall_event --on-event $uninstall_event
     bind -e .
     bind -e !
+    bind -e '$'
 end
