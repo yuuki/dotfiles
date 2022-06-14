@@ -21,7 +21,7 @@ abbr -a gst git status
 abbr -a gl git log -p
 abbr -a gbr gh pr view --web
 abbr -a gv gh repo view --web
-abbr -a gmr 'gh pr merge --merge --delete-branch && git pull'
+abbr -a gmr 'gh pr merge --merge --delete-branch; git pull --rebase'
 abbr -a u cd-gitroot
 
 abbr -a pr poetry run
@@ -84,7 +84,8 @@ set -x PATH "$HOMEBREW_PREFIX/opt/coreutils/libexec/gnubin" $PATH
 set -x PATH "$HOMEBREW_PREFIX/opt/gettext/bin" "$HOMEBREW_PREFIX/opt/grep/libexec/gnubin" $PATH
 
 # Languages path
-set -x PATH "$HOME/.rbenv/bin" "$HOME/.plenv/bin" "$HOME/.pyenv/bin" $PATH
+set -x PYENV_ROOT $HOME/.pyenv
+set -x PATH "$HOME/.rbenv/bin" "$HOME/.plenv/bin" "$PYENV_ROOT/bin" $PATH
 
 # Go
 set -x GOPATH "$HOME/go"
@@ -136,21 +137,25 @@ set -x CFLAGS "-I$HOMEBREW_PREFIX/include"
 set -x CXXLAGS "-I$HOMEBREW_PREFIX/include"
 set -x LDFLAGS "-L$HOMEBREW_PREFIX/lib"
 
+# GCP
+set -x USE_GKE_GCLOUD_AUTH_PLUGIN True
+
 ### External tools settings
 
 # rbenv
 if type -q rbenv
-  eval (rbenv init - --no-rehash | source)
+  rbenv init - --no-rehash | source
 end
 
 # plenv
 if type -q plenv
-  eval (plenv init - | source)
+  plenv init - | source
 end
 
 # pyenv
 if type -q pyenv
-  eval (pyenv init - | source)
+  status is-login; and pyenv init --path | source
+  status is-interactive; and pyenv init - | source
 end
 
 # direnv
@@ -160,12 +165,12 @@ end
 
 # dockertoolbox
 if type -q docker-machine
-  eval (docker-machine env default 2>/dev/null)
+  docker-machine env default 2>/dev/null
 end
 
 # go
 if type -q goenv
-  eval (goenv init - | source)
+  goenv init - | source
 end
 
 # rustup
@@ -206,3 +211,7 @@ function history-merge --on-event fish_preexec
   history --save
   history --merge
 end
+
+# Generated for envman. Do not edit.
+test -s "$HOME/.config/envman/load.fish"; and source "$HOME/.config/envman/load.fish"
+
