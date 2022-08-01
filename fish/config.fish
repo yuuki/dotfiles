@@ -49,7 +49,7 @@ abbr -a slog script -f '/tmp/(basename $PWD)_(date +%Y%m%d_%H%M%S).log'
 
 ### Key bindings
 
-bind \cxb fzf_git_recent_branch
+bind \cxb 'fzf_git_recent_branch'
 
 bind \cs '__ghq_repository_search'
 if bind -M insert >/dev/null 2>/dev/null
@@ -88,6 +88,7 @@ set -x PYENV_ROOT $HOME/.pyenv
 set -x PATH "$HOME/.rbenv/bin" "$HOME/.plenv/bin" "$PYENV_ROOT/bin" $PATH
 
 # Go
+set -x PATH "$GOPATH/bin" $PATH
 set -x PATH $HOME/.goenv/bin $PATH
 if type -q goenv
   goenv init - | source
@@ -213,6 +214,19 @@ end
 function history-merge --on-event fish_preexec
   history --save
   history --merge
+end
+
+# Git checkout branch
+# ref. https://qiita.com/geekduck/items/a521b6d095266a060cfd
+function fzf-checkout-branch
+    set -l branchname (
+        env FZF_DEFAULT_COMMAND='git --no-pager branch -a | grep -v HEAD | sed -e "s/^.* //g"' \
+            fzf --height 70% --prompt "BRANCH NAME>" \
+                --preview "git --no-pager log -20 --color=always {}"
+    )
+    if test -n "$branchname"
+        git checkout (echo "$branchname"| sed "s#remotes/[^/]*/##")
+    end
 end
 
 # Generated for envman. Do not edit.

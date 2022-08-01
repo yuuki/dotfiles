@@ -91,6 +91,7 @@
   delete-merged-branches = !git branch --merged | grep -v \\* | grep -v -E '[master|main]' | grep -v staging | grep -v develop | xargs -I % git branch -d %
   re = browse-remote
 	tree = log --graph --all --format=\"%x09%C(cyan bold)%an%Creset%x09%C(yellow)%h%Creset %C(magenta reverse)%d%Creset %s\"
+  fco = !fish -c "fzf-checkout-branch"
 [hub]
   protocol = git
 [branch]
