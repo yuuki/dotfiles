@@ -21,7 +21,7 @@ abbr -a gst git status
 abbr -a gl git log -p
 abbr -a gbr gh pr view --web
 abbr -a gv gh repo view --web
-abbr -a gmr 'gh pr merge --merge --delete-branch; git pull --rebase'
+abbr -a gmr 'gh pr merge --auto --rebase; git switch - && git pull --rebase'
 abbr -a u cd-gitroot
 
 abbr -a pr poetry run
@@ -88,11 +88,11 @@ set -x PYENV_ROOT $HOME/.pyenv
 set -x PATH "$HOME/.rbenv/bin" "$HOME/.plenv/bin" "$PYENV_ROOT/bin" $PATH
 
 # Go
-set -x PATH "$GOPATH/bin" $PATH
 set -x PATH $HOME/.goenv/bin $PATH
 if type -q goenv
   goenv init - | source
 end
+set -x PATH "$HOME/go/bin" $PATH
 
 # Python
 if type -q pyenv
