@@ -25,6 +25,7 @@ abbr -a gmr 'gh pr merge --auto --rebase; git switch - && git pull --rebase'
 abbr -a u cd-gitroot
 
 abbr -a pr poetry run
+abbr -a pcat python3 -m pickle
 
 abbr -a prev open -a Preview
 
@@ -36,8 +37,6 @@ abbr -a dc docker-compose
 abbr -a gcs gcloud compute ssh
 
 abbr -a jq gojq
-
-abbr -a r radian
 
 abbr -a clip "nc -q0 -U ~/.clipper.sock" # clipper
 
