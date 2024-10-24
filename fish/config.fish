@@ -68,18 +68,18 @@ set -x PAGER less
 set -x PATH /usr/local/bin /usr/local/sbin /usr/sbin /usr/bin /sbin /bin
 
 # Homebrew
-if type -q brew
+if type -q /opt/homebrew/bin/brew
   eval (/opt/homebrew/bin/brew shellenv)
 end
-
-# OSX Python
-set -x PATH "$HOME/Library/Python/3.8/bin" $PATH
 
 # Homebrew path
 set -x PATH "$HOMEBREW_PREFIX/bin" "$HOMEBREW_PREFIX/sbin" $PATH
 
+# OSX Python
+set -x PATH "$HOME/Library/Python/3.8/bin" $PATH
+
 # coreutils
-set -x PATH "$HOMEBREW_PREFIX/opt/coreutils/libexec/gnubin" $PATH
+# set -x PATH "$HOMEBREW_PREFIX/opt/coreutils/libexec/gnubin" $PATH
 set -x PATH "$HOMEBREW_PREFIX/opt/gettext/bin" "$HOMEBREW_PREFIX/opt/grep/libexec/gnubin" $PATH
 
 # Languages path
@@ -143,6 +143,11 @@ set -x LDFLAGS "-L$HOMEBREW_PREFIX/lib"
 # GCP
 set -x USE_GKE_GCLOUD_AUTH_PLUGIN True
 
+# Lima
+if test (uname) = "Darwin"
+  set -x DOCKER_HOST "unix://$HOME/.lima/docker/sock/docker.sock"
+end
+
 ### External tools settings
 
 # rbenv
@@ -189,25 +194,26 @@ end
 ### Functions
 
 # auto tmux
-function attach_tmux_session_if_needed
-  set ID (tmux list-sessions)
-  if test -z "$ID"
-    tmux new-session
-    return
-  end
+## Disable when migrating Alacritty terminal to WezTerm
+# function attach_tmux_session_if_needed
+#   set ID (tmux list-sessions)
+#   if test -z "$ID"
+#     tmux new-session
+#     return
+#   end
 
-  set new_session "Create New Session" 
-  set ID (echo $ID\n$new_session | fzf | cut -d: -f1)
-  if test "$ID" = "$new_session"
-    tmux new-session
-  else if test -n "$ID"
-    tmux attach-session -t "$ID"
-  end
-end
+#   set new_session "Create New Session"
+#   set ID (echo $ID\n$new_session | fzf | cut -d: -f1)
+#   if test "$ID" = "$new_session"
+#     tmux new-session
+#   else if test -n "$ID"
+#     tmux attach-session -t "$ID"
+#   end
+# end
 
-if test -z $TMUX && status --is-login
-    attach_tmux_session_if_needed
-end
+# if test -z $TMUX && status --is-login
+#     attach_tmux_session_if_needed
+# end
 
 # Share history
 function history-merge --on-event fish_preexec
@@ -230,4 +236,3 @@ end
 
 # Generated for envman. Do not edit.
 test -s "$HOME/.config/envman/load.fish"; and source "$HOME/.config/envman/load.fish"
-
