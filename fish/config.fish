@@ -67,6 +67,9 @@ set -x PAGER less
 # Init path
 set -x PATH /usr/local/bin /usr/local/sbin /usr/sbin /usr/bin /sbin /bin
 
+# User specifc path
+set -x PATH "$HOME/.local/bin" "$HOME/local/bin" "$HOME/bin" $PATH
+
 # Homebrew
 if type -q /opt/homebrew/bin/brew
   eval (/opt/homebrew/bin/brew shellenv)
@@ -81,6 +84,11 @@ set -x PATH "$HOME/Library/Python/3.8/bin" $PATH
 # coreutils
 # set -x PATH "$HOMEBREW_PREFIX/opt/coreutils/libexec/gnubin" $PATH
 set -x PATH "$HOMEBREW_PREFIX/opt/gettext/bin" "$HOMEBREW_PREFIX/opt/grep/libexec/gnubin" $PATH
+
+# mise
+if type -q mise
+  mise activate fish | source
+end
 
 # Languages path
 set -x PYENV_ROOT $HOME/.pyenv
@@ -110,9 +118,6 @@ set -x PATH "$HOME/.ndenv/bin" $PATH
 # Kubernetes
 set -x PATH "$HOME/.krew/bin" $PATH
 set -x PATH "$HOME/.kube/plugins/jordanwilson230" $PATH
-
-# User specifc path
-set -x PATH "$HOME/.local/bin" "$HOME/local/bin" "$HOME/bin" $PATH
 
 # sudo
 set -x SUDO_PATH /usr/local/sbin /usr/sbin /sbin
