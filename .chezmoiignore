@@ -1,0 +1,13 @@
+Makefile
+README.md
+
+alacritty/
+bin/
+fish/
+git/
+nvim/
+script/
+systemd/
+tmux/
+wezterm/
+zsh/
