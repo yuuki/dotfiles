@@ -123,7 +123,7 @@ set -x PATH "$HOME/.kube/plugins/jordanwilson230" $PATH
 set -x SUDO_PATH /usr/local/sbin /usr/sbin /sbin
 
 # Man
-set -x MAN_PATH "HOMEBREW_PREFIX/share/man" "$HOME/local/share/man" /usr/local/share/man /usr/share/man
+set -x MAN_PATH "$HOMEBREW_PREFIX/share/man" "$HOME/local/share/man" /usr/local/share/man /usr/share/man
 
 # Java
 set -x CLASSPATH $CLASSPATH "$JAVA_HOME/lib" .
@@ -135,6 +135,12 @@ end
 
 # Krew
 set -x PATH $HOME/.krew/bin $PATH
+
+# diff-hightlight
+set -x PATH "$HOMEBREW_PREFIX/share/git-core/contrib/diff-highlight" $PATH
+
+# agy
+set -x PATH "$HOME/.antigravity/antigravity/bin" $PATH
 
 # Library path
 set -x LD_LIBRARY_PATH "$HOMEBREW_PREFIX/lib" $LD_LIBRARY_PATH
@@ -150,10 +156,20 @@ set -x USE_GKE_GCLOUD_AUTH_PLUGIN True
 
 # Lima
 if test (uname) = "Darwin"
-  set -x DOCKER_HOST "unix://$HOME/.lima/docker/sock/docker.sock"
+	#  set -x DOCKER_HOST (limactl list docker --format 'unix://{{.Dir}}/sock/docker.sock')
+  set -x DOCKER_DEFAULT_PLATFORM "linux/amd64"  # for Colima
+  set -x DOCKER_HOST "unix:///Users/$USER/.colima/default/docker.sock"
 end
 
+# SSH
+set -x SSH_AUTH_SOCK "$HOME/.1password/agent.sock"
+
 ### External tools settings
+
+# mise
+if type -q $HOME/.local/bin/mise
+  $HOME/.local/bin/mise activate fish | source
+end
 
 # rbenv
 if type -q rbenv
@@ -195,6 +211,10 @@ end
 if test -e ndenv
   eval (ndenv init - | source)
 end
+
+# Gemini https://github.com/gemini-cli-extensions/nanobanana
+export NANOBANANA_MODEL=gemini-3-pro-image-preview
+
 
 ### Functions
 
@@ -239,5 +259,52 @@ function fzf-checkout-branch
     end
 end
 
+# ref. https://zenn.dev/arm_techblog/articles/ea9560facb7c09
+function cdgwq
+   # detech whether it is in git repository or not.
+   if not git rev-parse --is-inside-work-tree &>/dev/null
+      echo "Not inside a git repository."
+      return 1
+   end
+   set moveto (gwq list --json | jq -r '.[].path' | fzf)
+   cd $moveto
+end
+
+function cdw
+   if not git rev-parse --is-inside-work-tree &>/dev/null
+      echo "Not inside a git repository."
+      return 1
+   end
+
+   set moveto (gwq list --json | jq -r 'max_by(.created_at) | .path')
+   if test -z "$moveto"
+      echo "No recent gwq found."
+      return 1
+   end
+   cd $moveto
+end
+
+# ref. https://qiita.com/hanlio/items/432ed4065073a2e6196a
+function tmuxpopup -d "toggle tmux popup window"
+  set width '80%'
+  set height '80%'
+  
+  # 現在のセッション名とカレントディレクトリを取得
+  set session (tmux display-message -p -F "#{session_name}")
+  set current_dir (basename (tmux display-message -p -F "#{pane_current_path}"))
+  set popup_session "popup_$current_dir"
+  
+  # すでに popup セッション内にいる場合はデタッチ（閉じる）
+  if string match -q "popup_*" $session
+    tmux detach-client
+  else
+    # popup を表示。セッションがなければ新規作成、あればアタッチ
+    tmux display-popup -d '#{pane_current_path}' -xC -yC -w$width -h$height -E "tmux attach -t $popup_session || tmux new -s $popup_session"
+  end
+end
+
+
 # Generated for envman. Do not edit.
 test -s "$HOME/.config/envman/load.fish"; and source "$HOME/.config/envman/load.fish"
+
+string match -q "$TERM_PROGRAM" "kiro" and . (kiro --locate-shell-integration-path fish)

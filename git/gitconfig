@@ -1,6 +1,6 @@
 [user]
-  name = yuuki
-  email = yuki.tsubo@gmail.com
+	name = yuuki
+	email = yuki.tsubo@gmail.com
 [color]
   status = auto
   ui = auto
@@ -17,6 +17,7 @@
 	excludesfile = ~/.gitignore
 	autocrlf = false
   quotepath = false
+  sshCommand = /usr/bin/ssh
 [grep]
   lineNumber = true
 [alias]
@@ -128,3 +129,5 @@
 	defaultBranch = main
 [credential "https://github.com"]
 	helper = !/usr/bin/gh auth git-credential
+[safe]
+	directory = /workspace

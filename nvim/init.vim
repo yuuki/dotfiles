@@ -7,7 +7,7 @@ set visualbell
 
 set hlsearch
 set smartcase
-set ignorecase
+set egnorecase
 set incsearch
 
 set wildmenu
@@ -24,7 +24,7 @@ set fileformats=unix,dos,mac
 set undolevels=1000
 set backspace=indent,eol,start
 set autochdir
-set clipboard=unnamed
+set clipboard=unnamedplus
 " 外部のエディタで編集中のファイルが変更されたら自動で読み直す
 set autoread
 " {{{}}}で折りたたみ

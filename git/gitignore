@@ -55,3 +55,8 @@ rusty-tags\.vi
 /tmp
 
 __debug*.py
+
+.specstory
+
+.claude/
+.serena/
