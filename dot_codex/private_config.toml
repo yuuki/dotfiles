@@ -1,0 +1,71 @@
+model = "gpt-5.2"
+model_reasoning_effort = "high"
+hide_agent_reasoning = true
+
+notify = ["bash", "-lc", "afplay /System/Library/Sounds/Ping.aiff"]
+
+[tools]
+# full-auto mode
+approval_policy = "on-failure"
+sandbox_mode    = "workspace-write"
+network_access = true
+
+[features]
+web_search_request = true
+
+# Optional: allow network in workspace-write mode
+[sandbox_workspace_write]
+network_access = true
+
+[profiles.full_auto]
+approval_policy = "on-request"
+sandbox_mode    = "workspace-write"
+
+[profiles.readonly_quiet]
+approval_policy = "never"
+sandbox_mode    = "read-only"
+
+# [mcp_servers.context7]
+# command = "npx"
+# args = ["-y", "@upstash/context7-mcp@latest"]
+
+# [mcp_servers.serena]
+# command = "uvx"
+# args = ["--from", "git+https://github.com/oraios/serena", "serena", "start-mcp-server", "--context", "codex", "--enable-web-dashboard=false", "--project", "$(pwd)"]
+
+# [mcp_servers.playwright]
+# command = "npx"
+# args = ["@playwright/mcp@latest"]
+
+[projects."/Users/y-tsubouchi/obsidian/research"]
+trust_level = "trusted"
+
+[projects."/Users/y-tsubouchi/src/github.com/yuuki/yuuk.io"]
+trust_level = "trusted"
+
+[projects."/Users/y-tsubouchi/src/github.com/yuuki/rpingmesh"]
+trust_level = "trusted"
+
+[projects."/Users/y-tsubouchi/src/github.com/yuuki/vip-elector"]
+trust_level = "trusted"
+
+[projects."/Users/y-tsubouchi/src/github.com/sakurainc/sakuraone"]
+trust_level = "trusted"
+
+[projects."/Users/y-tsubouchi/src/github.com/yuuki/prometheus-rdma-exporter"]
+trust_level = "trusted"
+
+[projects."/Users/y-tsubouchi/src/github.com/yuuki/rdma_exporter"]
+trust_level = "trusted"
+
+[projects."/Users/y-tsubouchi/src/github.com/yuuki/node_exporter"]
+trust_level = "trusted"
+
+[notice.model_migrations]
+"gpt-5.1-codex-mini" = "gpt-5.1-codex-max"
+"gpt-5.1-codex-max" = "gpt-5.2-codex"
+"gpt-5.2" = "gpt-5.2-codex"
+
+[mcp_servers.sequential-thinking]
+command = "npx"
+args = ["-y", "@modelcontextprotocol/server-sequential-thinking"]
