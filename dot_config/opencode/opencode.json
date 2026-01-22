@@ -1,0 +1,61 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "tui": {
+    "scroll_speed": 3
+  },
+  "permission": {
+    "edit": "allow",
+    "bash": "allow"
+  },
+  "instructions": ["CONTRIBUTING.md", "docs/guidelines.md", ".cursor/rules/*.md", "CLAUDE.md"],
+  "disabled_providers": ["openai", "gemini"],
+  "provider": {
+    "sakura-aiengine-dev": {
+      "npm": "@ai-sdk/openai-compatible",
+      "options": {
+        "baseURL": "https://gateway.aipf-dev.sakuraha.jp/v1/"
+      },
+      "models": {
+	"GLM-4.7": {
+          "name": "GLM-4.7"
+	}
+      }
+    },
+    "sakura-aiengine": {
+      "npm": "@ai-sdk/openai-compatible",
+      "options": {
+        "baseURL": "https://api.ai.sakura.ad.jp/v1/"
+      },
+      "models": {
+        "gpt-oss-120b": {
+          "name": "gpt-oss-120b"
+        },
+	"Qwen3-Coder-480B-A35B-Instruct-FP8": {
+          "name": "Qwen3-Coder-480B-A35B-Instruct-FP8"
+	},
+	"Qwen3-Coder-30B-A3B-Instruct": {
+          "name": "Qwen3-Coder-30B-A3B-Instruct"
+	}
+      }
+    }
+  },
+  "agent": {
+    "plan": {
+      "mode": "primary",
+      "tools": {
+        "write": false,
+        "edit": false,
+        "bash": false
+      }
+    },
+    "build": {
+      "mode": "primary",
+      "tools": {
+        "write": true,
+        "edit": true,
+        "bash": true
+      }
+    }
+  },
+  "autoupdate": true
+}
