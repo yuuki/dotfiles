@@ -2,7 +2,11 @@ model = "gpt-5.2"
 model_reasoning_effort = "high"
 hide_agent_reasoning = true
 
+{{- if eq .chezmoi.os "darwin" }}
 notify = ["bash", "-lc", "afplay /System/Library/Sounds/Ping.aiff"]
+{{- else }}
+notify = ["bash", "-lc", ":"]
+{{- end }}
 
 [tools]
 # full-auto mode
