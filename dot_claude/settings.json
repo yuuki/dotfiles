@@ -22,7 +22,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "~/.tmux/bin/update-claude-tmux-status.sh"
+            "command": "sh -lc '~/.tmux/bin/update-claude-tmux-status.sh; if command -v terminal-notifier >/dev/null 2>&1; then terminal-notifier -title \"Claude Code\" -message \"Stopped\" -sound Blow; fi'"
           }
         ]
       }
