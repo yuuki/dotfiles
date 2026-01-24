@@ -1,0 +1,15 @@
+{
+  "security": {
+    "auth": {
+      "selectedType": "oauth-personal"
+    }
+  },
+  "ui": {
+    "theme": "GitHub"
+  },
+  "contextFileName": "AGENTS.md",
+  "general": {
+    "previewFeatures": true,
+    "vimMode": false
+  }
+}
