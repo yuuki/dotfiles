@@ -55,21 +55,38 @@ append_new_messages() {
 
   local new_content
   new_content=$(tail -n +$((last_line + 1)) "$session_file" | jq -r --arg today_start "$today_start_utc" '
+    def time_of($ts):
+      if ($ts | length) > 0 then
+        (try ($ts | fromdateiso8601 | strftime("%H:%M")) catch "??:??")
+      else
+        "??:??"
+      end;
+    def key_of($text):
+      ($text | split("\n")[0]) as $first
+      | if ($first | length) > 80 then ($first[0:80] + "…") else $first end;
     select((.timestamp // "9999") >= $today_start)
     | select(.type == "response_item")
+    | (.timestamp // "") as $ts
     | .payload as $p
     | select($p.type == "message")
     | select($p.role == "user" or $p.role == "assistant")
-    | $p.content[]?
-    | if $p.role == "user" then
-        select(.type == "input_text")
-        | select(.text | length > 0)
-        | "**User**: " + .text
+    | ($p.content | map(select(.type == "input_text" or .type == "output_text") | (.text // "")) | join("\n")) as $all_text
+    | if ($all_text | test("<INSTRUCTIONS>"; "i")) then
+        empty
       else
-        select(.type == "output_text")
-        | select(.text | length > 0)
-        | select(.text | test("^No response requested"; "i") | not)
-        | "**Codex**: " + .text
+        $p.content[]?
+        | if $p.role == "user" then
+            select(.type == "input_text")
+            | select(.text | length > 0)
+            | .text as $text
+            | ("## " + (time_of($ts)) + " User\n- key: " + (key_of($text)) + " / tags: user\n" + $text + "\n\n---")
+          else
+            select(.type == "output_text")
+            | select(.text | length > 0)
+            | select(.text | test("^No response requested"; "i") | not)
+            | .text as $text
+            | ("## " + (time_of($ts)) + " Codex\n- key: " + (key_of($text)) + " / tags: codex\n" + $text + "\n\n---")
+          end
       end
   ' 2>/dev/null || true)
 
