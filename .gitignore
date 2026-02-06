@@ -2,3 +2,4 @@
 /fish/fishd.tmp.*
 /fish/fish_variables
 .worktrees/
+/dot_claude/settings.json

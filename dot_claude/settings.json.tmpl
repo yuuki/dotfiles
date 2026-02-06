@@ -1,6 +1,25 @@
+{{- /* ANTHROPIC_AUTH_TOKEN は1Passwordの "ZAI Auth Token" アイテムの "ANTHROPIC_AUTH_TOKEN" フィールドから取得する */ -}}
+{{- $url := env "CHEZMOI_OP_ANTHROPIC_AUTH_TOKEN_OP_URL" -}}
+{{- if eq $url "" -}}
+{{- $url = "op://Personal/ZAI Auth Token/ANTHROPIC_AUTH_TOKEN" -}}
+{{- end -}}
+{{- $account := env "CHEZMOI_OP_ACCOUNT_NAME" -}}
+{{- $token := "" -}}
+{{- if ne $account "" -}}
+{{- $token = onepasswordRead $url $account -}}
+{{- else -}}
+{{- $token = onepasswordRead $url -}}
+{{- end -}}
+{{- if eq $token "" -}}
+{{- fail (printf "1Passwordから ANTHROPIC_AUTH_TOKEN を取得できませんでした（url=%q）。\"ZAI Auth Token\" アイテムの \"ANTHROPIC_AUTH_TOKEN\" フィールドを確認してください" $url) -}}
+{{- end -}}
 {
   "env": {
-    "ENABLE_TOOL_SEARCH": "true"
+    "ENABLE_TOOL_SEARCH": "true",
+    "ANTHROPIC_AUTH_TOKEN": {{ $token | toJson }},
+    "ANTHROPIC_BASE_URL": "https://api.z.ai/api/anthropic",
+    "API_TIMEOUT_MS": "3000000",
+    "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": 1
   },
   "includeCoAuthoredBy": false,
   "permissions": {
@@ -14,7 +33,6 @@
       "WebFetch(domain:bitbucket.org)"
     ]
   },
-  "model": "sonnet",
   "hooks": {
     "Stop": [
       {
