@@ -39,4 +39,6 @@ There is no unit-test suite. Treat the following as the verification flow:
 ## Security & Configuration Tips
 
 - Do not commit secrets (tokens, keys, personal data). Keep machine-specific values in local `chezmoi` config (e.g. `~/.config/chezmoi/chezmoi.toml`) or outside the repo.
+- **NEVER** put raw credentials in this repository or in documentation files (including `AGENTS.md`): API keys, access tokens, passwords, private keys, cookies, or similar authentication material.
+- Retrieve credentials via the 1Password CLI `op` command (e.g. `op read "op://<Vault>/<Item>/<field>"` or `op run -- <command>`), and never hardcode secrets in files.
 - Use `make apply-force` only for recovery; normal flow is `diff` → `apply` → `verify`.
