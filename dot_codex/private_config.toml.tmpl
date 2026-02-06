@@ -1,6 +1,8 @@
-model = "gpt-5.2"
+model = "gpt-5.3-codex"
 model_reasoning_effort = "high"
 hide_agent_reasoning = true
+personality = "pragmatic"
+collab = true
 
 {{- if eq .chezmoi.os "darwin" }}
 notify = ["bash", "-lc", "afplay /System/Library/Sounds/Ping.aiff"]
@@ -15,7 +17,6 @@ sandbox_mode    = "workspace-write"
 network_access = true
 
 [features]
-web_search_request = true
 collaboration_modes = true
 
 # Optional: allow network in workspace-write mode
@@ -66,6 +67,12 @@ trust_level = "trusted"
 [projects."/Users/y-tsubouchi/src/github.com/yuuki/node_exporter"]
 trust_level = "trusted"
 
+[projects."/Users/y-tsubouchi"]
+trust_level = "trusted"
+
+[projects."/Users/y-tsubouchi/src/github.com/yuuki/dotfiles"]
+trust_level = "trusted"
+
 [notice.model_migrations]
 "gpt-5.1-codex-mini" = "gpt-5.1-codex-max"
 "gpt-5.1-codex-max" = "gpt-5.2-codex"
@@ -74,3 +81,4 @@ trust_level = "trusted"
 [mcp_servers.sequential-thinking]
 command = "npx"
 args = ["-y", "@modelcontextprotocol/server-sequential-thinking"]
+enabled = false
