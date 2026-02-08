@@ -1,0 +1,4 @@
+prefix_rule(pattern=["git"], decision="allow")
+prefix_rule(pattern=["go"], decision="allow")
+prefix_rule(pattern=["npm"], decision="allow")
+prefix_rule(pattern=["npx"], decision="allow")
