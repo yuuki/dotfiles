@@ -46,6 +46,40 @@ abbr -a dirnow '(basename $PWD)_(date +%Y%m%d_%H%M%S)'
 
 abbr -a slog script -f '/tmp/(basename $PWD)_(date +%Y%m%d_%H%M%S).log'
 
+### Claude Code
+
+function claude-sub -d "Launch Claude Code with subscription auth"
+  env -u ANTHROPIC_BASE_URL -u ANTHROPIC_API_KEY -u ANTHROPIC_AUTH_TOKEN claude $argv
+end
+
+function claude-zai -d "Launch Claude Code via ZAI endpoint"
+  if not type -q op
+    echo "op command is not found." >&2
+    return 1
+  end
+
+  if not set -q ZAI_ANTHROPIC_BASE_URL
+    echo "Set ZAI_ANTHROPIC_BASE_URL first." >&2
+    return 1
+  end
+
+  if not set -q ZAI_ANTHROPIC_AUTH_TOKEN_OP_URI
+    echo "Set ZAI_ANTHROPIC_AUTH_TOKEN_OP_URI first. e.g. op://Vault/Item/token" >&2
+    return 1
+  end
+
+  set -l token (op read "$ZAI_ANTHROPIC_AUTH_TOKEN_OP_URI")
+  if test $status -ne 0 -o -z "$token"
+    echo "Failed to read token via op." >&2
+    return 1
+  end
+
+  env -u ANTHROPIC_API_KEY \
+      ANTHROPIC_BASE_URL="$ZAI_ANTHROPIC_BASE_URL" \
+      ANTHROPIC_AUTH_TOKEN="$token" \
+      claude $argv
+end
+
 ### Key bindings
 
 bind \cxb 'fzf_git_recent_branch'
