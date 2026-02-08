@@ -3,6 +3,7 @@ model_reasoning_effort = "xhigh"
 hide_agent_reasoning = false
 personality = "pragmatic"
 collab = true
+web_search = "live"
 
 {{- if eq .chezmoi.os "darwin" }}
 notify = ["bash", "-lc", "afplay /System/Library/Sounds/Ping.aiff"]
@@ -18,6 +19,10 @@ network_access = true
 
 [features]
 collaboration_modes = true
+
+[mcp_servers.cclsp]
+command = "cclsp"
+env = { CCLSP_CONFIG_PATH = "{{ .chezmoi.homeDir }}/.codex/cclsp.json" }
 
 # Optional: allow network in workspace-write mode
 [sandbox_workspace_write]
@@ -38,8 +43,10 @@ trust_level = "trusted"
 [projects."/Users/y-tsubouchi/src/"]
 trust_level = "trusted"
 
+[projects."/Users/y-tsubouchi/src/github.com/yuuki/dotfiles"]
+trust_level = "trusted"
+
 [notice.model_migrations]
 "gpt-5.1-codex-mini" = "gpt-5.1-codex-max"
 "gpt-5.1-codex-max" = "gpt-5.2-codex"
 "gpt-5.2" = "gpt-5.2-codex"
-
