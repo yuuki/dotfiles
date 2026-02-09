@@ -91,3 +91,26 @@ make apply
 make diff
 make verify
 ```
+
+## Local-only opencode providers
+
+To keep a provider out of git while still managing `~/.config/opencode/opencode.json` with chezmoi,
+use template data from your local chezmoi config.
+
+1. Put local-only providers in `~/.config/chezmoi/chezmoi.toml`.
+2. Keep shared providers in this repository.
+
+Example:
+
+```toml
+[data.opencode.extraProviders."sakura-aiengine-dev"]
+npm = "@ai-sdk/openai-compatible"
+
+[data.opencode.extraProviders."sakura-aiengine-dev".options]
+baseURL = "https://gateway.aipf-dev.sakuraha.jp/v1/"
+
+[data.opencode.extraProviders."sakura-aiengine-dev".models."GLM-4.7"]
+name = "GLM-4.7"
+```
+
+`dot_config/opencode/opencode.json.tmpl` merges this local map into `provider` during `chezmoi apply`.

@@ -1,0 +1,55 @@
+{{- $provider := dict
+  "sakura-aiengine" (dict
+    "npm" "@ai-sdk/openai-compatible"
+    "options" (dict
+      "baseURL" "https://api.ai.sakura.ad.jp/v1/"
+    )
+    "models" (dict
+      "gpt-oss-120b" (dict
+        "name" "gpt-oss-120b"
+      )
+      "Qwen3-Coder-480B-A35B-Instruct-FP8" (dict
+        "name" "Qwen3-Coder-480B-A35B-Instruct-FP8"
+      )
+      "Qwen3-Coder-30B-A3B-Instruct" (dict
+        "name" "Qwen3-Coder-30B-A3B-Instruct"
+      )
+    )
+  )
+-}}
+{{- $opencode := index . "opencode" | default (dict) -}}
+{{- $extraProviders := index $opencode "extraProviders" | default (dict) -}}
+{{- $provider = merge $provider $extraProviders -}}
+{{- $config := dict
+  "$schema" "https://opencode.ai/config.json"
+  "tui" (dict
+    "scroll_speed" 3
+  )
+  "permission" (dict
+    "edit" "allow"
+    "bash" "allow"
+  )
+  "instructions" (list "CONTRIBUTING.md" "docs/guidelines.md" ".cursor/rules/*.md" "CLAUDE.md")
+  "disabled_providers" (list "openai" "gemini")
+  "provider" $provider
+  "agent" (dict
+    "plan" (dict
+      "mode" "primary"
+      "tools" (dict
+        "write" false
+        "edit" false
+        "bash" false
+      )
+    )
+    "build" (dict
+      "mode" "primary"
+      "tools" (dict
+        "write" true
+        "edit" true
+        "bash" true
+      )
+    )
+  )
+  "autoupdate" true
+-}}
+{{- $config | toPrettyJson }}
