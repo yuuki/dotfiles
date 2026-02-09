@@ -103,14 +103,14 @@ use template data from your local chezmoi config.
 Example:
 
 ```toml
-[data.opencode.extraProviders."sakura-aiengine-dev"]
+[data.opencode.extraProviders."my-local-provider"]
 npm = "@ai-sdk/openai-compatible"
 
-[data.opencode.extraProviders."sakura-aiengine-dev".options]
-baseURL = "https://gateway.aipf-dev.sakuraha.jp/v1/"
+[data.opencode.extraProviders."my-local-provider".options]
+baseURL = "https://internal.example.com/v1/"
 
-[data.opencode.extraProviders."sakura-aiengine-dev".models."GLM-4.7"]
-name = "GLM-4.7"
+[data.opencode.extraProviders."my-local-provider".models."my-model"]
+name = "my-model"
 ```
 
 `dot_config/opencode/opencode.json.tmpl` merges this local map into `provider` during `chezmoi apply`.
