@@ -70,5 +70,8 @@
     "autoAllowBashIfSandboxed": true
   },
   "alwaysThinkingEnabled": true,
-  "statusLine": "{cyan:{basename:{cwd}}} {if:{git_branch}:{if:{git_dirty}:{red:({git_branch} ×)}:{green:({git_branch})}}} {dim:»} {model}"
+  "statusLine": {
+    "type": "command",
+    "command": "~/bin/claude-statusline"
+  }
 }

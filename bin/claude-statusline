@@ -1,0 +1,25 @@
+#!/bin/bash
+# Claude Code statusline script
+# Receives JSON on stdin with model info, context window, etc.
+
+set -eu
+
+# Read model info from stdin JSON
+model=$(jq -r '.model.display_name // "unknown"' 2>/dev/null)
+
+# Current directory basename
+dir=$(basename "$PWD")
+
+# Git branch and dirty status
+branch=$(git symbolic-ref --short HEAD 2>/dev/null || true)
+if [ -n "$branch" ]; then
+  if git diff --quiet 2>/dev/null && git diff --cached --quiet 2>/dev/null; then
+    git_info="($branch)"
+  else
+    git_info="($branch *)"
+  fi
+else
+  git_info=""
+fi
+
+printf '%s %s > %s' "$dir" "$git_info" "$model"
