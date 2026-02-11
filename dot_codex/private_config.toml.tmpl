@@ -24,6 +24,28 @@ collaboration_modes = true
 command = "cclsp"
 env = { CCLSP_CONFIG_PATH = "{{ .chezmoi.homeDir }}/.codex/cclsp.json" }
 
+[mcp_servers.playwright]
+args = ["@playwright/mcp@latest"]
+command = "npx"
+
+{{- $grafanaURL := dig "codex" "grafana" "url" "" . }}
+{{- $grafanaToken := dig "codex" "grafana" "service_account_token" "" . }}
+{{- $grafanaTokenOpRef := dig "codex" "grafana" "service_account_token_op_ref" "" . }}
+{{- if or (ne $grafanaURL "") (or (ne $grafanaToken "") (ne $grafanaTokenOpRef "")) }}
+[mcp_servers.grafana]
+command = "mcp-grafana"
+
+[mcp_servers.grafana.env]
+{{- if ne $grafanaURL "" }}
+GRAFANA_URL = "{{ $grafanaURL }}"
+{{- end }}
+{{- if ne $grafanaTokenOpRef "" }}
+GRAFANA_SERVICE_ACCOUNT_TOKEN = "{{ output "op" "read" $grafanaTokenOpRef | trim }}"
+{{- else if ne $grafanaToken "" }}
+GRAFANA_SERVICE_ACCOUNT_TOKEN = "{{ $grafanaToken }}"
+{{- end }}
+{{- end }}
+
 # Optional: allow network in workspace-write mode
 [sandbox_workspace_write]
 network_access = true
