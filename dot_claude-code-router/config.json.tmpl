@@ -1,0 +1,36 @@
+{{- /* devSakura settings - enabled when chezmoi.toml.local exists */ -}}
+{{- $devSakuraEnabled := stat (joinPath .chezmoi.homeDir ".config/chezmoi/chezmoi.toml.local") }}
+{
+  "$schema": "https://raw.githubusercontent.com/musistudio/claude-code-router/main/config.schema.json",
+  "LOG": true,
+  "LOG_LEVEL": "debug",
+  "API_TIMEOUT_MS": 3000000,
+  "Providers": [
+    {
+      "name": "sakura-aiengine",
+      "api_base_url": "https://api.ai.sakura.ad.jp/v1/chat/completions",
+      "api_key": "$SAKURA_AIENGINE_API_KEY",
+      "models": [
+        "Qwen3-Coder-30B-A3B-Instruct",
+        "Qwen3-Coder-480B-A35B-Instruct-FP8",
+        "gpt-oss-120b"
+      ]
+    }{{ if $devSakuraEnabled }},
+    {
+      "CLAUDE_PATH": "{{ .chezmoi.homeDir }}/.local/bin/claude",
+      "name": "devSakura",
+      "api_base_url": "https://gateway.aipf-dev.sakuraha.jp/v1/chat/completions",
+      "api_key": "$SAKURA_AIENGINE_DEV_API_KEY",
+      "models": ["GLM-4.7"]
+    }{{ end }}
+  ],
+  "Router": {
+    "default": "sakura-aiengine,gpt-oss-120b"{{ if $devSakuraEnabled }},
+    "background": "devSakura,GLM-4.7"{{ end }},
+    "think": "sakura-aiengine,gpt-oss-120b",
+    "longContext": "sakura-aiengine,Qwen3-Coder-480B-A35B-Instruct-FP8",
+    "longContextThreshold": 60000{{ if $devSakuraEnabled }},
+    "webSearch": "devSakura,GLM-4.7",
+    "image": ""{{ end }}
+  }
+}

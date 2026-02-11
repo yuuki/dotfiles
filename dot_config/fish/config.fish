@@ -58,25 +58,18 @@ function claude-zai -d "Launch Claude Code via ZAI endpoint"
     return 1
   end
 
-  if not set -q ZAI_ANTHROPIC_BASE_URL
-    echo "Set ZAI_ANTHROPIC_BASE_URL first." >&2
-    return 1
-  end
-
-  if not set -q ZAI_ANTHROPIC_AUTH_TOKEN_OP_URI
-    echo "Set ZAI_ANTHROPIC_AUTH_TOKEN_OP_URI first. e.g. op://Vault/Item/token" >&2
-    return 1
-  end
-
-  set -l token (op read "$ZAI_ANTHROPIC_AUTH_TOKEN_OP_URI")
+  set -l token (op read "op://Personal/ZAI Auth Token/ANTHROPIC_AUTH_TOKEN")
   if test $status -ne 0 -o -z "$token"
     echo "Failed to read token via op." >&2
     return 1
   end
 
   env -u ANTHROPIC_API_KEY \
-      ANTHROPIC_BASE_URL="$ZAI_ANTHROPIC_BASE_URL" \
+      ANTHROPIC_BASE_URL="https://api.z.ai/api/anthropic" \
       ANTHROPIC_AUTH_TOKEN="$token" \
+      ANTHROPIC_DEFAULT_HAIKU_MODEL="glm-4.5-air" \
+      ANTHROPIC_DEFAULT_SONNET_MODEL="glm-4.7" \
+      ANTHROPIC_DEFAULT_OPUS_MODEL="glm-4.7" \
       claude $argv
 end
 

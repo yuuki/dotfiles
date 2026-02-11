@@ -11,3 +11,6 @@ systemd/
 tmux/
 wezterm/
 zsh/
+
+# chezmoi local config (for secrets)
+chezmoi.toml.local
