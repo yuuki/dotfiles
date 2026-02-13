@@ -1,5 +1,0 @@
-[web]
-  browser = open
-[browser "chrome"]
-  cmd = open -a 'Google Chrome.app'
-
